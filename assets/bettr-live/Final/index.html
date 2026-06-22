@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BETTR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div id="final-flash"></div>
+  <div id="ambient-trigger"></div>
+
+  <header class="topbar">
+    <div class="brand" onclick="window.location.href='../index.html'">BETTR<span class="brand-dot">.</span></div>
+  </header>
+
+  <main id="final-container">
+    <div id="split-screen">
+      <div id="split-left"></div>
+      <div id="split-right"></div>
+      <div id="split-divider"></div>
+    </div>
+
+    <div id="final-message" style="opacity:0">
+      <p id="msg-1" class="final-msg-line"></p>
+      <div id="msg-2-group" class="msg-group"></div>
+      <div id="msg-interactive" class="interactive-row" style="display:none">
+        <span class="choice-tag" data-value="willingly">WILLINGLY</span>
+        <span class="choice-tag" data-value="trustingly">TRUSTINGLY</span>
+        <span class="choice-tag" data-value="without noticing">WITHOUT NOTICING</span>
+      </div>
+      <p id="msg-response" class="final-msg-line response-line" style="opacity:0"></p>
+      <div id="msg-3-group" class="msg-group"></div>
+      <p id="msg-last" class="final-msg-line last-line"></p>
+    </div>
+
+    <div id="final-actions">
+      <button id="btn-restart" class="primary-btn">Experience Again</button>
+      <button id="btn-leave" class="primary-btn" style="background: transparent; border-color: rgba(255,255,255,0.1);">Leave</button>
+    </div>
+  </main>
+
+  <div id="leave-screen">
+    <div id="leave-content">
+      <p id="lv-0" class="leave-line leave-intro"></p>
+      <div id="lv-group-1" class="leave-group"></div>
+      <div id="lv-group-2" class="leave-group"></div>
+      <div id="lv-group-3" class="leave-group"></div>
+      <p id="lv-last" class="leave-line leave-final"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

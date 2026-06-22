@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Playing Freedom | Bharat Vyas Kodamana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0C1118; --surface:#141B26; --surface-2:#1C2531;
+    --ink:#EDEFF2; --muted:#7C8696; --accent:#E14B3C;
+    --line: rgba(237,239,242,0.08); --line-2: rgba(237,239,242,0.14);
+    --mono: "Space Mono", monospace; --sans: "Inter", Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:980px; margin:0 auto; padding:0 32px; }
+
+  .statusbar{ display:flex; justify-content:space-between; align-items:center; padding:28px 0; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; letter-spacing:0.04em; color:var(--muted); text-transform:uppercase; }
+  .statusbar a:hover{ color:var(--accent); }
+
+  .proj-hero{ padding:64px 0 40px; }
+  .proj-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+  .proj-eyebrow::before{ content:""; width:18px; height:1px; background:var(--accent); display:inline-block; }
+  .proj-title{ font-family:var(--mono); font-weight:700; font-size:clamp(34px, 6vw, 64px); letter-spacing:-0.01em; line-height:1.05; }
+  .proj-thesis{ margin-top:24px; font-size:19px; line-height:1.6; color:var(--muted); max-width:640px; }
+  .proj-tags{ margin-top:28px; display:flex; gap:10px; flex-wrap:wrap; }
+  .proj-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line-2); padding:6px 14px; border-radius:999px; }
+
+  .video-hero{ margin-top:48px; background:var(--surface); border:1px solid var(--line-2); border-radius:10px; overflow:hidden; }
+  .video-hero .vh-bar{ display:flex; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .video-hero .vh-wrap{ position:relative; width:100%; aspect-ratio:16/9; background:#000; }
+  .video-hero .vh-wrap iframe{ width:100%; height:100%; border:0; }
+  .video-caption{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:14px; line-height:1.6; }
+
+  .section{ margin-top:88px; }
+  .section-head{ display:flex; align-items:baseline; gap:16px; border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:32px; }
+  .section-num{ font-family:var(--mono); font-size:13px; color:var(--accent); }
+  .section-title{ font-size:24px; font-weight:600; letter-spacing:-0.01em; }
+
+  .body-text{ font-size:16px; line-height:1.75; color:var(--ink); max-width:680px; }
+  .body-text + .body-text{ margin-top:18px; }
+  .body-muted{ color:var(--muted); }
+
+  .note-box{ margin-top:32px; padding:18px 22px; background:var(--surface); border:1px solid var(--line-2); border-radius:8px; font-size:13px; color:var(--muted); line-height:1.7; }
+  .note-box strong{ color:var(--ink); }
+
+  .reflection-box{ margin-top:32px; padding:28px 30px; background:var(--surface); border-left:2px solid var(--accent); border-radius:0 8px 8px 0; }
+  .refs{ margin-top:24px; font-size:13px; line-height:1.9; color:var(--muted); max-width:680px; }
+
+  .proj-footer-nav{ margin-top:110px; padding:40px 0 70px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .nav-back{ font-family:var(--mono); font-size:13px; color:var(--muted); transition:color 0.2s ease; }
+  .nav-back:hover{ color:var(--accent); }
+  .nav-next{ font-family:var(--mono); font-size:13px; color:var(--ink); display:flex; align-items:center; gap:10px; transition:color 0.2s ease; }
+  .nav-next:hover{ color:var(--accent); }
+  .nav-next .next-label{ color:var(--muted); font-size:11px; text-transform:uppercase; display:block; margin-bottom:4px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="statusbar">
+    <a href="../index.html">← index</a>
+    <span>06 / 06 · Playing Freedom</span>
+  </div>
+
+  <section class="proj-hero">
+    <div class="proj-eyebrow">critical analysis, game studies</div>
+    <h1 class="proj-title">Playing Freedom</h1>
+    <p class="proj-thesis">A video documentary on how Assassin's Creed IV: Black Flag, Freedom Cry turns the history of slavery into something playable, told through Adéwalé, a formerly enslaved man, and asking what that translation actually costs.</p>
+    <div class="proj-tags">
+      <span class="proj-tag">Critical analysis</span>
+      <span class="proj-tag">Game studies</span>
+      <span class="proj-tag">Video documentary</span>
+      <span class="proj-tag">Global Design Culture</span>
+    </div>
+  </section>
+
+  <section class="video-hero">
+    <div class="vh-bar">
+      <span>video documentary</span>
+      <span>full piece</span>
+    </div>
+    <div class="vh-wrap">
+      <iframe src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_jf3kb1k3&config[provider]={&quot;widgetId&quot;:&quot;1_f9mvnxk5&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="Playing Freedom video documentary"></iframe>
+    </div>
+  </section>
+  <p class="video-caption">The documentary is the deliverable for this project. Everything below is context for what you're watching, not a substitute for it.</p>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">What this is examining</span>
+    </div>
+    <p class="body-text">Freedom Cry shifts Assassin's Creed's usual perspective onto Adéwalé, a formerly enslaved man, and structures its world to communicate labour, control, violence, and resistance through environment as much as narration. This documentary looks at how that environmental and narrative design represents slavery specifically, and what happens to historical trauma when it gets reshaped into a playable, commercially distributed format. The same historical setting can carry a completely different meaning depending on the design choices made around it, and that's the actual subject here: not whether the game is good, but what its design does to the history it's depicting.</p>
+    <p class="body-text body-muted">The analysis draws on maps, official artwork, in-game screenshots, and original gameplay recordings, cross-referenced against academic writing on video games and colonialism, environmental storytelling, and cultural heritage representation in games.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Why this format</span>
+    </div>
+    <p class="body-text">A written essay can describe environmental storytelling. It can't actually show you the thing it's describing happening in real time, the way the game's pacing, camera, and spatial design work together to communicate something the dialogue never says outright. A video documentary lets the analysis sit directly next to the footage it's analysing, which matters specifically for a project about how a game's environment does its communicating.</p>
+    <div class="note-box">
+      <strong>On sourcing.</strong> In-game footage combines cited YouTube walkthrough material with original recordings I captured myself. This documentary was produced for educational purposes and was not presented, screened, or distributed publicly beyond the course submission.
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">The scholarship underneath it</span>
+    </div>
+    <p class="body-text">This sits inside a growing body of work on what happens when colonial history and chattel slavery get adapted into mainstream, commercially driven game design. Williams writes on the experience of representing Black history through play. Harrer frames mainstream game design as a kind of neocolonial practice in its own right, regardless of authorial intent. Mukherjee's work on coded colonialism asks who actually gets agency in these narratives versus who remains a backdrop for someone else's story. Balela and Mundy, alongside more applied writing on environmental storytelling, gave me the design vocabulary to actually name what Freedom Cry's spaces are doing, beyond just describing them as "atmospheric."</p>
+    <div class="refs">
+      Williams, A. (2020) Torture, play, and the Black experience. <em>Game Journal</em>, no. 9.<br/>
+      Tilly, G. (2025) Video games and slavery. ETC Press.<br/>
+      Balela, M.S. and Mundy, D. (2014) Analysing cultural heritage and its representation in video games. Proceedings of DiGRA 2014.<br/>
+      Harrer, S. (2018) Casual empire: video games as neocolonial praxis. <em>Open Library of Humanities</em>, 4(1).<br/>
+      Mukherjee, S. (2020) "Truly an age of empires?" Coded colonialism and subaltern histories in videogames. DiGRA Italia 2020.<br/>
+      GameDesignSkills (2026) Environmental storytelling in video games.
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">Where I'd take this further</span>
+    </div>
+    <div class="reflection-box">
+      <p class="body-text" style="margin:0;">The hardest part of this project wasn't finding sources, it was staying disciplined about the difference between describing a design choice and judging the game's intent behind it. A commercial studio's reasons for a design decision and the actual cultural effect of that decision aren't always the same conversation, and I tried to keep those separate rather than collapsing them into a single verdict. If I extended this, I'd want to put Freedom Cry next to another game handling comparably difficult history, to see whether the patterns I found here are specific to this one title or true of how the medium handles historical trauma more broadly.</p>
+    </div>
+  </section>
+
+  <div class="proj-footer-nav">
+    <a class="nav-back" href="../index.html">← back to index</a>
+    <a class="nav-next" href="../index.html">
+      <span class="next-label">Back to start</span>
+      All projects →
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

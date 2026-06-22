@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CardioPal | Bharat Vyas Kodamana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0C1118; --surface:#141B26; --surface-2:#1C2531;
+    --ink:#EDEFF2; --muted:#7C8696; --accent:#E14B3C;
+    --line: rgba(237,239,242,0.08); --line-2: rgba(237,239,242,0.14);
+    --mono: "Space Mono", monospace; --sans: "Inter", Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:980px; margin:0 auto; padding:0 32px; }
+
+  .statusbar{ display:flex; justify-content:space-between; align-items:center; padding:28px 0; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; letter-spacing:0.04em; color:var(--muted); text-transform:uppercase; }
+  .statusbar a:hover{ color:var(--accent); }
+
+  .proj-hero{ padding:64px 0 40px; }
+  .proj-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+  .proj-eyebrow::before{ content:""; width:18px; height:1px; background:var(--accent); display:inline-block; }
+  .proj-title{ font-family:var(--mono); font-weight:700; font-size:clamp(34px, 6vw, 64px); letter-spacing:-0.01em; line-height:1.05; }
+  .proj-thesis{ margin-top:24px; font-size:19px; line-height:1.6; color:var(--muted); max-width:640px; }
+  .proj-tags{ margin-top:28px; display:flex; gap:10px; flex-wrap:wrap; }
+  .proj-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line-2); padding:6px 14px; border-radius:999px; }
+
+  .live-frame-shell{ margin-top:48px; background:var(--surface); border:1px solid var(--line-2); border-radius:10px; overflow:hidden; }
+  .live-frame-bar{ display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .open-new{ font-family:var(--mono); font-size:11px; color:var(--muted); border:1px solid var(--line-2); padding:5px 12px; border-radius:999px; transition:border-color 0.2s ease, color 0.2s ease; }
+  .open-new:hover{ border-color:var(--accent); color:var(--accent); }
+  iframe.figma-embed{ width:100%; height:650px; border:0; display:block; background:#fff; }
+  .live-caption{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:14px; line-height:1.6; }
+
+  .section{ margin-top:88px; }
+  .section-head{ display:flex; align-items:baseline; gap:16px; border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:32px; }
+  .section-num{ font-family:var(--mono); font-size:13px; color:var(--accent); }
+  .section-title{ font-size:24px; font-weight:600; letter-spacing:-0.01em; }
+
+  .body-text{ font-size:16px; line-height:1.75; color:var(--ink); max-width:680px; }
+  .body-text + .body-text{ margin-top:18px; }
+  .body-muted{ color:var(--muted); }
+
+  .metric-row{ display:grid; grid-template-columns:repeat(4, 1fr); gap:2px; margin-top:32px; }
+  .metric-card{ background:var(--surface); border:1px solid var(--line); padding:22px 18px; }
+  .metric-num{ font-family:var(--mono); font-size:30px; font-weight:700; color:var(--accent); }
+  .metric-label{ font-size:12px; color:var(--muted); margin-top:8px; line-height:1.5; }
+
+  .task-list{ margin-top:24px; display:flex; flex-direction:column; gap:1px; }
+  .task-row{ display:grid; grid-template-columns:200px 1fr; gap:18px; padding:14px 0; border-bottom:1px solid var(--line); font-size:14px; line-height:1.6; }
+  .task-name{ font-family:var(--mono); font-size:12px; color:var(--ink); }
+  .task-desc{ color:var(--muted); }
+
+  .quote-grid{ margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .quote-card{ background:var(--surface); border:1px solid var(--line); padding:18px 20px; font-size:14px; line-height:1.6; color:var(--ink); font-style:italic; }
+
+  .reflection-box{ margin-top:32px; padding:28px 30px; background:var(--surface); border-left:2px solid var(--accent); border-radius:0 8px 8px 0; }
+
+  .proj-footer-nav{ margin-top:110px; padding:40px 0 70px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .nav-back{ font-family:var(--mono); font-size:13px; color:var(--muted); transition:color 0.2s ease; }
+  .nav-back:hover{ color:var(--accent); }
+  .nav-next{ font-family:var(--mono); font-size:13px; color:var(--ink); display:flex; align-items:center; gap:10px; transition:color 0.2s ease; }
+  .nav-next:hover{ color:var(--accent); }
+  .nav-next .next-label{ color:var(--muted); font-size:11px; text-transform:uppercase; display:block; margin-bottom:4px; }
+
+  @media (max-width:760px){
+    .metric-row{ grid-template-columns:1fr 1fr; }
+    .quote-grid{ grid-template-columns:1fr; }
+    .task-row{ grid-template-columns:1fr; }
+    iframe.figma-embed{ height:420px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="statusbar">
+    <a href="../index.html">← index</a>
+    <span>02 / 06 · CardioPal</span>
+  </div>
+
+  <section class="proj-hero">
+    <div class="proj-eyebrow">UX design, health tech</div>
+    <h1 class="proj-title">CardioPal</h1>
+    <p class="proj-thesis">A companion app for a handheld EKG device, built across 25-plus screens. The job of this interface isn't to look impressive. It's to make someone tracking their own heart health feel calm, not alarmed, at every step.</p>
+    <div class="proj-tags">
+      <span class="proj-tag">UX design</span>
+      <span class="proj-tag">Figma</span>
+      <span class="proj-tag">Usability testing</span>
+      <span class="proj-tag">Solo project</span>
+    </div>
+  </section>
+
+  <div class="live-frame-shell">
+    <div class="live-frame-bar">
+      <span>cardiopal, figma prototype</span>
+      <a class="open-new" href="https://www.figma.com/proto/BjVUce0cTU8HuXGL900ufX/CardioPal?page-id=0%3A1&node-id=14-10145&viewport=2695%2C1172%2C0.2&t=vrsM4pz1jfVVSFYj-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=14%3A10145&show-proto-sidebar=1" target="_blank" rel="noopener">Open full prototype ↗</a>
+    </div>
+    <iframe class="figma-embed" src="https://embed.figma.com/design/BjVUce0cTU8HuXGL900ufX/CardioPal?node-id=0-1&embed-host=share" allowfullscreen loading="lazy" title="CardioPal Figma prototype"></iframe>
+  </div>
+  <p class="live-caption">This is the actual clickable prototype, all 25-plus screens. Try the onboarding flow, then add a caregiver to see where testers actually got stuck.</p>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">The brief I gave myself</span>
+    </div>
+    <p class="body-text">CardioPal supports people recording and reviewing EKG data through a connected handheld device. Because it sits in a health context, the interface has to feel clear, comfortable, and trustworthy for users of very different ages and technical comfort levels, not just usable in the abstract. By Submission 1 this was a handful of early wireframes and some sketches hinting at a direction. The idea was clear in my head; the design hadn't caught up to it yet.</p>
+    <p class="body-text">The biggest shift since then was learning to think in user journeys instead of isolated screens. Onboarding is the clearest example: I initially didn't think it was necessary, until I considered someone using a handheld EKG device for the first time and realised the first screens they see have to reassure them before anything else. Clarity, in a health context, is itself a form of comfort.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Usability testing</span>
+    </div>
+    <p class="body-text">Two participants, aged 25 and 45, both with intermediate experience using health and wellness apps but no prior exposure to CardioPal specifically. Sessions ran remotely, 15 to 20 minutes each, with participants completing a fixed set of tasks: log in, view the how-to guide, add a caregiver, send a report, interact with recommended actions, toggle auto-sharing, and edit account details.</p>
+    <div class="metric-row">
+      <div class="metric-card"><div class="metric-num">71%</div><div class="metric-label">Task completion without assistance</div></div>
+      <div class="metric-card"><div class="metric-num">≤10s</div><div class="metric-label">Login, fastest task recorded</div></div>
+      <div class="metric-card"><div class="metric-num">2</div><div class="metric-label">Participants, ages 25 and 45</div></div>
+      <div class="metric-card"><div class="metric-num">8/10</div><div class="metric-label">Top ease-of-use rating given</div></div>
+    </div>
+    <div class="task-list">
+      <div class="task-row"><div class="task-name">Log in</div><div class="task-desc">Completed instantly by both participants. No confusion.</div></div>
+      <div class="task-row"><div class="task-name">View how-to guide</div><div class="task-desc">The most successful feature in the whole test. Both participants said it made them feel prepared before touching the actual hardware.</div></div>
+      <div class="task-row"><div class="task-name">Add a caregiver</div><div class="task-desc">Slowest task, 30 to 40 seconds. Participants were unsure what the "Designation" field meant or whether it was required.</div></div>
+      <div class="task-row"><div class="task-name">Send a report</div><div class="task-desc">One participant struggled with the order of actions. No step-by-step guidance was visible during the flow.</div></div>
+      <div class="task-row"><div class="task-name">Edit account details</div><div class="task-desc">One participant looked for a pencil icon or clearer edit affordance that wasn't there.</div></div>
+    </div>
+    <div class="quote-grid">
+      <div class="quote-card">"Is this the field I need to fill in to add them?"</div>
+      <div class="quote-card">"I'm not sure if I already sent it or not."</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">What changed because of it</span>
+    </div>
+    <p class="body-text">A complete onboarding flow was added, along with a clear how-to section for EKG recording and a structured bottom navigation bar that became the anchor for the whole app. Multiple modal pop-ups now handle smaller tasks, editing details, adding caregivers, previewing insights, sending reports, which kept the interface from feeling like an endless stack of full pages. Copy was tightened throughout, spacing and components were made consistent, and quick insight previews were added so users aren't forced into a separate screen just to check a number.</p>
+    <p class="body-text body-muted">Growing the prototype from a handful of screens to more than twenty-five forced real decisions about navigation, layout, and consistency that a smaller prototype could comfortably avoid. That scale is also where the calmer, more grounded visual tone actually started to hold together as a system rather than a collection of nice individual screens.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">What I'd still improve</span>
+    </div>
+    <div class="reflection-box">
+      <p class="body-text" style="margin:0;">The caregiver and report flows still need clearer step-by-step guidance so users aren't left guessing at field meanings or action order. The edit affordance needs a proper icon rather than relying on users to discover it. I'd also like the trends section to surface key insights directly rather than relying purely on charts, and to push harder on accessibility: contrast, touch target sizing, and screen reader friendliness, none of which got dedicated attention in this pass. In Submission 1, I was making screens because that was the task in front of me. By this version, I was designing with intention, thinking about where someone might hesitate before they ever told me. That shift matters more than any individual screen in here.</p>
+    </div>
+  </section>
+
+  <div class="proj-footer-nav">
+    <a class="nav-back" href="../index.html">← back to index</a>
+    <a class="nav-next" href="frankenteen.html">
+      <span class="next-label">Next project</span>
+      FrankenTeen →
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

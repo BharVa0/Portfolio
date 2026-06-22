@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FrankenTeen | Bharat Vyas Kodamana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0C1118; --surface:#141B26; --surface-2:#1C2531;
+    --ink:#EDEFF2; --muted:#7C8696; --accent:#E14B3C;
+    --line: rgba(237,239,242,0.08); --line-2: rgba(237,239,242,0.14);
+    --mono: "Space Mono", monospace; --sans: "Inter", Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:980px; margin:0 auto; padding:0 32px; }
+
+  .statusbar{ display:flex; justify-content:space-between; align-items:center; padding:28px 0; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; letter-spacing:0.04em; color:var(--muted); text-transform:uppercase; }
+  .statusbar a:hover{ color:var(--accent); }
+
+  .proj-hero{ padding:64px 0 40px; }
+  .proj-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+  .proj-eyebrow::before{ content:""; width:18px; height:1px; background:var(--accent); display:inline-block; }
+  .proj-title{ font-family:var(--mono); font-weight:700; font-size:clamp(34px, 6vw, 64px); letter-spacing:-0.01em; line-height:1.05; }
+  .proj-thesis{ margin-top:24px; font-size:19px; line-height:1.6; color:var(--muted); max-width:640px; }
+  .proj-tags{ margin-top:28px; display:flex; gap:10px; flex-wrap:wrap; }
+  .proj-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line-2); padding:6px 14px; border-radius:999px; }
+
+  .video-hero{ margin-top:48px; background:var(--surface); border:1px solid var(--line-2); border-radius:10px; overflow:hidden; }
+  .video-hero .vh-bar{ display:flex; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .video-hero .vh-wrap{ position:relative; width:100%; aspect-ratio:16/9; background:#000; }
+  .video-hero .vh-wrap iframe{ width:100%; height:100%; border:0; }
+  .video-caption{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:14px; line-height:1.6; }
+
+  .section{ margin-top:88px; }
+  .section-head{ display:flex; align-items:baseline; gap:16px; border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:32px; }
+  .section-num{ font-family:var(--mono); font-size:13px; color:var(--accent); }
+  .section-title{ font-size:24px; font-weight:600; letter-spacing:-0.01em; }
+
+  .body-text{ font-size:16px; line-height:1.75; color:var(--ink); max-width:680px; }
+  .body-text + .body-text{ margin-top:18px; }
+  .body-muted{ color:var(--muted); }
+
+  .shot-grid{ display:grid; grid-template-columns:1fr; gap:2px; margin-top:32px; }
+  .shot{ background:var(--surface); border:1px solid var(--line); overflow:hidden; }
+  .shot img{ width:100%; display:block; }
+  .shot-caption{ font-family:var(--mono); font-size:11px; color:var(--muted); padding:12px 16px; border-top:1px solid var(--line); line-height:1.5; }
+
+  .credit-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:2px; margin-top:32px; }
+  .credit-card{ background:var(--surface); border:1px solid var(--line); padding:20px 18px; }
+  .credit-card.mine{ border-color:rgba(225,75,60,0.4); }
+  .credit-role{ font-family:var(--mono); font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em; }
+  .credit-name{ font-size:16px; font-weight:600; margin-top:8px; }
+  .credit-score{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:4px; }
+  .credit-list{ font-size:13px; color:var(--muted); line-height:1.7; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+
+  .finding-list{ margin-top:24px; display:flex; flex-direction:column; gap:1px; }
+  .finding-row{ display:grid; grid-template-columns:90px 1fr; gap:18px; padding:14px 0; border-bottom:1px solid var(--line); font-size:14px; line-height:1.6; }
+  .finding-tag{ font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:0.03em; padding:4px 10px; border-radius:999px; height:fit-content; text-align:center; }
+  .tag-urgent{ background:rgba(225,75,60,0.14); color:var(--accent); border:1px solid rgba(225,75,60,0.3); }
+  .tag-fine{ background:rgba(111,207,111,0.1); color:#6FCF6F; border:1px solid rgba(111,207,111,0.25); }
+  .tag-nice{ background:rgba(234,179,8,0.1); color:#EAB308; border:1px solid rgba(234,179,8,0.25); }
+  .finding-text{ color:var(--ink); }
+
+  .reflection-box{ margin-top:32px; padding:28px 30px; background:var(--surface); border-left:2px solid var(--accent); border-radius:0 8px 8px 0; }
+  .refs{ margin-top:24px; font-size:13px; line-height:1.9; color:var(--muted); max-width:680px; }
+
+  .proj-footer-nav{ margin-top:110px; padding:40px 0 70px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .nav-back{ font-family:var(--mono); font-size:13px; color:var(--muted); transition:color 0.2s ease; }
+  .nav-back:hover{ color:var(--accent); }
+  .nav-next{ font-family:var(--mono); font-size:13px; color:var(--ink); display:flex; align-items:center; gap:10px; transition:color 0.2s ease; }
+  .nav-next:hover{ color:var(--accent); }
+  .nav-next .next-label{ color:var(--muted); font-size:11px; text-transform:uppercase; display:block; margin-bottom:4px; }
+
+  @media (max-width:760px){
+    .credit-grid{ grid-template-columns:1fr; }
+    .finding-row{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="statusbar">
+    <a href="../index.html">← index</a>
+    <span>03 / 06 · FrankenTeen</span>
+  </div>
+
+  <section class="proj-hero">
+    <div class="proj-eyebrow">game design</div>
+    <h1 class="proj-title">FrankenTeen</h1>
+    <p class="proj-thesis">A top-down isometric retelling of Frankenstein as teenage rebellion. Adam runs from boarding school to confront the man who made him, and the guitar strapped to his back is the only input the game ever asks for: exploration, dialogue, music, and confrontation, all through one mechanic.</p>
+    <div class="proj-tags">
+      <span class="proj-tag">Game design</span>
+      <span class="proj-tag">Unity</span>
+      <span class="proj-tag">Blender</span>
+      <span class="proj-tag">Team of 3</span>
+    </div>
+  </section>
+
+  <section class="video-hero">
+    <div class="vh-bar">
+      <span>process footage</span>
+      <span>Act 3, greybox to playable</span>
+    </div>
+    <div class="vh-wrap">
+      <iframe src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_j1w7k3an&config[provider]={&quot;widgetId&quot;:&quot;1_rganw230&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="FrankenTeen process recording"></iframe>
+    </div>
+  </section>
+  <p class="video-caption">Recorded directly from the Unity editor during Act 3 development. This is the section I owned end to end.</p>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">The idea</span>
+    </div>
+    <p class="body-text">FrankenTeen reinterprets Mary Shelley's Frankenstein through a coming-of-age lens rather than a horror one. The Creature becomes Adam: a rebellious teenager navigating expectation, control, and emotional isolation rather than literal monstrosity. The narrative stays linear, but player input shapes emotional tone rather than plot direction. Dialogue choices reflect Adam's stance in the moment, defensive, dismissive, vulnerable, or confrontational, and those tonal shifts carry through to the final confrontation with Victor.</p>
+    <p class="body-text">The world is built from gothic architecture, tall arches, heavy stone, vertical weight, with Adam's punk identity deliberately disrupting it. The guitar, his posture, his attitude are all visual friction against the environment around him. Across three acts, school, town, and mansion, the spatial design moves from confinement to rebellion to intimate confrontation.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">One mechanic, every system</span>
+    </div>
+    <p class="body-text">The core idea is simple to state and harder to build well: the player can "play rock music" at certain NPCs or objects, and that single action changes what's possible around it. The guitar is always attached to Adam, so the same input context-switches between interaction, dialogue initiation, performance, and, in confrontational moments, an expressive combat action. The control scheme stays simple while the guitar carries the entire thematic weight of the game: it's identity and tool at once.</p>
+    <p class="body-text body-muted">Most of the code is self-written. A couple of swap and handler methods were adapted from an earlier project, and I used AI assistance to debug a persistent collider issue during Act 3 development.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">Level design and greyboxing</span>
+    </div>
+    <p class="body-text">Level design followed emotional pacing rather than environmental scale. Each space is shaped to reflect Adam's psychological state and guide movement without unnecessary complexity. Layouts stay readable from a fixed isometric camera: sightlines, scale, and object placement are controlled to avoid occlusion, and movement is directed through narrowing corridors, open plazas, and linear procession paths rather than explicit signage.</p>
+    <div class="shot-grid">
+      <div class="shot">
+        <img src="../assets/frankenteen/level-design-greybox.jpg" alt="FrankenTeen level design and greyboxing, showing Act 1 dorm and boarding hallway blockouts" />
+        <div class="shot-caption">Act 1 dorm and boarding hallway, greybox stage</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">Designing in response to feedback</span>
+    </div>
+    <p class="body-text">The first pass at UI leaned gothic, matching the architecture. The main feedback after that phase was to lean harder into the teenage rebellion side of the story rather than the horror side. The visual language shifted toward 90s zine culture: Raygun magazine, experimental typography, torn-paper textures. The pause and title screens became a notebook page with marker-scrawled menu items, which reads instantly as a teenager defacing schoolwork rather than a gothic interface.</p>
+    <div class="shot-grid">
+      <div class="shot">
+        <img src="../assets/frankenteen/ui-development.jpg" alt="FrankenTeen UI development, notebook paper styled title and pause screens" />
+        <div class="shot-caption">UI development, second pass, focused on teenage rebellion rather than gothic horror</div>
+      </div>
+    </div>
+    <p class="body-text body-muted" style="margin-top:24px;">Worth being direct about scope here: this style direction was fully designed but not fully wired into the shipped build given the time available. What's shown is the intended visual system, built and ready, rather than a completed in-game menu.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <span class="section-title">World structure</span>
+    </div>
+    <p class="body-text">All assets were modelled by the team, with buildings and structures kept as modular as possible so they could translate across different scenes without rebuilding from scratch each time. The world map below tracks scene triggers, NPCs, and interactables across the three acts, not all of which made it into the final implemented build.</p>
+    <div class="shot-grid">
+      <div class="shot">
+        <img src="../assets/frankenteen/world-map.jpg" alt="FrankenTeen world map with scene trigger, NPC, and interactable markers across all three acts" />
+        <div class="shot-caption">World map, scene triggers and NPC placement across school, town, and mansion</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <span class="section-title">What I owned</span>
+    </div>
+    <p class="body-text">Each of the three of us self-assessed our contribution out of 100 against workload, initiative, collaboration, and responsibility. Mine sat at Act 3: the mansion, the emotional and narrative peak of the game.</p>
+    <div class="credit-grid">
+      <div class="credit-card">
+        <div class="credit-role">Designer Alpha</div>
+        <div class="credit-name">Hamish Reid, 95/100</div>
+        <div class="credit-list">Act 1 scenes and environmental layout, UI elements and styling, Act 1 character design, isometric room setup.</div>
+      </div>
+      <div class="credit-card">
+        <div class="credit-role">Designer Beta</div>
+        <div class="credit-name">Edward Newell, 95/100</div>
+        <div class="credit-list">Act 2 level design and environment construction, Blender modelling, 3D asset assembly, gameplay interaction prototyping.</div>
+      </div>
+      <div class="credit-card mine">
+        <div class="credit-role">Designer Gamma, me</div>
+        <div class="credit-name">Bharat Vyas Kodamana, 90/100</div>
+        <div class="credit-list">Act 3 level design and storytelling, the Victor encounter, dialogue trigger and progression setup, breakable object interaction design.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <span class="section-title">User testing</span>
+    </div>
+    <p class="body-text">We built a short demo level around the core "play rock music" mechanic, letting testers try all three songs and their three functions. We deliberately said as little as possible going in, since anything the tutorial couldn't explain on its own was treated as a design gap, not a briefing gap. Findings were sorted into four bands: works fine, urgent, not urgent but nice, and out of scope.</p>
+    <div class="finding-list">
+      <div class="finding-row">
+        <span class="finding-tag tag-fine">Works fine</span>
+        <span class="finding-text">Players understood that outline colour corresponds to which song to play. The art direction and the guitar mechanic itself were both well received, and the easter egg hidden in the wrong-direction corridor landed as intended.</span>
+      </div>
+      <div class="finding-row">
+        <span class="finding-tag tag-urgent">Urgent</span>
+        <span class="finding-text">A glitch meant the yellow interaction outline didn't appear on the gate, which stalled several players completely. Key bindings for switching songs weren't intuitive, and NPCs weren't visually distinct enough as speakable.</span>
+      </div>
+      <div class="finding-row">
+        <span class="finding-tag tag-nice">Nice to have</span>
+        <span class="finding-text">A UI indicator for key bindings, an on-screen reminder that pressing F interacts with NPCs, and a prompt for the "press enter to advance dialogue" instruction, which some testers missed entirely.</span>
+      </div>
+      <div class="finding-row">
+        <span class="finding-tag tag-fine">Worth noting</span>
+        <span class="finding-text">Several testers tried re-entering Adam's room, and others tested whether songs would work on non-interactable objects just to check. Both are signs the mechanic was legible enough that people wanted to push on its edges.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">08</span>
+      <span class="section-title">What I'd still change</span>
+    </div>
+    <div class="reflection-box">
+      <p class="body-text" style="margin:0;">The scene transition between the room and the demo level broke repeatedly during development, and it stayed frustrating until a teammate helped me track down the actual issue. That was a useful reminder that asking for help early costs far less than debugging alone for another three hours. The more personal the story got, the more responsibility I felt to get Act 3 right specifically, since it's where Adam finally confronts Victor and the whole emotional arc has to land. Moving forward, the priority isn't more content. It's sharpening the gate glitch, the key binding clarity, and the NPC readability so the existing systems feel as intentional as the concept already is.</p>
+    </div>
+    <div class="refs">
+      Shelley, M. (1818) Frankenstein; or, The Modern Prometheus. Project Gutenberg. Available at gutenberg.org/ebooks/84.
+    </div>
+  </section>
+
+  <div class="proj-footer-nav">
+    <a class="nav-back" href="../index.html">← back to index</a>
+    <a class="nav-next" href="echoes.html">
+      <span class="next-label">Next project</span>
+      Echoes of Home →
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bharat Vyas Kodamana, Design Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg:#0C1118;
+    --surface:#141B26;
+    --surface-2:#1C2531;
+    --ink:#EDEFF2;
+    --muted:#7C8696;
+    --accent:#E14B3C;
+    --line: rgba(237,239,242,0.08);
+    --line-2: rgba(237,239,242,0.14);
+    --mono: "Space Mono", monospace;
+    --sans: "Inter", Arial, sans-serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    scroll-behavior:smooth;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .fade-up{ animation:fadeUp 0.7s ease both; }
+  .fade-up.d1{ animation-delay:0.05s; }
+  .fade-up.d2{ animation-delay:0.2s; }
+  .fade-up.d3{ animation-delay:0.4s; }
+  .fade-up.d4{ animation-delay:0.6s; }
+
+  /* === Status bar === */
+  .statusbar{
+    position:relative; z-index:3;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px 0;
+    border-bottom:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .statusbar .name{ color:var(--ink); font-weight:700; }
+  .status-dot{
+    display:inline-block; width:6px; height:6px; border-radius:50%;
+    background:#6FCF6F; margin-right:8px; position:relative; top:-1px;
+    box-shadow:0 0 6px rgba(111,207,111,0.5);
+  }
+  .statusbar-right{ display:flex; gap:24px; align-items:center; }
+  .statusbar-right a{ transition:color 0.2s ease; }
+  .statusbar-right a:hover{ color:var(--accent); }
+
+  /* === Hero with isometric canvas === */
+  .hero-shell{
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  #iso-canvas{
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:0;
+    pointer-events:none;
+  }
+  .hero-fade{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    background:linear-gradient(180deg, rgba(12,17,24,0.2) 0%, rgba(12,17,24,0.55) 55%, var(--bg) 100%);
+    pointer-events:none;
+  }
+
+  .hero{
+    position:relative;
+    z-index:2;
+    padding:96px 0 110px;
+    display:flex;
+    flex-direction:column;
+    min-height:560px;
+    justify-content:center;
+  }
+  .hero-eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .hero-eyebrow::before{ content:""; width:18px; height:1px; background:var(--accent); display:inline-block; }
+
+  .hero-headline{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:clamp(38px, 6.4vw, 70px);
+    line-height:1.12;
+    letter-spacing:-0.01em;
+    max-width:760px;
+  }
+  .hero-headline .accent{ color:var(--accent); }
+
+  .hero-sub-row{
+    margin-top:40px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+    border-top:1px solid var(--line);
+    padding-top:28px;
+  }
+  .hero-sub{
+    font-size:16px;
+    line-height:1.7;
+    color:var(--muted);
+    max-width:480px;
+  }
+  .hero-cta{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    white-space:nowrap;
+    border:1px solid var(--line-2);
+    padding:12px 20px;
+    border-radius:999px;
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .hero-cta:hover{ border-color:var(--accent); background:rgba(225,75,60,0.08); }
+  .hero-cta .arrow{ transition:transform 0.2s ease; }
+  .hero-cta:hover .arrow{ transform:translateY(3px); }
+
+  /* === Section label + view toggle === */
+  .section-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+    margin-top:60px;
+  }
+  .section-label .label-left{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  .view-toggle{
+    display:flex;
+    background:var(--surface);
+    border:1px solid var(--line-2);
+    border-radius:999px;
+    padding:3px;
+    gap:2px;
+  }
+  .view-toggle button{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--muted);
+    background:transparent;
+    border:none;
+    padding:7px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background 0.25s ease, color 0.25s ease;
+  }
+  .view-toggle button.active{ background:var(--accent); color:#1A0A07; }
+
+  .view-panel{ display:none; }
+  .view-panel.active{ display:block; animation:fadeUp 0.45s ease both; }
+
+  /* === GALLERY MODE === */
+  .gallery-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:2px; }
+  .proj-card{
+    background:var(--surface); border:1px solid var(--line);
+    display:flex; flex-direction:column; overflow:hidden;
+    transition:border-color 0.25s ease, transform 0.25s ease;
+  }
+  .proj-card:hover{ border-color: rgba(225,75,60,0.45); transform:translateY(-2px); }
+  .proj-card.wide{ grid-column:1 / -1; }
+  .proj-visual{ position:relative; aspect-ratio:16/9; background:var(--surface-2); overflow:hidden; }
+  .proj-card.wide .proj-visual{ aspect-ratio:32/11; }
+  .proj-visual-placeholder{
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.04em;
+    text-align:center; padding:20px;
+    background:repeating-linear-gradient(135deg, rgba(237,239,242,0.025) 0px, rgba(237,239,242,0.025) 1px, transparent 1px, transparent 14px);
+  }
+
+  .proj-visual img.real-thumb{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .proj-num{ position:absolute; top:16px; left:16px; font-family:var(--mono); font-size:11px; letter-spacing:0.06em; color:var(--ink); background:rgba(12,17,24,0.7); padding:4px 9px; border-radius:3px; z-index:2; }
+  .proj-tag{ position:absolute; top:16px; right:16px; font-family:var(--mono); font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent); background:rgba(12,17,24,0.7); padding:4px 9px; border-radius:3px; z-index:2; }
+  .proj-body{ padding:22px 24px 26px; flex:1; display:flex; flex-direction:column; }
+  .proj-body h3{ font-family:var(--sans); font-weight:600; font-size:20px; letter-spacing:-0.01em; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; transition:color 0.2s ease; }
+  .proj-card:hover .proj-body h3{ color:var(--accent); }
+  .proj-body h3 .arrow{ font-family:var(--mono); font-size:16px; color:var(--muted); transition:transform 0.25s ease, color 0.2s ease; }
+  .proj-card:hover .proj-body h3 .arrow{ transform:translateX(4px); color:var(--accent); }
+  .proj-desc{ font-size:14px; line-height:1.6; color:var(--muted); flex:1; }
+  .proj-meta{ margin-top:16px; font-family:var(--mono); font-size:11px; letter-spacing:0.03em; color:var(--muted); text-transform:uppercase; border-top:1px solid var(--line); padding-top:14px; }
+
+  /* === INDEX MODE === */
+  .index-list{ margin-top:2px; }
+  .index-row{ display:grid; grid-template-columns:48px 1.4fr 1fr 24px; align-items:center; gap:24px; padding:24px 4px; border-bottom:1px solid var(--line); cursor:pointer; transition:background 0.2s ease; }
+  .index-row:hover{ background:var(--surface); }
+  .index-num{ font-family:var(--mono); font-size:13px; color:var(--muted); }
+  .index-main h3{ font-family:var(--sans); font-weight:600; font-size:19px; letter-spacing:-0.01em; transition:color 0.2s ease; }
+  .index-row:hover .index-main h3{ color:var(--accent); }
+  .index-desc{ font-size:13px; color:var(--muted); margin-top:6px; max-width:460px; line-height:1.5; }
+  .index-tags{ font-family:var(--mono); font-size:11px; letter-spacing:0.03em; color:var(--muted); text-align:right; text-transform:uppercase; }
+  .index-arrow{ font-family:var(--mono); font-size:18px; color:var(--muted); transition:transform 0.25s ease, color 0.2s ease; text-align:right; }
+  .index-row:hover .index-arrow{ transform:translateX(4px); color:var(--accent); }
+
+  /* === Capabilities / footer === */
+  .capabilities{ margin-top:70px; padding-bottom:90px; }
+  .cap-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; margin-top:28px; }
+  .cap-col h4{ font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent); margin-bottom:14px; }
+  .cap-col p{ font-size:14px; line-height:1.8; color:var(--ink); }
+
+  footer{ border-top:1px solid var(--line); padding:32px 0 60px; font-family:var(--mono); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; }
+  footer a{ transition:color 0.2s ease; }
+  footer a:hover{ color:var(--accent); }
+
+  @media (max-width:760px){
+    .gallery-grid{ grid-template-columns:1fr; }
+    .proj-card.wide .proj-visual{ aspect-ratio:16/9; }
+    .cap-grid{ grid-template-columns:1fr; }
+    .hero-sub-row{ flex-direction:column; align-items:flex-start; }
+    .index-row{ grid-template-columns:32px 1fr; row-gap:8px; }
+    .index-tags, .index-arrow{ grid-column:2; text-align:left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-shell">
+  <canvas id="iso-canvas"></canvas>
+  <div class="hero-fade"></div>
+
+  <div class="wrap">
+    <div class="statusbar fade-up">
+      <div><span class="status-dot"></span><span class="name">Bharat Vyas Kodamana</span> · design portfolio</div>
+      <div class="statusbar-right">
+        <a href="#index">work</a>
+        <a href="#capabilities">capabilities</a>
+        <a href="mailto:bharatvyask@gmail.com">contact</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-eyebrow fade-up d1">six interfaces, read closely</div>
+      <h1 class="hero-headline fade-up d2">Every interface asks something <span class="accent">of the person using it.</span></h1>
+      <div class="hero-sub-row fade-up d3">
+        <p class="hero-sub">MSc Design and Digital Media, University of Edinburgh. Working across UX research, game design, and coded interaction.</p>
+        <a class="hero-cta" href="#index">See the work <span class="arrow">↓</span></a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div id="index" class="section-label">
+    <div class="label-left">Project index, 06 entries</div>
+    <div class="view-toggle">
+      <button id="btn-gallery" class="active">Gallery</button>
+      <button id="btn-list">Index</button>
+    </div>
+  </div>
+
+  <!-- GALLERY MODE -->
+  <div class="view-panel active" id="panel-gallery">
+    <div class="gallery-grid">
+
+      <a class="proj-card wide" href="projects/bettr.html">
+        <div class="proj-visual">
+          <div class="proj-num">01</div>
+          <div class="proj-tag">Live build</div>
+          <img class="real-thumb" src="assets/bettr/stage3-dashboard.jpeg" alt="BETTR subject profile dashboard preview" />
+        </div>
+        <div class="proj-body">
+          <h3>BETTR. <span class="arrow">→</span></h3>
+          <p class="proj-desc">A speculative AI decision interface that quietly profiles the person using it, then shows them exactly how, and what that costs.</p>
+          <div class="proj-meta">Speculative design · HTML / CSS / JS · Live on Netlify</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="projects/cardiopal.html">
+        <div class="proj-visual">
+          <div class="proj-num">02</div>
+          <div class="proj-tag">Figma</div>
+          <div class="proj-visual-placeholder" style="background:linear-gradient(135deg, rgba(225,75,60,0.06), rgba(28,37,49,0.5)); font-style:italic;">Figma prototype, embedded live on project page</div>
+        </div>
+        <div class="proj-body">
+          <h3>CardioPal <span class="arrow">→</span></h3>
+          <p class="proj-desc">A health-tracking app interface designed to reassure, not just inform, across 25+ screens.</p>
+          <div class="proj-meta">UX design · Figma · Health tech</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="projects/frankenteen.html">
+        <div class="proj-visual">
+          <div class="proj-num">03</div>
+          <div class="proj-tag">Unity</div>
+          <img class="real-thumb" src="assets/frankenteen/world-map.jpg" alt="FrankenTeen world map preview" />
+        </div>
+        <div class="proj-body">
+          <h3>FrankenTeen <span class="arrow">→</span></h3>
+          <p class="proj-desc">A control scheme as identity: one guitar input carries exploration, dialogue, and confrontation.</p>
+          <div class="proj-meta">Game design · Unity · Team of 3</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="projects/echoes.html">
+        <div class="proj-visual">
+          <div class="proj-num">04</div>
+          <div class="proj-tag">Unity</div>
+          <img class="real-thumb" src="assets/echoes/room-scene.jpeg" alt="Echoes of Home room scene preview" />
+        </div>
+        <div class="proj-body">
+          <h3>Echoes of Home <span class="arrow">→</span></h3>
+          <p class="proj-desc">A memory room that uses environment, not dialogue, to carry an entire emotional arc.</p>
+          <div class="proj-meta">Environmental storytelling · Unity · Blender</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="projects/smartphone-mold.html">
+        <div class="proj-visual">
+          <div class="proj-num">05</div>
+          <div class="proj-tag">Research</div>
+          <img class="real-thumb" src="assets/smartphone/nothing-transparent.jpeg" alt="Nothing phone transparent design preview" />
+        </div>
+        <div class="proj-body">
+          <h3>Breaking the Smartphone Mold <span class="arrow">→</span></h3>
+          <p class="proj-desc">Why every phone looks the same, argued through an interview with a CMF by Nothing marketer.</p>
+          <div class="proj-meta">Design research · Industry interview</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="projects/playing-freedom.html">
+        <div class="proj-visual">
+          <div class="proj-num">06</div>
+          <div class="proj-tag">Documentary</div>
+          <div class="proj-visual-placeholder" style="background:linear-gradient(135deg, rgba(225,75,60,0.06), rgba(28,37,49,0.5)); font-style:italic;">Video documentary, embedded live on project page</div>
+        </div>
+        <div class="proj-body">
+          <h3>Playing Freedom <span class="arrow">→</span></h3>
+          <p class="proj-desc">How a commercial game turns the history of slavery into something playable, and what that costs.</p>
+          <div class="proj-meta">Critical analysis · Game studies</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- INDEX MODE -->
+  <div class="view-panel" id="panel-list">
+    <div class="index-list">
+
+      <a class="index-row" href="projects/bettr.html">
+        <div class="index-num">01</div>
+        <div class="index-main"><h3>BETTR.</h3><p class="index-desc">A live AI decision interface that quietly profiles the person using it, then shows them exactly how.</p></div>
+        <div class="index-tags">Speculative · Coded · Live</div>
+        <div class="index-arrow">→</div>
+      </a>
+
+      <a class="index-row" href="projects/cardiopal.html">
+        <div class="index-num">02</div>
+        <div class="index-main"><h3>CardioPal</h3><p class="index-desc">A health-tracking app interface designed to reassure, not just inform, across 25+ screens.</p></div>
+        <div class="index-tags">UX · Figma · Health</div>
+        <div class="index-arrow">→</div>
+      </a>
+
+      <a class="index-row" href="projects/frankenteen.html">
+        <div class="index-num">03</div>
+        <div class="index-main"><h3>FrankenTeen</h3><p class="index-desc">A control scheme as identity: one guitar input carries exploration, dialogue, and confrontation.</p></div>
+        <div class="index-tags">Game Design · Unity · Team of 3</div>
+        <div class="index-arrow">→</div>
+      </a>
+
+      <a class="index-row" href="projects/echoes.html">
+        <div class="index-num">04</div>
+        <div class="index-main"><h3>Echoes of Home</h3><p class="index-desc">A memory room that uses environment, not dialogue, to carry an entire emotional arc.</p></div>
+        <div class="index-tags">Environmental · Unity · Blender</div>
+        <div class="index-arrow">→</div>
+      </a>
+
+      <a class="index-row" href="projects/smartphone-mold.html">
+        <div class="index-num">05</div>
+        <div class="index-main"><h3>Breaking the Smartphone Mold</h3><p class="index-desc">Why every phone looks the same, argued through an interview with a CMF by Nothing marketer.</p></div>
+        <div class="index-tags">Research · Interview</div>
+        <div class="index-arrow">→</div>
+      </a>
+
+      <a class="index-row" href="projects/playing-freedom.html">
+        <div class="index-num">06</div>
+        <div class="index-main"><h3>Playing Freedom</h3><p class="index-desc">How a commercial game turns the history of slavery into something playable, and what that costs.</p></div>
+        <div class="index-tags">Research · Documentary</div>
+        <div class="index-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+
+  <div id="capabilities" class="capabilities">
+    <div class="section-label"><div class="label-left">Capabilities</div></div>
+    <div class="cap-grid">
+      <div class="cap-col"><h4>Design</h4><p>Figma · Unity 3D · Blender<br/>Adobe Suite</p></div>
+      <div class="cap-col"><h4>Build</h4><p>HTML / CSS · JavaScript<br/>Git · Netlify</p></div>
+      <div class="cap-col"><h4>Practice</h4><p>User research · Usability testing<br/>Iterative design · Design systems</p></div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Edinburgh, Scotland</span>
+    <a href="mailto:bharatvyask@gmail.com">bharatvyask@gmail.com</a>
+  </footer>
+
+</div>
+
+<script>
+  // Isometric grid background. Slow drift, no interaction needed
+  const canvas = document.getElementById('iso-canvas');
+  const ctx = canvas.getContext('2d');
+  const heroShell = document.querySelector('.hero-shell');
+
+  let w, h, dpr;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = heroShell.offsetWidth;
+    h = heroShell.offsetHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const tileW = 64;
+  const tileH = 32;
+  let offset = 0;
+
+  function drawGrid(t){
+    ctx.clearRect(0,0,w,h);
+
+    const cx = w * 0.62;
+    const cy = h * 0.38;
+    const cols = Math.ceil(w / tileW) + 4;
+    const rows = Math.ceil(h / tileH) + 4;
+
+    ctx.strokeStyle = 'rgba(124,134,150,0.16)';
+    ctx.lineWidth = 1;
+
+    const drift = (t * 0.012) % tileW;
+
+    for(let i = -rows; i < cols; i++){
+      ctx.beginPath();
+      const x0 = cx + (i*tileW/2) - drift;
+      const y0 = cy + (i*tileH/2);
+      const x1 = x0 - rows*tileW/2;
+      const y1 = y0 + rows*tileH/2;
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+    }
+    for(let i = -rows; i < cols; i++){
+      ctx.beginPath();
+      const x0 = cx - (i*tileW/2) - drift;
+      const y0 = cy + (i*tileH/2);
+      const x1 = x0 + rows*tileW/2;
+      const y1 = y0 + rows*tileH/2;
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+    }
+
+    // a few highlighted node points, like scene markers
+    const nodes = [[-2,3],[4,-1],[1,6],[7,4],[-4,8]];
+    ctx.fillStyle = 'rgba(225,75,60,0.55)';
+    nodes.forEach(([nx, ny]) => {
+      const px = cx + (nx-ny)*tileW/2 - drift*0 ;
+      const py = cy + (nx+ny)*tileH/2;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.6, 0, Math.PI*2);
+      ctx.fill();
+    });
+  }
+
+  function loop(t){
+    drawGrid(t);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+</script>
+
+<script>
+  const btnGallery = document.getElementById('btn-gallery');
+  const btnList = document.getElementById('btn-list');
+  const panelGallery = document.getElementById('panel-gallery');
+  const panelList = document.getElementById('panel-list');
+
+  btnGallery.addEventListener('click', () => {
+    btnGallery.classList.add('active');
+    btnList.classList.remove('active');
+    panelList.classList.remove('active');
+    panelGallery.classList.add('active');
+  });
+
+  btnList.addEventListener('click', () => {
+    btnList.classList.add('active');
+    btnGallery.classList.remove('active');
+    panelGallery.classList.remove('active');
+    panelList.classList.add('active');
+  });
+</script>
+
+</body>
+</html>
