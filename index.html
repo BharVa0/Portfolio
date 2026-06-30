@@ -76,27 +76,70 @@
   .statusbar-right a{ transition:color 0.2s ease; }
   .statusbar-right a:hover{ color:var(--accent); }
 
-  /* === Hero with isometric canvas === */
+  /* === Hero with scan line === */
   .hero-shell{
     position:relative;
     overflow:hidden;
     border-bottom:1px solid var(--line);
   }
-  #iso-canvas{
+  .scan-layer{
     position:absolute;
-    top:0; left:0;
-    width:100%; height:100%;
+    inset:0;
     z-index:0;
     pointer-events:none;
+    overflow:hidden;
+    background:
+      repeating-linear-gradient(180deg, rgba(237,239,242,0.018) 0px, rgba(237,239,242,0.018) 1px, transparent 1px, transparent 3px);
+  }
+  .scan-line{
+    position:absolute;
+    left:0;
+    right:0;
+    height:120px;
+    background:linear-gradient(180deg,
+      transparent 0%,
+      rgba(225,75,60,0.05) 35%,
+      rgba(225,75,60,0.12) 50%,
+      rgba(225,75,60,0.05) 65%,
+      transparent 100%
+    );
+    animation:scanSweep 9s ease-in-out infinite;
+  }
+  .scan-edge{
+    position:absolute;
+    left:0;
+    right:0;
+    top:50%;
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(225,75,60,0.7) 20%, rgba(255,238,232,0.9) 50%, rgba(225,75,60,0.7) 80%, transparent 100%);
+    box-shadow:0 0 8px rgba(225,75,60,0.6);
+  }
+  .scan-coords{
+    position:absolute;
+    top:88px;
+    right:40px;
+    z-index:2;
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.06em;
+    color:rgba(124,134,150,0.45);
+    text-align:right;
+    line-height:1.6;
   }
   .hero-fade{
     position:absolute;
     inset:0;
     z-index:1;
-    background:
-      radial-gradient(ellipse 70% 60% at 62% 38%, transparent 0%, rgba(12,17,24,0.5) 70%, var(--bg) 100%),
-      linear-gradient(180deg, rgba(12,17,24,0.1) 0%, rgba(12,17,24,0.4) 60%, var(--bg) 100%);
+    background:linear-gradient(180deg, rgba(12,17,24,0) 0%, rgba(12,17,24,0.25) 70%, var(--bg) 100%);
     pointer-events:none;
+  }
+
+  @keyframes scanSweep{
+    0%{ top:-130px; opacity:0; }
+    8%{ opacity:1; }
+    50%{ top:50%; opacity:1; }
+    92%{ opacity:1; }
+    100%{ top:100%; opacity:0; }
   }
 
   .hero{
@@ -122,6 +165,8 @@
   .hero-eyebrow::before{ content:""; width:18px; height:1px; background:var(--accent); display:inline-block; }
 
   .hero-headline{
+    position:relative;
+    z-index:2;
     font-family:var(--mono);
     font-weight:700;
     font-size:clamp(38px, 6.4vw, 70px);
@@ -326,13 +371,19 @@
     .index-tags, .index-arrow{ grid-column:2; text-align:left; }
     .closing-row{ flex-direction:column; align-items:flex-start; }
     footer{ flex-direction:column; gap:8px; }
+    .scan-coords{ display:none; }
   }
 </style>
 </head>
 <body>
 
 <div class="hero-shell">
-  <canvas id="iso-canvas"></canvas>
+  <div class="scan-layer">
+    <div class="scan-line">
+      <div class="scan-edge"></div>
+    </div>
+  </div>
+  <div class="scan-coords">SYS // PORTFOLIO.IDX<br/>SCANNING_ACTIVE</div>
   <div class="hero-fade"></div>
 
   <div class="wrap">
@@ -543,82 +594,6 @@
   </footer>
 
 </div>
-
-<script>
-  // Isometric grid background. Slow drift, no interaction needed
-  const canvas = document.getElementById('iso-canvas');
-  const ctx = canvas.getContext('2d');
-  const heroShell = document.querySelector('.hero-shell');
-
-  let w, h, dpr;
-  function resize(){
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = heroShell.offsetWidth;
-    h = heroShell.offsetHeight;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const tileW = 64;
-  const tileH = 32;
-  let offset = 0;
-
-  function drawGrid(t){
-    ctx.clearRect(0,0,w,h);
-
-    const cx = w * 0.62;
-    const cy = h * 0.38;
-    const span = Math.ceil((w + h) / Math.min(tileW, tileH)) + 8;
-
-    ctx.strokeStyle = 'rgba(124,134,150,0.14)';
-    ctx.lineWidth = 1;
-
-    const drift = (t * 0.012) % tileW;
-
-    for(let i = -span; i < span; i++){
-      ctx.beginPath();
-      const x0 = cx + (i*tileW/2) - drift;
-      const y0 = cy + (i*tileH/2);
-      const x1 = x0 - span*tileW/2;
-      const y1 = y0 + span*tileH/2;
-      ctx.moveTo(x0, y0);
-      ctx.lineTo(x1, y1);
-      ctx.stroke();
-    }
-    for(let i = -span; i < span; i++){
-      ctx.beginPath();
-      const x0 = cx - (i*tileW/2) - drift;
-      const y0 = cy + (i*tileH/2);
-      const x1 = x0 + span*tileW/2;
-      const y1 = y0 + span*tileH/2;
-      ctx.moveTo(x0, y0);
-      ctx.lineTo(x1, y1);
-      ctx.stroke();
-    }
-
-    // a few highlighted node points, like scene markers
-    const nodes = [[-2,3],[4,-1],[1,6],[7,4],[-4,8]];
-    ctx.fillStyle = 'rgba(225,75,60,0.55)';
-    nodes.forEach(([nx, ny]) => {
-      const px = cx + (nx-ny)*tileW/2 - drift*0 ;
-      const py = cy + (nx+ny)*tileH/2;
-      ctx.beginPath();
-      ctx.arc(px, py, 2.6, 0, Math.PI*2);
-      ctx.fill();
-    });
-  }
-
-  function loop(t){
-    drawGrid(t);
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
-</script>
 
 <script>
   const btnGallery = document.getElementById('btn-gallery');
