@@ -25,7 +25,9 @@
   *{ box-sizing:border-box; margin:0; padding:0; }
 
   html,body{
-    background:var(--bg);
+    background:
+      repeating-linear-gradient(135deg, rgba(237,239,242,0.012) 0px, rgba(237,239,242,0.012) 1px, transparent 1px, transparent 16px),
+      var(--bg);
     color:var(--ink);
     font-family:var(--sans);
     -webkit-font-smoothing:antialiased;
@@ -35,9 +37,9 @@
   a{ color:inherit; text-decoration:none; }
 
   .wrap{
-    max-width:1080px;
+    max-width:1240px;
     margin:0 auto;
-    padding:0 32px;
+    padding:0 40px;
   }
 
   @keyframes fadeUp{
@@ -91,7 +93,9 @@
     position:absolute;
     inset:0;
     z-index:1;
-    background:linear-gradient(180deg, rgba(12,17,24,0.2) 0%, rgba(12,17,24,0.55) 55%, var(--bg) 100%);
+    background:
+      radial-gradient(ellipse 70% 60% at 62% 38%, transparent 0%, rgba(12,17,24,0.5) 70%, var(--bg) 100%),
+      linear-gradient(180deg, rgba(12,17,24,0.1) 0%, rgba(12,17,24,0.4) 60%, var(--bg) 100%);
     pointer-events:none;
   }
 
@@ -223,6 +227,29 @@
     background:repeating-linear-gradient(135deg, rgba(237,239,242,0.025) 0px, rgba(237,239,242,0.025) 1px, transparent 1px, transparent 14px);
   }
 
+  .embed-preview{
+    width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+    background:radial-gradient(circle at 50% 40%, rgba(225,75,60,0.10), transparent 60%), var(--surface-2);
+    transition:background 0.4s ease;
+  }
+  .proj-card:hover .embed-preview{
+    background:radial-gradient(circle at 50% 40%, rgba(225,75,60,0.18), transparent 65%), var(--surface-2);
+  }
+  .embed-preview-icon{
+    width:52px; height:52px; border-radius:50%;
+    background:rgba(225,75,60,0.12); border:1px solid rgba(225,75,60,0.3);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform 0.3s ease, background 0.3s ease;
+  }
+  .proj-card:hover .embed-preview-icon{ transform:scale(1.1); background:rgba(225,75,60,0.2); }
+  .embed-preview-icon svg{ width:20px; height:20px; }
+  .embed-preview-label{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.04em; color:var(--ink); text-align:center; padding:0 20px;
+  }
+  .embed-preview-sub{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.04em; color:var(--muted); text-transform:uppercase;
+  }
+
   .proj-visual img.real-thumb{
     width:100%; height:100%; object-fit:cover; display:block;
     transition:transform 0.5s ease;
@@ -347,7 +374,7 @@
         <div class="proj-visual">
           <div class="proj-num">01</div>
           <div class="proj-tag">Live build</div>
-          <img class="real-thumb" src="assets/bettr/stage3-dashboard.jpeg" alt="BETTR subject profile dashboard preview" />
+          <img class="real-thumb" src="assets/bettr/dashboard-thumb-crop.jpg" alt="BETTR subject profile dashboard preview" />
         </div>
         <div class="proj-body">
           <h3>BETTR. <span class="arrow">→</span></h3>
@@ -360,7 +387,13 @@
         <div class="proj-visual">
           <div class="proj-num">02</div>
           <div class="proj-tag">Figma</div>
-          <div class="proj-visual-placeholder" style="background:linear-gradient(135deg, rgba(225,75,60,0.06), rgba(28,37,49,0.5)); font-style:italic;">Figma prototype, embedded live on project page</div>
+          <div class="embed-preview">
+            <div class="embed-preview-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E14B3C" stroke-width="1.6"><path d="M8 2h6a4 4 0 0 1 0 8H8z"/><path d="M8 10h5a4 4 0 0 1 0 8 4 4 0 0 1-4-4v-4"/><circle cx="8" cy="18" r="3"/></svg>
+            </div>
+            <div class="embed-preview-label">25+ screen clickable prototype</div>
+            <div class="embed-preview-sub">Open project to interact</div>
+          </div>
         </div>
         <div class="proj-body">
           <h3>CardioPal <span class="arrow">→</span></h3>
@@ -373,7 +406,7 @@
         <div class="proj-visual">
           <div class="proj-num">03</div>
           <div class="proj-tag">Unity</div>
-          <img class="real-thumb" src="assets/frankenteen/world-map.jpg" alt="FrankenTeen world map preview" />
+          <img class="real-thumb" src="assets/frankenteen/ui-thumb-crop.jpg" alt="FrankenTeen world map preview" />
         </div>
         <div class="proj-body">
           <h3>FrankenTeen <span class="arrow">→</span></h3>
@@ -386,7 +419,7 @@
         <div class="proj-visual">
           <div class="proj-num">04</div>
           <div class="proj-tag">Unity</div>
-          <img class="real-thumb" src="assets/echoes/room-scene.jpeg" alt="Echoes of Home room scene preview" />
+          <img class="real-thumb" src="assets/echoes/runner-thumb-crop.jpg" alt="Echoes of Home room scene preview" />
         </div>
         <div class="proj-body">
           <h3>Echoes of Home <span class="arrow">→</span></h3>
@@ -412,7 +445,13 @@
         <div class="proj-visual">
           <div class="proj-num">06</div>
           <div class="proj-tag">Documentary</div>
-          <div class="proj-visual-placeholder" style="background:linear-gradient(135deg, rgba(225,75,60,0.06), rgba(28,37,49,0.5)); font-style:italic;">Video documentary, embedded live on project page</div>
+          <div class="embed-preview">
+            <div class="embed-preview-icon">
+              <svg viewBox="0 0 24 24" fill="#E14B3C"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="embed-preview-label">Full video documentary</div>
+            <div class="embed-preview-sub">Open project to watch</div>
+          </div>
         </div>
         <div class="proj-body">
           <h3>Playing Freedom <span class="arrow">→</span></h3>
@@ -534,30 +573,29 @@
 
     const cx = w * 0.62;
     const cy = h * 0.38;
-    const cols = Math.ceil(w / tileW) + 4;
-    const rows = Math.ceil(h / tileH) + 4;
+    const span = Math.ceil((w + h) / Math.min(tileW, tileH)) + 8;
 
-    ctx.strokeStyle = 'rgba(124,134,150,0.16)';
+    ctx.strokeStyle = 'rgba(124,134,150,0.14)';
     ctx.lineWidth = 1;
 
     const drift = (t * 0.012) % tileW;
 
-    for(let i = -rows; i < cols; i++){
+    for(let i = -span; i < span; i++){
       ctx.beginPath();
       const x0 = cx + (i*tileW/2) - drift;
       const y0 = cy + (i*tileH/2);
-      const x1 = x0 - rows*tileW/2;
-      const y1 = y0 + rows*tileH/2;
+      const x1 = x0 - span*tileW/2;
+      const y1 = y0 + span*tileH/2;
       ctx.moveTo(x0, y0);
       ctx.lineTo(x1, y1);
       ctx.stroke();
     }
-    for(let i = -rows; i < cols; i++){
+    for(let i = -span; i < span; i++){
       ctx.beginPath();
       const x0 = cx - (i*tileW/2) - drift;
       const y0 = cy + (i*tileH/2);
-      const x1 = x0 + rows*tileW/2;
-      const y1 = y0 + rows*tileH/2;
+      const x1 = x0 + span*tileW/2;
+      const y1 = y0 + span*tileH/2;
       ctx.moveTo(x0, y0);
       ctx.lineTo(x1, y1);
       ctx.stroke();
