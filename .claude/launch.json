@@ -24,6 +24,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4183", "--bind", "127.0.0.1"],
       "port": 4183
+    },
+    {
+      "name": "static-preview-fluid",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4184", "--bind", "127.0.0.1"],
+      "port": 4184
     }
   ]
 }

@@ -30,6 +30,40 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-14 — Restore fluid layouts and original project media
+
+**Stage:** Remaining pages (foundational layout correction, not a new visual direction)
+**Scope:** `index.html`, `projects/bettr.html`, `projects/cardiopal.html`, `projects/frankenteen.html`, `css/portfolio.css` (layout-system rewrite), `js/portfolio.js` (BETTR cursor bridge), `.claude/launch.json` (new `static-preview-fluid`, port 4184), deleted `assets/frankenteen/ui-thumb-crop.jpg`. No `assets/bettr-live/**`, routes, embeds, factual claims, or the three untouched project pages.
+**Did:**
+- **Fluid desktop layout system:** replaced the single narrow rail (`--col-max: 840px` capping `.proj-hero`/`.proj-section`/`.proj-footer-nav`, `.section-inner` at 1400px, hero at 1720px) with: outer gutters `--page-margin: clamp(24px, 4vw, 96px)`, a 2200px safety cap only (`--page-max`), a 12-column fluid grid (`.cols` + `.cA-B` placement classes, active ≥1024px, stacking below), fluid column gap `clamp(20px, 2.4vw, 56px)` and media seam `clamp(2px, 0.35vw, 8px)`. Explicit per-block layout modes via `data-layout` (`reading | standard | wide | full-bleed | split | asymmetric | media-grid | process-evidence`) so the reading column (`--reading-w: 46em`) only ever constrains long paragraphs — never heroes, embeds, evidence, metrics, credits or nav. No universal page wrapper remains.
+- **Project heroes:** all three case-study heroes recomposed onto the grid — eyebrow/title/thesis left (cols 1–7), facts + ownership right (cols 9–12, bottom-aligned); title scale raised to `clamp(2.8rem, 7.4vw, 7rem)`. Embeds are now major wide artifacts: `.proj-embed` height `clamp(560px, 74vh, 940px)`, full grid width (BETTR live build ~2000px wide at 2560).
+- **Homepage:** hero grid uncapped (was max-width 1720px with no centering — dead margin at ≥1920) and image column now bleeds to the right viewport edge; intro and About recomposed as statement-left / body-right asymmetric splits; feature rows moved to explicit 12-col compositions (`.media-left` variant replaces fragile `nth-of-type` flipping); compact rows gain an `.offset-right` variant (Echoes, Playing Freedom) for spatial variety; FrankenTeen row media capped at its native 600px via `.native-cap`; smartphone row media sits in cols 10–13.
+- **BETTR media restoration:** stage-3 evidence upgraded from the flat `dashboard-wide-crop.jpg` (1525×615) to the taller, more complete `dashboard-thumb-crop.jpg` (1525×966) as the largest frame (9 cols) — the dashboard is the argument's landing point; stages 1+2 (1630×970 each) side by side at 6 cols; stage 4 at 7 cols offset right; all natural aspect ratio, no fixed heights. "Building it": text (cols 1–5) beside the landing screen (cols 6–13); the VS Code window demoted to a labelled process-evidence block at secondary size (cols 6–12). Palette and type sample now sit as a split. `dashboard-wide-crop.jpg` retained (homepage row + OG image).
+- **BETTR PLAY cursor bridge:** the live build is same-origin, so `js/portfolio.js` now bridges it (opt-in `data-cursor-bridge` on the iframe): `pointermove` inside the iframe document is translated to parent-viewport coordinates (`iframe.getBoundingClientRect() + clientX/Y`) and drives the existing cursor dot with a PLAY ring; the iframe's native cursor is hidden only after listeners attach (injected `<style>`, removed if the custom cursor is torn down); parent `mousemove` hands control back so the dot never freezes at the boundary; try/catch falls back to the native cursor; rebinds on every iframe `load` (the build navigates internally). Figma and Kaltura keep the suspend/hide behaviour — cross-origin documents are not scriptable.
+- **CardioPal:** same shell and grid as the other pages — hero facts/ownership in the right column with the wide Figma embed directly below as one composition; "The brief I gave myself" set as a two-column split; inside the paper exhibit, tasks (cols 1–8) sit beside the tester quotes (cols 9–13, now stacked). No imagery fabricated; embed src untouched.
+- **FrankenTeen media hierarchy:** the clean isometric bedroom render (`room-thumb-crop.jpg`, 600px native) now appears in section 01 beside "The idea" — outcome imagery before any planning material; greybox render beside the level-design text at native 655px; notebook/PAUSED UI crops side by side at native caps (560/660px); the two annotated top-down maps moved into an explicitly chipped "Planning / process evidence" + "Act 3 — my act" two-up at secondary scale (cols 1–7 / 8–13), with body copy now naming them design-doc planning material; findings list on `data-layout="standard"`. No higher-resolution clean sources exist — all FrankenTeen sub-panels cap at ~650px inside the 2667×1500 design-doc slides (checked again this session); original slides retained as sources. Deleted `ui-thumb-crop.jpg` (generated contact-sheet crop, no page references it).
+
+**Decisions:**
+- Layout modes are per-block (`data-layout` + `.cols` placement classes), never page-wide, so future pages cannot silently inherit a narrow article rail.
+- `dashboard-thumb-crop.jpg` (taller, fuller UI) is BETTR's largest evidence frame; the flat wide crop remains the homepage editorial band.
+- FrankenTeen keeps its 600–780px crops presented at native scale rather than sourcing new imagery — an explicit "smaller sharp over larger blurry" call; re-capture blockers unchanged.
+
+**Verified:**
+- Fresh server on port 4184 (`static-preview-fluid`). Browser-pane screenshots were non-functional this session (renderer paused: `requestAnimationFrame` never fired, screenshots timed out even on a plain directory listing — tooling condition, not a page bug), so screenshots were captured via headless Chrome (`--headless=new --force-prefers-reduced-motion`) and visually inspected: homepage at 1280×900 / 1440×900 / 1600×1000 / 1920×1080 / 2560×1440, the three project pages at 1440×900 and 1920×1080, plus full-page captures of all four pages via a temporary same-origin 1600px iframe harness (keeps vh units correct; deleted before commit).
+- Inspected against the checklist: full-width confidence at every size, readable text, no distortion, no upscaling (DOM-measured at 2560: every capped shot renders at or below native width — 599/654/559/569/999/779 vs 600/655/560/660/1400/780), no phone-like central column, FrankenTeen outcome imagery precedes and outweighs planning maps, BETTR mixed grid legible, CardioPal reads as part of the portfolio (dark shell, paper as exhibit only).
+- No horizontal overflow (`scrollWidth === clientWidth`) at 1024 / 1440 / 2560 on all four pages; console clean everywhere.
+- All internal links, project pages, resume PDF, and every displayed image respond 200 (fetch HEAD from within the pages).
+- PLAY bridge verified live on BETTR: `data-bridge-active` set after load, injected style resolves `cursor: none` inside the build, dispatched `pointermove` in the iframe document → dot gains ring + "Play" label and is not suspended; parent `mousemove` → ring drops (no boundary freeze). Dot animation itself couldn't be watched (paused-renderer tooling condition above); coordinate translation and state transitions verified by DOM inspection.
+- The three untouched pages confirmed not to reference `css/portfolio.css` — the layout rewrite cannot affect them.
+
+**Open:**
+- FrankenTeen clean Unity re-captures (hero + higher-res outcome stills) — blocker carried, unchanged.
+- Figma embed showed a CloudFront 403 in one headless capture burst (six parallel loads) — rate limiting during capture, not a page change; embed src untouched and loads normally in the pane. Worth a spot-check on the deployed URL.
+- Touch-device verification of cursor/loader behaviour — carried.
+- Echoes of Home, Smartphone Mold, Playing Freedom remain on the pre-redesign skin — carried.
+
+**Commit:** `Restore fluid layouts and original project media` (hash below)
+
 ### 2026-07-14 — Correct project media and visual consistency
 
 **Stage:** Remaining pages (correction pass on batch one)

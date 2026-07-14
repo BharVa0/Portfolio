@@ -110,10 +110,21 @@
   var cursorMql = window.matchMedia("(hover: hover) and (pointer: fine)");
   var dot = null, labelEl = null, cursorRunning = false, hoverBound = false;
   var targetX = -100, targetY = -100, curX = -100, curY = -100;
+  var bridgeHover = false; /* pointer currently inside a bridged iframe */
+  var bridgedStyles = [];  /* <style> tags injected into bridged iframes */
 
   function onMouseMove(e) {
     targetX = e.clientX;
     targetY = e.clientY;
+    if (bridgeHover) {
+      /* Pointer is back over the parent document — hand control back
+         from the iframe bridge and drop its PLAY ring. */
+      bridgeHover = false;
+      if (dot) {
+        dot.classList.remove("ring");
+        if (labelEl) labelEl.textContent = "";
+      }
+    }
   }
 
   function cursorTick() {
@@ -147,6 +158,10 @@
     window.addEventListener("mousemove", onMouseMove);
     cursorRunning = true;
     requestAnimationFrame(cursorTick);
+    /* Wire (or re-wire) same-origin embed bridges now that a dot exists */
+    document.querySelectorAll("iframe[data-cursor-bridge]").forEach(function (frame) {
+      bindBridge(frame);
+    });
 
     if (!hoverBound) {
       hoverBound = true;
@@ -165,6 +180,7 @@
     dot.parentNode.removeChild(dot);
     dot = null;
     labelEl = null;
+    releaseBridges(); /* restore native cursor inside bridged iframes */
   }
 
   function syncCursor(matches) {
@@ -191,7 +207,9 @@
      the pointer is back over the parent document. Bound unconditionally
      (not only while a cursor currently exists) so it also applies the
      moment a fine pointer becomes eligible mid-session. */
-  function suspendCursor() {
+  function suspendCursor(e) {
+    /* A bridged same-origin iframe drives the dot itself — never hide it. */
+    if (e.currentTarget && e.currentTarget.hasAttribute("data-bridge-active")) return;
     if (dot) dot.classList.add("embed-hidden");
   }
   function resumeCursor() {
@@ -200,5 +218,71 @@
   document.querySelectorAll("iframe, video").forEach(function (el) {
     el.addEventListener("mouseenter", suspendCursor);
     el.addEventListener("mouseleave", resumeCursor);
+  });
+
+  /* === Same-origin cursor bridge (BETTR live build only) ===
+     Cross-origin embeds (Figma, Kaltura) can never expose their
+     documents, so they keep the suspend/resume behaviour above. The
+     BETTR build is served from this site's own origin, so its document
+     is scriptable: pointermove inside the iframe is translated into
+     parent-viewport coordinates and drives the same cursor dot with a
+     PLAY ring. The iframe's own pointer is hidden only AFTER listeners
+     are attached; any failure leaves the native cursor untouched.
+     Opt-in via data-cursor-bridge on the iframe. Rebinds on every load
+     because the build navigates between its own internal pages. */
+
+  function releaseBridges() {
+    bridgedStyles.forEach(function (entry) {
+      try {
+        if (entry.style.parentNode) entry.style.parentNode.removeChild(entry.style);
+        entry.frame.removeAttribute("data-bridge-active");
+      } catch (err) { /* frame gone or navigated — nothing to restore */ }
+    });
+    bridgedStyles = [];
+  }
+
+  function bindBridge(frame) {
+    try {
+      var doc = frame.contentDocument;
+      if (!doc || !doc.documentElement) return;
+
+      if (!doc.__hsBridgeBound) {
+        doc.__hsBridgeBound = true;
+        var verb = frame.getAttribute("data-cursor") || "Play";
+        doc.addEventListener("pointermove", function (e) {
+          if (!dot) return;
+          var r = frame.getBoundingClientRect();
+          targetX = r.left + e.clientX;
+          targetY = r.top + e.clientY;
+          bridgeHover = true;
+          dot.classList.remove("embed-hidden");
+          dot.classList.add("ring");
+          if (labelEl) labelEl.textContent = verb;
+        }, { passive: true });
+      }
+
+      /* Hide the iframe's native pointer only now that the bridge is
+         live. Removed again if the custom cursor is ever torn down;
+         re-injected here if the cursor comes back mid-session. */
+      if (!doc.__hsBridgeStyle || !doc.__hsBridgeStyle.parentNode) {
+        var style = doc.createElement("style");
+        style.textContent = "html, body, a, button, input, [role='button'] { cursor: none !important; }";
+        (doc.head || doc.documentElement).appendChild(style);
+        doc.__hsBridgeStyle = style;
+        bridgedStyles.push({ frame: frame, style: style });
+      }
+      frame.setAttribute("data-bridge-active", "1");
+    } catch (err) {
+      /* Same-origin access failed — native cursor fallback, and the
+         generic suspend/resume handlers still apply. */
+    }
+  }
+
+  document.querySelectorAll("iframe[data-cursor-bridge]").forEach(function (frame) {
+    frame.addEventListener("load", function () {
+      frame.removeAttribute("data-bridge-active");
+      if (dot) bindBridge(frame);
+    });
+    if (dot) bindBridge(frame); /* already loaded before we ran */
   });
 })();

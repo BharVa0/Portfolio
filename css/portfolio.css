@@ -1,7 +1,17 @@
-/* Human Systems — shared design tokens, homepage styles, and the
-   project-page component system (BETTR, CardioPal, FrankenTeen).
-   Per-project accent tokens live in the .project-* classes near the
-   bottom of this file; bespoke one-off widgets stay inline per page. */
+/* Human Systems — shared design tokens, fluid desktop layout system,
+   homepage styles, and the project-page component system (BETTR,
+   CardioPal, FrankenTeen). Per-project accent tokens live in the
+   .project-* classes; bespoke one-off widgets stay inline per page.
+
+   Layout architecture (desktop-first, fluid):
+   - Outer frame: full width, padding-inline clamp(24px, 4vw, 96px).
+   - Grid area: full width up to a generous 2200px safety cap.
+   - 12-column fluid grid via .cols + .cA-B placement classes (A/B are
+     CSS grid line numbers, active ≥1024px; below that everything stacks).
+   - Explicit per-block layout modes via data-layout, so no single
+     wrapper (and never the reading column) constrains a whole page:
+     reading | standard | wide | full-bleed | split | asymmetric |
+     media-grid | process-evidence. */
 
 :root {
   --ink: #0D0C0B;
@@ -36,8 +46,12 @@
   --space-8: 64px;
   --space-12: 96px;
 
-  --page-margin: clamp(20px, 5vw, 96px);
-  --col-max: 840px;
+  /* Fluid layout tokens */
+  --page-margin: clamp(24px, 4vw, 96px); /* outer frame gutters */
+  --page-max: 2200px;                    /* generous safety cap only */
+  --grid-gap: clamp(20px, 2.4vw, 56px);  /* editorial column gap */
+  --seam: clamp(2px, 0.35vw, 8px);       /* tight media-grid seams */
+  --reading-w: 46em;                     /* long paragraphs only */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -98,6 +112,76 @@ button:focus-visible {
   outline-offset: 4px;
 }
 
+/* ==========================================================================
+   Fluid 12-column grid utilities
+   .cols is a stacking flow below 1024px; a 12-column grid at and above.
+   Placement classes .cA-B set grid-column: A / B (grid line numbers).
+   ========================================================================== */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 1024px) {
+  .cols { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--grid-gap); }
+  .c1-4  { grid-column: 1 / 4; }
+  .c1-5  { grid-column: 1 / 5; }
+  .c1-6  { grid-column: 1 / 6; }
+  .c1-7  { grid-column: 1 / 7; }
+  .c1-8  { grid-column: 1 / 8; }
+  .c1-9  { grid-column: 1 / 9; }
+  .c1-10 { grid-column: 1 / 10; }
+  .c1-13 { grid-column: 1 / 13; }
+  .c2-9  { grid-column: 2 / 9; }
+  .c4-13 { grid-column: 4 / 13; }
+  .c5-13 { grid-column: 5 / 13; }
+  .c6-12 { grid-column: 6 / 12; }
+  .c6-13 { grid-column: 6 / 13; }
+  .c7-13 { grid-column: 7 / 13; }
+  .c8-13 { grid-column: 8 / 13; }
+  .c9-13 { grid-column: 9 / 13; }
+  .self-end { align-self: end; }
+  .self-center { align-self: center; }
+}
+
+/* === Explicit layout modes ===
+   Applied per block, never to a page-wide wrapper. The reading mode is
+   the ONLY narrow one, reserved for long paragraphs. */
+[data-layout] { margin-top: var(--space-4); }
+[data-layout="reading"] { max-width: var(--reading-w); }
+[data-layout="standard"] { max-width: 88%; }
+[data-layout="wide"] { max-width: none; width: 100%; }
+[data-layout="full-bleed"] {
+  max-width: none;
+  margin-inline: calc(-1 * var(--page-margin));
+}
+.cols[data-layout="split"],
+.cols[data-layout="asymmetric"] { align-items: start; }
+.cols[data-layout="media-grid"],
+.cols[data-layout="process-evidence"] {
+  gap: var(--seam);
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .cols[data-layout="media-grid"],
+  .cols[data-layout="process-evidence"] { gap: var(--seam); }
+}
+/* Process evidence reads as planning material, not polished outcome:
+   secondary scale is set by the column spans in markup; the chip below
+   labels the register. */
+.process-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--proj-line, var(--charcoal));
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: var(--space-2);
+}
+
 /* === Site frame / persistent chrome === */
 .site-frame {
   padding: clamp(18px, 2.6vh, 30px) var(--page-margin) 0;
@@ -137,9 +221,8 @@ button:focus-visible {
   min-height: 92vh;
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  column-gap: clamp(24px, 4vw, 64px);
-  padding: 0 var(--page-margin) var(--space-6) var(--page-margin);
-  max-width: 1720px;
+  column-gap: var(--grid-gap);
+  padding: 0 0 var(--space-6) var(--page-margin);
 }
 .hero-text {
   display: flex;
@@ -222,7 +305,7 @@ button:focus-visible {
   font-size: 0.78rem;
   letter-spacing: 0.05em;
   color: var(--muted);
-  padding: 14px 24px 0 0;
+  padding: 14px var(--space-3) 0 0;
   text-align: right;
 }
 
@@ -278,8 +361,8 @@ html.can-animate .reveal.in-view {
 }
 
 /* === Section shell === */
-section { padding: var(--space-12) var(--page-margin); }
-.section-inner { max-width: 1400px; margin: 0 auto; }
+section { padding: clamp(72px, 9vh, 128px) var(--page-margin); }
+.section-inner { width: 100%; max-width: var(--page-max); margin: 0 auto; }
 .section-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -302,13 +385,15 @@ section { padding: var(--space-12) var(--page-margin); }
   padding-bottom: var(--space-8);
   border-bottom: 1px solid var(--charcoal);
 }
-.intro .section-statement { max-width: 30em; }
+.intro .section-statement { max-width: 16em; }
 .intro-body {
-  margin-top: var(--space-4);
   font-size: 1.05rem;
   line-height: 1.7;
   color: var(--paper-soft);
-  max-width: var(--col-max);
+  max-width: var(--reading-w);
+}
+@media (max-width: 1023px) {
+  .intro-body { margin-top: var(--space-4); }
 }
 
 /* === Work / project index === */
@@ -320,7 +405,7 @@ section { padding: var(--space-12) var(--page-margin); }
   text-decoration: none;
   color: var(--paper);
   border-top: 1px solid var(--charcoal);
-  padding: var(--space-6) 0;
+  padding: clamp(48px, 6vh, 88px) 0;
   transition: background 0.25s ease;
 }
 .work-list .project-row:last-child { border-bottom: 1px solid var(--charcoal); }
@@ -355,30 +440,40 @@ section { padding: var(--space-12) var(--page-margin); }
   text-transform: uppercase;
 }
 
-/* Feature rows — full-bleed image, alternate accent color per project */
-.project-row.feature {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: var(--space-6);
-  align-items: center;
-  --row-accent: var(--ember-bright);
-}
+/* Feature rows — wide editorial compositions on the 12-column grid.
+   Explicit .media-left / default media-right variants (no nth-of-type
+   flipping, so reordering entries can't silently change compositions). */
+.project-row.feature { --row-accent: var(--ember-bright); }
 .project-row.feature .project-media {
-  order: 2;
+  display: block;
   overflow: hidden;
   border: 1px solid var(--charcoal);
-  aspect-ratio: 16 / 10;
 }
-.project-row.feature .project-info { order: 1; }
-.project-row.feature:nth-of-type(even) .project-media { order: 1; }
-.project-row.feature:nth-of-type(even) .project-info { order: 2; }
-.project-row.feature .project-title { font-size: clamp(2rem, 3.6vw, 3.4rem); }
-.project-row.feature .project-desc { font-size: 1.05rem; max-width: 34em; }
 .project-row.feature .project-media img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%;
+  height: auto; /* natural aspect ratio — never force a shared frame */
   transition: transform 0.5s ease;
 }
+.project-row.feature .project-info { display: block; margin-top: var(--space-3); }
+.project-row.feature .project-title { font-size: clamp(2rem, 3.6vw, 3.6rem); }
+.project-row.feature .project-desc { font-size: 1.05rem; max-width: 34em; }
 .project-row.feature:hover .project-media img { transform: scale(1.03); }
+
+@media (min-width: 1024px) {
+  .project-row.feature {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gap);
+    align-items: center;
+  }
+  .project-row.feature .project-info { grid-column: 1 / 6; margin-top: 0; }
+  .project-row.feature .project-media { grid-column: 6 / 13; }
+  .project-row.feature.media-left .project-media { grid-column: 1 / 6; }
+  .project-row.feature.media-left .project-info { grid-column: 6 / 13; }
+}
+/* Cap low-resolution sources at their native pixels instead of
+   stretching them across the full media cell. --native-w inline. */
+.project-media.native-cap { max-width: var(--native-w, 100%); }
 
 /* Tonal treatments — bring outlier source images into the site's warm register
    without altering a project's own documented accent identity (§9). */
@@ -406,37 +501,44 @@ section { padding: var(--space-12) var(--page-margin); }
 .project-row.feature:focus-visible .project-title { color: var(--row-accent); }
 .project-row.feature[data-accent="bettr"] { --row-accent: var(--bettr-red); }
 
-/* Compact rows */
-.project-row.compact {
-  display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: var(--space-3);
-  --row-accent: var(--ember-bright);
-}
-.project-row.compact .project-num { grid-column: 1; margin-bottom: 0; }
-.project-row.compact .project-info { grid-column: 2; }
-.project-row.compact.has-media {
-  grid-template-columns: 44px minmax(0, 1fr) minmax(140px, 220px);
-  gap: var(--space-4);
-  align-items: center;
-}
-.project-row.compact.has-media .project-media {
-  grid-column: 3;
-  aspect-ratio: 4 / 3;
+/* Compact rows — spatially varied on the same grid (default left,
+   .offset-right pushed toward the right half of the page). */
+.project-row.compact { --row-accent: var(--ember-bright); }
+.project-row.compact .project-num { margin-bottom: var(--space-2); }
+.project-row.compact .project-title { font-size: clamp(1.5rem, 2.2vw, 2.2rem); }
+.project-row.compact .project-desc { max-width: 40em; }
+.project-row.compact .project-media {
+  display: block;
   overflow: hidden;
   border: 1px solid var(--charcoal);
+  margin-top: var(--space-3);
 }
-.project-row.compact.has-media .project-media img {
-  width: 100%; height: 100%; object-fit: cover;
+.project-row.compact .project-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
   transition: transform 0.5s ease;
 }
 .project-row.compact:hover .project-media img { transform: scale(1.05); }
-.project-row.compact .project-title { font-size: clamp(1.5rem, 2.2vw, 2rem); }
-.project-row.compact .project-desc { max-width: 46em; }
 .project-row.compact:hover .project-title,
 .project-row.compact:focus-visible .project-title { color: var(--row-accent); }
 
-.project-row.text-led { --row-accent: var(--ember-bright); }
+@media (min-width: 1024px) {
+  .project-row.compact {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gap);
+    align-items: center;
+  }
+  .project-row.compact .project-num { grid-column: 1 / 2; margin-bottom: 0; align-self: start; }
+  .project-row.compact .project-info { grid-column: 2 / 9; }
+  .project-row.compact.offset-right .project-num { grid-column: 5 / 6; }
+  .project-row.compact.offset-right .project-info { grid-column: 6 / 13; }
+  .project-row.compact.has-media .project-info { grid-column: 2 / 9; }
+  .project-row.compact.has-media .project-media { grid-column: 10 / 13; margin-top: 0; }
+}
+
 .project-row.text-led .project-info {
   border-left: 2px solid var(--charcoal);
   padding-left: var(--space-3);
@@ -445,31 +547,14 @@ section { padding: var(--space-12) var(--page-margin); }
 .project-row.text-led:hover .project-info,
 .project-row.text-led:focus-visible .project-info { border-color: var(--row-accent); }
 
-@media (max-width: 900px) {
-  .project-row.feature {
-    grid-template-columns: 1fr;
-  }
-  .project-row.feature .project-media,
-  .project-row.feature:nth-of-type(even) .project-media { order: 1; }
-  .project-row.feature .project-info,
-  .project-row.feature:nth-of-type(even) .project-info { order: 2; }
-  .project-row.compact.has-media {
-    grid-template-columns: 32px 1fr;
-  }
-  .project-row.compact.has-media .project-media {
-    grid-column: 1 / -1;
-    aspect-ratio: 16 / 9;
-    margin-top: var(--space-2);
-  }
-}
-
 /* === Practice === */
 .practice { border-bottom: 1px solid var(--charcoal); }
 .practice-grid {
   margin-top: var(--space-6);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6);
+  gap: var(--grid-gap);
+  max-width: 1600px;
 }
 .practice-col h3 {
   font-family: var(--font-mono);
@@ -491,13 +576,15 @@ section { padding: var(--space-12) var(--page-margin); }
 /* === About === */
 .about { border-bottom: 1px solid var(--charcoal); }
 .about-body {
-  margin-top: var(--space-4);
   font-size: 1.05rem;
   line-height: 1.75;
   color: var(--paper-soft);
-  max-width: var(--col-max);
+  max-width: var(--reading-w);
 }
 .about-body p + p { margin-top: var(--space-3); }
+@media (max-width: 1023px) {
+  .about-body { margin-top: var(--space-4); }
+}
 
 /* === Contact === */
 .contact-row {
@@ -615,7 +702,9 @@ html.cursor-ready button {
 /* Suspended the instant the pointer crosses into an iframe/video — see
    js/portfolio.js. Iframes are separate documents, so the parent never
    gets mousemove once the pointer is inside one; without this the dot
-   is left frozen on top of the embed instead of tracking it. */
+   is left frozen on top of the embed instead of tracking it. The one
+   exception is the BETTR live build (same-origin), which gets a real
+   cursor bridge instead — see attachEmbedBridge in js/portfolio.js. */
 .cursor-dot.embed-hidden {
   opacity: 0;
 }
@@ -650,6 +739,10 @@ html.cursor-ready button {
    and consumed here as --proj-* custom properties, so the components below
    never hard-code a project's color. Bespoke one-off widgets (BETTR's
    palette swatches, FrankenTeen's credit grid) stay inline per page.
+
+   No page-wide wrapper narrows these pages: hero, artifact, sections and
+   footer nav all run to the full grid area; only [data-layout="reading"]
+   blocks (long paragraphs) use the reading column.
    ========================================================================== */
 
 .project-page {
@@ -685,7 +778,7 @@ html.cursor-ready button {
   --proj-text-soft: #4A4038;
   background: var(--paper);
   color: var(--ink);
-  padding: var(--space-4);
+  padding: clamp(24px, 2.6vw, 56px);
   border: 1px solid var(--paper-soft);
   margin-top: var(--space-4);
 }
@@ -724,10 +817,32 @@ html.cursor-ready button {
 .proj-frame-bar a:focus-visible { color: var(--proj-accent); }
 .proj-frame-count { color: var(--proj-text-soft); }
 
-/* === Hero === */
+/* === Hero — full-grid composition, title left, facts right === */
 .proj-hero {
-  max-width: var(--col-max);
-  padding: clamp(48px, 8vh, 96px) var(--page-margin) var(--space-6);
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: clamp(48px, 8vh, 110px) var(--page-margin) var(--space-6);
+}
+.proj-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 1024px) {
+  .proj-hero-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gap);
+    align-items: end;
+  }
+  .proj-hero-main { grid-column: 1 / 8; }
+  .proj-hero-aside { grid-column: 9 / 13; }
+  /* Facts stack vertically in the aside column */
+  .proj-hero-aside .proj-meta-grid {
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: 0;
+  }
 }
 .proj-eyebrow {
   font-family: var(--font-mono);
@@ -751,7 +866,7 @@ html.cursor-ready button {
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-weight: 380;
-  font-size: clamp(2.8rem, 7vw, 5.6rem);
+  font-size: clamp(2.8rem, 7.4vw, 7rem);
   line-height: 0.98;
   letter-spacing: -0.015em;
 }
@@ -759,11 +874,11 @@ html.cursor-ready button {
 .proj-thesis {
   font-family: var(--font-display);
   font-weight: 340;
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-size: clamp(1.15rem, 1.6vw, 1.6rem);
   line-height: 1.45;
   color: var(--proj-text-soft);
   margin-top: var(--space-3);
-  max-width: 34em;
+  max-width: 30em;
 }
 .proj-meta-grid {
   display: flex;
@@ -796,10 +911,11 @@ html.cursor-ready button {
   padding-left: var(--space-3);
 }
 
-/* === Artifact (embed / hero image) === */
+/* === Artifact (embed / hero image) — a major wide surface === */
 .proj-artifact {
+  width: 100%;
+  max-width: var(--page-max);
   padding: 0 var(--page-margin);
-  max-width: 1400px;
   margin: 0 auto;
 }
 .proj-artifact-frame {
@@ -833,6 +949,7 @@ html.cursor-ready button {
 .proj-open-link:focus-visible { border-color: var(--proj-accent); color: var(--proj-accent); }
 .proj-embed {
   width: 100%;
+  height: clamp(560px, 74vh, 940px);
   border: 0;
   display: block;
   background: #000;
@@ -852,13 +969,14 @@ html.cursor-ready button {
 }
 .proj-hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* === Numbered section system === */
+/* === Numbered section system — wide shell, per-block layout modes === */
 .proj-section {
-  max-width: var(--col-max);
-  padding: var(--space-12) var(--page-margin) 0;
+  width: 100%;
+  max-width: var(--page-max);
+  padding: clamp(72px, 11vh, 150px) var(--page-margin) 0;
   margin: 0 auto;
 }
-.proj-section:last-of-type { padding-bottom: var(--space-12); }
+.proj-section:last-of-type { padding-bottom: clamp(72px, 11vh, 150px); }
 .proj-section-head {
   display: flex;
   align-items: baseline;
@@ -875,14 +993,14 @@ html.cursor-ready button {
 .proj-section-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-size: clamp(1.4rem, 2.4vw, 2.1rem);
   letter-spacing: -0.01em;
 }
 .proj-body {
   font-size: 1.02rem;
   line-height: 1.75;
   color: var(--proj-text);
-  max-width: 42em;
+  max-width: var(--reading-w);
 }
 .proj-body + .proj-body { margin-top: var(--space-3); }
 .proj-body-muted { color: var(--proj-text-soft); }
@@ -897,28 +1015,20 @@ html.cursor-ready button {
   line-height: 1.55;
   max-width: 38em;
 }
+.cols .proj-quote { margin-top: 0; }
 
-/* === Evidence grid === */
-.proj-evidence {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  margin-top: var(--space-4);
-}
-.proj-evidence.single { grid-template-columns: 1fr; }
-/* Caps a single-slot evidence shot to its real source resolution so a
-   small crop never gets stretched past its useful pixels — set
-   --native-w inline per image to its natural width. */
-.proj-evidence.single.native-scale .proj-shot {
-  max-width: var(--native-w, 100%);
-  margin: 0 auto;
-}
+/* === Evidence shots ===
+   Shots live inside .cols[data-layout="media-grid"] (mixed editorial
+   spans) or .cols[data-layout="process-evidence"] (secondary planning
+   material). Images keep their natural aspect ratio; low-resolution
+   sources are capped via .native + --native-w so nothing upscales. */
 .proj-shot {
   background: var(--proj-surface-2);
   border: 1px solid var(--proj-line);
   overflow: hidden;
 }
-.proj-shot img { width: 100%; display: block; }
+.proj-shot img { width: 100%; height: auto; display: block; }
+.proj-shot.native { max-width: var(--native-w, 100%); }
 .proj-shot-caption {
   font-family: var(--font-mono);
   font-size: 0.74rem;
@@ -932,7 +1042,7 @@ html.cursor-ready button {
 .proj-card-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
+  gap: var(--seam);
   margin-top: var(--space-4);
 }
 .proj-card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
@@ -986,7 +1096,7 @@ html.cursor-ready button {
 .proj-finding-list { margin-top: var(--space-3); display: flex; flex-direction: column; gap: 1px; }
 .proj-finding-row {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: 130px 1fr;
   gap: var(--space-3);
   padding: var(--space-2) 0;
   border-bottom: 1px solid var(--proj-line);
@@ -1015,19 +1125,22 @@ html.cursor-ready button {
   padding: var(--space-4);
   background: var(--proj-surface-2);
   border-left: 2px solid var(--proj-accent);
+  max-width: 60em;
 }
+.cols .proj-reflection { margin-top: 0; max-width: none; }
 .proj-refs {
   margin-top: var(--space-3);
   font-size: 0.86rem;
   line-height: 1.9;
   color: var(--muted);
-  max-width: 42em;
 }
+.cols .proj-refs { margin-top: 0; }
 
 /* === Footer prev/next nav === */
 .proj-footer-nav {
-  max-width: var(--col-max);
-  margin: var(--space-12) auto 0;
+  width: 100%;
+  max-width: var(--page-max);
+  margin: clamp(72px, 11vh, 150px) auto 0;
   padding: var(--space-4) var(--page-margin) var(--space-8);
   border-top: 1px solid var(--proj-line);
   display: flex;
@@ -1067,15 +1180,14 @@ html.cursor-ready button {
   letter-spacing: 0.04em;
 }
 
+@media (max-width: 1023px) {
+  .proj-shot.native { max-width: min(var(--native-w, 100%), 100%); }
+  [data-layout="standard"] { max-width: none; }
+}
 @media (max-width: 760px) {
-  .proj-evidence,
   .proj-card-grid,
   .proj-card-grid.cols-3,
   .proj-card-grid.cols-4 { grid-template-columns: 1fr 1fr; }
-  .proj-evidence { grid-template-columns: 1fr; }
   .proj-finding-row { grid-template-columns: 1fr; }
-  .proj-artifact,
-  .proj-hero,
-  .proj-section,
-  .proj-footer-nav { padding-left: var(--page-margin); padding-right: var(--page-margin); }
+  .proj-embed { height: clamp(420px, 70vh, 640px); }
 }

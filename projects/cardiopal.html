@@ -27,7 +27,7 @@
   .task-name { font-family: var(--font-mono); font-size: 0.78rem; color: var(--proj-text); }
   .task-desc { color: var(--proj-text-soft); }
 
-  .quote-grid { margin-top: var(--space-3); display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .quote-grid { margin-top: var(--space-3); display: grid; grid-template-columns: 1fr; gap: var(--space-2); align-content: start; }
   .quote-card { background: var(--proj-surface-2); border: 1px solid var(--proj-line); padding: var(--space-3); font-family: var(--font-display); font-style: italic; font-size: 0.98rem; line-height: 1.5; }
 
   @media (max-width: 760px) {
@@ -51,16 +51,22 @@
 <main id="content">
 
   <section class="proj-hero">
-    <p class="proj-eyebrow">UX design · Health tech</p>
-    <h1 class="proj-title">CardioPal</h1>
-    <p class="proj-thesis">A companion app for a handheld EKG device, designed across 25-plus screens. The job of this interface isn't to look impressive — it's to make someone tracking their own heart health feel calm, not alarmed, at every step.</p>
-    <div class="proj-meta-grid">
-      <div class="proj-meta-item"><span class="proj-meta-label">Role</span>Sole UX designer</div>
-      <div class="proj-meta-item"><span class="proj-meta-label">Tools</span>Figma</div>
-      <div class="proj-meta-item"><span class="proj-meta-label">Method</span>Usability testing, 2 participants</div>
-      <div class="proj-meta-item"><span class="proj-meta-label">Screens</span>25+, full clickable prototype</div>
+    <div class="proj-hero-grid">
+      <div class="proj-hero-main">
+        <p class="proj-eyebrow">UX design · Health tech</p>
+        <h1 class="proj-title">CardioPal</h1>
+        <p class="proj-thesis">A companion app for a handheld EKG device, designed across 25-plus screens. The job of this interface isn't to look impressive — it's to make someone tracking their own heart health feel calm, not alarmed, at every step.</p>
+      </div>
+      <div class="proj-hero-aside">
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item"><span class="proj-meta-label">Role</span>Sole UX designer</div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Tools</span>Figma</div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Method</span>Usability testing, 2 participants</div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Screens</span>25+, full clickable prototype</div>
+        </div>
+        <p class="proj-ownership">Solo project — every screen, flow and testing round designed and run independently.</p>
+      </div>
     </div>
-    <p class="proj-ownership">Solo project — every screen, flow and testing round designed and run independently.</p>
   </section>
 
   <section class="proj-artifact reveal">
@@ -69,7 +75,7 @@
         <span>cardiopal, figma prototype</span>
         <a class="proj-open-link" href="https://www.figma.com/proto/BjVUce0cTU8HuXGL900ufX/CardioPal?page-id=0%3A1&node-id=14-10145&viewport=2695%2C1172%2C0.2&t=vrsM4pz1jfVVSFYj-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=14%3A10145&show-proto-sidebar=1" target="_blank" rel="noopener" data-cursor="Open">Open full prototype ↗</a>
       </div>
-      <iframe class="proj-embed tone-light" style="height:650px" src="https://embed.figma.com/design/BjVUce0cTU8HuXGL900ufX/CardioPal?node-id=0-1&embed-host=share" allowfullscreen loading="lazy" title="CardioPal Figma prototype" data-cursor="Play"></iframe>
+      <iframe class="proj-embed tone-light" src="https://embed.figma.com/design/BjVUce0cTU8HuXGL900ufX/CardioPal?node-id=0-1&embed-host=share" allowfullscreen loading="lazy" title="CardioPal Figma prototype" data-cursor="Play"></iframe>
     </div>
     <p class="proj-artifact-caption">This is the actual clickable prototype, all 25-plus screens. Try the onboarding flow, then add a caregiver to see where testers actually got stuck.</p>
   </section>
@@ -79,8 +85,10 @@
       <span class="proj-num mono">01</span>
       <h2 class="proj-section-title">The brief I gave myself</h2>
     </div>
-    <p class="proj-body">CardioPal supports people recording and reviewing EKG data through a connected handheld device. Because it sits in a health context, the interface has to feel clear, comfortable, and trustworthy for users of very different ages and technical comfort levels — not just usable in the abstract. By Submission 1 this was a handful of early wireframes and some sketches hinting at a direction. The idea was clear in my head; the design hadn't caught up to it yet.</p>
-    <p class="proj-body">The biggest shift since then was learning to think in user journeys instead of isolated screens. Onboarding is the clearest example: I initially didn't think it was necessary, until I considered someone using a handheld EKG device for the first time and realised the first screens they see have to reassure them before anything else. Clarity, in a health context, is itself a form of comfort.</p>
+    <div class="cols" data-layout="split">
+      <p class="proj-body c1-6">CardioPal supports people recording and reviewing EKG data through a connected handheld device. Because it sits in a health context, the interface has to feel clear, comfortable, and trustworthy for users of very different ages and technical comfort levels — not just usable in the abstract. By Submission 1 this was a handful of early wireframes and some sketches hinting at a direction. The idea was clear in my head; the design hadn't caught up to it yet.</p>
+      <p class="proj-body c7-13">The biggest shift since then was learning to think in user journeys instead of isolated screens. Onboarding is the clearest example: I initially didn't think it was necessary, until I considered someone using a handheld EKG device for the first time and realised the first screens they see have to reassure them before anything else. Clarity, in a health context, is itself a form of comfort.</p>
+    </div>
   </section>
 
   <section class="proj-section reveal">
@@ -96,16 +104,18 @@
         <div class="vitals-card"><div class="vitals-num">2</div><div class="vitals-label">Participants, ages 25 and 45</div></div>
         <div class="vitals-card"><div class="vitals-num">8/10</div><div class="vitals-label">Top ease-of-use rating given</div></div>
       </div>
-      <div class="task-list">
-        <div class="task-row"><div class="task-name">Log in</div><div class="task-desc">Completed instantly by both participants. No confusion.</div></div>
-        <div class="task-row"><div class="task-name">View how-to guide</div><div class="task-desc">The most successful feature in the whole test. Both participants said it made them feel prepared before touching the actual hardware.</div></div>
-        <div class="task-row"><div class="task-name">Add a caregiver</div><div class="task-desc">Slowest task, 30 to 40 seconds. Participants were unsure what the "Designation" field meant or whether it was required.</div></div>
-        <div class="task-row"><div class="task-name">Send a report</div><div class="task-desc">One participant struggled with the order of actions — no step-by-step guidance was visible during the flow.</div></div>
-        <div class="task-row"><div class="task-name">Edit account details</div><div class="task-desc">One participant looked for a pencil icon or clearer edit affordance that wasn't there.</div></div>
-      </div>
-      <div class="quote-grid">
-        <div class="quote-card">"Is this the field I need to fill in to add them?"</div>
-        <div class="quote-card">"I'm not sure if I already sent it or not."</div>
+      <div class="cols" data-layout="split">
+        <div class="task-list c1-8" style="margin-top:0;">
+          <div class="task-row"><div class="task-name">Log in</div><div class="task-desc">Completed instantly by both participants. No confusion.</div></div>
+          <div class="task-row"><div class="task-name">View how-to guide</div><div class="task-desc">The most successful feature in the whole test. Both participants said it made them feel prepared before touching the actual hardware.</div></div>
+          <div class="task-row"><div class="task-name">Add a caregiver</div><div class="task-desc">Slowest task, 30 to 40 seconds. Participants were unsure what the "Designation" field meant or whether it was required.</div></div>
+          <div class="task-row"><div class="task-name">Send a report</div><div class="task-desc">One participant struggled with the order of actions — no step-by-step guidance was visible during the flow.</div></div>
+          <div class="task-row"><div class="task-name">Edit account details</div><div class="task-desc">One participant looked for a pencil icon or clearer edit affordance that wasn't there.</div></div>
+        </div>
+        <div class="quote-grid c9-13" style="margin-top:0;">
+          <div class="quote-card">"Is this the field I need to fill in to add them?"</div>
+          <div class="quote-card">"I'm not sure if I already sent it or not."</div>
+        </div>
       </div>
     </div>
   </section>

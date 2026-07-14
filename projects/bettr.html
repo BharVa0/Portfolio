@@ -64,16 +64,22 @@
 <main id="content">
 
   <section class="proj-hero">
-    <p class="proj-eyebrow">Speculative design · Live build</p>
-    <h1 class="proj-title">BETTR<span class="dot">.</span></h1>
-    <p class="proj-thesis">An AI decision interface that looks like it wants to help. What it actually does is track your choices, build a profile from them, and gradually take over — slowly enough that most people don't notice until it already has.</p>
-    <div class="proj-meta-grid">
-      <div class="proj-meta-item"><span class="proj-meta-label">Role</span>Sole designer &amp; developer</div>
-      <div class="proj-meta-item"><span class="proj-meta-label">Tools</span>HTML · CSS · JavaScript</div>
-      <div class="proj-meta-item"><span class="proj-meta-label">Context</span>DPOP, MSc Design &amp; Digital Media</div>
-      <div class="proj-meta-item"><span class="proj-meta-label">Status</span>Live, coded build</div>
+    <div class="proj-hero-grid">
+      <div class="proj-hero-main">
+        <p class="proj-eyebrow">Speculative design · Live build</p>
+        <h1 class="proj-title">BETTR<span class="dot">.</span></h1>
+        <p class="proj-thesis">An AI decision interface that looks like it wants to help. What it actually does is track your choices, build a profile from them, and gradually take over — slowly enough that most people don't notice until it already has.</p>
+      </div>
+      <div class="proj-hero-aside">
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item"><span class="proj-meta-label">Role</span>Sole designer &amp; developer</div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Tools</span>HTML · CSS · JavaScript</div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Context</span>DPOP, MSc Design &amp; Digital Media</div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Status</span>Live, coded build</div>
+        </div>
+        <p class="proj-ownership">Solo project. Self-written end to end — a couple of swap/handler methods adapted from earlier work, AI-assisted for one collider bug and for tightening the written report.</p>
+      </div>
     </div>
-    <p class="proj-ownership">Solo project. Self-written end to end — a couple of swap/handler methods adapted from earlier work, AI-assisted for one collider bug and for tightening the written report.</p>
   </section>
 
   <section class="proj-artifact reveal">
@@ -84,7 +90,7 @@
         <span>bettr, decision interface</span>
         <a class="proj-open-link" href="../assets/bettr-live/index.html" target="_blank" rel="noopener" data-cursor="Open">Open full screen ↗</a>
       </div>
-      <iframe class="proj-embed" style="height:600px" src="../assets/bettr-live/index.html" title="BETTR live interactive build" loading="lazy" data-cursor="Play"></iframe>
+      <iframe class="proj-embed" src="../assets/bettr-live/index.html" title="BETTR live interactive build" loading="lazy" data-cursor="Play" data-cursor-bridge></iframe>
     </div>
     <p class="proj-artifact-caption">This is the actual build, running live, not a recording. Click Enter and go through it once before reading further — the argument is made through the interaction, not around it.</p>
   </section>
@@ -94,9 +100,13 @@
       <span class="proj-num mono">01</span>
       <h2 class="proj-section-title">What this is actually doing</h2>
     </div>
-    <p class="proj-body">BETTR simulates an AI decision tool: calm, clean, efficient — the kind of interface that looks like it wants to help. What it actually does is track every choice you make, build a profile from those choices, and gradually take over decisions on your behalf. The shift happens slowly enough that most people don't notice until it has already happened. That's the point.</p>
-    <p class="proj-body">The project started as a Figma prototype with the right visual identity and narrative arc, but no real memory of what a user had done — every path was linear, and nothing carried through. The coded version removes that buffer. What you classify as "inefficient" in the sorting game becomes a labelled friction point on your own dashboard later. The system isn't pretending to profile you. It actually is.</p>
-    <blockquote class="proj-quote">"The critique is not delivered as an argument. It is delivered as an experience."</blockquote>
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-7">
+        <p class="proj-body">BETTR simulates an AI decision tool: calm, clean, efficient — the kind of interface that looks like it wants to help. What it actually does is track every choice you make, build a profile from those choices, and gradually take over decisions on your behalf. The shift happens slowly enough that most people don't notice until it has already happened. That's the point.</p>
+        <p class="proj-body">The project started as a Figma prototype with the right visual identity and narrative arc, but no real memory of what a user had done — every path was linear, and nothing carried through. The coded version removes that buffer. What you classify as "inefficient" in the sorting game becomes a labelled friction point on your own dashboard later. The system isn't pretending to profile you. It actually is.</p>
+      </div>
+      <blockquote class="proj-quote c8-13 self-center">"The critique is not delivered as an argument. It is delivered as an experience."</blockquote>
+    </div>
   </section>
 
   <section class="proj-section reveal">
@@ -105,24 +115,20 @@
       <h2 class="proj-section-title">Four stages of erosion</h2>
     </div>
     <p class="proj-body">The experience is structured as four escalating stages, each one quietly taking more authority than the last.</p>
-    <div class="proj-evidence">
-      <div class="proj-shot">
+    <div class="cols" data-layout="media-grid">
+      <div class="proj-shot c1-7">
         <img src="../assets/bettr/stage1-crop.jpg" width="1630" height="970" loading="lazy" alt="Stage 1 sorting game, classifying human qualities as efficient or inefficient" />
         <div class="proj-shot-caption">Stage 1 — the sorting game</div>
       </div>
-      <div class="proj-shot">
+      <div class="proj-shot c7-13">
         <img src="../assets/bettr/stage2-crop.jpg" width="1630" height="970" loading="lazy" alt="Stage 2 decision session with hesitation timer counting down" />
         <div class="proj-shot-caption">Stage 2 — decision session, hesitation timer depleting</div>
       </div>
-    </div>
-    <div class="proj-evidence single" style="margin-top:2px;">
-      <div class="proj-shot">
-        <img src="../assets/bettr/dashboard-wide-crop.jpg" width="1525" height="615" loading="lazy" alt="Stage 3 subject profile dashboard showing autonomy residual at 12 percent" />
-        <div class="proj-shot-caption">Stage 3 — subject profile, Autonomy Residual at 12%</div>
+      <div class="proj-shot c1-10">
+        <img src="../assets/bettr/dashboard-thumb-crop.jpg" width="1525" height="966" loading="lazy" alt="Stage 3 subject profile dashboard showing autonomy residual at 12 percent, the point where both earlier stages converge" />
+        <div class="proj-shot-caption">Stage 3 — subject profile, Autonomy Residual at 12%. The dashboard is the argument's landing point, so it gets the most room.</div>
       </div>
-    </div>
-    <div class="proj-evidence single" style="margin-top:2px;">
-      <div class="proj-shot">
+      <div class="proj-shot c6-13">
         <img src="../assets/bettr/stage4-crop.jpg" width="1630" height="965" loading="lazy" alt="Stage 4 final scene, split screen relabeling system classifications as human qualities" />
         <div class="proj-shot-caption">Stage 4 — the final scene, classifications dissolve into human language</div>
       </div>
@@ -160,16 +166,23 @@
       <span class="proj-num mono">03</span>
       <h2 class="proj-section-title">Building it</h2>
     </div>
-    <p class="proj-body">Built in VS Code using the Live Server extension for real-time preview, with Chrome DevTools running throughout to test the timer logic and the conditional branching that carries a user's input between stages.</p>
-    <p class="proj-body proj-body-muted">The moment that told me it was actually working wasn't a design review. It was watching friends and classmates go quiet when they hit the dashboard and saw their own words quoted back as system analysis. That reaction is the argument landing.</p>
-    <div class="proj-evidence">
-      <div class="proj-shot">
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-5">
+        <p class="proj-body">Built in VS Code using the Live Server extension for real-time preview, with Chrome DevTools running throughout to test the timer logic and the conditional branching that carries a user's input between stages.</p>
+        <p class="proj-body proj-body-muted">The moment that told me it was actually working wasn't a design review. It was watching friends and classmates go quiet when they hit the dashboard and saw their own words quoted back as system analysis. That reaction is the argument landing.</p>
+      </div>
+      <div class="proj-shot c6-13">
         <img src="../assets/bettr/landing-crop.jpg" width="1918" height="1005" loading="lazy" alt="BETTR landing screen in browser, live server running on localhost" />
         <div class="proj-shot-caption">Landing screen, Live Server running on localhost:5500</div>
       </div>
-      <div class="proj-shot">
-        <img src="../assets/bettr/vscode-structure.jpeg" width="1919" height="1079" loading="lazy" alt="VS Code project structure showing HTML, CSS, and JS files across stages" />
-        <div class="proj-shot-caption">VS Code, project structure across the four stage folders</div>
+    </div>
+    <div class="cols" data-layout="process-evidence">
+      <div class="c6-12">
+        <span class="process-tag">Process evidence</span>
+        <div class="proj-shot">
+          <img src="../assets/bettr/vscode-structure.jpeg" width="1919" height="1079" loading="lazy" alt="VS Code project structure showing HTML, CSS, and JS files across stages" />
+          <div class="proj-shot-caption">VS Code, project structure across the four stage folders</div>
+        </div>
       </div>
     </div>
   </section>
@@ -181,30 +194,35 @@
     </div>
     <p class="proj-body">The interface had to do two things at once: look trustworthy enough that people would engage with it honestly, while encoding the conditions of its own critique in that same visual language. Susser, Roessler and Nissenbaum describe online manipulation as hidden influence — pressure that works because it doesn't feel like pressure. That became the entire design brief in one sentence.</p>
 
-    <p class="proj-body-muted mono" style="margin-top:var(--space-4); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;">Colour system, evolution from submission 1</p>
-    <div class="palette-row">
-      <div class="swatch" style="background:#050506; color:#fff;"><span class="swname">Background</span><span class="swhex">#050506</span></div>
-      <div class="swatch" style="background:#121212; color:#fff;"><span class="swname">Panel</span><span class="swhex">#121212</span></div>
-      <div class="swatch" style="background:#EB5160; color:#1A0506;"><span class="swname">Accent</span><span class="swhex">#EB5160</span></div>
-      <div class="swatch" style="background:#B7999C; color:#1A0506;"><span class="swname">Accent soft</span><span class="swhex">#B7999C</span></div>
-      <div class="swatch" style="background:#EAB308; color:#1A1203;"><span class="swname">Warning / timer</span><span class="swhex">#EAB308</span></div>
-      <div class="swatch" style="background:#22C55E; color:#04150A;"><span class="swname">Compliant</span><span class="swhex">#22C55E</span></div>
-      <div class="swatch" style="background:#EF4444; color:#1A0505;"><span class="swname">Critical</span><span class="swhex">#EF4444</span></div>
-    </div>
-    <p class="proj-body proj-body-muted" style="margin-top:var(--space-2); font-size:0.92rem;">The accent red starts as a brand colour and migrates slowly into alerts and critical system states. By the time the dashboard arrives, the colour you first connected to the brand is marking your reduced autonomy. Nobody pointed this out while using it. They just felt something was off.</p>
-
-    <div class="type-sample">
-      <div class="jersey">BETTR.</div>
-      <div class="type-row">
-        <span style="font-family:'Rajdhani',sans-serif; font-weight:600; font-size:18px;">Stage 1: The Sorting Game</span>
-        <span class="type-label">Rajdhani 600, headings</span>
+    <div class="cols" data-layout="split">
+      <div class="c1-7">
+        <p class="proj-body-muted mono" style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;">Colour system, evolution from submission 1</p>
+        <div class="palette-row">
+          <div class="swatch" style="background:#050506; color:#fff;"><span class="swname">Background</span><span class="swhex">#050506</span></div>
+          <div class="swatch" style="background:#121212; color:#fff;"><span class="swname">Panel</span><span class="swhex">#121212</span></div>
+          <div class="swatch" style="background:#EB5160; color:#1A0506;"><span class="swname">Accent</span><span class="swhex">#EB5160</span></div>
+          <div class="swatch" style="background:#B7999C; color:#1A0506;"><span class="swname">Accent soft</span><span class="swhex">#B7999C</span></div>
+          <div class="swatch" style="background:#EAB308; color:#1A1203;"><span class="swname">Warning / timer</span><span class="swhex">#EAB308</span></div>
+          <div class="swatch" style="background:#22C55E; color:#04150A;"><span class="swname">Compliant</span><span class="swhex">#22C55E</span></div>
+          <div class="swatch" style="background:#EF4444; color:#1A0505;"><span class="swname">Critical</span><span class="swhex">#EF4444</span></div>
+        </div>
+        <p class="proj-body proj-body-muted" style="margin-top:var(--space-2); font-size:0.92rem;">The accent red starts as a brand colour and migrates slowly into alerts and critical system states. By the time the dashboard arrives, the colour you first connected to the brand is marking your reduced autonomy. Nobody pointed this out while using it. They just felt something was off.</p>
       </div>
-      <div class="type-row">
-        <span style="font-family:'Rajdhani',sans-serif; font-weight:500; font-size:15px; color:var(--muted);">Body copy reads cleanly on dark surfaces while keeping the utilitarian tone of the project.</span>
-        <span class="type-label">Rajdhani 500, body</span>
+      <div class="c8-13">
+        <div class="type-sample" style="margin-top:0;">
+          <div class="jersey">BETTR.</div>
+          <div class="type-row">
+            <span style="font-family:'Rajdhani',sans-serif; font-weight:600; font-size:18px;">Stage 1: The Sorting Game</span>
+            <span class="type-label">Rajdhani 600, headings</span>
+          </div>
+          <div class="type-row">
+            <span style="font-family:'Rajdhani',sans-serif; font-weight:500; font-size:15px; color:var(--muted);">Body copy reads cleanly on dark surfaces while keeping the utilitarian tone of the project.</span>
+            <span class="type-label">Rajdhani 500, body</span>
+          </div>
+        </div>
+        <p class="proj-body proj-body-muted" style="margin-top:var(--space-2); font-size:0.92rem;">Moving from a single-weight display face to a full Rajdhani hierarchy let the interface carry more meaning through text alone — labels, questions, and system outputs each get their own register, which matters when the language itself is part of the argument.</p>
       </div>
     </div>
-    <p class="proj-body proj-body-muted" style="margin-top:var(--space-2); font-size:0.92rem;">Moving from a single-weight display face to a full Rajdhani hierarchy let the interface carry more meaning through text alone — labels, questions, and system outputs each get their own register, which matters when the language itself is part of the argument.</p>
   </section>
 
   <section class="proj-section reveal">
@@ -212,14 +230,16 @@
       <span class="proj-num mono">05</span>
       <h2 class="proj-section-title">Scholarly grounding</h2>
     </div>
-    <p class="proj-body">Yeung's concept of the hypernudge — data-driven systems that shape behaviour through environments so tailored that resistance barely registers as a possibility — is the idea BETTR makes literal. Tufekci's argument that algorithmic harm rarely comes from bad intent, but from systems doing exactly what they were built to do, shaped the system's tone: it isn't malicious, it's efficient. Diakopoulos's work on accountability informed why BETTR keeps its classification criteria hidden until the final scene — when you can't see the criteria, you can't push back.</p>
-    <div class="proj-refs">
+    <div class="cols" data-layout="asymmetric">
+      <p class="proj-body c1-7">Yeung's concept of the hypernudge — data-driven systems that shape behaviour through environments so tailored that resistance barely registers as a possibility — is the idea BETTR makes literal. Tufekci's argument that algorithmic harm rarely comes from bad intent, but from systems doing exactly what they were built to do, shaped the system's tone: it isn't malicious, it's efficient. Diakopoulos's work on accountability informed why BETTR keeps its classification criteria hidden until the final scene — when you can't see the criteria, you can't push back.</p>
+      <div class="proj-refs c8-13">
       Burrell, J. (2016) How the machine thinks: understanding opacity in machine learning algorithms. <em>Big Data &amp; Society</em>, 3(1).<br/>
       Diakopoulos, N. (2016) Accountability in algorithmic decision making. <em>Communications of the ACM</em>, 59(2), pp.56–62.<br/>
       Ruckenstein, M. and Granroth, J. (2020) Algorithms, advertising and the intimacy of surveillance. <em>Journal of Cultural Economy</em>, 13(1), pp.12–25.<br/>
       Susser, D., Roessler, B. and Nissenbaum, H. (2019) Online manipulation: hidden influences in a digital world. <em>Georgetown Law Technology Review</em>, 4(1).<br/>
       Tufekci, Z. (2015) Algorithmic harms beyond Facebook and Google. <em>Colorado Technology Law Journal</em>, 13, pp.203–218.<br/>
       Yeung, K. (2017) Hypernudge: big data as a mode of regulation by design. <em>Information, Communication &amp; Society</em>, 20(1), pp.118–136.
+      </div>
     </div>
   </section>
 
