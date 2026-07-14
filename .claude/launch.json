@@ -6,6 +6,18 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4173", "--bind", "127.0.0.1"],
       "port": 4173
+    },
+    {
+      "name": "static-preview-fresh",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4180", "--bind", "127.0.0.1"],
+      "port": 4180
+    },
+    {
+      "name": "static-preview-projects",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4182", "--bind", "127.0.0.1"],
+      "port": 4182
     }
   ]
 }
