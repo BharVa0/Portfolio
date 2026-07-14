@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--
+  HERO CONCEPT A — WARM EDITORIAL IMAGE
+  Central idea: a monograph cover built on an asymmetric split — oversized
+  serif name low-left, one real atmospheric image (FrankenTeen's bedroom
+  level, warm rug) bleeding off the top-right edge with a warm tonal
+  treatment and a mono caption.
+  Why it fits: leads with real, warm, human-scaled project evidence
+  (a designed domestic space) next to the claim about designing for people.
+  Strongest quality: immediate warmth + authenticity; image reads as field
+  documentation, not decoration.
+  Main risk: the source is a design-document capture — the annotation ring
+  stays visible and could read as clutter rather than documentation.
+  Asset: assets/frankenteen/world-map.jpg (cropped → frankenteen-room-crop.jpg)
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bharat Vyas — Hero concept A</title>
+<meta name="description" content="Hero direction A for the Human Systems portfolio redesign: warm editorial image with oversized serif typography.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0C0B;
+    --ink-soft: #151311;
+    --charcoal: #1D1A18;
+    --ember: #B84624;
+    --ember-deep: #7B2D17;
+    --ember-bright: #D35C34;
+    --paper: #F2EEE9;
+    --muted: #91877F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    min-height: 94vh;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: clamp(24px, 4vw, 64px);
+    padding: 0 0 48px clamp(24px, 5vw, 96px);
+    max-width: 1720px;
+  }
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(48px, 14vh, 160px) 0 8px;
+  }
+  .eyebrow {
+    font-family: "Space Mono", monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .rule {
+    width: 56px;
+    height: 2px;
+    background: var(--ember);
+    margin: 20px 0 28px;
+  }
+  h1 {
+    font-family: "Fraunces", serif;
+    font-optical-sizing: auto;
+    font-weight: 380;
+    font-size: clamp(3.4rem, 8.5vw, 8rem);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+  }
+  .statement {
+    font-family: "Fraunces", serif;
+    font-weight: 340;
+    font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+    line-height: 1.32;
+    margin-top: clamp(24px, 4vh, 44px);
+    max-width: 22em;
+  }
+  .statement em {
+    font-style: italic;
+    color: var(--ember-bright);
+  }
+  .meta-row {
+    margin-top: clamp(28px, 5vh, 56px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 40px;
+  }
+  .cta {
+    display: inline-block;
+    color: var(--paper);
+    font-weight: 500;
+    font-size: 1.05rem;
+    text-decoration: none;
+    border-bottom: 2px solid var(--ember);
+    padding-bottom: 6px;
+  }
+  .cta:hover { color: var(--ember-bright); border-bottom-color: var(--ember-bright); }
+  .cta:focus-visible { outline: 2px solid var(--ember-bright); outline-offset: 5px; }
+  .cta .arrow { font-family: "Space Mono", monospace; }
+  .meta {
+    font-family: "Space Mono", monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .hero-image { display: flex; flex-direction: column; }
+  .hero-image figure { margin: 0; }
+  .frame {
+    height: min(72vh, 760px);
+    overflow: hidden;
+    border-left: 1px solid var(--ember-deep);
+    border-bottom: 1px solid var(--ember-deep);
+    position: relative;
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 42% 30%;
+    filter: sepia(0.22) saturate(1.12) contrast(1.02) brightness(0.94);
+    display: block;
+  }
+  .frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(13,12,11,0.12), rgba(13,12,11,0) 35%, rgba(13,12,11,0.28) 100%),
+      rgba(123, 45, 23, 0.14);
+    pointer-events: none;
+  }
+  figcaption {
+    font-family: "Space Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    padding: 14px 24px 0 0;
+    text-align: right;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .r1, .r2, .r3, .r4 { animation: rise 0.42s cubic-bezier(0.2, 0.6, 0.2, 1) backwards; }
+  .r2 { animation-delay: 0.05s; }
+  .r3 { animation-delay: 0.1s; }
+  .r4 { animation-delay: 0.15s; }
+  @media (prefers-reduced-motion: reduce) {
+    .r1, .r2, .r3, .r4 { animation: none; }
+  }
+  @media (max-width: 899px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: 0;
+      padding: 40px clamp(20px, 5vw, 48px) 40px;
+    }
+    .hero-text { justify-content: flex-start; padding-top: 24px; order: 1; }
+    .hero-image { order: 2; margin-top: 48px; }
+    .frame { height: min(58vw, 420px); border-left: none; border-top: 1px solid var(--ember-deep); }
+    figcaption { text-align: left; padding-right: 0; }
+  }
+</style>
+</head>
+<body>
+<main class="hero">
+  <div class="hero-text">
+    <p class="eyebrow r1">Portfolio · 2026</p>
+    <div class="rule r1"></div>
+    <h1 class="r1">Bharat Vyas</h1>
+    <p class="statement r2">I design <em>interactive systems</em>,<br>
+    playable worlds and<br>
+    research-led experiences.</p>
+    <div class="meta-row r3">
+      <a class="cta" href="../../index.html">Selected work <span class="arrow" aria-hidden="true">→</span></a>
+      <p class="meta">MSc Design and Digital Media<br>University of Edinburgh · Edinburgh, UK</p>
+    </div>
+  </div>
+  <div class="hero-image r4">
+    <figure>
+      <div class="frame">
+        <img src="frankenteen-room-crop.jpg" width="690" height="540"
+             alt="Top-down view of a teenage bedroom level from FrankenTeen — a warm orange rug ringed by beds, desks and posters, laid out in the Unity editor.">
+      </div>
+      <figcaption>FrankenTeen — world layout study, Unity</figcaption>
+    </figure>
+  </div>
+</main>
+</body>
+</html>

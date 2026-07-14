@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--
+  HERO CONCEPT B — TYPOGRAPHIC TENSION
+  Central idea: typography and negative space do all the work — a name set
+  at maximum scale on two offset lines, tiny mono metadata pinned to the
+  frame edges, and one concentrated burnt-orange field on the right edge
+  holding a single narrow fragment of the BETTR motif.
+  Why it fits: the most editorial and least template-like direction; reads
+  as a title page, and the restraint mirrors the "restraint as craft"
+  principle directly.
+  Strongest quality: instant authority and legibility — nothing competes
+  with the name; the ember field gives the composition one deliberate move.
+  Main risk: with only one narrow image fragment it leans abstract — the
+  "work is real" signal is weaker than in A and C.
+  Asset: assets/bettr/dashboard-thumb-crop.jpg (cropped → bettr-motif-strip.jpg)
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bharat Vyas — Hero concept B</title>
+<meta name="description" content="Hero direction B for the Human Systems portfolio redesign: typographic tension between oversized serif and mono metadata.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0C0B;
+    --ink-soft: #151311;
+    --charcoal: #1D1A18;
+    --ember: #B84624;
+    --ember-deep: #7B2D17;
+    --ember-bright: #D35C34;
+    --paper: #F2EEE9;
+    --muted: #91877F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    position: relative;
+    min-height: 96vh;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(20px, 3vh, 36px) clamp(20px, 4vw, 72px);
+    /* keep clear of the ember field */
+    padding-right: calc(clamp(88px, 11vw, 170px) + clamp(24px, 3vw, 56px));
+    max-width: 1800px;
+  }
+  .field {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: clamp(88px, 11vw, 170px);
+    background: var(--ember);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .field img {
+    width: 62%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--ember-deep);
+  }
+  .topbar, .foot {
+    font-family: "Space Mono", monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .topbar { border-bottom: 1px solid var(--charcoal); padding-bottom: 14px; }
+  h1 {
+    font-family: "Fraunces", serif;
+    font-optical-sizing: auto;
+    font-weight: 360;
+    font-size: clamp(4.2rem, 14.5vw, 15rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-top: clamp(36px, 9vh, 110px);
+  }
+  h1 .line2 {
+    display: block;
+    margin-left: clamp(40px, 11vw, 220px);
+    color: var(--paper);
+  }
+  h1 .dot { color: var(--ember-bright); }
+  .statement-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: clamp(32px, 7vh, 80px);
+  }
+  .statement {
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    line-height: 1.55;
+    max-width: 30em;
+    color: var(--paper);
+  }
+  .statement strong { font-weight: 600; }
+  .foot {
+    margin-top: auto;
+    padding-top: clamp(36px, 8vh, 72px);
+    align-items: flex-end;
+  }
+  .foot .meta { line-height: 1.8; }
+  .cta {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--paper);
+    text-decoration: none;
+    border-bottom: 2px solid var(--ember);
+    padding-bottom: 6px;
+    white-space: nowrap;
+  }
+  .cta:hover { color: var(--ember-bright); border-bottom-color: var(--ember-bright); }
+  .cta:focus-visible { outline: 2px solid var(--ember-bright); outline-offset: 5px; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .r1, .r2, .r3, .r4 { animation: rise 0.42s cubic-bezier(0.2, 0.6, 0.2, 1) backwards; }
+  .r2 { animation-delay: 0.05s; }
+  .r3 { animation-delay: 0.1s; }
+  .r4 { animation-delay: 0.15s; }
+  @media (prefers-reduced-motion: reduce) {
+    .r1, .r2, .r3, .r4 { animation: none; }
+  }
+  @media (max-width: 767px) {
+    .hero {
+      min-height: 0;
+      padding: 20px clamp(20px, 5vw, 40px) 40px;
+    }
+    .field {
+      position: static;
+      width: auto;
+      order: 4;
+      margin-top: 48px;
+      padding: 28px 0;
+    }
+    .field img { width: clamp(96px, 30vw, 150px); }
+    .statement-row { justify-content: flex-start; }
+    h1 .line2 { margin-left: clamp(28px, 12vw, 60px); }
+    .foot { margin-top: 0; padding-top: 44px; }
+  }
+</style>
+</head>
+<body>
+<main class="hero">
+  <header class="topbar r1">
+    <span>Bharat Vyas · Portfolio</span>
+    <span>Edinburgh, UK · 2026</span>
+  </header>
+  <h1 class="r1">Bharat<span class="line2">Vyas<span class="dot">.</span></span></h1>
+  <div class="statement-row r2">
+    <p class="statement">I design <strong>interactive systems</strong>, <strong>playable worlds</strong> and <strong>research-led experiences</strong> — built around how people actually behave.</p>
+  </div>
+  <footer class="foot r3">
+    <p class="meta">MSc Design and Digital Media<br>University of Edinburgh</p>
+    <a class="cta" href="../../index.html">Selected work <span aria-hidden="true">→</span></a>
+  </footer>
+  <aside class="field r4" aria-label="Project fragment">
+    <img src="bettr-motif-strip.jpg" width="240" height="380"
+         alt="Narrow fragment of the BETTR decision interface — concentric rounded diamonds glowing dark red on near-black.">
+  </aside>
+</main>
+</body>
+</html>
