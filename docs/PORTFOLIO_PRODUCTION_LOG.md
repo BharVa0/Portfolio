@@ -30,6 +30,40 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-14 — Remaining pages, batch one: BETTR, CardioPal, FrankenTeen
+
+**Stage:** Remaining pages
+**Scope:** `projects/bettr.html`, `projects/cardiopal.html`, `projects/frankenteen.html` (full rewrites); `css/portfolio.css` extended with a project-page component system and per-project accent tokens; new `scripts/crop-project-images.ps1`; new cropped assets in `assets/bettr/` and `assets/frankenteen/`. `assets/bettr-live/**`, the BETTR iframe path, `echoes.html`, `smartphone-mold.html`, `playing-freedom.html`, and `index.html` untouched.
+**Did:**
+- Extended `css/portfolio.css` (previously homepage-only) with a shared project-page system: `.proj-frame`, `.proj-hero`, `.proj-artifact`, numbered `.proj-section`, `.proj-evidence`, a generic `.proj-card-grid`/`.proj-tag`/`.proj-finding-row` system, `.proj-reflection`, `.proj-footer-nav`. Per-project accent + surface tokens (`--proj-accent`, `--proj-surface`, etc.) are set by a body class (`.project-bettr` / `.project-cardiopal` / `.project-frankenteen`, ~6–8 variables each) and consumed generically by the shared components, per the direction doc's "one system, per-project accents" rule.
+- **BETTR:** kept its documented `#EB5160` family; live build stays the hero artifact, opening the page (no cinematic image before it, per direction doc §8). Added one signature motif: a static corner-bracket frame around the live-embed container, a restrained nod to the project's surveillance theme with no scan-line/glow/blinking-dot anti-patterns. Cropped `stage1/2/4` and `landing` screenshots to exclude browser chrome and the DevTools panel (`scripts/crop-project-images.ps1`); reused the already-approved `dashboard-wide-crop.jpg` for the stage-3 evidence slot instead of re-cropping the chrome-heavy original. `vscode-structure.jpeg` kept as-is — legitimate build-process evidence for the "Building it" section, not incidental chrome.
+- **CardioPal:** warm-paper (`--paper`/`--paper-soft`) surface with a new muted sage accent (`--cardiopal-accent: #5B7A73`), distinct from BETTR's energy and still warm-neutral (no cool navy/cyan). No cover image exists in the repo (confirmed again this session — `assets/` has no `cardiopal/` folder), so the hero is typography-led per the direction doc's explicit allowance; the Figma prototype embed is unchanged and remains the primary artifact. Signature move: usability metrics render as "vitals" cards using the display serif for the numeral itself, reading as a printed chart rather than a dashboard readout. No screens, testing rounds, or metrics invented — all figures (71%, 2 participants, 8/10, etc.) carried over verbatim.
+- **FrankenTeen:** charcoal base with a new mustard accent (`--frankenteen-accent: #C68A2E`) and a "dirty cream" surface (`--frankenteen-cream: #E7E0CC`) used only for the credit grid and a pacing pull-quote — sampled from the game's own real second-pass UI (notebook paper, marker scrawl) rather than an invented motif. Replaced three full annotated design-doc slide exports (`ui-development.jpg`, `world-map.jpg`, `level-design-greybox.jpg` — each carrying visible coordinate-readout overlays, gizmo lines, or a raw Unity Editor screenshot panel) with five tight crops of their clean sub-panels: a chrome-free notebook main-menu, the in-character "PAUSED" scrawl screen, the Act 1.1 dorm greybox render, and two scene-viewport crops (town overview, Act 3 mansion) that keep the legend-explained trigger/NPC/interactable annotations (informative, not incidental chrome) while excluding the Unity Editor panel that surrounded them in the source slide. Page now opens with a cinematic image (the same approved `frankenteen-hero-crop.jpg` used on the homepage) before the process-footage video embed, per direction doc §8. Bharat's Act 3 credit card gets an accent-outlined border, visually distinct from the two teammate cards.
+- All three pages: added a skip-link, meta description + OG tags, favicon link, a lightweight top `proj-frame-bar` (index / counter / next), and the existing homepage `reveal`-on-scroll + desktop contextual-cursor behaviour via a small inline script (sets `can-animate`/`has-custom-cursor`, no loader — the 0–100 loader stays a homepage/hero-only feature per direction doc §11) plus the existing `js/portfolio.js`.
+- Editorial tightening only: minor sentence-joining and repetition removal (e.g. BETTR's "The shift happens slowly..." merged into the hero thesis instead of repeating in section 01); no factual claim, credit, metric, or testing result changed.
+
+**Decisions:**
+- Reused `dashboard-wide-crop.jpg` for BETTR's stage-3 evidence slot rather than producing a fourth near-duplicate crop of the same dashboard — same subject, already at cinematic-crop quality.
+- FrankenTeen's Act 3 mansion crop and the town overview keep their design-doc trigger/NPC/interactable ring annotations rather than cropping them out — treated as informative evidence (legend-explained in the direction doc's own audit language), not the "editor chrome" the anti-pattern (§14) targets. The Unity Editor screenshot panel that appeared elsewhere in the same source slide was excluded.
+- Added a top `proj-frame-bar` forward link ("Next: X →") alongside the existing back-to-index link, additive to the original statusbar pattern, not a replacement of the footer prev/next chain.
+
+**Verified:**
+- Fresh server on port 4182 (`static-preview-projects` added to `.claude/launch.json`), loaded at `http://localhost:4182/projects/{bettr,cardiopal,frankenteen}.html`.
+- No horizontal overflow (`scrollWidth === clientWidth`) at 375 / 768 / 1280 / 1600px on all three pages, checked via JS measurement (Browser-pane `resize_window` screenshots at exact custom widths intermittently mis-render in this environment immediately post-resize — a rendering artifact of the tool, not the page; confirmed by DOM measurement matching expected values every time. Screenshots at default/native size and at 375px after a settle scroll rendered correctly and were used for visual QA).
+- Console clean (no errors) on all three pages at every tested viewport.
+- All internal links, all cropped images, the BETTR live iframe, the CardioPal Figma embed source, and the favicon resolved 200 via `fetch` HEAD checks from within each page.
+- BETTR corner-bracket signature motif: confirmed `pointer-events: none` and that the "Open full screen" link's click target resolves to the anchor itself, not the decorative corner, after a same-session bug was caught and fixed (a selector typo had left the top-right corner span without `pointer-events: none`).
+- BETTR live iframe, CardioPal Figma embed, and FrankenTeen Kaltura video all confirmed rendering their real content (not blank/broken) in the Browser pane.
+- Reduced motion: verified by code path (inline per-page script only adds `can-animate`/`has-custom-cursor` when `prefers-reduced-motion` does not match; `.reveal` entrance CSS is gated on `html.can-animate`, so sections render at full opacity immediately with the class absent) — not re-verified via forced-media-query screenshot this session (no loader exists on these pages to complicate the check, unlike the homepage).
+- Prev/next chain: BETTR → CardioPal → FrankenTeen → Echoes of Home confirmed intact in both the top frame bar and footer nav; `echoes.html` (untouched) still links back to `../index.html` per its pre-existing pattern.
+
+**Open:**
+- Echoes of Home, Smartphone Mold, and Playing Freedom remain on the pre-redesign skin — next remaining-pages batch.
+- FrankenTeen hero re-capture (annotation ring/gizmo lines) — blocker carried from prior entries, unchanged; this session reused the same provisional asset already sanctioned for the homepage.
+- Touch-device verification of the cursor fallback on a real mobile browser — still outstanding, unchanged from prior entries.
+
+**Commit:** `Redesign BETTR case study` (6205c29), `Redesign CardioPal case study` (a24007b), `Redesign FrankenTeen case study` (0dd7c4c)
+
 ### 2026-07-14 — Homepage refinement: skill-assisted review findings
 
 **Stage:** Homepage
