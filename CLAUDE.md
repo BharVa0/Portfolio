@@ -7,6 +7,7 @@ Portfolio site: 7 static HTML pages, zero dependencies, CSS inlined per page. No
 - Design contract: [docs/PORTFOLIO_DIRECTION_V2.md](docs/PORTFOLIO_DIRECTION_V2.md)
 - Production log: [docs/PORTFOLIO_PRODUCTION_LOG.md](docs/PORTFOLIO_PRODUCTION_LOG.md)
 - Originating audit: [docs/PORTFOLIO_AUDIT_V2.md](docs/PORTFOLIO_AUDIT_V2.md)
+- Reference map: [docs/PORTFOLIO_REFERENCES_V2.md](docs/PORTFOLIO_REFERENCES_V2.md) — external references are calibration only; the direction doc always wins.
 
 ## Approved architecture decisions
 
@@ -19,3 +20,5 @@ Portfolio site: 7 static HTML pages, zero dependencies, CSS inlined per page. No
 - One editorial project sequence on the homepage instead of the Gallery/Index toggle duplication.
 - Preserve all factual substance, evidence, ownership statements, research findings, testing results and honest limitations. Editorial tightening, reordering, shortening and removal of repetition are allowed, but no claim may be fabricated, exaggerated or materially changed.
 - Create the shared CSS architecture only after the prototype is approved.
+- Hero foundation is locked: Concept A (`v2-preview/hero-a/`) plus Concept B's edge-pinned metadata frame; full spec in the direction doc §11 "Final hero specification". Do not create new hero alternatives.
+- The opening loader and contextual cursor are the only motion beyond entrances/hover; both are absent under `prefers-reduced-motion` and specified in direction doc §11.

@@ -108,6 +108,8 @@ Accents change color only — typography, grid, spacing, and motion stay uniform
 - Motion is confined to entrances (fade/rise on scroll-into-view) and hover/focus feedback — never ambient/looping (no scan lines, no pulsing status dots).
 - All animation is wrapped in a `prefers-reduced-motion` guard; reduced-motion users get instant state changes, no exceptions.
 - Any toggle/interactive control that survives the redesign carries correct ARIA state (the old Gallery/Index toggle did not).
+- Two sanctioned additions beyond the above, both fully specified in §11 and both absent under reduced motion: the first-visit opening loader (a single title beat tied to real asset readiness, not ambient motion) and the desktop-only contextual cursor (functional feedback over links/media, not decoration).
+- Animation uses `transform`/`opacity` only — never width/height/top/left (no layout-shifting motion).
 
 ## 11. Hero System
 
@@ -173,7 +175,59 @@ Target **80–100vh on desktop**, not a forced full 100vh lock — the hero shou
 - No centered "product landing page" composition (logo-mark + big centered headline + centered CTA button) — this is a monograph cover, not a SaaS hero.
 - No mono-font headline treatment for the name or positioning statement — mono is metadata-only (§4).
 - No forced 100vh hero that hides the start of the project index on common laptop viewports.
-- No final composition is locked here — see §13; this section constrains the design space, it does not select within it.
+
+### Final hero specification — locked 2026-07-14
+
+**Selected foundation: Concept A ("warm editorial image", `v2-preview/hero-a/`)**, absorbing exactly two moves from Concept B: the edge-pinned mono metadata frame and a larger name scale. Concept C is retired. Rationale: A is the only concept where "the work is real" lands within five seconds through a legible, human-scaled image — the FrankenTeen bedroom literally pictures a system designed around human behaviour. B's authority is typographic but its only evidence is an illegible abstract strip; C's 488px source (gizmo lines, pink marker) fails at desktop scale and its blurred-photo-plus-panel pattern is the most template-like of the three. This is a foundation-plus-absorption, not an element collage: everything else in B and C is dropped.
+
+External calibration for this spec is recorded in [PORTFOLIO_REFERENCES_V2.md](PORTFOLIO_REFERENCES_V2.md); that document never overrides this one.
+
+**Composition**
+- Asymmetric 7/5 split (text left, image right) on desktop, ~92vh, never a hard 100vh lock.
+- Name block sits low-left, baseline-anchored toward the fold; the image bleeds off the top and right viewport edges (no contained "card" framing), with a thin `ember-deep` border on its inner edges and a right-aligned mono caption beneath.
+- Replaced from Concept A: the floating "Portfolio · 2026" eyebrow + short rule is replaced by Concept B's full-width edge-pinned metadata frame (see Metadata placement).
+
+**Typography hierarchy**
+1. Name — Fraunces, light-to-regular optical weight, scaled up from Concept A toward Concept B's presence (target `clamp(3.6rem, 10vw, 10rem)`), single line, tight leading.
+2. Positioning statement — Fraunces at secondary display size, three authored line breaks, exactly: *"I design interactive systems, playable worlds and research-led experiences."* One italic `ember-bright` accent phrase ("interactive systems") maximum.
+3. Metadata — Space Mono small caps-free, `muted`.
+
+**Colour distribution**
+- `ink` base, `paper` text. Ember appears only as: the statement's single accent phrase, the CTA underline, and the image-frame border. Concept B's large ember field is **not** carried over — the photograph supplies the only large non-ink area.
+
+**Image strategy**
+- Real project imagery only. Launch asset: the FrankenTeen bedroom crop (warm rug, top-down) with the existing warm tonal overlay recipe. **Blocker before homepage approval:** re-capture the scene without the annotation ring and gizmo lines (clean Unity capture or re-export); the current crop is a placeholder standard, not the shipped standard.
+- Explicit `width`/`height`, no lazy-loading (it is the LCP element), `fetchpriority="high"`.
+
+**Metadata placement**
+- Top frame (from Concept B): "Bharat Vyas · Portfolio" left, "Edinburgh, UK · 2026" right, hairline `charcoal` rule beneath — this doubles as the site's persistent chrome starting point.
+- Degree/location block (Space Mono, `muted`) sits beside the CTA in the lower text block, never overlapping the image.
+
+**Route into selected work**
+- One CTA only: "Selected work →", Inter medium, `ember` underline, leading to the editorial project index (§6). Keyboard-focusable with a visible `ember-bright` outline. No scroll hints, no secondary hero CTAs.
+
+**Opening loader (0–100)**
+- First visit only: a full-viewport `ink` field with a single Space Mono counter (00–100) plus the name in small mono — a title beat, not a spinner.
+- The counter tracks **real readiness** (display font loaded + hero image decoded), clamped to 0.8s minimum / 1.4s maximum. If assets are ready sooner, the count completes quickly toward the floor; at 1.4s the hero enters regardless (image fades in when decoded). It never pretends to load work that is already ready.
+- Exit: the field lifts/fades (≤400ms, ease-in, exit faster than entrance) and hands off directly into the hero's existing ≤600ms stagger — one continuous 0→100→hero gesture, not two separate intros.
+- Repeat visits (per-session flag, e.g. `sessionStorage`): the loader is skipped entirely.
+- `prefers-reduced-motion`: no loader at all — hero renders complete immediately.
+- Implementation: the loader is a JS-inserted overlay. With JS disabled it never exists; the hero is fully readable without it.
+
+**Contextual cursor**
+- Desktop only: initialised only under `(hover: hover) and (pointer: fine)`; never on touch devices.
+- A small `ember` dot (~8px) following the pointer with a short transform-only lag; over project-index entries and media embeds it grows to a ring with a contextual verb ("View", "Play"). The verb is additive — the underlying link always keeps its own visible text label; the cursor never replaces essential labels or hides focus states.
+- Native clickability is preserved: the custom cursor is `pointer-events: none`, all elements keep correct `cursor` semantics as fallback, and keyboard users are unaffected.
+- `prefers-reduced-motion`: the custom cursor is disabled entirely (native cursor only). No trails, no glitch, no cursor motion competing with content (see references doc, Vivid Motion "do not copy").
+
+**Desktop and mobile principles**
+- Desktop: composition as above; hero + start of the project index visible on a 1366×768 laptop without the index being fully hidden.
+- Mobile: single column, natural height, text first (frame metadata → name → statement → CTA + metadata → image with caption). No forced-viewport hero, no custom cursor, loader follows the same rules (skip logic and reduced-motion apply identically).
+
+**Removed from the existing concepts**
+- Concept A: eyebrow + short rule cluster (replaced by the metadata frame); annotation-ring crop (re-capture required).
+- Concept B: ember side field, abstract BETTR motif strip, two-line offset name, terminal-adjacent period-dot flourish.
+- Concept C: retired in full (atmosphere image, overlap panel, caption chip).
 
 ## 12. Responsive rules
 

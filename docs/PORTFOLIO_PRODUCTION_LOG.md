@@ -30,6 +30,33 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-14 — Final creative brief: hero foundation locked, reference system recorded
+
+**Stage:** Foundation
+**Scope:** docs only (`PORTFOLIO_REFERENCES_V2.md` new, `PORTFOLIO_DIRECTION_V2.md`, `CLAUDE.md`, this log). No public page, `/v2-preview/`, or `assets/bettr-live/**` touched.
+**Did:**
+- Evaluated hero concepts A/B/C (code review + 1440px reduced-motion screenshots) against memorability, positioning clarity, authorship, typography, composition, relationship to real work, generic-AI risk, and homepage suitability.
+- **Locked Concept A as the hero foundation**, absorbing exactly two moves from B (edge-pinned mono metadata frame, larger name scale); C retired. Rationale: A is the only concept where "the work is real" lands in five seconds via a legible human-scaled image; B's evidence signal is too abstract; C's 488px source fails at desktop scale.
+- Wrote the locked "Final hero specification" into the direction doc §11: composition, type hierarchy, colour distribution, image strategy, metadata placement, selected-work route, 0–100 loader (0.8–1.4s, real-readiness counter, skip on repeat visit, absent under reduced motion, JS-overlay only), desktop-only contextual cursor (pointer-fine gating, additive verb, disabled under reduced motion), desktop/mobile principles, and removed elements.
+- Created `PORTFOLIO_REFERENCES_V2.md`: four reference roles (Pauline Stein — atmosphere/register; George Paul — case-study structure/per-project worlds; Russell Numo — hero minimalism/loader/cursor; Vivid Motion — interaction-polish ceiling), each with explicit use-for / do-not-copy lists; direction doc always wins.
+- Amended §10 motion principles: loader and cursor are the two sanctioned additions; transform/opacity-only animation rule added.
+- CLAUDE.md: added reference-map pointer and two stable rules (hero locked / loader+cursor motion boundary).
+
+**Decisions:**
+- Hero foundation: Concept A + B's metadata frame (hybrid justified as foundation-plus-absorption, not element collage).
+- Loader counter must track real asset readiness (font + hero image), clamped 0.8–1.4s, session-skipped, absent under reduced motion.
+- Custom cursor is desktop-only, additive, and disabled under reduced motion.
+
+**Verified:**
+- All three concepts re-screenshotted at 1440×900 via headless Chrome with `--force-prefers-reduced-motion` (final states, no mid-animation captures); evaluation based on rendered output plus source review.
+- Spec cross-checked against a11y/motion checklist: transform/opacity-only, no blocking animation, exit-faster-than-enter, reduced-motion removal of loader and cursor, LCP image not lazy-loaded.
+
+**Open:**
+- **Blocker carried:** FrankenTeen hero re-capture without annotation ring/gizmo lines before homepage approval.
+- Carried: per-project accent hex values; CardioPal/Playing Freedom imagery.
+
+**Commit:** `Finalise Human Systems creative brief` (hash in git history — this entry ships in that commit)
+
 ### 2026-07-14 — Hero concept sprint (three isolated directions)
 
 **Stage:** Other (isolated `/v2-preview/` prototyping, per Approved amendment #1)
