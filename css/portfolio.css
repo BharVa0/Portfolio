@@ -50,6 +50,18 @@ a { color: inherit; }
 
 .mono { font-family: var(--font-mono); }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* === Skip link === */
 .skip-link {
   position: absolute;
@@ -100,9 +112,12 @@ button:focus-visible {
   flex-wrap: wrap;
 }
 .frame-nav a {
+  display: inline-block;
   text-decoration: none;
   color: var(--muted);
   transition: color 0.15s ease;
+  padding: 13px 6px;
+  margin: -13px -6px;
 }
 .frame-nav a:hover { color: var(--ember-bright); }
 .frame-loc { text-align: right; white-space: nowrap; }
@@ -194,7 +209,7 @@ button:focus-visible {
 }
 .hero-image figcaption {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   letter-spacing: 0.05em;
   color: var(--muted);
   padding: 14px 24px 0 0;
@@ -354,6 +369,29 @@ section { padding: var(--space-12) var(--page-margin); }
   transition: transform 0.5s ease;
 }
 .project-row.feature:hover .project-media img { transform: scale(1.03); }
+
+/* Tonal treatments — bring outlier source images into the site's warm register
+   without altering a project's own documented accent identity (§9). */
+.project-media.tone-frame { position: relative; }
+.project-media.tone-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13,12,11,0.1), rgba(13,12,11,0) 30%, rgba(13,12,11,0.22) 100%);
+  pointer-events: none;
+}
+.project-media.tone-warm img {
+  filter: saturate(0.72) hue-rotate(-6deg) brightness(0.97) contrast(1.02);
+}
+.project-media.tone-warm { position: relative; }
+.project-media.tone-warm::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(123, 45, 23, 0.16);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
 .project-row.feature:hover .project-title,
 .project-row.feature:focus-visible .project-title { color: var(--row-accent); }
 .project-row.feature[data-accent="bettr"] { --row-accent: var(--bettr-red); }
@@ -428,7 +466,7 @@ section { padding: var(--space-12) var(--page-margin); }
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--ember-bright);
+  color: var(--ember);
   margin-bottom: var(--space-2);
 }
 .practice-col p {
@@ -478,7 +516,13 @@ section { padding: var(--space-12) var(--page-margin); }
   color: var(--muted);
   flex-wrap: wrap;
 }
-.contact-links a { text-decoration: none; transition: color 0.15s ease; }
+.contact-links a {
+  display: inline-block;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  padding: 13px 4px;
+  margin: -13px -4px;
+}
 .contact-links a:hover { color: var(--ember-bright); }
 
 /* === Footer === */
@@ -492,7 +536,13 @@ section { padding: var(--space-12) var(--page-margin); }
   font-size: 0.78rem;
   color: var(--muted);
 }
-.site-footer a { text-decoration: none; transition: color 0.15s ease; }
+.site-footer a {
+  display: inline-block;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  padding: 13px 4px;
+  margin: -13px -4px;
+}
 .site-footer a:hover { color: var(--ember-bright); }
 
 /* === Opening loader === */
@@ -527,10 +577,14 @@ section { padding: var(--space-12) var(--page-margin); }
   pointer-events: none;
 }
 
-/* === Contextual cursor (desktop, fine pointer only) === */
-html.has-custom-cursor,
-html.has-custom-cursor a,
-html.has-custom-cursor button {
+/* === Contextual cursor (desktop, fine pointer only) ===
+   cursor:none is gated on .cursor-ready, which JS adds only once the
+   .cursor-dot element actually exists — .has-custom-cursor alone (set
+   by the early inline script, before portfolio.js runs) would otherwise
+   hide the native cursor before the replacement is on screen. */
+html.cursor-ready,
+html.cursor-ready a,
+html.cursor-ready button {
   cursor: none;
 }
 .cursor-dot {

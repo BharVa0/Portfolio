@@ -30,6 +30,50 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-14 — Homepage refinement: skill-assisted review findings
+
+**Stage:** Homepage
+**Scope:** `index.html`, `css/portfolio.css`, `js/portfolio.js`; new assets `assets/frankenteen/room-thumb-crop.jpg` (+ `-480.jpg`), `assets/bettr/dashboard-wide-crop.jpg` (+ `-480.jpg`), `assets/smartphone/nothing-transparent-480.jpg`, `assets/frankenteen/frankenteen-hero-crop-480.jpg`. No project pages, `assets/bettr-live/**`, or hero composition touched.
+**Did:**
+- **FrankenTeen project row (Critical #1):** replaced the six-panel contact-sheet image (`ui-thumb-crop.jpg`, carried a visible dev coordinate-readout overlay) with a single clean isometric room crop sourced from `assets/frankenteen/ui-development.jpg` — a genuinely chrome-free render found alongside the annotated `world-map.jpg` slide, no debug HUD, no gizmo lines.
+- **Echoes of Home project row (Critical #2):** every Echoes source image in the repo (`runner-scene.jpeg`, `room-scene.jpeg`) is a full Unity Scene-view or Blender-viewport screenshot — toolbar, inspector panel, and a large crosshair gizmo spanning the whole frame. Cropping tighter still left chrome visible in every attempt (recorded below). Converted the row to a text-led entry (same treatment as CardioPal/Playing Freedom) rather than ship an editor screenshot — the direction doc's own anti-pattern (§14) is worse than the "no image" allowance it already sanctions (§6).
+- **BETTR project row (Important #7):** recropped `dashboard-thumb-crop.jpg` to a wider, shorter cinematic slice (excludes the top nav bar and an overflowing task card) and added a neutral vignette (`.tone-frame`) — no color shift, since §9 keeps BETTR's `#EB5160` identity un-reinvented.
+- **Smartphone Mold (Important #6):** added a `.tone-warm` treatment (desaturate + hue-rotate toward ember + multiply overlay) to bring the vivid studio-red product shot into the site's palette without touching the source file (still used unmodified on its own project page).
+- **Hero image (Critical #3):** left as-is, still provisional — confirmed via a wide preview crop that the red gizmo circle spans nearly the entire room, so no crop can exclude it. Blocker unchanged; needs a clean Unity re-capture, not a repo-image substitution.
+- **Repetition (Important #5):** cut the restated "six projects, one question" framing from the About section; Introduction keeps it, About now only adds new information (project range, credit-transparency practice).
+- **External links (UX QA P1 #1):** added visually-hidden "(opens in a new tab)" text to LinkedIn/Resume/GitHub.
+- **Responsive images (UX QA P1 #2):** added `srcset`/`sizes` with 480w derivatives for the hero image and the three remaining media-bearing project rows.
+- **Touch targets (database-assisted P1):** `.frame-nav a`, `.contact-links a`, `.site-footer a` get 13px padding + matching negative margin (hit-slop) — tap height now ~44–46px, visual position unchanged.
+- **Hero caption legibility (UX QA P2 #5 / database #2):** `.hero-image figcaption` raised from 0.72rem to 0.78rem, clearing the 12px/16px mono legibility floor.
+- **`ember-bright` misuse (Creative Optional #8 / UX QA P2 #6):** `.practice-col h3` swapped to plain `ember` — `ember-bright` stays reserved for large-scale moments only.
+- **Cursor robustness (UX QA P2 #3, #4):** cursor input-mode now re-evaluated via `matchMedia(...).addEventListener('change', ...)` instead of a parse-time-only check (hybrid touch+mouse devices no longer get stuck). `cursor: none` is now gated on a new `.cursor-ready` class that JS adds only once `.cursor-dot` actually exists, removing the brief window where the native cursor could disappear before the replacement attaches.
+
+**Rejected (deliberately, not automatically applied):**
+- Creative review #4 (CardioPal/Playing Freedom imagery) — still no real asset in the repo; out of scope for a review-response pass, unchanged open item.
+- Creative review #9 (hero caption echoes top metadata frame) — Optional, no functional problem, left as designed.
+- UX QA P3 items #7, #8 — explicitly no new finding / not applicable this pass, per the review itself.
+
+**Verified:**
+- Fresh server on port 4181 (previous 4180 instance superseded), loaded at `http://localhost:4181/index.html?v=refine1&version=human-systems`.
+- Confirmed correct build pre-edit: large serif "Bharat Vyas" hero, positioning statement, FrankenTeen hero image, editorial work sequence all present — no stale/cyberpunk build encountered.
+- All 6 project links + resume PDF: `fetch HEAD` → 200.
+- No horizontal overflow (`scrollWidth === clientWidth`) at 375 / 768 / 1280 / 1600px (Browser-pane `resize_window`, not bare headless `--window-size`, per known Chrome width-clamping issue).
+- Keyboard: skip-link receives focus first on Tab, visible `ember-bright` outline confirmed in earlier session and unchanged this pass.
+- Reduced motion: headless Chrome with `--force-prefers-reduced-motion` → `<html class="ready">` only (no `pending`/`can-animate`/`has-custom-cursor`/`cursor-ready`), hero renders complete, no loader.
+- First-visit loader: `sessionStorage` cleared → loader runs and clears to `ready` with no leftover `#hs-loader` node.
+- Repeat-visit: `hs-loader-seen` set → loader skipped entirely, `ready`/`cursor-ready` applied immediately.
+- Touch-target heights measured live: nav 44.7px, contact 46.4px, footer 44.7px (all ≥44px), at both 1280 and 375px viewports.
+- Console clean at every tested viewport and motion state.
+- Touch/coarse-pointer input-capability emulation still not available in this environment (viewport-only, as before) — cursor fallback remains verified by code path, not live touch emulation.
+
+**Open:**
+- **Blocker carried:** FrankenTeen hero re-capture without the annotation ring/gizmo lines — confirmed again this session that no crop of the existing source avoids it.
+- **New:** Echoes of Home has no chrome-free image anywhere in the repo — needs a Play-mode (not Scene-view) Unity capture or a Blender render before it can carry a media row again.
+- Per-project accent hex values, CardioPal/Playing Freedom imagery, six project pages still on the old skin — unchanged from prior entries.
+- Touch-device verification of cursor fallback and loader on a real mobile browser — still outstanding.
+
+**Commit:** `Refine homepage through skill-assisted review` (hash in git history — this entry ships in that commit)
+
 ### 2026-07-14 — Homepage implementation: shared stylesheet, locked hero, editorial index, loader, cursor
 
 **Stage:** Homepage

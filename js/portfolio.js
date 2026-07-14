@@ -94,38 +94,84 @@
     }
   }
 
-  /* === Desktop-only contextual cursor === */
-  if (html.classList.contains("has-custom-cursor")) {
-    var dot = document.createElement("div");
+  /* === Desktop-only contextual cursor ===
+     Re-evaluated on change (not just at parse time) so a hybrid device —
+     a touchscreen laptop with a mouse plugged in mid-session — doesn't
+     get stuck with a stale cursor state. cursor:none is applied via the
+     .cursor-ready class only once .cursor-dot actually exists, so there's
+     no gap where the native cursor is hidden but nothing has replaced it. */
+  var cursorMql = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var dot = null, labelEl = null, cursorRunning = false, hoverBound = false;
+  var targetX = -100, targetY = -100, curX = -100, curY = -100;
+
+  function onMouseMove(e) {
+    targetX = e.clientX;
+    targetY = e.clientY;
+  }
+
+  function cursorTick() {
+    if (!cursorRunning) return;
+    curX += (targetX - curX) * 0.25;
+    curY += (targetY - curY) * 0.25;
+    dot.style.transform = "translate(" + curX + "px, " + curY + "px) translate(-50%, -50%)";
+    requestAnimationFrame(cursorTick);
+  }
+
+  function onHoverEnter(el) {
+    return function () {
+      dot.classList.add("ring");
+      labelEl.textContent = el.getAttribute("data-cursor") || "";
+    };
+  }
+  function onHoverLeave() {
+    dot.classList.remove("ring");
+    labelEl.textContent = "";
+  }
+
+  function createCursor() {
+    if (dot || reducedMotion) return;
+    dot = document.createElement("div");
     dot.className = "cursor-dot";
     dot.innerHTML = '<span class="cursor-label mono"></span>';
     document.body.appendChild(dot);
-    var labelEl = dot.querySelector(".cursor-label");
+    labelEl = dot.querySelector(".cursor-label");
+    html.classList.add("cursor-ready");
 
-    var targetX = -100, targetY = -100, curX = -100, curY = -100;
-    window.addEventListener("mousemove", function (e) {
-      targetX = e.clientX;
-      targetY = e.clientY;
-    });
+    window.addEventListener("mousemove", onMouseMove);
+    cursorRunning = true;
+    requestAnimationFrame(cursorTick);
 
-    var raf = function () {
-      curX += (targetX - curX) * 0.25;
-      curY += (targetY - curY) * 0.25;
-      dot.style.transform = "translate(" + curX + "px, " + curY + "px) translate(-50%, -50%)";
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
-
-    var hoverTargets = document.querySelectorAll("[data-cursor]");
-    hoverTargets.forEach(function (el) {
-      el.addEventListener("mouseenter", function () {
-        dot.classList.add("ring");
-        labelEl.textContent = el.getAttribute("data-cursor") || "";
+    if (!hoverBound) {
+      hoverBound = true;
+      document.querySelectorAll("[data-cursor]").forEach(function (el) {
+        el.addEventListener("mouseenter", onHoverEnter(el));
+        el.addEventListener("mouseleave", onHoverLeave);
       });
-      el.addEventListener("mouseleave", function () {
-        dot.classList.remove("ring");
-        labelEl.textContent = "";
-      });
-    });
+    }
+  }
+
+  function destroyCursor() {
+    if (!dot) return;
+    cursorRunning = false;
+    window.removeEventListener("mousemove", onMouseMove);
+    html.classList.remove("cursor-ready");
+    dot.parentNode.removeChild(dot);
+    dot = null;
+    labelEl = null;
+  }
+
+  function syncCursor(matches) {
+    if (matches && !reducedMotion) {
+      html.classList.add("has-custom-cursor");
+      createCursor();
+    } else {
+      html.classList.remove("has-custom-cursor");
+      destroyCursor();
+    }
+  }
+
+  if (html.classList.contains("has-custom-cursor")) createCursor();
+  if (cursorMql.addEventListener) {
+    cursorMql.addEventListener("change", function (e) { syncCursor(e.matches); });
   }
 })();
