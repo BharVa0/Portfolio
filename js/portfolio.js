@@ -77,6 +77,13 @@
   if (html.classList.contains("can-animate")) {
     var revealEls = document.querySelectorAll(".reveal");
     if ("IntersectionObserver" in window && revealEls.length) {
+      /* threshold is a ratio of the *target's own* area, not the
+         viewport's — for a .proj-section taller than the viewport
+         (evidence grids, card grids, etc. all count toward its height)
+         a ratio like 0.15 can demand more visible pixels than a short
+         viewport ever shows, so the section never reveals. threshold:0
+         fires on first intersecting pixel instead; rootMargin still
+         holds it off until content is meaningfully on screen. */
       var io = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
@@ -86,7 +93,7 @@
             }
           });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
+        { threshold: 0, rootMargin: "0px 0px -10% 0px" }
       );
       revealEls.forEach(function (el) { io.observe(el); });
     } else {
@@ -174,4 +181,24 @@
   if (cursorMql.addEventListener) {
     cursorMql.addEventListener("change", function (e) { syncCursor(e.matches); });
   }
+
+  /* === Suspend the cursor over iframes/videos/embeds ===
+     Iframes (and native video controls) are their own document/UI —
+     the parent stops receiving mousemove the instant the pointer
+     crosses in, so without this the dot is left frozen on top of the
+     embed instead of tracking it. No cross-document tracking is
+     attempted: the dot just hides on entry and resumes tracking once
+     the pointer is back over the parent document. Bound unconditionally
+     (not only while a cursor currently exists) so it also applies the
+     moment a fine pointer becomes eligible mid-session. */
+  function suspendCursor() {
+    if (dot) dot.classList.add("embed-hidden");
+  }
+  function resumeCursor() {
+    if (dot) dot.classList.remove("embed-hidden");
+  }
+  document.querySelectorAll("iframe, video").forEach(function (el) {
+    el.addEventListener("mouseenter", suspendCursor);
+    el.addEventListener("mouseleave", resumeCursor);
+  });
 })();

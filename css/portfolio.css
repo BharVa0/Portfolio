@@ -607,9 +607,17 @@ html.cursor-ready button {
   background: var(--ember);
   pointer-events: none;
   z-index: 3000;
+  opacity: 1;
   transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border 0.2s ease;
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border 0.2s ease, opacity 0.12s ease;
   will-change: transform;
+}
+/* Suspended the instant the pointer crosses into an iframe/video — see
+   js/portfolio.js. Iframes are separate documents, so the parent never
+   gets mousemove once the pointer is inside one; without this the dot
+   is left frozen on top of the embed instead of tracking it. */
+.cursor-dot.embed-hidden {
+  opacity: 0;
 }
 .cursor-dot.ring {
   width: 64px;
@@ -662,14 +670,26 @@ html.cursor-ready button {
 }
 
 .project-cardiopal {
-  --proj-surface: var(--paper);
-  --proj-surface-2: var(--paper-soft);
-  --proj-text: var(--ink);
-  --proj-text-soft: #4A4038;
-  --proj-line: rgba(13, 12, 11, 0.14);
   --proj-accent: var(--cardiopal-accent);
   --proj-accent-deep: var(--cardiopal-accent-deep);
 }
+
+/* CardioPal's paper/sage identity is scoped to controlled sections and
+   artifact surfaces (usability data, credit-style evidence), not the
+   whole page — the shared dark shell stays constant so the project
+   reads as one entry in the same body of work, not a separate site. */
+.proj-paper-panel {
+  --proj-surface-2: var(--paper-soft);
+  --proj-line: rgba(13, 12, 11, 0.14);
+  --proj-text: var(--ink);
+  --proj-text-soft: #4A4038;
+  background: var(--paper);
+  color: var(--ink);
+  padding: var(--space-4);
+  border: 1px solid var(--paper-soft);
+  margin-top: var(--space-4);
+}
+.proj-paper-panel > *:first-child { margin-top: 0; }
 
 .project-frankenteen {
   --proj-accent: var(--frankenteen-accent);
@@ -886,6 +906,13 @@ html.cursor-ready button {
   margin-top: var(--space-4);
 }
 .proj-evidence.single { grid-template-columns: 1fr; }
+/* Caps a single-slot evidence shot to its real source resolution so a
+   small crop never gets stretched past its useful pixels — set
+   --native-w inline per image to its natural width. */
+.proj-evidence.single.native-scale .proj-shot {
+  max-width: var(--native-w, 100%);
+  margin: 0 auto;
+}
 .proj-shot {
   background: var(--proj-surface-2);
   border: 1px solid var(--proj-line);

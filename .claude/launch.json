@@ -18,6 +18,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4182", "--bind", "127.0.0.1"],
       "port": 4182
+    },
+    {
+      "name": "static-preview-corrections",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4183", "--bind", "127.0.0.1"],
+      "port": 4183
     }
   ]
 }
