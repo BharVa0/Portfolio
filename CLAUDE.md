@@ -17,5 +17,5 @@ Portfolio site: 7 static HTML pages, zero dependencies, CSS inlined per page. No
 - Never modify `assets/bettr-live/**` — it's a shipped build; GitHub Pages is case-sensitive and its `@font-face` paths depend on exact casing.
 - Never change the BETTR iframe's relative path (`../assets/bettr-live/index.html`).
 - One editorial project sequence on the homepage instead of the Gallery/Index toggle duplication.
-- Preserve content substance (thesis, testing data, honest scope statements, ownership/credit lines) verbatim; later editorial tightening for hierarchy/brevity is permitted, cutting substance is not.
+- Preserve all factual substance, evidence, ownership statements, research findings, testing results and honest limitations. Editorial tightening, reordering, shortening and removal of repetition are allowed, but no claim may be fabricated, exaggerated or materially changed.
 - Create the shared CSS architecture only after the prototype is approved.

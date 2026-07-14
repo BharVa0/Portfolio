@@ -50,3 +50,21 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 - CardioPal and Playing Freedom imagery not yet sourced.
 
 **Commit:** _pending_
+
+### 2026-07-14 — Content editing rule clarified
+
+**Stage:** Foundation
+**Scope:** docs only (`CLAUDE.md`, `PORTFOLIO_DIRECTION_V2.md`)
+**Did:**
+- Replaced the "preserve verbatim / no cutting" wording with an explicit rule: preserve all factual substance, evidence, ownership statements, research findings, testing results and honest limitations; editorial tightening, reordering, shortening and removal of repetition are allowed, but no claim may be fabricated, exaggerated or materially changed.
+
+**Decisions:**
+- Content-preservation rule clarified as above; no other decisions changed.
+
+**Verified:**
+- N/A — documentation only, no runtime surface to check. Confirmed no HTML/CSS/JS files were touched.
+
+**Open:**
+- Same as prior entry (hero composition, per-project accent hex values, CardioPal/Playing Freedom imagery).
+
+**Commit:** _pending_
