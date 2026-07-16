@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<!--
+  HERO CONCEPT E — INSTRUMENT PANEL
+  Expressive signature candidate for the image-free hero direction
+  (direction doc §11, "Hero direction — reopened 2026-07-16";
+  docs/HERO_21ST_RESEARCH.md). "Instrument" names an interaction
+  mechanism, not UI chrome — there is no dashboard, panel, graph or card
+  anywhere on this page.
+  Static composition: the same single-column name + statement stack as
+  Concept D, but plain (no staircase) — this concept spends its whole
+  budget on the interaction, not the layout.
+  Signature move: three phrases in the statement carry a second, hidden
+  ember-toned reading. A soft cursor-as-torch — a small radius following
+  the pointer — reveals whichever phrase it is currently over, one at a
+  time, then lets it recede. BETTR's whole thesis is an interface that
+  reveals something about the person using it as they interact with it;
+  this is a small, honest echo of that same idea applied to the hero's
+  own text.
+  Reduced motion / coarse pointers: the torch never runs. Reduced-motion
+  visitors instead see the alternate phrases as small static annotations
+  under each line — nothing to discover, nothing hidden.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bharat Vyas — Hero concept E, Instrument Panel</title>
+<meta name="description" content="Hero direction E for the Human Systems portfolio redesign: image-free, typography-led, cursor-revealed hidden reading.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0C0B;
+    --ink-soft: #151311;
+    --charcoal: #1D1A18;
+    --ember: #B84624;
+    --ember-deep: #7B2D17;
+    --ember-bright: #D35C34;
+    --paper: #F2EEE9;
+    --paper-soft: #DDD6CF;
+    --muted: #91877F;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "Space Mono", ui-monospace, monospace;
+    --page-margin: clamp(24px, 4vw, 96px);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--ink); }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .mono { font-family: var(--font-mono); }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  .skip-link {
+    position: absolute; top: -48px; left: var(--page-margin); z-index: 1000;
+    background: var(--paper); color: var(--ink); font-weight: 600;
+    font-size: 0.9rem; padding: 12px 20px; border-radius: 3px;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus { top: 16px; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--ember-bright); outline-offset: 4px;
+  }
+
+  /* === Static paper grain === */
+  .grain {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    opacity: 0.05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+
+  /* === Persistent chrome === */
+  .site-frame { padding: clamp(18px, 2.6vh, 30px) var(--page-margin) 0; position: relative; z-index: 2; }
+  .frame-bar {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap; font-family: var(--font-mono);
+    font-size: 0.78rem; letter-spacing: 0.05em; color: var(--muted);
+    padding-bottom: clamp(16px, 2.4vh, 26px); border-bottom: 1px solid var(--charcoal);
+  }
+  .frame-id strong { color: var(--paper); font-weight: 400; }
+  .frame-loc { text-align: right; white-space: nowrap; }
+
+  /* === Hero === */
+  .hero {
+    position: relative; z-index: 2;
+    min-height: 92vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: clamp(48px, 9vh, 96px) var(--page-margin) clamp(56px, 8vh, 88px);
+  }
+  .hero-name {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 380;
+    font-size: clamp(3.8rem, 11vw, 11rem);
+    line-height: 0.92;
+    letter-spacing: -0.015em;
+  }
+  .statement {
+    font-family: var(--font-display);
+    font-weight: 340;
+    font-size: clamp(1.4rem, 3vw, 2.5rem);
+    line-height: 1.5;
+    margin-top: clamp(28px, 5vh, 56px);
+    max-width: 26em;
+  }
+
+  /* === Phrase lens: base + hidden ember layer, stacked exactly ===
+     A CSS grid stack (grid-area:1/1) keeps both layers pinned to the
+     same box regardless of the two phrases' different lengths, so
+     nothing reflows when the alternate reading is revealed. */
+  .phrase {
+    position: relative;
+    display: inline-grid;
+    vertical-align: baseline;
+  }
+  .phrase-base, .phrase-alt {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+  }
+  .phrase-base { color: var(--paper-soft); transition: opacity 0.28s ease; }
+  .phrase-alt {
+    color: var(--ember-bright);
+    font-style: italic;
+    opacity: 0;
+    transform: translateY(2%);
+    transition: opacity 0.28s ease;
+    pointer-events: none;
+  }
+  html.torch-on .phrase.is-lit .phrase-base { opacity: 0; }
+  html.torch-on .phrase.is-lit .phrase-alt { opacity: 1; }
+
+  .stmt-hint {
+    display: block;
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  html.torch-on .stmt-hint { opacity: 1; }
+
+  /* Reduced motion / no torch: the hover mechanism never runs, so the
+     per-phrase grid-stack stays untouched (base text renders normally)
+     and the alternate readings instead surface as a single small,
+     static annotation list beneath the statement — one complete
+     composition, nothing to discover. */
+  html:not(.torch-on) .phrase-alt { display: none; }
+  html:not(.torch-on) .phrase-base { opacity: 1 !important; }
+  html:not(.torch-on) .stmt-hint { display: none; }
+
+  .alt-annotations {
+    display: none;
+    margin-top: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+  .alt-annotations em { color: var(--ember-bright); font-style: italic; }
+  html:not(.torch-on) .alt-annotations { display: block; }
+
+  .hero-foot {
+    margin-top: clamp(48px, 9vh, 104px);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px 40px; flex-wrap: wrap;
+  }
+  .hero-cta {
+    display: inline-block; color: var(--paper); font-family: var(--font-body);
+    font-weight: 500; font-size: 1.05rem; text-decoration: none;
+    border-bottom: 2px solid var(--ember); padding-bottom: 6px;
+  }
+  .hero-cta:hover { color: var(--ember-bright); border-bottom-color: var(--ember-bright); }
+  .hero-cta .arrow { font-family: var(--font-mono); }
+  .hero-degree {
+    font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.7;
+    color: var(--muted); text-align: right;
+  }
+
+  /* === Masked line-reveal entrance (name / statement-as-one-block /
+     metadata / cta — four staggered steps, per direction doc §11's
+     entrance budget; the statement is a single beat here, unlike
+     Concept D's per-line cascade, since E spends its budget on the
+     pointer interaction instead). === */
+  .mask { display: block; overflow: hidden; }
+  .mask .line-inner { display: block; }
+  html.pending .mask .line-inner { transform: translateY(112%); opacity: 0; }
+  html.ready .mask .line-inner {
+    animation: e-rise 0.5s cubic-bezier(0.22, 0.68, 0.18, 1) backwards;
+  }
+  html.ready .name-mask .line-inner { animation-delay: 0s; }
+  html.ready .stmt-mask .line-inner { animation-delay: 0.12s; }
+  html.ready .foot-mask.degree .line-inner { animation-delay: 0.28s; }
+  html.ready .foot-mask.cta .line-inner { animation-delay: 0.32s; }
+  @keyframes e-rise {
+    from { transform: translateY(112%); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mask .line-inner { animation: none !important; transform: none !important; opacity: 1 !important; }
+  }
+
+  /* === Work stub (comparison target only) === */
+  .work-stub {
+    position: relative; z-index: 2;
+    border-top: 1px solid var(--charcoal);
+    padding: clamp(64px, 10vh, 120px) var(--page-margin);
+  }
+  .work-stub .eyebrow {
+    font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 24px;
+  }
+  .stub-row {
+    display: flex; align-items: baseline; gap: 20px;
+    padding: 20px 0; border-top: 1px solid var(--charcoal);
+    font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2.1rem);
+    text-decoration: none; color: var(--paper);
+  }
+  .stub-row:last-child { border-bottom: 1px solid var(--charcoal); }
+  .stub-row .num { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+  .stub-note {
+    margin-top: 32px; font-family: var(--font-mono); font-size: 0.74rem;
+    color: var(--muted); max-width: 46em; line-height: 1.7;
+  }
+
+  /* === Contextual cursor (desktop, fine pointer only — CTA only) === */
+  html.cursor-ready, html.cursor-ready a { cursor: none; }
+  .cursor-dot {
+    position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--ember); pointer-events: none;
+    z-index: 3000; transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border 0.2s ease;
+    will-change: transform;
+  }
+  .cursor-dot.ring {
+    width: 64px; height: 64px; background: transparent;
+    border: 1px solid var(--ember);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cursor-dot .cursor-label {
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.05em;
+    color: var(--paper); text-transform: uppercase; opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .cursor-dot.ring .cursor-label { opacity: 1; }
+  @media (hover: none), (pointer: coarse) {
+    .cursor-dot { display: none !important; }
+  }
+
+  /* === Opening loader === */
+  .loader {
+    position: fixed; inset: 0; z-index: 4000; background: var(--ink);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; transition: opacity 0.38s ease-in, visibility 0.38s ease-in;
+  }
+  .loader-name {
+    font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.08em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .loader-count {
+    font-family: var(--font-mono); font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--paper); font-variant-numeric: tabular-nums;
+  }
+  .loader.exit { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  /* === Responsive — stack, simplify, torch already gated to fine pointers === */
+  @media (max-width: 1023px) {
+    .hero-foot { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .hero-degree { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#work">Skip to Selected work</a>
+<div class="grain" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var html = document.documentElement;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var seen = false;
+  try { seen = sessionStorage.getItem("hs-loader-seen-hero-e") === "1"; } catch (e) {}
+
+  if (!reduced) html.classList.add("can-animate");
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (fine && !reduced) {
+    html.classList.add("has-custom-cursor");
+    html.classList.add("torch-on");
+  }
+
+  if (!reduced && !seen) {
+    html.classList.add("pending");
+    var overlay = document.createElement("div");
+    overlay.className = "loader";
+    overlay.id = "hs-loader";
+    overlay.setAttribute("role", "status");
+    overlay.setAttribute("aria-live", "polite");
+    overlay.innerHTML =
+      '<p class="loader-name mono">Bharat Vyas — Concept E</p>' +
+      '<p class="loader-count mono" id="loader-count">00</p>';
+    document.body.appendChild(overlay);
+  } else {
+    html.classList.add("ready");
+  }
+})();
+</script>
+
+<header class="site-frame">
+  <div class="frame-bar">
+    <span class="frame-id"><strong>Bharat Vyas</strong> · Portfolio</span>
+    <span class="frame-loc">Edinburgh, UK · 2026</span>
+  </div>
+</header>
+
+<main id="content">
+  <section class="hero" aria-label="Introduction">
+    <h1 class="hero-name mask name-mask"><span class="line-inner">Bharat Vyas</span></h1>
+
+    <p class="statement mask stmt-mask"><span class="line-inner">I design
+      <span class="phrase" data-phrase="1"><span class="phrase-base">interactive systems</span><span class="phrase-alt" aria-hidden="true">systems that respond</span></span>,<br>
+      <span class="phrase" data-phrase="2"><span class="phrase-base">playable worlds</span><span class="phrase-alt" aria-hidden="true">worlds learned through action</span></span> and<br>
+      <span class="phrase" data-phrase="3"><span class="phrase-base">research-led experiences</span><span class="phrase-alt" aria-hidden="true">questions made experience</span></span>.
+      <span class="stmt-hint mono">move the pointer across the statement</span></span></p>
+
+    <div class="alt-annotations">
+      <div>interactive systems — <em>systems that respond</em></div>
+      <div>playable worlds — <em>worlds learned through action</em></div>
+      <div>research-led experiences — <em>questions made experience</em></div>
+    </div>
+
+    <div class="hero-foot">
+      <span class="mask foot-mask cta"><a class="hero-cta line-inner" href="#work" data-cursor="View">Selected work <span class="arrow" aria-hidden="true">→</span></a></span>
+      <p class="hero-degree mono mask foot-mask degree"><span class="line-inner">MSc Design and Digital Media<br>University of Edinburgh · Edinburgh, UK · 2026</span></p>
+    </div>
+  </section>
+
+  <section id="work" class="work-stub" aria-label="Selected work">
+    <p class="eyebrow">Selected work</p>
+    <a class="stub-row" href="#work"><span class="num mono">01</span> BETTR</a>
+    <a class="stub-row" href="#work"><span class="num mono">02</span> CardioPal</a>
+    <a class="stub-row" href="#work"><span class="num mono">03</span> FrankenTeen</a>
+    <p class="stub-note">Comparison stub only — stands in for the real editorial project index (direction doc §6) so the hero → Selected Work handoff can be evaluated in isolation. Not final content.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var html = document.documentElement;
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var entranceDone = false;
+  setTimeout(function () { entranceDone = true; }, 900);
+
+  /* === Opening loader (0-100), real-readiness gated === */
+  var LOADER_FLAG = "hs-loader-seen-hero-e";
+  var MIN_MS = 800, MAX_MS = 1400;
+  var overlay = document.getElementById("hs-loader");
+
+  function fontsReady() {
+    if (!document.fonts || !document.fonts.ready) return Promise.resolve();
+    return document.fonts.ready.catch(function () {});
+  }
+
+  if (overlay && html.classList.contains("pending")) {
+    var countEl = overlay.querySelector("#loader-count");
+    var t0 = performance.now();
+    var ready = false;
+    fontsReady().then(function () { ready = true; });
+
+    var finish = function () {
+      overlay.classList.add("exit");
+      html.classList.remove("pending");
+      html.classList.add("ready");
+      entranceDone = false;
+      setTimeout(function () { entranceDone = true; }, 900);
+      try { sessionStorage.setItem(LOADER_FLAG, "1"); } catch (e) {}
+      setTimeout(function () {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 420);
+    };
+
+    var tick = function () {
+      var elapsed = performance.now() - t0;
+      var pct;
+      if (elapsed >= MAX_MS) {
+        pct = 100;
+      } else if (ready) {
+        pct = elapsed >= MIN_MS ? 100 : Math.round((elapsed / MIN_MS) * 100);
+      } else {
+        pct = Math.min(96, Math.round((elapsed / MAX_MS) * 100));
+      }
+      countEl.textContent = String(pct).length < 2 ? "0" + pct : String(pct);
+      if (pct >= 100) { finish(); } else { requestAnimationFrame(tick); }
+    };
+    requestAnimationFrame(tick);
+  }
+
+  /* === Desktop-only contextual cursor (CTA only) === */
+  var cursorMql = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var dot = null, labelEl = null, cursorRunning = false, hoverBound = false;
+  var targetX = -100, targetY = -100, curX = -100, curY = -100;
+
+  function onMouseMove(e) { targetX = e.clientX; targetY = e.clientY; }
+  function cursorTick() {
+    if (!cursorRunning) return;
+    curX += (targetX - curX) * 0.25;
+    curY += (targetY - curY) * 0.25;
+    dot.style.transform = "translate(" + curX + "px, " + curY + "px) translate(-50%, -50%)";
+    requestAnimationFrame(cursorTick);
+  }
+  function createCursor() {
+    if (dot || reducedMotion) return;
+    dot = document.createElement("div");
+    dot.className = "cursor-dot";
+    dot.innerHTML = '<span class="cursor-label mono"></span>';
+    document.body.appendChild(dot);
+    labelEl = dot.querySelector(".cursor-label");
+    html.classList.add("cursor-ready");
+    window.addEventListener("mousemove", onMouseMove);
+    cursorRunning = true;
+    requestAnimationFrame(cursorTick);
+    if (!hoverBound) {
+      hoverBound = true;
+      document.querySelectorAll("[data-cursor]").forEach(function (el) {
+        el.addEventListener("mouseenter", function () {
+          dot.classList.add("ring");
+          labelEl.textContent = el.getAttribute("data-cursor") || "";
+        });
+        el.addEventListener("mouseleave", function () {
+          dot.classList.remove("ring");
+          labelEl.textContent = "";
+        });
+      });
+    }
+  }
+  function destroyCursor() {
+    if (!dot) return;
+    cursorRunning = false;
+    window.removeEventListener("mousemove", onMouseMove);
+    html.classList.remove("cursor-ready");
+    dot.parentNode.removeChild(dot);
+    dot = null; labelEl = null;
+  }
+  function syncCursor(matches) {
+    if (matches && !reducedMotion) { html.classList.add("has-custom-cursor"); createCursor(); }
+    else { html.classList.remove("has-custom-cursor"); destroyCursor(); }
+  }
+  if (html.classList.contains("has-custom-cursor")) createCursor();
+  if (cursorMql.addEventListener) {
+    cursorMql.addEventListener("change", function (e) {
+      syncCursor(e.matches);
+      html.classList.toggle("torch-on", e.matches && !reducedMotion);
+    });
+  }
+
+  /* === Cursor-as-torch: reveal one phrase at a time, the closest one
+     within a soft radius, precise rather than a flashlight novelty.
+     Gated on fine pointer + motion allowed + entrance finished. Purely
+     additive — the base statement is always fully readable underneath. */
+  var phrases = Array.prototype.slice.call(document.querySelectorAll(".phrase"));
+  var TORCH_RADIUS = 90;
+  var torchRaf = null, mx = -1000, my = -1000;
+
+  function torchApply() {
+    torchRaf = null;
+    if (!entranceDone) { requestAnimationFrame(torchApply); return; }
+    var best = null, bestDist = TORCH_RADIUS;
+    phrases.forEach(function (p) {
+      var r = p.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var d = Math.hypot(mx - cx, my - cy);
+      if (d < bestDist) { bestDist = d; best = p; }
+    });
+    phrases.forEach(function (p) { p.classList.toggle("is-lit", p === best); });
+  }
+  function onTorchMove(e) {
+    mx = e.clientX; my = e.clientY;
+    if (torchRaf) return;
+    torchRaf = requestAnimationFrame(torchApply);
+  }
+  if (html.classList.contains("torch-on")) {
+    window.addEventListener("pointermove", onTorchMove, { passive: true });
+  }
+  cursorMql.addEventListener && cursorMql.addEventListener("change", function (e) {
+    if (e.matches && !reducedMotion) {
+      window.addEventListener("pointermove", onTorchMove, { passive: true });
+    } else {
+      window.removeEventListener("pointermove", onTorchMove);
+      phrases.forEach(function (p) { p.classList.remove("is-lit"); });
+    }
+  });
+
+  /* === Scroll-linked recession: as the reader scrolls into Selected
+     Work, the base/alternate phrase layers separate by a few px and
+     the whole statement resolves toward the route below — capped to
+     one viewport, normal scrolling untouched, no pointer required. === */
+  if (html.classList.contains("can-animate")) {
+    var nameEl = document.querySelector(".hero-name");
+    var stmtEl = document.querySelector(".statement");
+    var footEl = document.querySelector(".hero-foot");
+    var cap = Math.max(1, window.innerHeight * 0.85);
+    var raf = null;
+
+    function apply() {
+      raf = null;
+      var p = Math.min(1, Math.max(0, window.scrollY / cap));
+      var ease = p * p * (3 - 2 * p);
+      document.documentElement.style.setProperty("--sep", String(ease));
+      if (nameEl) { nameEl.style.transform = "translateY(" + (-ease * 30) + "px)"; nameEl.style.opacity = String(1 - ease); }
+      if (stmtEl) { stmtEl.style.transform = "translateY(" + (-ease * 18) + "px)"; stmtEl.style.opacity = String(1 - ease); }
+      if (footEl) { footEl.style.transform = "translateY(" + (ease * 16) + "px)"; footEl.style.opacity = String(1 - ease * 1.15); }
+      phrases.forEach(function (ph) {
+        var base = ph.querySelector(".phrase-base"), alt = ph.querySelector(".phrase-alt");
+        if (base) base.style.transform = "translateY(" + (-ease * 6) + "px)";
+        if (alt) alt.style.transform = "translateY(" + (ease * 6 + 2) + "%)";
+      });
+    }
+    function onScroll() { if (raf) return; raf = requestAnimationFrame(apply); }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    apply();
+  }
+})();
+</script>
+</body>
+</html>

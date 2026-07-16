@@ -48,6 +48,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4190", "--bind", "127.0.0.1"],
       "port": 4190
+    },
+    {
+      "name": "static-preview-hero-de",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4192", "--bind", "127.0.0.1"],
+      "port": 4192
     }
   ]
 }
