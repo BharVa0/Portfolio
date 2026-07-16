@@ -1,6 +1,7 @@
 # Portfolio Direction — "Human Systems" (v2)
 
 **Status:** Approved · **Branch:** `redesign-v2` · **Source:** [PORTFOLIO_AUDIT_V2.md](PORTFOLIO_AUDIT_V2.md)
+**Hero status:** reopened 2026-07-16 — the Concept A (FrankenTeen-image) hero is retired; the hero direction is now image-free and typography-led. See §11 "Hero direction — reopened 2026-07-16".
 
 This document is the design contract for the redesign. It defines what "Human Systems" looks like, not how the CSS is engineered — that comes later, per the architecture decisions in [CLAUDE.md](../CLAUDE.md).
 
@@ -137,21 +138,27 @@ Target **80–100vh on desktop**, not a forced full 100vh lock — the hero shou
 - Positioning statement: deliberate, authored line breaks (not browser-wrapped) — break at clause boundaries so each line is a complete phrase, editorial-caption style.
 - No more than 2–3 lines for the positioning statement at any viewport; if it wraps further on mobile, shorten the statement rather than letting it degrade.
 
-### Image strategy using real project imagery
+### Image strategy using real project imagery — SUPERSEDED 2026-07-16
+> **Superseded.** This subsection described the now-retired Concept A hero, which required real project imagery. The current direction is image-free (see "Hero direction — reopened 2026-07-16" below) — no project screenshot, portrait, or stock image may appear in the hero. Kept below for historical reference only; the production log carries the full decision history.
+
 - The hero must include **real project imagery** — a cinematic crop from an actual project (BETTR or FrankenTeen, the two strongest visual identities) — not abstract texture, stock photography, or a generated pattern.
 - Image is a supporting element, not a full-bleed background that competes with the name for contrast — treat it as a single strong photographic anchor (e.g., a partial-bleed panel or offset frame), not wallpaper behind text.
 - Any text overlaid on the image must maintain WCAG AA contrast — prefer placing text on a solid `ink`/`paper` field beside or below the image rather than atop it.
 
 ### Color distribution
 - Base: `ink` surface, `paper` text — dark, warm-black, not navy.
-- `ember` family: punctuation only — a rule, an underline, one accent word, or a border on the image panel. Never a background fill behind body-size text.
-- The image itself supplies the only large area of non-ink color; do not add a colored background block competing with it.
+- `ember` family: punctuation only — a rule, an underline, one accent word, or a border on interactive elements. Never a background fill behind body-size text.
+- **Superseded 2026-07-16:** ~~The image itself supplies the only large area of non-ink color; do not add a colored background block competing with it.~~ No longer applicable — the hero is image-free, so there is no image panel to reference. The `ink` field stays the only large-area color; any grain, texture, or motion treatment added under the image-free direction must stay within the existing `ink`/`ember`/`paper` palette and the restraint rule above.
 
-### Relationship between image and typography
+### Relationship between image and typography — SUPERSEDED 2026-07-16
+> **Superseded.** Not applicable to the image-free direction — there is no image to relate to the typography. Kept below for historical reference only.
+
 - Typography and image occupy **distinct zones** — they do not overlap except for minimal, high-contrast accents (e.g., a mono metadata tag on a solid chip over the image edge). This keeps the name legible at a glance and keeps the image legible as evidence, not backdrop.
 - The image should feel like it's illustrating the positioning statement's claim (human behavior, real systems) — proximity implies causality even without a caption.
 
-### Desktop and mobile composition rules
+### Desktop and mobile composition rules — SUPERSEDED 2026-07-16
+> **Superseded.** Described the retired image-bearing split composition. The image-free direction replaces this with whatever single-column or typographic composition each prototype (Concept D "Field Notes", Concept E "Instrument Panel") defines — see `docs/HERO_21ST_RESEARCH.md` and the prototypes themselves under `/v2-preview/`. Kept below for historical reference only.
+
 - **Desktop:** name/statement/metadata block and image panel sit side-by-side or in a clear asymmetric split (e.g., 60/40 or 55/45) — never centered-hero-over-full-bleed-photo.
 - **Mobile:** stack vertically, text block first (name → statement → metadata → route-into-work), image second or interleaved as a supporting element below the fold of the text — mobile recruiters read the name and statement before any image loads.
 - Route into selected work (see below) is reachable without scrolling past the image on both breakpoints.
@@ -168,15 +175,36 @@ Target **80–100vh on desktop**, not a forced full 100vh lock — the hero shou
 - This is the hero's only interactive CTA — it does not compete with secondary nav (contact, resume), which stays in the persistent site chrome, not the hero.
 
 ### Explicit hero anti-patterns
+- **New, 2026-07-16:** No project screenshot, portrait, or stock image of any kind in the hero — the direction is now image-free (see "Hero direction — reopened 2026-07-16" below). This supersedes the imagery-specific bullets below, which described the retired Concept A hero and are kept for historical reference.
 - No scan-line animation, glow, status dots, or terminal-window framing.
 - No looping/ambient motion of any kind.
-- No stock photography or abstract generative texture standing in for real project imagery.
-- No full-bleed photographic background with text stacked on top competing for contrast.
+- ~~No stock photography or abstract generative texture standing in for real project imagery.~~ *(superseded 2026-07-16 — moot under the image-free direction; no imagery of any kind appears)*
+- ~~No full-bleed photographic background with text stacked on top competing for contrast.~~ *(superseded 2026-07-16 — moot under the image-free direction)*
 - No centered "product landing page" composition (logo-mark + big centered headline + centered CTA button) — this is a monograph cover, not a SaaS hero.
 - No mono-font headline treatment for the name or positioning statement — mono is metadata-only (§4).
 - No forced 100vh hero that hides the start of the project index on common laptop viewports.
 
-### Final hero specification — locked 2026-07-14
+### Hero direction — reopened 2026-07-16 (Concept A retired)
+
+**Status: current, authoritative.** This supersedes "Final hero specification — locked 2026-07-14" below, which is retained underneath for historical reference only.
+
+**Decision:**
+- The FrankenTeen-image Concept A hero (and its Concept B metadata-frame hybrid) is **retired**. It is no longer the locked foundation.
+- The final homepage hero **must be image-free and typography-led**. No project screenshot, portrait, or stock image of any kind may appear in the hero.
+- The existing warm-black (`ink`), paper-white (`paper`) and ember (`ember`/`ember-deep`/`ember-bright`) visual system (§3) remains unchanged — the image-free direction is a compositional change, not a palette change.
+- The hero should be **minimal when static and expressive through motion or interaction** — restraint at rest, with an earned interaction or motion moment carrying the personality, within the existing motion budget (§10).
+- **21st.dev is an interaction-reference source only.** Mechanics researched there (`docs/HERO_21ST_RESEARCH.md`) may inform original vanilla implementations. Components must never be copied wholesale, and no React/Tailwind dependency may be introduced into the production portfolio — it remains static HTML/CSS/JS per CLAUDE.md's architecture decisions.
+- **Concept D, "Field Notes,"** is the restrained control prototype.
+- **Concept E, "Instrument Panel,"** is the expressive signature prototype.
+- **Concept F, "Playtest Log,"** is reclassified: no longer a competing full hero direction, but an optional scroll-linked transition mechanic that either prototype (or the eventual shipped hero) may selectively adopt for the hero → Selected Work handoff.
+- Both Concept D and Concept E must remain isolated under `/v2-preview/` until one is approved — consistent with the existing "prototype in isolation before touching public pages" rule (CLAUDE.md).
+- **No public homepage change is authorised yet.** `index.html`, `css/portfolio.css`, and `js/portfolio.js` stay on the current (Concept A) hero until this decision produces an approved, built replacement.
+
+All other §11 content not specifically about the image — message hierarchy, positioning-statement roles, metadata roles, recommended viewport height, typography scale/line-breaking, entrance-motion budget, reduced-motion behaviour, primary route into selected work, and the general (non-imagery) anti-patterns — remains in force and applies equally to whichever image-free concept is ultimately approved.
+
+### Final hero specification — SUPERSEDED 2026-07-16 (historical: Concept A + B hybrid)
+
+> **Superseded 2026-07-16.** Concept A is retired; see "Hero direction — reopened 2026-07-16" above for the current, authoritative decision. This section is preserved below for historical reference — do not build against it.
 
 **Selected foundation: Concept A ("warm editorial image", `v2-preview/hero-a/`)**, absorbing exactly two moves from Concept B: the edge-pinned mono metadata frame and a larger name scale. Concept C is retired. Rationale: A is the only concept where "the work is real" lands within five seconds through a legible, human-scaled image — the FrankenTeen bedroom literally pictures a system designed around human behaviour. B's authority is typographic but its only evidence is an illegible abstract strip; C's 488px source (gizmo lines, pink marker) fails at desktop scale and its blurred-photo-plus-panel pattern is the most template-like of the three. This is a foundation-plus-absorption, not an element collage: everything else in B and C is dropped.
 

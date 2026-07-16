@@ -30,6 +30,34 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-16 — Hero direction reopened: Concept A retired, image-free direction approved
+
+**Stage:** Foundation
+**Scope:** docs only (`CLAUDE.md`, `PORTFOLIO_DIRECTION_V2.md`, this log). No public page, `/v2-preview/`, or `assets/bettr-live/**` touched — the two new hero prototypes referenced below are not yet built.
+**Did:**
+- Retired the FrankenTeen-image Concept A hero (locked 2026-07-14, integrated into the public homepage 2026-07-14) as the locked foundation. It is superseded, not deleted — the full original "Final hero specification" is preserved, clearly marked superseded, in `PORTFOLIO_DIRECTION_V2.md` §11 for historical reference.
+- Recorded the new hero direction in `PORTFOLIO_DIRECTION_V2.md` §11 ("Hero direction — reopened 2026-07-16"): the hero must be image-free and typography-led — no project screenshot, portrait, or stock image may appear in it; the existing warm-black/paper-white/ember palette (§3) and motion budget (§10) carry forward unchanged; the hero stays minimal when static and expressive through motion or interaction.
+- Marked every §11 subsection that assumed the retired image-bearing composition ("Image strategy using real project imagery," "Relationship between image and typography," "Desktop and mobile composition rules," part of "Color distribution," two anti-pattern bullets, and the "Final hero specification" block itself) as superseded in place rather than deleting them — each carries an explicit superseded note and is kept for historical reference.
+- Approved two isolated prototypes for the image-free direction: **Concept D, "Field Notes"** (restrained control) and **Concept E, "Instrument Panel"** (expressive signature) — both sourced from the options catalogued in `docs/HERO_21ST_RESEARCH.md`. **Concept F, "Playtest Log"** is reclassified from a competing hero direction to an optional scroll-linked transition mechanic either prototype (or the eventual shipped hero) may selectively adopt for the hero → Selected Work handoff.
+- Reaffirmed in `CLAUDE.md` that 21st.dev is an interaction-reference source only: researched mechanics may inform original vanilla implementations, but components must never be copied wholesale, and no React/Tailwind dependency may enter the production portfolio.
+- Updated `CLAUDE.md`'s "Approved architecture decisions": the old "hero foundation is locked... do not create new hero alternatives" rule is marked superseded in place (struck through, not deleted) and replaced with the current hero-direction rule, including the explicit "no public homepage change is authorised yet" constraint and the requirement that both new prototypes stay isolated under `/v2-preview/` until one is approved.
+
+**Decisions:**
+- Concept A (and its Concept B metadata-frame hybrid) is retired as the hero foundation; the site's actual homepage (`index.html`) is unchanged and still renders the Concept A hero until a replacement is built and approved — this session is a direction change, not an implementation.
+- Concept D and Concept E are both approved for prototyping; no winner has been chosen. Concept F is downgraded from a hero candidate to an optional transition mechanic.
+- The warm-black/paper-white/ember palette and the site's existing motion policy (§10) are explicitly *not* reopened by this decision — only the hero's use of imagery and composition is in scope.
+
+**Verified:**
+- N/A — documentation only, no runtime surface to check. Confirmed no HTML/CSS/JS file was touched (`git status` shows only `CLAUDE.md`, `PORTFOLIO_DIRECTION_V2.md`, and this log modified).
+
+**Open:**
+- Build Concept D ("Field Notes") and Concept E ("Instrument Panel") as isolated prototypes under `/v2-preview/`, per `docs/HERO_21ST_RESEARCH.md`.
+- Decide whether Concept F's scroll-linked transition mechanic is adopted by either prototype.
+- Choose a winner (or a hybrid, following the same foundation-plus-absorption precedent used for the original Concept A + B decision) before any public homepage change.
+- All prior open items carried forward unchanged (CardioPal/Playing Freedom imagery; Echoes/Smartphone Mold/Playing Freedom remaining on pre-redesign skin; touch-device verification).
+
+**Commit:** `Unlock image-free homepage hero direction` (hash below)
+
 ### 2026-07-16 — Integrate approved BETTR editorial case study
 
 **Stage:** Pilot page (prototype → production integration)
