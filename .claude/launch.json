@@ -30,6 +30,24 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4184", "--bind", "127.0.0.1"],
       "port": 4184
+    },
+    {
+      "name": "static-preview-editorial",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4186", "--bind", "127.0.0.1"],
+      "port": 4186
+    },
+    {
+      "name": "static-preview-editorial-refine",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4188", "--bind", "127.0.0.1"],
+      "port": 4188
+    },
+    {
+      "name": "static-preview-bettr-integration",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4190", "--bind", "127.0.0.1"],
+      "port": 4190
     }
   ]
 }

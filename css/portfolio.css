@@ -52,6 +52,29 @@
   --grid-gap: clamp(20px, 2.4vw, 56px);  /* editorial column gap */
   --seam: clamp(2px, 0.35vw, 8px);       /* tight media-grid seams */
   --reading-w: 46em;                     /* long paragraphs only */
+
+  /* Fluid editorial section rhythm — shared, opt-in per project page
+     (see .project-bettr for the first consumer). */
+  --space-major: clamp(120px, 10vw, 170px);
+  --space-internal: clamp(48px, 5vw, 84px);
+  --space-evidence: clamp(24px, 3vw, 40px);
+
+  /* Editorial type ramp — shared, opt-in. Targets at 1440 / 1920:
+     title 120.5/152.6, thesis 32.7/39.0, h2 58.0/70.0, h2-feature
+     79.6/98.8, lede 26.0/30.0, body 20.9/22.3, support 18.0/19.0,
+     cardhead 22.1/25.1, caption+meta 15.5/16.5, refs 16.1/17.1. */
+  --ed-fs-title: clamp(100px, 24px + 6.7vw, 168px);
+  --ed-fs-thesis: clamp(30px, 14px + 1.3vw, 40px);
+  --ed-fs-h2: clamp(48px, 22px + 2.5vw, 78px);
+  --ed-fs-h2-feature: clamp(68px, 22px + 4vw, 112px);
+  --ed-fs-lede: clamp(24px, 14px + 0.83vw, 32px);
+  --ed-fs-body: clamp(20px, 16.7px + 0.29vw, 23px);
+  --ed-fs-support: clamp(18px, 15px + 0.21vw, 20px);
+  --ed-fs-cardhead: clamp(22px, 13px + 0.63vw, 28px);
+  --ed-fs-caption: clamp(15px, 12.5px + 0.21vw, 17px);
+  --ed-fs-meta: clamp(15px, 12.5px + 0.21vw, 17px);
+  --ed-fs-refs: clamp(16px, 12.9px + 0.22vw, 18px);
+  --ed-fs-label: clamp(15px, 13px + 0.24vw, 18px);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -760,6 +783,8 @@ html.cursor-ready button {
 .project-bettr {
   --proj-accent: var(--bettr-red);
   --proj-accent-deep: var(--bettr-red-deep);
+  --proj-feature-surface: #1C0D0F;
+  --proj-feature-line: rgba(235, 81, 96, 0.24);
 }
 
 .project-cardiopal {
@@ -787,6 +812,147 @@ html.cursor-ready button {
 .project-frankenteen {
   --proj-accent: var(--frankenteen-accent);
   --proj-accent-deep: var(--frankenteen-accent-deep);
+}
+
+/* ==========================================================================
+   BETTR-specific — oxblood feature surface, palette band, real-font type
+   specimen, corner-bracket "observation" motif, and the approved editorial
+   type scale. Structure lives in the shared classes above; everything here
+   is colour, BETTR's own content, or a scoped size override so the other
+   project pages are never affected. Source: the approved
+   v2-preview/bettr-editorial-layout/ prototype. */
+
+/* BETTR ships its own build fonts; read-only reference into the live
+   build's font files — assets/bettr-live/** itself is never modified. */
+@font-face {
+  font-family: "Jersey 25";
+  src: url("../assets/bettr-live/Fonts/Jersey_25/Jersey25-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rajdhani";
+  src: url("../assets/bettr-live/Fonts/Rajdhani/Rajdhani-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rajdhani";
+  src: url("../assets/bettr-live/Fonts/Rajdhani/Rajdhani-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* Opening composition — text col 1-5, live build col 5-13, one spread */
+.project-bettr .proj-hero { padding-top: clamp(40px, 5vh, 72px); padding-bottom: clamp(48px, 5vw, 80px); }
+.project-bettr .proj-title { font-size: var(--ed-fs-title); }
+.project-bettr .proj-thesis { font-size: var(--ed-fs-thesis); max-width: none; margin-top: var(--space-evidence); }
+.project-bettr .proj-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px var(--grid-gap);
+  margin-top: var(--space-evidence);
+  padding-top: 28px;
+}
+.project-bettr .proj-ownership { margin-top: var(--space-evidence); font-size: var(--ed-fs-support); max-width: none; }
+@media (min-width: 1024px) {
+  .project-bettr .proj-embed { height: clamp(560px, 68vh, 800px); }
+}
+
+.project-bettr .proj-eyebrow,
+.project-bettr .proj-meta-item,
+.project-bettr .proj-artifact-bar,
+.project-bettr .proj-open-link,
+.project-bettr .proj-artifact-caption,
+.project-bettr .proj-frame-bar,
+.project-bettr .proj-shot-caption,
+.project-bettr .proj-shot-note-head,
+.project-bettr .proj-shot-note .outcome,
+.project-bettr .process-tag { font-size: var(--ed-fs-meta); }
+
+/* Corner-bracket "observation" motif — BETTR watches; the frame around
+   its own artifact quietly does too. Static, no animation. */
+.project-bettr .proj-artifact-frame.watched { position: relative; }
+.project-bettr .watched .corner-tr,
+.project-bettr .watched .corner-bl {
+  position: absolute;
+  width: 22px; height: 22px;
+  pointer-events: none;
+  z-index: 2;
+}
+.project-bettr .watched .corner-tr { top: -1px; right: -1px; border-top: 2px solid var(--bettr-red); border-right: 2px solid var(--bettr-red); }
+.project-bettr .watched .corner-bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--bettr-red); border-left: 2px solid var(--bettr-red); }
+
+/* Section rhythm — fluid vw-based pacing (shared tokens) in place of the
+   default vh-based section padding; opening→01 and Scholarly→Walkthroughs
+   trims match the approved prototype exactly. */
+.project-bettr .proj-section { padding-top: var(--space-major); }
+.project-bettr .proj-section:first-of-type { padding-top: clamp(80px, 7vw, 124px); }
+.project-bettr .proj-section.tight-top { padding-top: clamp(100px, 8.5vw, 145px); }
+.project-bettr .proj-section.is-feature-chapter { padding-top: clamp(138px, 11.5vw, 195px); }
+.project-bettr .proj-section-head { margin-bottom: var(--space-internal); }
+.project-bettr .proj-num { font-size: var(--ed-fs-cardhead); }
+.project-bettr .proj-section-title { font-size: var(--ed-fs-h2); }
+.project-bettr .proj-section-title.is-feature { font-size: var(--ed-fs-h2-feature); }
+.project-bettr .proj-body { font-size: var(--ed-fs-body); }
+.project-bettr .proj-body-muted { font-size: var(--ed-fs-support); }
+.project-bettr .proj-quote { font-size: var(--ed-fs-cardhead); max-width: none; }
+.project-bettr .proj-refs { font-size: var(--ed-fs-refs); }
+
+.project-bettr .proj-annotation-label,
+.project-bettr .type-label,
+.project-bettr .swatch-lg .swname,
+.project-bettr .swatch-lg .swrole { font-size: var(--ed-fs-label); }
+
+/* Palette band — large material swatches at real scale, not small UI chips */
+.project-bettr .palette-band {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: var(--space-evidence);
+}
+.project-bettr .swatch-lg {
+  min-height: clamp(140px, 11vw, 196px);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+}
+.project-bettr .swatch-lg .swname { text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.9; }
+.project-bettr .swatch-lg .swhex { font-size: clamp(18px, 1.3vw, 23px); margin-top: 14px; }
+.project-bettr .swatch-lg .swrole { margin-top: auto; padding-top: 14px; opacity: 0.82; }
+
+/* Real-font type specimen — Jersey 25 display line + Rajdhani hierarchy,
+   BETTR's own shipped fonts, not the site's editorial faces. */
+.project-bettr .type-specimen-feature { margin-top: var(--space-evidence); }
+.project-bettr .specimen-line {
+  font-family: "Jersey 25", monospace;
+  font-size: clamp(56px, 7.2vw, 148px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: var(--proj-text);
+}
+.project-bettr .type-rows-feature { margin-top: var(--space-evidence); }
+.project-bettr .type-rows-feature .type-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--grid-gap);
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--proj-line);
+}
+.project-bettr .type-rows-feature .type-row:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+.project-bettr .type-label { color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+
+/* Mobile safety — the approved desktop numbers (prototype targeted
+   1440/1920 only) are too large below the 1024px grid breakpoint. */
+@media (max-width: 1023px) {
+  .project-bettr .proj-title { font-size: clamp(2.8rem, 12vw, 100px); }
+  .project-bettr .proj-thesis { font-size: clamp(1.15rem, 4vw, 30px); }
+  .project-bettr .proj-section-title { font-size: clamp(1.6rem, 5vw, 48px); }
+  .project-bettr .proj-section-title.is-feature { font-size: clamp(1.9rem, 6vw, 68px); }
+  .project-bettr .specimen-line { font-size: clamp(2.2rem, 10vw, 56px); }
+  .project-bettr .palette-band { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
 }
 
 /* === Breadcrumb / prev-next frame === */
@@ -1135,6 +1301,113 @@ html.cursor-ready button {
   color: var(--muted);
 }
 .cols .proj-refs { margin-top: 0; }
+
+/* ==========================================================================
+   Editorial evidence & feature-chapter components — shared, reusable by
+   any project page (extracted from the approved BETTR editorial-layout
+   prototype, v2-preview/bettr-editorial-layout/). Colour and per-project
+   content stay in the .project-bettr block below; these are structure only.
+   ========================================================================== */
+
+/* Row-gap variant for evidence grids that stack multiple rows of figures —
+   default .cols gap stays for column spacing; row-gap opens up to the
+   fluid --space-internal rhythm between rows. align-items:start keeps
+   figures at their own natural (differing) aspect-ratio height instead
+   of stretching to match the tallest item in the row. */
+.cols.rows-loose { row-gap: var(--space-internal); align-items: start; }
+
+/* Annotation attached directly beneath a figure's own caption, inside the
+   same card — evidence and explanation stay physically joined instead of
+   splitting into a separate notes column. */
+.proj-shot-note {
+  padding: 14px 16px 16px;
+  border-top: 1px solid var(--proj-line);
+}
+.proj-shot-note-head {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--proj-accent);
+}
+.proj-shot-note p {
+  font-size: var(--ed-fs-support);
+  line-height: 1.6;
+  color: var(--proj-text-soft);
+  margin-top: 8px;
+}
+.proj-shot-note .outcome {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  color: var(--proj-accent);
+  margin-top: 12px;
+}
+
+/* Crop tight to a figure's legible corner when the full frame (e.g. an
+   IDE window) isn't readable at display size. */
+.proj-shot.crop-tl img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: 0% 0%;
+}
+
+/* Larger introductory argument ahead of a feature chapter. */
+.proj-lede {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-size: var(--ed-fs-lede);
+  line-height: 1.48;
+  color: var(--proj-text);
+}
+
+/* Annotation label + paragraph pairing used beneath design-system evidence
+   (colour systems, type specimens). */
+.proj-annotation-label {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-label);
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.proj-annotation {
+  max-width: 66ch;
+  font-size: var(--ed-fs-support);
+  line-height: 1.62;
+  color: var(--proj-text-soft);
+  margin-top: var(--space-evidence);
+}
+
+/* Full-bleed feature-chapter surface — mechanism is shared; colour is
+   per-project via --proj-feature-surface/--proj-feature-line (falling
+   back to the standard surface so an unstyled project page doesn't get
+   a stray band). Bleeds using the same negative-margin technique as
+   [data-layout="full-bleed"], already verified not to cause overflow. */
+.proj-feature-surface {
+  background: var(--proj-feature-surface, var(--proj-surface-2));
+  border-top: 1px solid var(--proj-feature-line, var(--proj-line));
+  border-bottom: 1px solid var(--proj-feature-line, var(--proj-line));
+  margin-top: var(--space-internal);
+  margin-inline: calc(-1 * var(--page-margin));
+  padding-block: clamp(56px, 6vw, 96px);
+  padding-inline: var(--page-margin);
+}
+.proj-feature-surface .cols + .cols { margin-top: var(--space-internal); }
+
+/* Paired video walkthroughs with a mono label strip. */
+.video-block { background: var(--proj-surface-2); border: 1px solid var(--proj-line); overflow: hidden; }
+.video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-label {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  color: var(--muted);
+  padding: 14px 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--proj-line);
+}
 
 /* === Footer prev/next nav === */
 .proj-footer-nav {
