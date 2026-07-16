@@ -202,6 +202,18 @@ Target **80–100vh on desktop**, not a forced full 100vh lock — the hero shou
 
 All other §11 content not specifically about the image — message hierarchy, positioning-statement roles, metadata roles, recommended viewport height, typography scale/line-breaking, entrance-motion budget, reduced-motion behaviour, primary route into selected work, and the general (non-imagery) anti-patterns — remains in force and applies equally to whichever image-free concept is ultimately approved.
 
+### Hero direction — prototypes D/E rejected, 2026-07-16
+
+**Status: current, authoritative.** This supersedes the "Concept D, Field Notes" / "Concept E, Instrument Panel" prototyping decision recorded immediately above, which is retained above for historical reference only.
+
+**Decision:**
+- **Concept D ("Field Notes") and Concept E ("Instrument Panel") are visually rejected.** They must not be integrated into any public page, and neither is to be refined further — they are not a foundation to build on.
+- **Why:** both prototypes retained the earlier hero's small, lower-left editorial composition instead of genuinely rethinking it for an image-free brief; both left most of the viewport unused rather than committing to full-viewport typographic dominance; and both treated interaction (Concept D's line-cascade, Concept E's cursor-torch phrase reveal) as a minor text-level gimmick rather than the strong kinetic typographic hero the image-free direction calls for.
+- Their commits (`Prototype image-free homepage hero directions`, `v2-preview/hero-d-field-notes/`, `v2-preview/hero-e-instrument-panel/`) remain in git history as prototype evidence only — a record of what was tried and rejected, not code to iterate on. The directories are not deleted, but no future session should treat them as a starting point.
+- The homepage hero remains image-free and typography-led (unchanged from the reopened direction above): no project screenshot, portrait, or stock image; the existing warm-black/paper-white/ember visual system carries forward unchanged.
+- **The next prototype is one focused direction: "Hero G — Kinetic Thesis Field."** Rather than another pair of small-scale alternatives, this is a single direction built to use the full viewport and to make interaction/motion the hero's primary structural idea — the name and positioning statement should read as a kinetic typographic event, not a quiet corner composition with a minor pointer effect layered on top. Concept G stays isolated under `/v2-preview/` until it is itself reviewed and approved.
+- **No public homepage change is authorised yet.** `index.html`, `css/portfolio.css`, and `js/portfolio.js` stay on the current (Concept A) hero until Concept G — or whatever direction eventually succeeds it — produces an approved, built replacement.
+
 ### Final hero specification — SUPERSEDED 2026-07-16 (historical: Concept A + B hybrid)
 
 > **Superseded 2026-07-16.** Concept A is retired; see "Hero direction — reopened 2026-07-16" above for the current, authoritative decision. This section is preserved below for historical reference — do not build against it.

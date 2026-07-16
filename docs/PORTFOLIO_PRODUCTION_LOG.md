@@ -30,6 +30,30 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-16 — Hero prototypes D and E rejected; next direction named "Hero G — Kinetic Thesis Field"
+
+**Stage:** Foundation
+**Scope:** docs only (`CLAUDE.md`, `PORTFOLIO_DIRECTION_V2.md`, this log). No public page touched. `v2-preview/hero-d-field-notes/` and `v2-preview/hero-e-instrument-panel/` are untouched — left in place as historical prototype evidence, not modified or deleted.
+**Did:**
+- Recorded the visual rejection of both hero prototypes built in the previous session (Concept D "Field Notes" and Concept E "Instrument Panel"). Reason: both retained the earlier hero's small, lower-left editorial composition rather than rethinking it for the image-free brief; both left most of the viewport unused; both treated interaction as a minor text-level gimmick (Concept D's line-cascade, Concept E's cursor-torch phrase reveal) rather than delivering a strong kinetic typographic hero.
+- Marked both concepts as rejected-not-to-be-refined in `PORTFOLIO_DIRECTION_V2.md` §11 (new subsection, "Hero direction — prototypes D/E rejected, 2026-07-16") and in `CLAUDE.md`'s architecture decisions, both superseding the prior D/E approval in place (struck through, not deleted) per the doc's existing convention for recording reversed decisions.
+- Named the next prototyping direction: **"Hero G — Kinetic Thesis Field"** — one focused direction (not another pair of alternatives), required to use the full viewport and to make interaction/motion the hero's primary structural idea rather than a minor accent layered on a quiet composition.
+- Confirmed the commits for Concept D and Concept E (`Prototype image-free homepage hero directions`) remain in git history unaltered, as prototype evidence only — not reverted, not treated as a base to iterate from.
+
+**Decisions:**
+- Concept D and Concept E are closed as a direction; no further refinement session should start from either file.
+- Hero G is scoped as a single prototype, not a pair — the D/E side-by-side comparison approach didn't surface a viable direction, so the next pass concentrates effort on one stronger attempt instead of splitting it again.
+- No public homepage change is authorised yet; `index.html`, `css/portfolio.css`, `js/portfolio.js` remain untouched, still on the Concept A hero.
+
+**Verified:**
+- N/A — documentation only, no runtime surface to check. Confirmed no HTML/CSS/JS file was touched (`git status` shows only `CLAUDE.md`, `PORTFOLIO_DIRECTION_V2.md`, and this log modified).
+
+**Open:**
+- Build "Hero G — Kinetic Thesis Field" as an isolated prototype under `/v2-preview/`.
+- All prior open items carried forward unchanged (CardioPal/Playing Freedom imagery; Echoes/Smartphone Mold/Playing Freedom remaining on pre-redesign skin; FrankenTeen hero re-capture blocker; touch-device verification).
+
+**Commit:** `Reject initial image-free hero prototypes` (hash below)
+
 ### 2026-07-16 — Hero prototypes built: Concept D "Field Notes" and Concept E "Instrument Panel"
 
 **Stage:** Other (isolated `/v2-preview/` prototyping, per the 2026-07-16 hero-direction reopening above)
