@@ -30,6 +30,42 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-17 — CardioPal editorial redesign
+
+**Stage:** Remaining pages (second page onto the BETTR-benchmark editorial system)
+**Scope:** `projects/cardiopal.html` (full rewrite), `css/portfolio.css` (new `.project-cardiopal`-scoped block only — reuses the shared `--ed-fs-*`/`--space-major/internal/evidence` tokens and `.proj-lede`/`.proj-annotation*`/`.proj-feature-surface`/`.cols` components already extracted for BETTR, adds no new shared/unscoped rules), `.claude/launch.json` (new `static-preview-cardiopal-editorial`, port 4198), this log. No `index.html`, `projects/bettr.html`, `projects/frankenteen.html`, `assets/bettr-live/**`, Hero G, or any `/v2-preview/` prototype touched; `js/portfolio.js` untouched (no page-specific behaviour needed).
+**Did:**
+- **Asset audit first:** confirmed the repository has zero interface screenshots for CardioPal (no `assets/cardiopal/` directory at all, unlike BETTR/FrankenTeen) — only the existing Figma prototype embed. Designed the whole page around that constraint rather than fabricating screens: the Figma embed is promoted to the page's primary visual introduction, and evidence elsewhere is typography-led (per the brief's explicit allowance), not simulated screenshots.
+- **Opening spread merged with the artifact** (BETTR's pattern, not copied verbatim): text col 1–5 (eyebrow, title, thesis, meta grid, ownership) beside the Figma prototype col 5–13 in one `.cols[data-layout="asymmetric"]` composition, replacing the old separate stacked hero + artifact sections. Title now uses the shared `--ed-fs-title` ramp (same 100–168px clamp verified on BETTR) instead of the old `clamp(2.8rem,7.4vw,7rem)` default — the single biggest fix for the "typography feels too small" complaint.
+- **New section 02, "What CardioPal does":** a typography-led feature chapter (lede + a term/description row list inside `.proj-feature-surface`, subtly tinted via `color-mix(cardiopal-accent 10%, ink 90%)` — restrained, not BETTR's dramatic oxblood, per the direction doc's "calmer, clinical-adjacent" accent brief). Five features — recording & review, trends, caregiver sharing & reports, recommended actions, offline access — all grounded in content already on the page (the usability-testing task list already named caregiver/report/recommended-actions/auto-sharing; trends was already named in the reflection section) plus two facts supplied directly in this session's brief (offline access, arrhythmia-adjacent recommended actions) that aren't independently visible elsewhere in the repo. The AI/health-sensitive line is deliberately hedged: "a prompt to check with a clinician — never a diagnosis, and not medically validated functionality."
+- **Usability testing promoted to its own strongest evidence chapter** (section 03, previously merged with a different section number): added an explicit lede naming the two participants before the method paragraph, and a closing "What this doesn't tell us" note (reusing the shared `.proj-annotation-label`/`.proj-annotation` components from BETTR) stating plainly that two remote sessions is exploratory, not statistically significant — directly answers the brief's "do not show 71% as a triumphant success metric without context." Vitals grid / task list / quote grid kept exactly as before inside `.proj-paper-panel`, just rescaled (vitals numeral, task rows, quote cards all bumped one step in the page's own inline `<style>` block, which stays page-local per the CSS file's existing convention for bespoke one-off widgets).
+- **Section 04, "What changed because of it":** the four structural decisions (onboarding, navigation, modals, consistency) that were previously one dense paragraph are now reused as term/description rows via the same `.feature-list`/`.feature-row` component from section 02 — no new CSS needed, and it turns a paragraph a recruiter would skim into a scannable list without changing a single claim.
+- Section 05 ("What I'd still improve") kept verbatim — already a strong, honest reflection.
+- Added `.project-cardiopal`-scoped CSS mirroring the `.project-bettr` block's structure exactly (type-scale hookup to the shared `--ed-fs-*` tokens, section rhythm via `--space-major/internal/evidence`, a mobile-safety `@media (max-width:1023px)` block) so CardioPal reaches the same typographic scale as BETTR without duplicating any shared token or component.
+- Added `static-preview-cardiopal-editorial` (port 4198) to `.claude/launch.json`.
+
+**Decisions:**
+- No fabricated screenshots, phone mockups, or reconstructed UI diagrams anywhere — the Figma embed (which renders live, actual screen thumbnails) is the only interface evidence, presented at large scale as the opening spread's co-lead element instead of being minimised. This follows the brief's asset-limitations section directly.
+- "Offline access" and the arrhythmia-adjacent phrasing in "Recommended actions" are included because the task brief supplied them as first-person facts about the project (not present verbatim elsewhere in the repo, unlike the other three features which are independently derivable from the existing task-list/reflection text) — worded with explicit clinical hedging per the brief's own instruction to use careful AI/health language.
+- Reused `.feature-list`/`.feature-row` for both section 02 and section 04 rather than introducing a second near-identical list component — one component, two uses, less CSS.
+- Kept the vitals/task/quote widget CSS page-local (not moved into `css/portfolio.css`) since nothing else on the site reuses it, matching the stylesheet's own stated convention that "bespoke one-off widgets stay inline per page."
+
+**Verified:**
+- Fresh server on port 4198 (`static-preview-cardiopal-editorial`), `http://localhost:4198/projects/cardiopal.html`.
+- Live-page DOM measurement: title/artifact-frame bounding boxes confirmed no overlap (title right edge 471px, artifact left edge 505.6px at 1440px). No horizontal overflow (`scrollWidth === clientWidth`) at 768 / 1440 / 1920px. Console clean at all three.
+- Figma embed loads live (actual prototype screen thumbnails visible in the Browser pane, not a broken/blank frame) at both 1440 and 1920; "Open full prototype ↗" link present and correctly targets the unchanged existing Figma URL; ordinary cursor confirmed (the iframe has no `data-cursor-bridge` attribute, so it uses the site's existing generic suspend/resume-on-iframe-hover behaviour, not BETTR's same-origin bridge — no freeze risk).
+- Screenshots reviewed section-by-section at 1440×900: opening spread, section 01 (context), section 02 (feature chapter, including the tinted `.proj-feature-surface` background), section 03 (usability testing exhibit + limitation note), section 04 (what-changed list), section 05 (reflection) and the footer nav — composition, spacing and hierarchy read as intentional and match the BETTR benchmark's scale.
+- 768×1024 checked: hero stacks text-first then the Figma embed below, fully readable, no overflow — confirms the shared `.cols` stacking fallback (already used by BETTR) needed no CardioPal-specific mobile CSS beyond the type-scale safety block.
+- Homepage and BETTR re-loaded after the CSS change: both console-clean, BETTR's opening spread, red accent and live-build embed visually unchanged — confirms the new `.project-cardiopal`-scoped rules don't leak.
+- `feature-list`/`feature-row`/`feature-name`/`feature-desc` class names confirmed unique to `projects/cardiopal.html` and `css/portfolio.css` (grepped across all `.html` files) — no collision with any other page's markup.
+
+**Open:**
+- **Not committed — awaiting Bharat's visual approval**, per this session's explicit instruction.
+- All prior open items carried forward unchanged (Playing Freedom imagery; Echoes/Smartphone Mold/Playing Freedom remaining on pre-redesign skin; FrankenTeen hero re-capture blocker; touch-device verification; Hero G homepage integration awaiting its own separate approval).
+- CardioPal's own asset gap (no interface screenshots) is now a known, accepted constraint of this page rather than an open blocker — the page was deliberately designed to work without them, per this session's brief, rather than treated as unfinished pending future screenshots.
+
+**Commit:** pending visual approval
+
 ### 2026-07-17 — Hero G integrated into the public homepage
 
 **Stage:** Homepage

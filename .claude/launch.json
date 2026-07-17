@@ -66,6 +66,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4196", "--bind", "127.0.0.1"],
       "port": 4196
+    },
+    {
+      "name": "static-preview-cardiopal-editorial",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4198", "--bind", "127.0.0.1"],
+      "port": 4198
     }
   ]
 }

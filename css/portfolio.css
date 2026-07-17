@@ -1099,6 +1099,97 @@ html.cursor-ready button {
   .project-bettr .palette-band { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
 }
 
+/* ==========================================================================
+   CardioPal-specific — calm sage accent, editorial type scale reused from
+   the shared --ed-fs-*/--space-* tokens (same ramp verified on BETTR), a
+   typography-led "term + description" row list (reused for both the
+   feature set and the testing-driven changes — no interface screenshots
+   exist in the repo for this project, so evidence here is structural, not
+   fabricated). Bespoke widgets (vitals grid, task list, quote grid) stay
+   inline in projects/cardiopal.html per the file header's own convention. */
+
+.project-cardiopal {
+  --proj-feature-surface: color-mix(in srgb, var(--cardiopal-accent) 10%, var(--ink) 90%);
+  --proj-feature-line: rgba(91, 122, 115, 0.28);
+}
+
+/* Opening composition — text col 1-5, Figma prototype col 5-13, one spread
+   (mirrors BETTR's opening pattern). The live prototype is CardioPal's only
+   real interface evidence, so it doubles as the page's visual introduction
+   instead of a static hero image. */
+.project-cardiopal .proj-hero { padding-top: clamp(40px, 5vh, 72px); padding-bottom: clamp(48px, 5vw, 80px); }
+.project-cardiopal .proj-title { font-size: var(--ed-fs-title); }
+.project-cardiopal .proj-thesis { font-size: var(--ed-fs-thesis); max-width: none; margin-top: var(--space-evidence); }
+.project-cardiopal .proj-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px var(--grid-gap);
+  margin-top: var(--space-evidence);
+  padding-top: 28px;
+}
+.project-cardiopal .proj-ownership { margin-top: var(--space-evidence); font-size: var(--ed-fs-support); max-width: none; }
+@media (min-width: 1024px) {
+  .project-cardiopal .proj-embed { height: clamp(560px, 62vh, 760px); }
+}
+
+.project-cardiopal .proj-eyebrow,
+.project-cardiopal .proj-meta-item,
+.project-cardiopal .proj-artifact-bar,
+.project-cardiopal .proj-open-link,
+.project-cardiopal .proj-artifact-caption,
+.project-cardiopal .proj-frame-bar,
+.project-cardiopal .process-tag { font-size: var(--ed-fs-meta); }
+
+/* Section rhythm — same fluid vw-based pacing as BETTR */
+.project-cardiopal .proj-section { padding-top: var(--space-major); }
+.project-cardiopal .proj-section:first-of-type { padding-top: clamp(80px, 7vw, 124px); }
+.project-cardiopal .proj-section.is-feature-chapter { padding-top: clamp(110px, 9vw, 165px); }
+.project-cardiopal .proj-section-head { margin-bottom: var(--space-internal); }
+.project-cardiopal .proj-num { font-size: var(--ed-fs-cardhead); }
+.project-cardiopal .proj-section-title { font-size: var(--ed-fs-h2); }
+.project-cardiopal .proj-body { font-size: var(--ed-fs-body); }
+.project-cardiopal .proj-body-muted { font-size: var(--ed-fs-support); }
+.project-cardiopal .proj-lede { margin-bottom: var(--space-evidence); }
+.project-cardiopal .proj-paper-panel { margin-top: var(--space-evidence); }
+
+.project-cardiopal .proj-annotation-label,
+.project-cardiopal .proj-shot-note-head { font-size: var(--ed-fs-label); }
+.project-cardiopal .proj-annotation { font-size: var(--ed-fs-support); }
+.project-cardiopal .proj-section > .proj-annotation-label { margin-top: var(--space-evidence); }
+
+/* Term + description row list — used for "What CardioPal does" (feature
+   set) and "What changed because of it" (testing-driven decisions). */
+.project-cardiopal .feature-list { margin-top: var(--space-evidence); }
+.project-cardiopal .feature-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 300px) 1fr;
+  gap: var(--grid-gap);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--proj-feature-line, var(--proj-line));
+}
+.project-cardiopal .feature-list .feature-row:last-child { border-bottom: 1px solid var(--proj-feature-line, var(--proj-line)); }
+.project-cardiopal .feature-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--ed-fs-cardhead);
+  color: var(--proj-text);
+}
+.project-cardiopal .feature-desc {
+  font-size: var(--ed-fs-support);
+  line-height: 1.65;
+  color: var(--proj-text-soft);
+  max-width: 46em;
+}
+
+/* Mobile safety — desktop-scale numbers above are too large below the grid
+   breakpoint (prototype targeted 1440/1920 only, per the BETTR precedent). */
+@media (max-width: 1023px) {
+  .project-cardiopal .proj-title { font-size: clamp(2.8rem, 12vw, 100px); }
+  .project-cardiopal .proj-thesis { font-size: clamp(1.15rem, 4vw, 30px); }
+  .project-cardiopal .proj-section-title { font-size: clamp(1.6rem, 5vw, 48px); }
+  .project-cardiopal .feature-row { grid-template-columns: 1fr; gap: 8px; }
+}
+
 /* === Breadcrumb / prev-next frame === */
 .proj-frame {
   padding: clamp(18px, 2.6vh, 28px) var(--page-margin) 0;

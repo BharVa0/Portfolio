@@ -14,21 +14,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/portfolio.css">
 <style>
-  /* CardioPal-specific: "vitals" cards use the display serif for the
-     numeral itself — calm, human, reading like a printed chart rather
-     than a dashboard readout — plus the task list and quote pair. */
+  /* CardioPal-specific bespoke widgets — the usability-testing "exhibit".
+     Structure/scale hooks live in css/portfolio.css (.project-cardiopal);
+     these stay inline since nothing else on the site reuses them. */
   .vitals-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: var(--space-4); }
   .vitals-card { background: var(--proj-surface-2); border: 1px solid var(--proj-line); padding: var(--space-3); }
-  .vitals-num { font-family: var(--font-display); font-weight: 380; font-size: 2.1rem; color: var(--proj-accent-deep); line-height: 1; }
-  .vitals-label { font-size: 0.82rem; color: var(--proj-text-soft); margin-top: 8px; line-height: 1.5; }
+  .vitals-num { font-family: var(--font-display); font-weight: 380; font-size: clamp(2.3rem, 3.2vw, 3.4rem); color: var(--proj-accent-deep); line-height: 1; }
+  .vitals-label { font-size: 0.95rem; color: var(--proj-text-soft); margin-top: 10px; line-height: 1.5; }
 
   .task-list { margin-top: var(--space-3); display: flex; flex-direction: column; gap: 1px; }
-  .task-row { display: grid; grid-template-columns: 190px 1fr; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--proj-line); font-size: 0.92rem; line-height: 1.6; }
-  .task-name { font-family: var(--font-mono); font-size: 0.78rem; color: var(--proj-text); }
+  .task-row { display: grid; grid-template-columns: 190px 1fr; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--proj-line); font-size: 1.02rem; line-height: 1.6; }
+  .task-name { font-family: var(--font-mono); font-size: 0.8rem; color: var(--proj-text); }
   .task-desc { color: var(--proj-text-soft); }
 
   .quote-grid { margin-top: var(--space-3); display: grid; grid-template-columns: 1fr; gap: var(--space-2); align-content: start; }
-  .quote-card { background: var(--proj-surface-2); border: 1px solid var(--proj-line); padding: var(--space-3); font-family: var(--font-display); font-style: italic; font-size: 0.98rem; line-height: 1.5; }
+  .quote-card { background: var(--proj-surface-2); border: 1px solid var(--proj-line); padding: var(--space-3); font-family: var(--font-display); font-style: italic; font-size: 1.15rem; line-height: 1.5; }
 
   @media (max-width: 760px) {
     .vitals-grid { grid-template-columns: 1fr 1fr; }
@@ -50,14 +50,13 @@
 
 <main id="content">
 
+  <!-- ============ OPENING — text col 1-5, Figma prototype col 5-13 ============ -->
   <section class="proj-hero">
-    <div class="proj-hero-grid">
-      <div class="proj-hero-main">
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-5">
         <p class="proj-eyebrow">UX design · Health tech</p>
         <h1 class="proj-title">CardioPal</h1>
         <p class="proj-thesis">A companion app for a handheld EKG device, designed across 25-plus screens. The job of this interface isn't to look impressive — it's to make someone tracking their own heart health feel calm, not alarmed, at every step.</p>
-      </div>
-      <div class="proj-hero-aside">
         <div class="proj-meta-grid">
           <div class="proj-meta-item"><span class="proj-meta-label">Role</span>Sole UX designer</div>
           <div class="proj-meta-item"><span class="proj-meta-label">Tools</span>Figma</div>
@@ -66,37 +65,79 @@
         </div>
         <p class="proj-ownership">Solo project — every screen, flow and testing round designed and run independently.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="proj-artifact reveal">
-    <div class="proj-artifact-frame">
-      <div class="proj-artifact-bar">
-        <span>cardiopal, figma prototype</span>
-        <a class="proj-open-link" href="https://www.figma.com/proto/BjVUce0cTU8HuXGL900ufX/CardioPal?page-id=0%3A1&node-id=14-10145&viewport=2695%2C1172%2C0.2&t=vrsM4pz1jfVVSFYj-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=14%3A10145&show-proto-sidebar=1" target="_blank" rel="noopener" data-cursor="Open">Open full prototype ↗</a>
+      <div class="c5-13">
+        <div class="proj-artifact-frame">
+          <div class="proj-artifact-bar">
+            <span>cardiopal, figma prototype</span>
+            <a class="proj-open-link" href="https://www.figma.com/proto/BjVUce0cTU8HuXGL900ufX/CardioPal?page-id=0%3A1&node-id=14-10145&viewport=2695%2C1172%2C0.2&t=vrsM4pz1jfVVSFYj-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=14%3A10145&show-proto-sidebar=1" target="_blank" rel="noopener" data-cursor="Open">Open full prototype ↗</a>
+          </div>
+          <iframe class="proj-embed tone-light" src="https://embed.figma.com/design/BjVUce0cTU8HuXGL900ufX/CardioPal?node-id=0-1&embed-host=share" allowfullscreen loading="lazy" title="CardioPal Figma prototype" data-cursor="Play"></iframe>
+        </div>
+        <p class="proj-artifact-caption">This is the actual clickable prototype, all 25-plus screens — the closest thing this project has to a real screenshot. Try the onboarding flow, then add a caregiver to see where testers actually got stuck.</p>
       </div>
-      <iframe class="proj-embed tone-light" src="https://embed.figma.com/design/BjVUce0cTU8HuXGL900ufX/CardioPal?node-id=0-1&embed-host=share" allowfullscreen loading="lazy" title="CardioPal Figma prototype" data-cursor="Play"></iframe>
     </div>
-    <p class="proj-artifact-caption">This is the actual clickable prototype, all 25-plus screens. Try the onboarding flow, then add a caregiver to see where testers actually got stuck.</p>
   </section>
 
-  <section class="proj-section reveal">
+  <!-- ============ 01 — CONTEXT ============ -->
+  <section class="proj-section reveal" id="s1">
     <div class="proj-section-head">
       <span class="proj-num mono">01</span>
-      <h2 class="proj-section-title">The brief I gave myself</h2>
+      <h2 class="proj-section-title">Context and the design challenge</h2>
     </div>
     <div class="cols" data-layout="split">
-      <p class="proj-body c1-6">CardioPal supports people recording and reviewing EKG data through a connected handheld device. Because it sits in a health context, the interface has to feel clear, comfortable, and trustworthy for users of very different ages and technical comfort levels — not just usable in the abstract. By Submission 1 this was a handful of early wireframes and some sketches hinting at a direction. The idea was clear in my head; the design hadn't caught up to it yet.</p>
+      <p class="proj-body c1-6">CardioPal supports people recording and reviewing EKG data through a connected handheld device. Because it sits in a health context, the interface has to feel clear, comfortable and trustworthy for users of very different ages and technical comfort levels — not just usable in the abstract. By Submission 1 this was a handful of early wireframes and some sketches hinting at a direction; the idea was clear in my head, the design hadn't caught up to it yet.</p>
       <p class="proj-body c7-13">The biggest shift since then was learning to think in user journeys instead of isolated screens. Onboarding is the clearest example: I initially didn't think it was necessary, until I considered someone using a handheld EKG device for the first time and realised the first screens they see have to reassure them before anything else. Clarity, in a health context, is itself a form of comfort.</p>
     </div>
   </section>
 
-  <section class="proj-section reveal">
+  <!-- ============ 02 — WHAT CARDIOPAL DOES (feature chapter) ============ -->
+  <section class="proj-section is-feature-chapter reveal" id="s2">
     <div class="proj-section-head">
       <span class="proj-num mono">02</span>
+      <h2 class="proj-section-title">What CardioPal does</h2>
+    </div>
+    <div class="cols" data-layout="asymmetric">
+      <p class="proj-lede c1-9">Every one of the 25-plus screens sits under a small set of jobs the app has to do. None of them are about looking impressive — each exists because a real task or a testing result made it necessary.</p>
+    </div>
+    <div class="proj-feature-surface">
+      <div class="cols" data-layout="wide">
+        <div class="c1-13">
+          <p class="proj-annotation-label">Feature set</p>
+          <div class="feature-list">
+            <div class="feature-row">
+              <span class="feature-name">Recording &amp; review</span>
+              <p class="feature-desc">Capture a reading from the connected handheld device and review it without wading through raw waveform data.</p>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Trends</span>
+              <p class="feature-desc">See how a reading sits against earlier ones, so a single number isn't read in isolation.</p>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Caregiver sharing &amp; reports</span>
+              <p class="feature-desc">Add a caregiver and send them a report directly, so a reading isn't a number only you see alone.</p>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Recommended actions</span>
+              <p class="feature-desc">Flags patterns worth a second look, including possible arrhythmia indicators. It's a prompt to check with a clinician — never a diagnosis, and not medically validated functionality.</p>
+            </div>
+            <div class="feature-row">
+              <span class="feature-name">Offline access</span>
+              <p class="feature-desc">Recordings and history stay available even without a live connection.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 — USABILITY TESTING ============ -->
+  <section class="proj-section reveal" id="s3">
+    <div class="proj-section-head">
+      <span class="proj-num mono">03</span>
       <h2 class="proj-section-title">Usability testing</h2>
     </div>
-    <p class="proj-body">Two participants, aged 25 and 45, both with intermediate experience using health and wellness apps but no prior exposure to CardioPal specifically. Sessions ran remotely, 15 to 20 minutes each, with participants completing a fixed set of tasks: log in, view the how-to guide, add a caregiver, send a report, interact with recommended actions, toggle auto-sharing, and edit account details.</p>
+    <p class="proj-lede">Two participants, aged 25 and 45, both with intermediate experience using health and wellness apps but no prior exposure to CardioPal specifically.</p>
+    <p class="proj-body">Sessions ran remotely, 15 to 20 minutes each, with each participant completing a fixed set of tasks: log in, view the how-to guide, add a caregiver, send a report, interact with recommended actions, toggle auto-sharing, and edit account details.</p>
     <div class="proj-paper-panel">
       <div class="vitals-grid">
         <div class="vitals-card"><div class="vitals-num">71%</div><div class="vitals-label">Task completion without assistance</div></div>
@@ -118,20 +159,42 @@
         </div>
       </div>
     </div>
+    <p class="proj-annotation-label">What this doesn't tell us</p>
+    <p class="proj-annotation">Two remote sessions is an exploratory sample, not a statistically significant one. These numbers describe what happened in two specific sessions — where two people hesitated, and what they said out loud — not a validated success rate for a wider population. That's a real limitation, not a caveat to skim past.</p>
   </section>
 
-  <section class="proj-section reveal">
-    <div class="proj-section-head">
-      <span class="proj-num mono">03</span>
-      <h2 class="proj-section-title">What changed because of it</h2>
-    </div>
-    <p class="proj-body">A complete onboarding flow was added, along with a clear how-to section for EKG recording and a structured bottom navigation bar that became the anchor for the whole app. Multiple modal pop-ups now handle smaller tasks — editing details, adding caregivers, previewing insights, sending reports — which kept the interface from feeling like an endless stack of full pages. Copy was tightened throughout, spacing and components were made consistent, and quick insight previews were added so users aren't forced into a separate screen just to check a number.</p>
-    <p class="proj-body proj-body-muted">Growing the prototype from a handful of screens to more than twenty-five forced real decisions about navigation, layout, and consistency that a smaller prototype could comfortably avoid. That scale is also where the calmer, more grounded visual tone actually started to hold together as a system rather than a collection of nice individual screens.</p>
-  </section>
-
-  <section class="proj-section reveal">
+  <!-- ============ 04 — WHAT CHANGED ============ -->
+  <section class="proj-section reveal" id="s4">
     <div class="proj-section-head">
       <span class="proj-num mono">04</span>
+      <h2 class="proj-section-title">What changed because of it</h2>
+    </div>
+    <p class="proj-body">Growing the prototype from a handful of screens to more than twenty-five forced real decisions about navigation, layout and consistency that a smaller prototype could comfortably avoid. Four changes came directly out of testing and that growth:</p>
+    <div class="feature-list">
+      <div class="feature-row">
+        <span class="feature-name">Onboarding</span>
+        <p class="feature-desc">A complete onboarding flow was added, plus a clear how-to section for EKG recording — the first screens someone sees now reassure them before anything else.</p>
+      </div>
+      <div class="feature-row">
+        <span class="feature-name">Navigation</span>
+        <p class="feature-desc">A structured bottom navigation bar became the anchor for the whole app, replacing what had been a more linear stack of screens.</p>
+      </div>
+      <div class="feature-row">
+        <span class="feature-name">Modals</span>
+        <p class="feature-desc">Smaller tasks — editing details, adding a caregiver, previewing insights, sending a report — moved into modal pop-ups instead of full pages, so the interface stopped feeling like an endless stack.</p>
+      </div>
+      <div class="feature-row">
+        <span class="feature-name">Consistency</span>
+        <p class="feature-desc">Copy was tightened throughout, spacing and components made consistent, and quick insight previews were added so checking a number doesn't require a separate screen.</p>
+      </div>
+    </div>
+    <p class="proj-body proj-body-muted" style="margin-top: var(--space-evidence);">That scale is also where the calmer, more grounded visual tone actually started to hold together as a system, rather than a collection of nice individual screens.</p>
+  </section>
+
+  <!-- ============ 05 — REFLECTION ============ -->
+  <section class="proj-section reveal" id="s5">
+    <div class="proj-section-head">
+      <span class="proj-num mono">05</span>
       <h2 class="proj-section-title">What I'd still improve</h2>
     </div>
     <div class="proj-reflection">
