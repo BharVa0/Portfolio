@@ -54,6 +54,18 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4192", "--bind", "127.0.0.1"],
       "port": 4192
+    },
+    {
+      "name": "static-preview-hero-g",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4194", "--bind", "127.0.0.1"],
+      "port": 4194
+    },
+    {
+      "name": "static-preview-hero-integration",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4196", "--bind", "127.0.0.1"],
+      "port": 4196
     }
   ]
 }

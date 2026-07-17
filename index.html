@@ -16,7 +16,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/portfolio.css">
 </head>
 <body>
@@ -50,7 +50,7 @@
 })();
 </script>
 
-<header class="site-frame">
+<header class="site-frame on-hero">
   <div class="frame-bar">
     <span class="frame-id"><strong>Bharat Vyas</strong> · Portfolio</span>
     <nav class="frame-nav" aria-label="Primary">
@@ -66,30 +66,43 @@
 <main id="content">
 
   <section class="hero" aria-label="Introduction">
-    <div class="hero-text">
-      <h1 class="r1">Bharat Vyas</h1>
-      <p class="hero-statement r2">I design <em>interactive systems</em>,<br>
-      playable worlds and<br>
-      research-led experiences.</p>
-      <div class="hero-meta-row r3">
+    <div class="hero-grain" aria-hidden="true"></div>
+
+    <div class="field" aria-hidden="true">
+      <p class="band b1" data-label="SYSTEM">Interactive Systems</p>
+      <p class="band b2" data-label="PLAY">Playable Worlds</p>
+      <p class="band b3" data-label="RESEARCH">Research-led Experiences</p>
+      <p class="band b4" data-label="BEHAVIOUR">Built Around Human Behaviour</p>
+    </div>
+    <div class="field field-x" aria-hidden="true">
+      <p class="band b1">Interactive Systems</p>
+      <p class="band b2">Playable Worlds</p>
+      <p class="band b3">Research-led Experiences</p>
+      <p class="band b4">Built Around Human Behaviour</p>
+    </div>
+
+    <div class="anchor">
+      <div class="anchor-in">
+        <h1 class="anchor-name">Bharat Vyas</h1>
+        <p class="sr-only">Interactive systems. Playable worlds. Research-led experiences. Built around human behaviour.</p>
+        <p class="anchor-statement">
+          <span class="stmt-line">I design interactive systems,</span>
+          <span class="stmt-line">playable worlds and research-led experiences.</span>
+        </p>
+      </div>
+      <div class="anchor-cta-row">
         <a class="hero-cta" href="#work" data-cursor="View">Selected work <span class="arrow" aria-hidden="true">→</span></a>
-        <p class="hero-degree mono">MSc Design and Digital Media<br>University of Edinburgh · Edinburgh, UK</p>
       </div>
     </div>
-    <div class="hero-image r4">
-      <figure>
-        <div class="hero-frame">
-          <img src="assets/frankenteen/frankenteen-hero-crop.jpg"
-               srcset="assets/frankenteen/frankenteen-hero-crop-480.jpg 480w, assets/frankenteen/frankenteen-hero-crop.jpg 690w"
-               sizes="(max-width: 899px) 92vw, 40vw"
-               width="690" height="540"
-               fetchpriority="high"
-               alt="Top-down view of a teenage bedroom level from FrankenTeen — a warm orange rug ringed by beds, desks and posters, laid out in the Unity editor.">
-        </div>
-        <figcaption class="mono">FrankenTeen — world layout study, Unity</figcaption>
-      </figure>
-    </div>
+
+    <p class="hero-meta mono">
+      <strong>MSc Design and Digital Media</strong><br>
+      University of Edinburgh<br>
+      Edinburgh, UK · 2026
+    </p>
   </section>
+
+  <div class="lens" id="lens" aria-hidden="true"><span class="lens-label" id="lens-label"></span></div>
 
   <section class="intro reveal" aria-label="About the work">
     <div class="section-inner">
