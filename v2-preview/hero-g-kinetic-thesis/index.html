@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<!--
+  HERO G — KINETIC THESIS FIELD
+  Single focused direction for the image-free hero (direction doc §11,
+  "Hero direction — prototypes D/E rejected, 2026-07-16"). The four
+  practice areas are set as oversized typographic bands that overshoot
+  both viewport edges — the field IS the composition, not a backdrop
+  behind a corner block. "Bharat Vyas" anchors the field from the
+  centre on an ink knockout; a rectangular cursor inspection window
+  reveals an ember reading of whichever band it passes over, with a
+  compact classification label (SYSTEM / PLAY / RESEARCH / BEHAVIOUR).
+
+  21st.dev mechanics that informed (never copied) this build
+  (docs/HERO_21ST_RESEARCH.md):
+  - Masked track reveal   → "Masked Slide Reveal": rebuilt as per-band
+    horizontal clip-path wipes in alternating directions (pure CSS).
+  - Pointer-follow easing → "Cursor Follow" family: one rAF lerp loop
+    that sleeps when values settle; no library.
+  - Clipped alternate text→ "SVG Mask Effect": rebuilt as a duplicated
+    ember text layer clipped by a rectangular inset() window — not a
+    circular torch, not an image reveal.
+  - Loader transition     → "Animated Number" (validation only): the
+    0-100 count stays plain tabular-nums tied to real font readiness.
+
+  Gates: loader first-visit only (sessionStorage hs-loader-seen-hero-g,
+  or ?nointro=1 for review); lens + pointer field require fine pointer,
+  ≥1024px, and no prefers-reduced-motion. Reduced motion / no-JS get
+  the complete static composition immediately.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bharat Vyas — Hero G, Kinetic Thesis Field</title>
+<meta name="description" content="Hero direction G for the Human Systems portfolio redesign: a full-viewport kinetic typographic field, image-free.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0C0B;
+    --ink-soft: #151311;
+    --charcoal: #1D1A18;
+    --ember: #B84624;
+    --ember-deep: #7B2D17;
+    --ember-bright: #D35C34;
+    --paper: #F2EEE9;
+    --paper-soft: #DDD6CF;
+    --muted: #91877F;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "Space Mono", ui-monospace, monospace;
+    --page-margin: clamp(24px, 4vw, 96px);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--ink); }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .mono { font-family: var(--font-mono); }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  .skip-link {
+    position: absolute; top: -48px; left: var(--page-margin); z-index: 5000;
+    background: var(--paper); color: var(--ink); font-weight: 600;
+    font-size: 0.9rem; padding: 12px 20px; border-radius: 3px;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus { top: 16px; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--ember-bright); outline-offset: 4px;
+  }
+
+  /* === Static paper grain — zero motion, zero asset weight ===
+     Plain alpha compositing, no blend mode: mix-blend-mode isolates
+     against transform-promoted layers and rendered the anchor's ink
+     knockout as a visibly lighter box (caught in QA). */
+  .grain {
+    position: fixed; inset: 0; z-index: 2500; pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+
+  /* === Persistent chrome === */
+  .site-frame {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 40;
+    padding: clamp(18px, 2.6vh, 30px) var(--page-margin) 0;
+  }
+  .frame-bar {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap; font-family: var(--font-mono);
+    font-size: 0.78rem; letter-spacing: 0.05em; color: var(--muted);
+    padding-bottom: clamp(14px, 2vh, 22px); border-bottom: 1px solid var(--charcoal);
+  }
+  .frame-id strong { color: var(--paper); font-weight: 400; }
+  .frame-loc { text-align: right; white-space: nowrap; }
+
+  /* === Hero shell === */
+  .hero {
+    position: relative; z-index: 2;
+    min-height: 100svh;
+    overflow: hidden;
+  }
+
+  /* === Kinetic typographic field ===
+     Each band is sized from its own character count via min(vw, vh) so
+     it always overshoots BOTH viewport edges (verified by measurement
+     in QA); authored margin-left offsets place the crop per band. */
+  .field {
+    position: absolute; inset: 0; z-index: 10;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 11.5vh 0 6.5vh;
+    overflow: hidden;
+  }
+  .band {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: 0.005em;
+    white-space: nowrap;
+    width: max-content;
+    will-change: transform;
+  }
+  .b1 {
+    font-size: min(13vw, 17vh);
+    font-weight: 560;
+    color: var(--paper);
+    letter-spacing: 0.04em;
+    margin-left: -8vh;
+  }
+  .b2 {
+    font-size: min(16.5vw, 21.5vh);
+    font-weight: 380;
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--paper);
+    letter-spacing: 0.045em;
+    /* No-JS approximation; with JS the offset is derived so the
+       PLAYABLE|WORLDS gap straddles the knockout (see alignBand2). */
+    margin-left: -4.5vh;
+  }
+  .b3 {
+    font-size: min(10.5vw, 13.5vh);
+    font-weight: 340;
+    color: var(--paper);
+    opacity: 0.92;
+    letter-spacing: 0.05em;
+    margin-left: -7vh;
+  }
+  .b4 {
+    font-size: min(9vw, 12vh);
+    font-weight: 500;
+    color: transparent;
+    -webkit-text-stroke: 1.4px rgba(242, 238, 233, 0.52);
+    letter-spacing: 0.02em;
+    margin-left: -13vh;
+  }
+  @supports not (-webkit-text-stroke: 1px #000) {
+    .b2 { color: var(--paper-soft); }
+    .b4 { color: var(--muted); }
+  }
+  /* Wide aspect ratios (16:9 and wider): the vh caps above leave the
+     bands short of the right edge, so they get ~14% more height. */
+  @media (min-aspect-ratio: 185/100) {
+    .b1 { font-size: min(13vw, 19.5vh); }
+    .b2 { font-size: min(16.5vw, 24.5vh); }
+    .b3 { font-size: min(10.5vw, 15.5vh); }
+    .b4 { font-size: min(9vw, 13vh); }
+    .field { padding: 10.5vh 0 6vh; }
+  }
+  /* Ultra-wide (~21:9 and wider): vertical space is exhausted, so the
+     extra width comes from letter-spacing (the field stretches with the
+     screen) plus a modest final font step — not a global type increase. */
+  @media (min-aspect-ratio: 22/10) {
+    .b1 { font-size: min(13vw, 21.5vh); letter-spacing: 0.13em; margin-left: -14vh; }
+    .b2 { font-size: min(16.5vw, 27vh); letter-spacing: 0.14em; }
+    .b3 { font-size: min(10.5vw, 17vh); letter-spacing: 0.14em; margin-left: -12vh; }
+    .b4 { font-size: min(9vw, 14.5vh); letter-spacing: 0.13em; margin-left: -16vh; }
+    .field { padding: 9vh 0 5vh; }
+  }
+
+  /* Ember inspection layer — exact duplicate of the field, revealed
+     only through the lens rectangle via clip-path. Under inspection
+     every band reads solid ember: outlines solidify. */
+  /* Hidden until the lens is live; JS clips it to the lens rectangle
+     every frame before it is ever shown. */
+  .field-x { z-index: 12; visibility: hidden; pointer-events: none; }
+  .field-x .band {
+    color: var(--ember-bright);
+    -webkit-text-stroke: 0;
+    opacity: 1 !important;
+  }
+
+  /* === Foreground identity anchor ===
+     Centre-offset, straddling bands 2-3. The ink backing knocks the
+     field out cleanly — same colour as the page, so it reads as type
+     on the ink field, not a card. */
+  .anchor {
+    /* vh-sized like the bands, so knockout-to-band proportion is stable
+       across aspect ratios; --anchor-shift is a small JS-derived nudge
+       that keeps band 2's word gap straddling the knockout. */
+    --anchor-x: -63%;
+    --anchor-shift: 0px;
+    --ax-pad: clamp(18px, 2.6vh, 32px);
+    position: absolute; z-index: 20;
+    left: 50%; top: 46%;
+    transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%);
+    width: max-content; max-width: min(88vw, 980px);
+  }
+  .anchor-in {
+    background: var(--ink);
+    padding: clamp(16px, 2.6vh, 30px) var(--ax-pad) clamp(14px, 2vh, 24px);
+  }
+  .anchor-name {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 420;
+    font-size: clamp(3rem, 10.5vh, 9rem);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+  }
+  .anchor-statement {
+    font-family: var(--font-display);
+    font-weight: 350;
+    font-size: clamp(1.05rem, 2.35vh, 1.6rem);
+    line-height: 1.42;
+    color: var(--paper);
+    margin-top: clamp(14px, 2vh, 22px);
+  }
+  .anchor-statement .stmt-line { display: block; }
+  .anchor-cta-row {
+    background: var(--ink);
+    width: max-content;
+    padding: 4px var(--ax-pad) clamp(14px, 1.8vh, 20px);
+  }
+  .hero-cta {
+    display: inline-block; color: var(--paper);
+    font-family: var(--font-body); font-weight: 500;
+    font-size: clamp(0.95rem, 1.7vh, 1.2rem); text-decoration: none;
+    border-bottom: 2px solid var(--ember); padding-bottom: 6px;
+  }
+  .hero-cta:hover { color: var(--ember-bright); border-bottom-color: var(--ember-bright); }
+  .hero-cta .arrow { font-family: var(--font-mono); }
+
+  /* === Metadata — secondary, bottom-right, ink knockout === */
+  .hero-meta {
+    position: absolute; z-index: 20;
+    right: var(--page-margin); bottom: clamp(22px, 3.4vh, 40px);
+    font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.75;
+    letter-spacing: 0.04em; color: var(--muted); text-align: right;
+    background: var(--ink); padding: 8px 0 0 16px;
+  }
+  .hero-meta strong { color: var(--paper); font-weight: 400; }
+
+  /* === Cursor inspection window (lens) === */
+  .lens {
+    position: fixed; top: 0; left: 0; z-index: 2000;
+    border: 1px solid rgba(211, 92, 52, 0.85);
+    pointer-events: none; visibility: hidden; opacity: 0;
+    transition: opacity 0.25s ease;
+    will-change: transform;
+  }
+  html.lens-on .lens.lens-live { visibility: visible; opacity: 1; }
+  .lens-label {
+    position: absolute; top: calc(100% + 7px); right: -1px;
+    font-family: var(--font-mono); font-size: 0.62rem;
+    letter-spacing: 0.16em; color: var(--ember-bright);
+    white-space: nowrap;
+  }
+  /* Native cursor stays until the lens exists; once live, the field
+     hides it but links always keep their own pointer + labels. */
+  html.lens-on .hero { cursor: none; }
+  html.lens-on .hero a { cursor: pointer; }
+  @media (hover: none), (pointer: coarse), (max-width: 1023px) {
+    .lens, .field-x { display: none !important; }
+  }
+
+  /* === Entrance: alternating horizontal clip-wipes, then anchor ===
+     Default (no-JS) state is the finished composition; .pending is
+     JS-added, .ready fires the one-shot reveal. No per-letter motion. */
+  html.pending .band { clip-path: inset(-2% 102% -2% -2%); }
+  html.pending .b2, html.pending .b4 { clip-path: inset(-2% -2% -2% 102%); }
+  html.pending .anchor, html.pending .hero-meta { opacity: 0; }
+
+  html.can-animate.ready .band {
+    animation: band-in-l 0.52s cubic-bezier(0.3, 0.65, 0.15, 1) backwards;
+  }
+  html.can-animate.ready .b2,
+  html.can-animate.ready .b4 {
+    animation-name: band-in-r;
+  }
+  html.can-animate.ready .b1 { animation-delay: 0.04s; }
+  html.can-animate.ready .b2 { animation-delay: 0.12s; }
+  html.can-animate.ready .b3 { animation-delay: 0.20s; }
+  html.can-animate.ready .b4 { animation-delay: 0.28s; }
+  @keyframes band-in-l {
+    from { clip-path: inset(-2% 102% -2% -2%); transform: translateX(-44px); }
+    to   { clip-path: inset(-2% -2% -2% -2%); transform: translateX(0); }
+  }
+  @keyframes band-in-r {
+    from { clip-path: inset(-2% -2% -2% 102%); transform: translateX(44px); }
+    to   { clip-path: inset(-2% -2% -2% -2%); transform: translateX(0); }
+  }
+  html.can-animate.ready .anchor {
+    animation: anchor-in 0.46s cubic-bezier(0.25, 0.7, 0.2, 1) 0.42s backwards;
+  }
+  @keyframes anchor-in {
+    from { opacity: 0; transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), calc(-50% + 26px)); }
+    to   { opacity: 1; transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%); }
+  }
+  html.can-animate.ready .hero-meta {
+    animation: meta-in 0.4s ease 0.56s backwards;
+  }
+  @keyframes meta-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .band, .anchor, .hero-meta {
+      animation: none !important; opacity: 1 !important;
+      clip-path: none !important; transform: none !important;
+    }
+    .anchor { transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%) !important; }
+    .lens, .field-x { display: none !important; }
+  }
+
+  /* === Opening loader === */
+  .loader {
+    position: fixed; inset: 0; z-index: 4000; background: var(--ink);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; transition: opacity 0.38s ease-in, visibility 0.38s ease-in;
+  }
+  .loader-name {
+    font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.08em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .loader-count {
+    font-family: var(--font-mono); font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--paper); font-variant-numeric: tabular-nums;
+  }
+  .loader.exit { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  /* === Work stub (handoff target only) === */
+  .work-stub {
+    position: relative; z-index: 2;
+    border-top: 1px solid var(--charcoal);
+    padding: clamp(64px, 10vh, 120px) var(--page-margin);
+    background: var(--ink);
+  }
+  .work-stub .eyebrow {
+    font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 24px;
+  }
+  .stub-row {
+    display: flex; align-items: baseline; gap: 20px;
+    padding: 20px 0; border-top: 1px solid var(--charcoal);
+    font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2.1rem);
+    text-decoration: none;
+  }
+  .stub-row:hover { color: var(--ember-bright); }
+  .stub-row:last-of-type { border-bottom: 1px solid var(--charcoal); }
+  .stub-row .num { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+  .stub-note {
+    margin-top: 32px; font-family: var(--font-mono); font-size: 0.74rem;
+    color: var(--muted); max-width: 46em; line-height: 1.7;
+  }
+
+  /* === Below 1024px: static poster, no pointer systems === */
+  @media (max-width: 1023px) {
+    .field { padding: 13vh 0 8vh; }
+    .b1 { font-size: min(17vw, 10vh); margin-left: -6vh; }
+    .b2 { font-size: min(21vw, 12.5vh); margin-left: -3vh; }
+    .b3 { font-size: min(14vw, 8vh); margin-left: -2vh; }
+    .b4 { font-size: min(12vw, 7vh); margin-left: -5vh; }
+    .anchor { --anchor-x: -50%; max-width: 92vw; }
+    .anchor-name { font-size: clamp(2.4rem, 11vw, 3.6rem); }
+    .anchor-statement { font-size: clamp(1rem, 4vw, 1.2rem); }
+    .anchor-statement .stmt-line { display: inline; }
+    .hero-meta { right: auto; left: var(--page-margin); text-align: left; padding: 8px 16px 0 0; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#work">Skip to Selected work</a>
+<div class="grain" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var html = document.documentElement;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var seen = /[?&]nointro=1/.test(location.search);
+  try { seen = seen || sessionStorage.getItem("hs-loader-seen-hero-g") === "1"; } catch (e) {}
+
+  if (!reduced) html.classList.add("can-animate");
+
+  if (!reduced && !seen) {
+    html.classList.add("pending");
+    var overlay = document.createElement("div");
+    overlay.className = "loader";
+    overlay.id = "hs-loader";
+    overlay.setAttribute("role", "status");
+    overlay.setAttribute("aria-live", "polite");
+    overlay.innerHTML =
+      '<p class="loader-name mono">Bharat Vyas — Hero G</p>' +
+      '<p class="loader-count mono" id="loader-count">00</p>';
+    document.body.appendChild(overlay);
+  } else {
+    html.classList.add("ready");
+  }
+})();
+</script>
+
+<main id="content">
+  <section class="hero" aria-label="Introduction">
+    <header class="site-frame">
+      <div class="frame-bar">
+        <span class="frame-id"><strong>Bharat Vyas</strong> · Portfolio</span>
+        <span class="frame-loc">Edinburgh, UK · 2026</span>
+      </div>
+    </header>
+
+    <div class="field" aria-hidden="true">
+      <p class="band b1" data-label="SYSTEM">Interactive Systems</p>
+      <p class="band b2" data-label="PLAY">Playable Worlds</p>
+      <p class="band b3" data-label="RESEARCH">Research-led Experiences</p>
+      <p class="band b4" data-label="BEHAVIOUR">Built Around Human Behaviour</p>
+    </div>
+    <div class="field field-x" aria-hidden="true">
+      <p class="band b1">Interactive Systems</p>
+      <p class="band b2">Playable Worlds</p>
+      <p class="band b3">Research-led Experiences</p>
+      <p class="band b4">Built Around Human Behaviour</p>
+    </div>
+
+    <div class="anchor">
+      <div class="anchor-in">
+        <h1 class="anchor-name">Bharat Vyas</h1>
+        <p class="sr-only">Interactive systems. Playable worlds. Research-led experiences. Built around human behaviour.</p>
+        <p class="anchor-statement">
+          <span class="stmt-line">I design interactive systems,</span>
+          <span class="stmt-line">playable worlds and research-led experiences.</span>
+        </p>
+      </div>
+      <div class="anchor-cta-row">
+        <a class="hero-cta" href="#work">Selected work <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <p class="hero-meta mono">
+      <strong>MSc Design and Digital Media</strong><br>
+      University of Edinburgh<br>
+      Edinburgh, UK · 2026
+    </p>
+  </section>
+
+  <section id="work" class="work-stub" aria-label="Selected work">
+    <p class="eyebrow">Selected work</p>
+    <a class="stub-row" href="#work"><span class="num mono">01</span> BETTR</a>
+    <a class="stub-row" href="#work"><span class="num mono">02</span> CardioPal</a>
+    <a class="stub-row" href="#work"><span class="num mono">03</span> FrankenTeen</a>
+    <p class="stub-note">Comparison stub only — stands in for the real editorial project index (direction doc §6) so the hero → Selected Work handoff can be evaluated in isolation. Not final content.</p>
+  </section>
+</main>
+
+<div class="lens" id="lens" aria-hidden="true"><span class="lens-label" id="lens-label"></span></div>
+
+<script>
+(function () {
+  "use strict";
+  var html = document.documentElement;
+  var canAnimate = html.classList.contains("can-animate");
+
+  /* === Opening loader (0-100), real-readiness gated === */
+  var LOADER_FLAG = "hs-loader-seen-hero-g";
+  var MIN_MS = 800, MAX_MS = 1400;
+  var overlay = document.getElementById("hs-loader");
+
+  function fontsReady() {
+    if (!document.fonts || !document.fonts.ready) return Promise.resolve();
+    return document.fonts.ready.catch(function () {});
+  }
+
+  if (overlay && html.classList.contains("pending")) {
+    var countEl = overlay.querySelector("#loader-count");
+    var t0 = performance.now();
+    var fontsOk = false;
+    fontsReady().then(function () { fontsOk = true; });
+
+    var finished = false;
+    var finish = function () {
+      if (finished) return;
+      finished = true;
+      overlay.classList.add("exit");
+      html.classList.remove("pending");
+      html.classList.add("ready");
+      try { sessionStorage.setItem(LOADER_FLAG, "1"); } catch (e) {}
+      setTimeout(function () {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 420);
+    };
+    /* rAF is throttled in hidden tabs; the 1.4s cap holds regardless
+       ("at 1.4s the hero enters regardless" — loader spec). */
+    setTimeout(finish, MAX_MS + 250);
+
+    var tick = function () {
+      var elapsed = performance.now() - t0;
+      var pct;
+      if (elapsed >= MAX_MS) {
+        pct = 100;
+      } else if (fontsOk) {
+        pct = elapsed >= MIN_MS ? 100 : Math.round((elapsed / MIN_MS) * 100);
+      } else {
+        pct = Math.min(96, Math.round((elapsed / MAX_MS) * 100));
+      }
+      countEl.textContent = String(pct).length < 2 ? "0" + pct : String(pct);
+      if (pct >= 100) { finish(); } else { requestAnimationFrame(tick); }
+    };
+    requestAnimationFrame(tick);
+  }
+
+  /* === Band 2 word-gap alignment ===
+     "PLAYABLE WORLDS" plus edge-overshoot is wider than any viewport,
+     so some overlap with the knockout is geometric fact. This derives
+     band 2's offset so the word gap sits behind the knockout: "PLAY"
+     reads clean on the left, "WORLDS" emerges complete on the right.
+     Edge-overshoot always wins over alignment; if alignment still
+     falls short, the knockout itself takes a small (≤5vw) nudge left.
+     Static layout, so it also runs under reduced motion; no-JS keeps
+     the CSS approximation. */
+  var alignBand2 = (function () {
+    var b2 = document.querySelector(".field:not(.field-x) .b2");
+    var t2 = document.querySelector(".field-x .b2");
+    var anchorAlignEl = document.querySelector(".anchor");
+    var WORD1_CHARS = 9; /* "Playable " */
+    return function () {
+      if (window.innerWidth < 1024) {
+        b2.style.marginLeft = ""; t2.style.marginLeft = "";
+        anchorAlignEl.style.setProperty("--anchor-shift", "0px");
+        return;
+      }
+      b2.style.marginLeft = "0px";
+      anchorAlignEl.style.setProperty("--anchor-shift", "0px");
+      var range = document.createRange();
+      range.setStart(b2.firstChild, 0);
+      range.setEnd(b2.firstChild, WORD1_CHARS);
+      var w1 = range.getBoundingClientRect().width;
+      var bandW = b2.getBoundingClientRect().width;
+      var iw = window.innerWidth;
+      /* min crop each side must survive band 2's max pointer travel */
+      var amp2 = Math.min(70, Math.max(30, iw * 0.032)) * 0.5;
+      var margin = Math.round(amp2 + 16);
+      var maxL = -margin;
+      var minL = iw + margin - bandW;
+      if (minL > maxL) { minL = maxL = (minL + maxL) / 2; }
+      var L = (anchorAlignEl.getBoundingClientRect().right + 10) - w1;
+      if (L > maxL) {
+        var shift = Math.min(L - maxL, iw * 0.08);
+        anchorAlignEl.style.setProperty("--anchor-shift", (-shift) + "px");
+        L = maxL;
+      } else if (L < minL) {
+        L = minL;
+      }
+      b2.style.marginLeft = L.toFixed(1) + "px";
+      t2.style.marginLeft = L.toFixed(1) + "px";
+    };
+  })();
+  alignBand2();
+  window.addEventListener("resize", alignBand2);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(alignBand2).catch(function () {});
+  }
+
+  if (!canAnimate) return; /* reduced motion: complete static composition */
+
+  /* === Kinetic field engine ===
+     One rAF loop drives pointer counter-displacement, the scroll
+     handoff and the lens. It sleeps whenever every lerp has settled
+     and wakes on input — no perpetual animation. */
+  var hero = document.querySelector(".hero");
+  var baseBands = Array.prototype.slice.call(document.querySelectorAll(".field:not(.field-x) .band"));
+  var twinBands = Array.prototype.slice.call(document.querySelectorAll(".field-x .band"));
+  var fieldX = document.querySelector(".field-x");
+  var anchor = document.querySelector(".anchor");
+  var anchorIn = document.querySelector(".anchor-in");
+  var ctaRow = document.querySelector(".anchor-cta-row");
+  var metaEl = document.querySelector(".hero-meta");
+  var lens = document.getElementById("lens");
+  var lensLabel = document.getElementById("lens-label");
+
+  /* Per-band character: alternating pointer direction, varied amplitude,
+     varied scroll-handoff direction and rate. */
+  var DIR_X = [-1, 1, -1, 1];
+  var BASE_O = [1, 1, 0.92, 1]; /* keep b3's authored resting opacity */
+  var AMP_X = [1, 0.5, 0.75, 1.14];
+  var DIR_Y = [1, -1, 1, -1];
+  var AMP_Y = [0.55, 1, 0.7, 1.2];
+  var SCROLL_X = [-0.16, 0.12, -0.08, 0.14]; /* × viewport width */
+
+  var vw = window.innerWidth, vh = window.innerHeight;
+  var baseAmp = 46, scrollCap = 800;
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var wideView = window.matchMedia("(min-width: 1024px)");
+
+  var px = [0, 0, 0, 0], py = [0, 0, 0, 0];        /* current pointer offsets */
+  var tx = [0, 0, 0, 0], ty = [0, 0, 0, 0];        /* target pointer offsets */
+  var ax = 0, ay = 0, tax = 0, tay = 0;            /* anchor counter-drift */
+  var lx = -300, ly = -300, tlx = -300, tly = -300; /* lens position */
+  var lensW = 96, lensH = 62;
+  var scrollEase = 0;
+  var pointerSeen = false;
+  var engineOn = false;   /* held off until the entrance settles */
+  var running = false;
+
+  function smoothstep(t) { return t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t); }
+
+  function measure() {
+    vw = window.innerWidth; vh = window.innerHeight;
+    baseAmp = Math.min(70, Math.max(30, vw * 0.032));
+    scrollCap = Math.max(1, vh * 0.9);
+    lensW = Math.round(Math.min(110, Math.max(72, vw * 0.058)));
+    lensH = Math.round(lensW * 0.64);
+    lens.style.width = lensW + "px";
+    lens.style.height = lensH + "px";
+  }
+
+  function lensAllowed() { return finePointer.matches && wideView.matches; }
+  function syncLens() {
+    if (lensAllowed()) { html.classList.add("lens-on"); }
+    else {
+      html.classList.remove("lens-on");
+      lens.classList.remove("lens-live");
+      pointerSeen = false;
+    }
+  }
+
+  function onPointerMove(e) {
+    if (!lensAllowed()) return;
+    var nx = (e.clientX / vw - 0.5) * 2;
+    var ny = (e.clientY / vh - 0.5) * 2;
+    for (var i = 0; i < 4; i++) {
+      tx[i] = nx * baseAmp * AMP_X[i] * DIR_X[i];
+      ty[i] = ny * 11 * AMP_Y[i] * DIR_Y[i];
+    }
+    tax = nx * -10; tay = ny * -6;
+    tlx = e.clientX; tly = e.clientY;
+    if (!pointerSeen) {
+      pointerSeen = true;
+      lx = e.clientX; ly = e.clientY; /* no fly-in from the corner */
+      lens.classList.add("lens-live");
+    }
+    wake();
+  }
+  function onPointerLeave() {
+    for (var i = 0; i < 4; i++) { tx[i] = 0; ty[i] = 0; }
+    tax = 0; tay = 0;
+    lens.classList.remove("lens-live");
+    fieldX.style.visibility = "hidden";
+    pointerSeen = false;
+    wake();
+  }
+
+  function frame() {
+    var moving = false;
+    var k = 0.075, i, d;
+
+    for (i = 0; i < 4; i++) {
+      d = tx[i] - px[i]; px[i] += d * k; if (Math.abs(d) > 0.08) moving = true;
+      d = ty[i] - py[i]; py[i] += d * k; if (Math.abs(d) > 0.08) moving = true;
+    }
+    d = tax - ax; ax += d * k; if (Math.abs(d) > 0.08) moving = true;
+    d = tay - ay; ay += d * k; if (Math.abs(d) > 0.08) moving = true;
+    d = tlx - lx; lx += d * 0.16; if (Math.abs(d) > 0.2) moving = true;
+    d = tly - ly; ly += d * 0.16; if (Math.abs(d) > 0.2) moving = true;
+
+    var p = Math.min(1, Math.max(0, window.scrollY / scrollCap));
+    var e = smoothstep(p);
+    d = e - scrollEase; scrollEase += d * 0.2; if (Math.abs(d) > 0.002) moving = true;
+
+    /* Bands: pointer displacement + handoff separation, both twins. */
+    for (i = 0; i < 4; i++) {
+      var x = px[i] + vw * SCROLL_X[i] * scrollEase;
+      var t = "translate3d(" + x.toFixed(2) + "px, " + py[i].toFixed(2) + "px, 0)";
+      var o = String(BASE_O[i] * Math.max(0, 1 - scrollEase * 0.9));
+      baseBands[i].style.transform = t;
+      baseBands[i].style.opacity = o;
+      twinBands[i].style.transform = t;
+    }
+
+    /* Anchor: counter-drift, then resolves out; CTA bridges longest.
+       Inline styles are cleared at rest so the ink-backed knockout is
+       never a composited layer while idle (layer promotion can tint
+       its background a shade lighter — caught in QA). */
+    var aFade = smoothstep((p - 0.25) / 0.5);
+    var anchorIdle = Math.abs(ax) < 0.15 && Math.abs(ay) < 0.15 && scrollEase < 0.002;
+    if (anchorIdle) {
+      anchorIn.style.transform = ""; anchorIn.style.opacity = "";
+      ctaRow.style.transform = ""; ctaRow.style.opacity = "";
+      metaEl.style.opacity = "";
+    } else {
+      anchorIn.style.opacity = String(1 - aFade);
+      anchorIn.style.transform = "translate3d(" + ax.toFixed(2) + "px, " + (ay - 30 * aFade).toFixed(2) + "px, 0)";
+      var cFade = smoothstep((p - 0.6) / 0.4);
+      ctaRow.style.opacity = String(1 - cFade);
+      ctaRow.style.transform = "translate3d(" + ax.toFixed(2) + "px, " + (ay + 8 * scrollEase).toFixed(2) + "px, 0)";
+      metaEl.style.opacity = String(Math.max(0, 1 - scrollEase * 1.2));
+    }
+
+    /* Lens: rectangular inspection window over the ember layer.
+       Hidden once the pointer leaves the hero so the work section
+       keeps a single, native cursor. */
+    if (html.classList.contains("lens-on") && pointerSeen) {
+      var left = lx - lensW / 2, top = ly - lensH / 2;
+      lens.style.transform = "translate3d(" + left.toFixed(2) + "px, " + top.toFixed(2) + "px, 0)";
+      var hr = hero.getBoundingClientRect();
+      var lensInHero = tly <= hr.bottom;
+      lens.classList.toggle("lens-live", lensInHero);
+      fieldX.style.visibility = lensInHero ? "visible" : "hidden";
+      var ct = Math.max(0, top - hr.top);
+      var cl = Math.max(0, left - hr.left);
+      var cr = Math.max(0, hr.width - (left - hr.left + lensW));
+      var cb = Math.max(0, hr.height - (top - hr.top + lensH));
+      fieldX.style.clipPath = "inset(" + ct.toFixed(1) + "px " + cr.toFixed(1) + "px " + cb.toFixed(1) + "px " + cl.toFixed(1) + "px)";
+
+      var label = "";
+      var cxp = lx, cyp = ly;
+      var ar = anchorIn.getBoundingClientRect();
+      var overAnchor = aFade < 0.9 && cxp >= ar.left && cxp <= ar.right && cyp >= ar.top && cyp <= ar.bottom;
+      if (!overAnchor) {
+        for (i = 0; i < 4; i++) {
+          var br = baseBands[i].getBoundingClientRect();
+          if (cyp >= br.top && cyp <= br.bottom && cxp >= br.left && cxp <= br.right) {
+            label = baseBands[i].getAttribute("data-label") || "";
+            break;
+          }
+        }
+      }
+      lensLabel.textContent = label;
+    }
+
+    if (moving) { requestAnimationFrame(frame); } else { running = false; }
+  }
+
+  function wake() {
+    if (!engineOn || running) return;
+    running = true;
+    requestAnimationFrame(frame);
+  }
+
+  function start() {
+    engineOn = true;
+    measure();
+    syncLens();
+    document.addEventListener("mousemove", onPointerMove, { passive: true });
+    document.documentElement.addEventListener("mouseleave", onPointerLeave);
+    window.addEventListener("scroll", wake, { passive: true });
+    window.addEventListener("resize", function () { measure(); syncLens(); wake(); });
+    if (finePointer.addEventListener) {
+      finePointer.addEventListener("change", function () { syncLens(); wake(); });
+      wideView.addEventListener("change", function () { syncLens(); wake(); });
+    }
+    wake();
+  }
+
+  /* Hold the engine until the entrance settles so JS transforms never
+     fight the one-shot CSS reveal animations. */
+  function armEngine() {
+    var delay = html.classList.contains("ready") ? 950 : 250;
+    if (html.classList.contains("ready")) { setTimeout(start, delay); }
+    else { setTimeout(armEngine, delay); }
+  }
+  armEngine();
+})();
+</script>
+</body>
+</html>

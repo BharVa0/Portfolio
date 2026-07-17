@@ -30,6 +30,77 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-17 — Hero G "Kinetic Thesis Field" approved as the homepage hero direction
+
+**Stage:** Other (decision record — no code change in this entry)
+**Scope:** documentation only — `CLAUDE.md`, `docs/PORTFOLIO_DIRECTION_V2.md` §11, this log. `v2-preview/hero-g-kinetic-thesis/index.html` unchanged from the prior polish pass; public `index.html`, `css/portfolio.css`, `js/portfolio.js` untouched (verified via `git diff --name-only`, which reported only `.claude/launch.json` and this log as modified tracked files — the hero-g prototype is untracked/new, and root `index.html` shows zero diff against HEAD).
+**Decision:**
+- **Hero G is the approved homepage hero direction.** Both its overall direction (approved earlier) and its interaction system (approved after the polish pass) are now confirmed.
+- **Heroes A, D and E remain retired prototype history** — not a foundation to build on; their commits stand as prototype evidence only.
+- The hero is image-free and typography-led; the warm-black/paper-white/ember system carries forward unchanged.
+- **Locked, materially unchanged going forward:** the four kinetic thesis bands, the asymmetric "Bharat Vyas" knockout (~38% horizontal centre — intentional, approved explicitly, must not be automatically recentred), the rectangular inspection lens with its clipped-ember text reveal, the SYSTEM/PLAY/RESEARCH/BEHAVIOUR contextual labels, the first-visit 0–100 loader, the masked-track entrance, and the natural-scroll handoff.
+- 21st.dev informed masking and pointer-follow mechanics only; no component was copied or installed; no React/Tailwind dependency entered the production portfolio.
+- **No public homepage integration has happened yet.**
+- Future work may tune implementation details during integration (compatibility, accessibility, performance) only when needed, without materially changing the approved composition.
+
+**Verified:** `git diff --name-only` → `.claude/launch.json`, `docs/PORTFOLIO_PRODUCTION_LOG.md` (this file, prior entries); `git status --porcelain -- index.html` and `git diff HEAD --stat -- index.html` both empty — public root `index.html` confirmed untouched.
+**Open:** integration pass (building the approved composition into the public homepage) is separate future work, not started.
+**Commit:** "Approve Hero G kinetic thesis direction"
+
+### 2026-07-17 — Hero G polish pass (approved direction, pre-integration refinements)
+
+**Stage:** Other (isolated `/v2-preview/` polish on the visually approved Hero G; all locked elements — bands, pointer field, lens, ember clip, labels, loader, entrance, handoff, palette, knockout, image-free rule — materially unchanged)
+**Scope:** `v2-preview/hero-g-kinetic-thesis/index.html` only. Loader, scroll timing and inspection behaviour untouched (no regression found).
+**Did:**
+1. **"PLAYABLE WORLDS" readability.** Geometric constraint made explicit first: at the locked band scale, the phrase plus mandatory edge-overshoot is wider than any viewport, so full visibility of both words is impossible with a central knockout — the fix authors *where* the overlap lands. The knockout is now vh-sized like the bands (name `10.5vh`, statement `2.35vh`, paddings in vh) so knockout-to-band proportion is aspect-stable, its base offset moved to `-63%`, and a new `alignBand2()` derives band 2's offset each layout so the PLAYABLE|WORLDS word gap straddles the knockout — "PLAY" reads clean on the left, "WORLDS" emerges complete on the right (word-nick measured 0px at all seven QA sizes). Edge-overshoot always outranks alignment; residual shortfall nudges the knockout left via `--anchor-shift` (≤8vw). Runs under reduced motion too (static layout, not motion); no-JS keeps a CSS approximation (`margin-left: -4.5vh`).
+2. **Ultra-wide tier.** New `@media (min-aspect-ratio: 22/10)`: vertical space is exhausted at 21:9, so extra width comes from authored letter-spacing (0.13–0.14em — the field stretches with the screen) plus a modest final vh step, not a global type increase. Verified at 2560×1080 and 3440×1440: all bands overshoot both edges, ~70% type coverage holds, knockout not stranded, metadata edge-pinned.
+3. **Travel-proof overshoot.** All band offsets/tracking retuned (b1 `-8vh`/0.04em, b3 `-7vh`/0.05em, b4 `-13vh`, b2 0.045em) and amplitudes trimmed (band 2 ×0.5, band 3 ×0.75) so every band still overshoots both edges **at maximum pointer displacement** — previously a transient 5–15px edge sliver was possible at 1280–1440. Verified with travel-aware measurement at all seven sizes; zero horizontal overflow everywhere.
+4. **Knockout compositing spot-check (GPU path).** Captured rest / pointer-displaced / lens-behind-knockout / scroll-displaced states without `--disable-gpu` and pixel-sampled the knockout: exactly `#0D0C0B` in all four states, identical to the background reference — no red/grey tint. The earlier tint was the removed blend-mode + software-raster combination; the cause-level fixes (plain alpha grain, idle style-clearing) hold on the real compositing path.
+
+**Verified:** rest captures at 1440×900 / 1920×1080 / 2560×1080 / 3440×1440; lens over each band at 1440 (ember solidify + contextual label confirmed; bands 3–4 QA pointers clipped leading whitespace but their solidify was separately proven); reduced-motion static composition identical to rest including alignment; runtime error trap empty in motion and reduced-motion states; links/native cursor behaviour unchanged.
+**Open:**
+- **Awaiting final visual approval — not integrated, not committed.**
+- At 1280–1600 the left fragment reads "PLA(Y)" (full "PLAY" from 1920 up) — the geometric ceiling with the knockout width floor; revisit only if it bothers review.
+- All prior open items carried forward.
+
+**Commit:** pending final approval
+
+### 2026-07-16 — Hero G "Kinetic Thesis Field" prototype built
+
+**Stage:** Other (isolated `/v2-preview/` prototyping, per the D/E rejection entry below)
+**Scope:** new `v2-preview/hero-g-kinetic-thesis/index.html` (fully self-contained — inline CSS/JS, no dependency on `css/portfolio.css` or `js/portfolio.js`), `.claude/launch.json` (new `static-preview-hero-g`, port 4194). No public page, `css/portfolio.css`, `js/portfolio.js`, `assets/bettr-live/**`, or the D/E prototype files touched.
+**Did:**
+- Built the single focused image-free hero direction named in the rejection entry: a full-viewport kinetic typographic field. Four oversized uppercase Fraunces bands (INTERACTIVE SYSTEMS · PLAYABLE WORLDS · RESEARCH-LED EXPERIENCES · BUILT AROUND HUMAN BEHAVIOUR) each overshoot both viewport edges (verified numerically at all five QA widths), each sized from its own character count via `min(vw, vh)` with a `(min-aspect-ratio: 185/100)` tier for 16:9-and-wider screens. Deliberate variation without chaos: bands 1/3 solid paper (weights 560/340), bands 2/4 stroke-outline (band 2 italic, band 4 muted) — outline treatment doubles as the lens's "solidify" payload.
+- "Bharat Vyas" + the unbroken two-clause positioning statement + "Selected work →" sit centre-offset on an ink knockout straddling bands 2–3 (explicitly not lower-left); degree metadata bottom-right on its own knockout. `sr-only` copy carries the four practice areas for AT since the fields are `aria-hidden`.
+- Pointer field: one rAF lerp engine (sleeps when settled — no perpetual loop) drives per-band counter-displacement (alternating directions, amplitudes ×[1, 0.62, 0.9, 1.14] on a 30–70px viewport-scaled base), a small opposite drift on the anchor, and eases back on pointer leave.
+- Cursor inspection window (the signature): a rectangular lens (~72–110px wide, 1px ember border) follows the pointer with slower easing; a duplicated ember field layer is clipped to the lens rect via `clip-path: inset()`, so text inside the rectangle reads solid ember-bright (outlines solidify) with a compact mono label (SYSTEM / PLAY / RESEARCH / BEHAVIOUR) from the active band. Gated to fine pointer + ≥1024px + no reduced motion; hidden below the hero; native cursor visible until the lens is live; links keep labels/pointer.
+- Entrance: the locked 0–100 loader (prototype-scoped key `hs-loader-seen-hero-g`, `?nointro=1` review bypass, plus a `MAX_MS` `setTimeout` fail-safe so hidden-tab rAF throttling can never strand it), then alternating horizontal clip-wipe reveals per band (~730ms), anchor rise at 420ms, metadata at 560ms — ~850ms total, no per-letter animation.
+- Scroll handoff: natural scrolling only — bands separate toward opposite edges at rates ×[-0.16, +0.12, -0.08, +0.14]·vw over ~0.9 viewport of scroll, statement resolves out first, "Selected work →" fades last as the bridge into the work stub.
+- 21st.dev mechanics adapted, never copied (documented in the file header): Masked Slide Reveal → horizontal clip-wipes; Cursor Follow → lerp easing; SVG Mask Effect → rectangular clipped ember text layer (not a torch, not an image); Animated Number → validation that the plain loader count stays as-is.
+- **Bugs caught and fixed during QA:** (1) the ember duplicate field initially rendered unclipped on load — every band solid ember — because its visibility wasn't tied to the lens's live state; (2) the grain overlay's `mix-blend-mode: overlay` tinted transform-promoted knockout backgrounds a visibly lighter box — replaced with plain alpha compositing, and the engine now clears inline transforms at rest so the knockout is never layer-promoted while idle; (3) band 3's authored 0.92 opacity was being overwritten by the engine; (4) bands 1–2 fell short of the right edge at 16:9 (fixed by the aspect-ratio tier); (5) hidden-tab loader stall (fail-safe above).
+
+**Decisions:**
+- The lens reveals the same words in ember (recolour + solidify + classification label), not an alternate phrase — the brief allowed either, and the word-swap variant was already tainted by Concept E's rejection.
+- Pointer displacement and the lens share one gate (fine pointer + ≥1024px + motion allowed); the scroll handoff runs wherever motion is allowed, since scrolling is input-agnostic.
+
+**Verified:**
+- Fresh server on port 4194 (`static-preview-hero-g`), `http://localhost:4194/v2-preview/hero-g-kinetic-thesis/index.html`.
+- Headless-Chrome captures inspected at 1280×800, 1440×900, 1600×1000, 1920×1080, 2560×1440 — motion state (`?nointro=1`, virtual-time) and forced reduced-motion both: field fills the viewport at every size, no accidental voids, name immediately legible.
+- Band geometry measured via a scratchpad QA copy (`--dump-dom`, captured through Git Bash — PowerShell 5.1 returned empty stdout for it): every band overshoots both edges at all five widths; horizontal overflow 0 everywhere.
+- Lens verified visually via synthetic `mousemove` in headless: ember reveal inside the rectangle over solid (band 1 "A" + SYSTEM label) and outline (band 4, solidified ember) bands.
+- Scroll handoff verified numerically in the Browser pane: at 45% scroll, band transforms -56/+42/-28/+49px with fading opacity, statement at 0.5, CTA still 1.0; back at rest all inline styles clear (knockout un-promoted). Document scrolling never intercepted.
+- Loader: first visit runs 0–100 and exits (flag set, overlay removed) even in a hidden tab; repeat visit skips. Reduced-motion captures show the complete static composition, no loader. Script-stripped copy (no-JS) renders the full hero immediately.
+- Console clean; skip-link focusable ("Skip to Selected work").
+- Not verified: real-display (non-headless) check of the knockout shade during pointer interaction, and mobile/touch on a real device — both carried below.
+
+**Open:**
+- **Awaiting visual approval — not integrated, not committed.** No public page change authorised.
+- Ultra-wide (~21:9) viewports would need one more aspect-ratio tier before any integration; outside this sprint's QA matrix.
+- Spot-check the anchor knockout on a real GPU display during pointer movement (headless software rasteriser showed a faint tint on promoted layers at one size; likely tooling-only).
+- All prior open items carried forward unchanged.
+
+**Commit:** pending visual approval
+
 ### 2026-07-16 — Hero prototypes D and E rejected; next direction named "Hero G — Kinetic Thesis Field"
 
 **Stage:** Foundation
