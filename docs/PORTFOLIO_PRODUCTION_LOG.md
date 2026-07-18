@@ -30,6 +30,40 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-18 — Next.js migration foundation: branch + scaffold (Lesson 1)
+
+**Stage:** Foundation
+**Scope:** New `nextjs-port` branch (created from the `static-redesign-checkpoint` tag, not from `redesign-v2`); new `next-portfolio/` Next.js app; `.claude/launch.json` (added a `next-portfolio` dev-server config); new `docs/NEXTJS_MIGRATION_GUIDE.md`. No static portfolio file (`index.html`, `css/portfolio.css`, `js/portfolio.js`, `projects/**`, `assets/**`, `v2-preview/**`) touched.
+**Did:**
+- Confirmed toolchain: Node.js v24.18.0 (LTS), npm 11.16.0, Git 2.53.0.windows.2 — all within the accepted range (Node 22 or 24 LTS).
+- Created `nextjs-port` directly from the `static-redesign-checkpoint` annotated tag (commit `c45040d`), not from any uncommitted state; confirmed zero diff against the tag immediately after switching.
+- Scaffolded `next-portfolio/` via `create-next-app@latest` (non-interactive): TypeScript, Tailwind CSS, ESLint, App Router, `src/` directory, Turbopack, npm, `@/*` import alias, React Compiler disabled, nested git init disabled.
+- Installed versions: next 16.2.10, react 19.2.4, react-dom 19.2.4, typescript 5.9.3, tailwindcss 4.3.3, eslint 9.39.5.
+- Added a `next-portfolio` entry to `.claude/launch.json` (`npm --prefix next-portfolio run dev -- --port 4202`) so the dev server can be driven through the Browser pane's `preview_start` instead of a raw shell process.
+- Verified the scaffold end-to-end: dev server up on port 4202 with no console/terminal errors, one temporary text edit to `page.tsx` confirmed hot-reload (HMR) then reverted, `npm run lint` clean, `npm run build` succeeded (both `/` and `/_not-found` prerendered as static).
+- Confirmed the pre-existing static site (python server on port 4200) kept responding (`200`) throughout, untouched by any of this work.
+- Wrote `docs/NEXTJS_MIGRATION_GUIDE.md`, a beginner-oriented explainer of every tool/concept introduced (Node, npm, package.json/lock/node_modules, React, JSX/TSX, Next.js App Router, TypeScript, Tailwind, ESLint, Turbopack, dev vs. build vs. start, the generated folder structure), tied back to this portfolio specifically rather than generic framework docs.
+
+**Decisions:**
+- `next-portfolio/` is scaffolding only — no portfolio content, layout, or design has been ported or reimplemented yet. Lesson 2 (components/layouts/tokens/shared shell) has not started.
+- The generated `next-portfolio/CLAUDE.md` (`@AGENTS.md`) and `next-portfolio/AGENTS.md` (a Next.js-16-specific note to check `node_modules/next/dist/docs/` before writing unfamiliar APIs, since this Next.js version postdates a lot of training data) were inspected and left in place as-is — they're scoped to `next-portfolio/` only and don't conflict with or override the root `CLAUDE.md`'s portfolio rules, which continue to govern the static site and this repo's redesign work.
+- No dependency beyond the official `create-next-app` scaffold was installed (no React Bits, Motion, GSAP, or 21st.dev components).
+
+**Verified:**
+- `git diff static-redesign-checkpoint --stat` empty immediately after branch creation.
+- No nested `.git` directory inside `next-portfolio/` (`--disable-git` respected).
+- `git check-ignore -v` confirms the root repo respects `next-portfolio/.gitignore` for `node_modules` and `.next`.
+- Dev server (port 4202): page renders, zero console errors, zero terminal compile errors, HMR test round-tripped cleanly.
+- `npm run lint`: zero warnings/errors. `npm run build`: compiled successfully, both routes statically prerendered.
+- Static site (port 4200) still serves `200` after all of the above.
+- All seven pre-existing untracked items (`__pycache__/`, four asset crops, `VISUAL_CALIBRATION_AUDIT.md`, `v2-preview/bettr-editorial-layout/`) still present, untouched, unstaged.
+
+**Open:**
+- Lesson 2 ("React components, Next.js layouts, design tokens and the first shared site shell") not started, per explicit instruction not to begin it this session.
+- All open items from the static redesign (FrankenTeen/Echoes pending Bharat's visual approval, BETTR/CardioPal §16 writing pass, Kaltura extraction, touch-device verification, Hero G homepage integration) are unaffected and carried forward unchanged — this session touched none of that work.
+
+**Commit:** pending (this entry written just before the Lesson 1 commit)
+
 ### 2026-07-18 — Final static optimisation pass: FrankenTeen & Echoes (fifth session)
 
 **Stage:** Remaining pages (final static-design pass before the Next.js migration, per an explicit brief scoped to composition/image-selection/spacing fixes only — no restructuring, no new chapters, no new claims)

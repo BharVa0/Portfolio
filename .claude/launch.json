@@ -78,6 +78,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4200", "--bind", "127.0.0.1"],
       "port": 4200
+    },
+    {
+      "name": "next-portfolio",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "next-portfolio", "run", "dev", "--", "--port", "4202"],
+      "port": 4202
     }
   ]
 }
