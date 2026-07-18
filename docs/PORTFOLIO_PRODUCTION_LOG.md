@@ -30,6 +30,41 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-18 — Next.js shared site shell (Lesson 2)
+
+**Stage:** Foundation
+**Scope:** `next-portfolio/src/**` (new components/data/styles + rewritten `app/layout.tsx`, `app/page.tsx`, `app/globals.css`), `docs/NEXTJS_MIGRATION_GUIDE.md`, this log. No Hero G, no project page, no new dependency. Static portfolio files untouched.
+**Did:**
+- Audited `css/portfolio.css` and separated genuinely global rules (surfaces, ember family, fonts, type scale, gutter, content widths, section spacing, borders, focus ring) from Hero G/BETTR/CardioPal/FrankenTeen/Echoes-specific rules. Found the static site's own `[data-layout="reading"|"standard"|"wide"]` modes already match the brief's requested `PageContainer` variants exactly (46em / 88% / 100%) — carried over unchanged rather than inventing new widths.
+- Flagged (not fixed, out of scope): `css/portfolio.css` shows Hero G is already wired into the live `index.html`, contradicting `CLAUDE.md`'s current note that no homepage integration has happened — a documentation staleness issue for Bharat to reconcile separately.
+- Created `src/components/layout/{PageContainer,Section}.tsx`, `src/components/site/{SiteHeader,SiteNavigation,SkipLink}.tsx`, `src/data/navigation.ts`, `src/styles/{tokens.css,fonts.ts}` — the structure sketched in the brief, plus `styles/fonts.ts` (a font loader is a TS module call, not CSS).
+- `tokens.css`: exact color/spacing/type-scale values ported from the static site's `:root` block; no new palette. One honest gap documented: the static site's only `prefers-reduced-motion` rule is entirely Hero G-scoped, so the new `--motion-duration-*`/`--motion-ease` tokens are placeholders for Lesson 3, not ported values.
+- Fonts: `next/font/google` for Fraunces (variable, both italic/normal, `opsz` axis — the static site relies on in-between weights like 380/560 that only exist on the true variable instance), Inter (variable), Space Mono (static weight 400 only, matching the static site's actual usage). BETTR's Jersey 25/Rajdhani deliberately excluded.
+- Refactored `layout.tsx` (still a Server Component, no `"use client"`): font variables, factual metadata from `index.html`'s existing `<title>`/description/OG tags, `SkipLink`, `SiteHeader`, `<main id="main-content">`.
+- Replaced the generated starter `page.tsx` with a temporary, clearly-labelled shell-validation page: real name/tagline copy, three demo sections (Shared shell / Design tokens / Component architecture) exercising all three `PageContainer` variants and both `Section` rhythms, a token-driven color-swatch demo. No Hero G, images, fake projects, animations, or decorative effects.
+- Added TypeScript unions (`PageContainerVariant`, `SectionRhythm`) and a typed `NavigationEntry`; verified the union actually rejects bad input by writing a throwaway `variant="huge"` test file, running `tsc --noEmit` (`error TS2322: Type '"huge"' is not assignable...`), then deleting the test file.
+
+**Decisions:**
+- `PageContainer` and `Section` are two separate components (gutter + rhythm vs. width + centering are different concerns) rather than one combined wrapper.
+- Fraunces loaded as `weight: "variable"` after the first attempt (`weight: "300 700"`, a range string) was rejected by this Next.js version's font loader — see Verified/error note below.
+- No footer, no contact section, no loader, no cursor — explicitly deferred, per the brief.
+
+**Verified:**
+- Dev server (port 4202): one real error surfaced and fixed (below); after the fix, zero console/terminal errors on reload.
+- Headless Chrome screenshots at 1280/1920px, plus a 375px capture via the established iframe-harness pattern: header/nav readable and wrap gracefully at 375px, no horizontal overflow at any width, the three `PageContainer` variants visibly different widths at every breakpoint.
+- Skip link: keyboard `Tab` confirmed as first focusable element, becomes visible on focus (`top` moves from `-48px` to `16px`), targets `#main-content`, which exists on the page's actual `<main>`.
+- `npm run lint`: clean. `npm run build`: succeeded, TypeScript passed, `/` and `/_not-found` both statically prerendered.
+- `grep` across `next-portfolio/src` for `"use client"`: zero matches — every Lesson 2 component confirmed a Server Component.
+- **Real error hit and fixed:** `weight: "300 700"` for the Fraunces font loader failed outright (`Unknown weight 300 700 for font Fraunces. Available weights: 100, 200, 300, 400, 500, 600, 700, 800, 900, variable`) — this Next.js version doesn't accept a range string, only discrete weights or the literal `"variable"`. Fixed by switching to `weight: "variable"`.
+- Confirmed via `git status` that only the intended `next-portfolio/src/**` files changed; static portfolio files, the checkpoint tag, and all seven pre-existing untracked items remain untouched.
+
+**Open:**
+- Lesson 3 ("Porting Hero G and learning Client Components, hooks, browser APIs and interactive cleanup") not started, per explicit instruction.
+- The `CLAUDE.md` staleness flag above (Hero G already live in `index.html` despite the doc saying otherwise) is unresolved and not part of this session's scope.
+- All prior static-redesign open items unaffected and carried forward unchanged.
+
+**Commit:** pending (written just before the Lesson 2 commit)
+
 ### 2026-07-18 — Next.js migration foundation: branch + scaffold (Lesson 1)
 
 **Stage:** Foundation

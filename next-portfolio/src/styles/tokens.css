@@ -1,0 +1,76 @@
+/* Design tokens ported from the approved static portfolio
+   (../../../css/portfolio.css, :root block + the shared homepage rules).
+   Only genuinely global values are here — no Hero G, BETTR, CardioPal,
+   FrankenTeen or Echoes accents. Per-project tokens arrive with each
+   project page's own migration, later. */
+
+:root {
+  /* Surfaces + text — exact values from css/portfolio.css :root */
+  --ink: #0d0c0b;
+  --ink-soft: #151311;
+  --charcoal: #1d1a18;
+  --paper: #f2eee9;
+  --paper-soft: #ddd6cf;
+  --muted: #91877f;
+
+  /* Ember accent family */
+  --ember: #b84624;
+  --ember-deep: #7b2d17;
+  --ember-bright: #d35c34;
+
+  /* Borders */
+  --border-subtle: var(--charcoal);
+
+  /* Fonts — roles match css/portfolio.css; families attach once
+     next/font generates the actual --font-* variables in layout.tsx */
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+
+  /* Spacing scale, 8px base */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --space-12: 96px;
+
+  /* Desktop gutter + outer safety cap */
+  --page-margin: clamp(24px, 4vw, 96px);
+  --page-max: 2200px;
+
+  /* Content widths — the static site's three explicit data-layout modes
+     (reading | standard | wide), carried over unchanged */
+  --width-reading: 46em;
+  --width-standard: 88%;
+  --width-wide: 100%;
+
+  /* Section rhythm. --space-section is the shared homepage-level rule
+     (bare `section { padding: ... }`); --space-major/internal/evidence
+     are the separate, project-page-only editorial rhythm, opt-in per
+     page and not applied by the shared shell itself. */
+  --space-section: clamp(72px, 9vh, 128px);
+  --space-major: clamp(120px, 10vw, 170px);
+  --space-internal: clamp(48px, 5vw, 84px);
+  --space-evidence: clamp(24px, 3vw, 40px);
+
+  /* Type scale — homepage-level shared roles */
+  --fs-eyebrow: 0.78rem;
+  --fs-statement: clamp(1.7rem, 3.4vw, 2.6rem);
+  --fs-body: 1rem;
+  --fs-support: 1.05rem;
+
+  /* Focus ring — approved global treatment */
+  --focus-ring-color: var(--ember-bright);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 4px;
+
+  /* Motion placeholders. No global reduced-motion rule exists yet in
+     the static site (its one prefers-reduced-motion block is entirely
+     Hero G-scoped) — these are placeholders for Lesson 3's Client
+     Components, not values ported from an existing global rule. */
+  --motion-duration-fast: 150ms;
+  --motion-duration-base: 300ms;
+  --motion-ease: ease;
+}

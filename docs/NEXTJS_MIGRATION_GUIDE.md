@@ -274,3 +274,255 @@ on the first attempt. Two non-error notices appeared and needed no action:
 - **Static generation** — pre-rendering a page's HTML at build time rather
   than on every request; the build output showed `/` and `/_not-found` both
   marked `○ (Static)`.
+
+---
+
+# Lesson 2 — Components, layouts, design tokens, and the first shared shell
+
+Lesson 1 proved the toolchain. Lesson 2 builds the first real, reusable
+pieces: a header shared by every future page, a design-token system carried
+over from the approved static site (not reinvented), and a temporary demo
+homepage that exercises all of it. Still no Hero G, no project page, no new
+dependency — this lesson is entirely about shared foundation.
+
+## Components and props
+
+A **component** is a function that returns markup. `SiteHeader()` returns a
+`<header>`; calling `<SiteHeader />` from `layout.tsx` is exactly like
+calling a function and inlining its return value. **Props** are that
+function's arguments, passed like HTML attributes: `<Section rhythm="major">`
+passes `{ rhythm: "major" }` as the single argument object. Props are
+read-only — a component receives them but never reassigns them; if it needs
+to change, that's a job for state, which none of this lesson's components
+have.
+
+## Layouts and pages, revisited
+
+`layout.tsx` now does real work: it loads three fonts, wraps every route in
+`<html>`/`<body>`, renders `SkipLink` and `SiteHeader` once, and renders
+`{children}` inside a `<main id="main-content">`. `page.tsx` is still just
+the `/` route's content — the temporary demo sections. Because `layout.tsx`
+wraps `page.tsx`, the header and skip link will automatically appear on
+every future route added under `src/app/`, without repeating that markup
+per page.
+
+## Server Components (why nothing here needed "use client")
+
+Every component built this lesson — `SkipLink`, `SiteNavigation`,
+`SiteHeader`, `PageContainer`, `Section`, plus `layout.tsx` and `page.tsx`
+— is a Server Component: no `useState`, no `useEffect`, no event handlers,
+no `window`/`document` access. Next.js renders all of them to plain HTML
+on the server (or at build time, since the build output marked `/` as
+prerendered `○ (Static)`) and ships zero extra JavaScript for them. This
+is why the production build has almost no client bundle yet — there's
+nothing that needs to run in the browser.
+
+## What will require "use client" (not built this lesson)
+
+Lesson 3 introduces the first Client Components, because these specific
+features are impossible without browser-side JavaScript:
+
+- **Hero G's pointer-follow inspection lens** — reads live mouse position
+  (`mousemove`), which only exists in the browser, and re-renders on every
+  move (state).
+- **The custom cursor** — same: tracks pointer position continuously.
+- **The first-visit loader** — reads `sessionStorage` (`hs-loader-seen`) to
+  decide whether to show itself, and runs a countdown animation — both
+  browser-only, both need state.
+- **Any Motion/animation library usage** — animation libraries drive state
+  or refs across frames.
+- **Browser storage of any kind** (`sessionStorage`, `localStorage`) — these
+  APIs don't exist during server rendering at all.
+- The static site's own **`.reveal` + `IntersectionObserver` scroll-entrance
+  pattern** (`js/portfolio.js`), used site-wide beyond just the hero, is
+  also a future Client Component candidate for the same reason: it observes
+  live scroll position in the browser.
+
+None of these are implemented yet. `"use client"` is deliberately absent
+from every file in this lesson.
+
+## Design tokens
+
+A **design token** is a named value standing in for a hardcoded one —
+`--ember` instead of typing `#B84624` in forty places. `src/styles/tokens.css`
+is the new source of truth, holding the *exact* values audited from the
+approved static site's `css/portfolio.css :root` block: `--ink`, `--paper`,
+`--muted`, the `--ember` family, the type scale, the `--page-margin` gutter,
+and the three content widths (`--width-reading` / `--width-standard` /
+`--width-wide`) that map directly onto the static site's own
+`[data-layout="reading"|"standard"|"wide"]` modes — not new numbers, the
+same ones, just exposed as component props instead of a data attribute.
+
+One honest gap: the static site has exactly one `prefers-reduced-motion`
+rule, and it's entirely Hero G-specific. There is no separate *global*
+reduced-motion rule to carry over yet, so `tokens.css`'s
+`--motion-duration-*`/`--motion-ease` values are placeholders for Lesson 3,
+not ported values — the comment in the file says so rather than implying
+they came from an existing rule.
+
+## Tailwind 4's CSS-first theme
+
+Tailwind 4 doesn't require a `tailwind.config.js`. Instead, `globals.css`
+imports `tokens.css` and then has an `@theme inline` block that maps a
+subset of those same custom properties into Tailwind's own namespace —
+`--color-ember: var(--ember)` makes `bg-ember`/`text-ember` work as
+utilities, reading the identical value `tokens.css` defines. Nothing is
+duplicated: Tailwind utilities and hand-written CSS both trace back to one
+file.
+
+## Next.js font loading
+
+`next/font/google` downloads Google Fonts at build time and self-hosts
+them — the browser never makes a request to Google, unlike a normal CSS
+`@import url(fonts.googleapis.com/...)`, which does. This avoids an extra
+render-blocking network round trip and a layout shift when the font
+finally arrives.
+
+Three fonts were selected — the exact three already loaded by the static
+site's own Google Fonts `<link>` in `index.html` — no new font was
+introduced:
+
+- **Fraunces** (display) — loaded as a true variable font
+  (`weight: "variable"`, `axes: ["opsz"]`, both italic and normal styles).
+  A discrete weight list wouldn't work here: the static site already uses
+  in-between weights like `380` and `560` (Hero G's `.b2`/`.b1` bands) that
+  only exist on the variable instance.
+- **Inter** (body) — loaded as a variable font, matching how the static
+  site uses it at several static weights (400/500/600); a variable font
+  covers all of them from one file.
+- **Space Mono** (metadata/mono) — loaded at a single static weight, `400`
+  — Space Mono isn't a variable font on Google Fonts, and the static site
+  only ever uses it at regular weight (`.hero-meta strong` explicitly resets
+  bold back to 400).
+
+BETTR's project-specific fonts (Jersey 25, Rajdhani) were deliberately not
+touched — they're scoped to that project's own future migration, not the
+shared shell.
+
+Each font is configured with a `variable` option (`--font-display`,
+`--font-body`, `--font-mono`) in `src/styles/fonts.ts`, applied to
+`<html className>` in `layout.tsx`, and consumed by `tokens.css`'s
+`--font-display`/`--font-body`/`--font-mono` declarations — the same
+variable names the static site already used, so the rest of the CSS didn't
+need to change.
+
+## File structure created
+
+```
+next-portfolio/src/
+├── app/
+│   ├── globals.css       — imports tokens.css, Tailwind theme, global rules
+│   ├── layout.tsx        — root layout: fonts, metadata, SkipLink, SiteHeader
+│   └── page.tsx          — temporary Lesson 2 shell-validation homepage
+├── components/
+│   ├── layout/
+│   │   ├── PageContainer.tsx
+│   │   └── Section.tsx
+│   └── site/
+│       ├── SiteHeader.tsx
+│       ├── SiteNavigation.tsx
+│       └── SkipLink.tsx
+├── data/
+│   └── navigation.ts     — typed navigation entries
+└── styles/
+    ├── tokens.css         — design tokens (source of truth)
+    └── fonts.ts            — next/font/google definitions
+```
+
+This matches the structure sketched at the start of the lesson exactly,
+with one small addition explained here: `styles/fonts.ts` alongside
+`styles/tokens.css`, since Next.js's font loader is a TypeScript module
+call (it has to run in a Server Component), not something that fits inside
+a `.css` file the way the color/spacing tokens do.
+
+## TypeScript types added
+
+Four small types, each catching a specific category of mistake:
+
+- **`NavigationEntry`** (`data/navigation.ts`) — `{ label: string; href: string }`.
+  Protects against a navigation entry silently missing its `href` or having
+  a typo'd field name (`herf`) that would otherwise fail only at runtime,
+  as a broken link, with no warning at all.
+- **`PageContainerVariant`** — `"reading" | "standard" | "wide"`, a fixed
+  union rather than `string`. A union of exact allowed values means the
+  compiler rejects anything not in that list *before the code ever runs*.
+  A plain `string` prop would accept `"reeding"` (a typo) or `"huge"` (a
+  variant that doesn't exist) silently — it would compile, run, and quietly
+  render as the browser's default (no `max-width` rule matches), with no
+  error anywhere. Confirmed directly: temporarily writing
+  `<PageContainer variant="huge">` and running `tsc --noEmit` produces
+  ```
+  error TS2322: Type '"huge"' is not assignable to type 'PageContainerVariant | undefined'.
+  ```
+  That test file was written, checked, and deleted — nothing broken is
+  left in the project.
+- **`SectionRhythm`** — `"major" | "compact"`, the same reasoning as
+  `PageContainerVariant`: a typo'd rhythm name fails at compile time instead
+  of silently falling back to no spacing rule matching.
+- **`children: ReactNode`** (on both `PageContainerProps` and
+  `SectionProps`) — `ReactNode` is React's type for "anything React can
+  render": a string, a number, an element, an array of elements, or
+  nothing. It's used instead of a narrower type because a layout
+  component's whole job is to wrap arbitrary content — a `PageContainer`
+  might wrap a paragraph today and a whole page section with three
+  headings and a list tomorrow, and `ReactNode` is the type that permits
+  that without lying about what's actually allowed (a narrower type like
+  `string` would reject perfectly valid JSX children).
+
+## Commands used
+
+```
+npm run dev -- --port 4202     # via .claude/launch.json "next-portfolio" config
+npm run lint
+npm run build
+npx tsc --noEmit -p tsconfig.json   # one-off, to confirm the variant-union error
+
+git add next-portfolio docs/NEXTJS_MIGRATION_GUIDE.md docs/PORTFOLIO_PRODUCTION_LOG.md
+git commit -m "Build shared Next.js site shell"
+```
+
+## QA results
+
+- Dev server (port 4202): one real error surfaced and was fixed — see
+  below — after which the page rendered cleanly with zero console/terminal
+  errors.
+- Screenshots reviewed at 1280 / 1920px (headless Chrome) and 375px (via
+  the iframe-harness pattern, since a bare headless capture at narrow
+  widths has been unreliable in past sessions on this project): header and
+  nav readable at all widths, nav and swatches wrap gracefully at 375px, no
+  horizontal overflow at any width, `PageContainer`'s three variants
+  (reading/standard/wide) visibly different widths at every breakpoint.
+- Skip link: confirmed via keyboard `Tab` that it's the first focusable
+  element, becomes visible on focus (`top` moves from `-48px` to `16px`),
+  and targets `#main-content`, which is confirmed to exist on the page's
+  actual `<main>` element.
+- `npm run lint`: clean, zero warnings.
+- `npm run build`: succeeded, TypeScript passed, `/` and `/_not-found` both
+  prerendered as static content.
+- All components confirmed to contain no `"use client"` directive
+  (`grep` across `src/`, zero matches).
+
+**One real error surfaced and fixed this lesson:** the first font
+configuration used `weight: "300 700"` for Fraunces (a range string),
+which this Next.js version's font loader rejected outright —
+`Unknown weight 300 700 for font Fraunces. Available weights: 100, 200,
+300, 400, 500, 600, 700, 800, 900, variable` — because this build only
+accepts a discrete weight, a list of discrete weights, or the literal
+string `"variable"` for a variable font, not an arbitrary range string.
+Fixed by changing to `weight: "variable"`, which is also the more correct
+choice here since the static site actually relies on in-between weights
+(380, 560) that only exist on the true variable instance.
+
+## What Bharat should now be able to explain
+
+- What a props type protects against, with a concrete example
+  (`PageContainerVariant` rejecting `"huge"` at compile time).
+- Why every component built this lesson is a Server Component, and which
+  four specific future features (pointer lens, custom cursor, loader,
+  Motion) will be the first to need `"use client"`.
+- Where a color or width value lives (`tokens.css`) versus where it's
+  exposed as a Tailwind utility (`globals.css`'s `@theme inline` block).
+- Why Next.js font loading avoids an extra network request that a plain
+  CSS `@import` wouldn't.
+- Why `PageContainer` and `Section` are two separate components rather
+  than one (gutter + rhythm vs. width + centering are different concerns).
