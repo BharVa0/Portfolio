@@ -31,8 +31,15 @@
   --cardiopal-accent-dim: rgba(91, 122, 115, 0.14);
   --frankenteen-accent: #C68A2E;
   --frankenteen-accent-deep: #8C5F1C;
+  --frankenteen-violet: #7A5A82;
+  --frankenteen-violet-deep: #4E3654;
   --frankenteen-cream: #E7E0CC;
   --frankenteen-cream-line: rgba(13, 12, 11, 0.16);
+  --echoes-accent: #87A2B8;
+  --echoes-accent-deep: #56707F;
+  --echoes-slate: #171B20;
+  --echoes-slate-line: rgba(135, 162, 184, 0.20);
+  --echoes-lamp: #C99A5B;
 
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
@@ -956,6 +963,25 @@ html.cursor-ready button {
 .project-frankenteen {
   --proj-accent: var(--frankenteen-accent);
   --proj-accent-deep: var(--frankenteen-accent-deep);
+  --proj-feature-surface: #1B140C;
+  --proj-feature-line: rgba(198, 138, 46, 0.26);
+}
+
+.project-echoes {
+  --proj-accent: var(--echoes-accent);
+  --proj-accent-deep: var(--echoes-accent-deep);
+  --proj-feature-surface: var(--echoes-slate);
+  --proj-feature-line: var(--echoes-slate-line);
+}
+
+/* Desaturated, cooled treatment for raw Unity/Blender viewport captures —
+   generic and unscoped so any future project page with the same
+   development-capture constraint (editor chrome unavoidable, no clean
+   outcome render available) can reuse it, not just Echoes. Never applied
+   to final-outcome imagery, only honestly-labelled process evidence. */
+.proj-shot.tone-dim img,
+.tone-dim img {
+  filter: saturate(0.78) brightness(0.94) contrast(1.03);
 }
 
 /* ==========================================================================
@@ -1188,6 +1214,228 @@ html.cursor-ready button {
   .project-cardiopal .proj-thesis { font-size: clamp(1.15rem, 4vw, 30px); }
   .project-cardiopal .proj-section-title { font-size: clamp(1.6rem, 5vw, 48px); }
   .project-cardiopal .feature-row { grid-template-columns: 1fr; gap: 8px; }
+}
+
+/* ==========================================================================
+   FrankenTeen-specific — theatrical/zine register: mustard stage-light
+   accent plus a bruised-violet secondary used only as a low-contrast
+   chapter watermark. Rebuilt 2026-07-17 (corrective pass): the opening no
+   longer carries an image behind the title, the old floating act-tag chip
+   and detached oversized numeral are gone, and feature-surface chapters
+   are sized to actually fill their panel with real evidence. Structure
+   reuses the shared editorial classes; bespoke widgets (credit grid) stay
+   inline in the page per the stylesheet's own convention. */
+
+.project-frankenteen .proj-hero { padding-top: clamp(40px, 5vh, 72px); padding-bottom: clamp(32px, 3.5vw, 56px); }
+.project-frankenteen .proj-title { font-size: var(--ed-fs-title); }
+.project-frankenteen .proj-thesis { font-size: var(--ed-fs-thesis); max-width: none; margin-top: var(--space-evidence); }
+.project-frankenteen .proj-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px var(--grid-gap);
+  margin-top: var(--space-evidence);
+  padding-top: 28px;
+}
+.project-frankenteen .proj-ownership { margin-top: var(--space-evidence); font-size: var(--ed-fs-support); max-width: none; }
+.project-frankenteen .hero-visual {
+  border: 1px solid var(--proj-line);
+  background: var(--proj-surface-2);
+  overflow: hidden;
+}
+.project-frankenteen .hero-visual img { width: 100%; height: auto; display: block; }
+.project-frankenteen .hero-visual figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  color: var(--muted);
+  padding: 12px 16px;
+  border-top: 1px solid var(--proj-line);
+  line-height: 1.5;
+}
+@media (min-width: 1024px) {
+  .project-frankenteen .proj-embed { height: clamp(560px, 64vh, 780px); }
+}
+.project-frankenteen .proj-eyebrow,
+.project-frankenteen .proj-meta-item,
+.project-frankenteen .proj-artifact-bar,
+.project-frankenteen .proj-artifact-caption,
+.project-frankenteen .proj-frame-bar,
+.project-frankenteen .proj-shot-caption,
+.project-frankenteen .process-tag { font-size: var(--ed-fs-meta); }
+
+.project-frankenteen .proj-section { padding-top: var(--space-major); }
+.project-frankenteen .proj-section:first-of-type { padding-top: clamp(56px, 5vw, 88px); }
+.project-frankenteen .proj-section.is-feature-chapter { padding-top: clamp(95px, 8vw, 140px); }
+.project-frankenteen .proj-section-head { margin-bottom: var(--space-internal); position: relative; }
+.project-frankenteen .proj-num { font-size: var(--ed-fs-cardhead); }
+.project-frankenteen .proj-section-title { font-size: var(--ed-fs-h2); position: relative; }
+.project-frankenteen .proj-section-title.is-feature { font-size: var(--ed-fs-h2-feature); }
+.project-frankenteen .proj-body { font-size: var(--ed-fs-body); }
+.project-frankenteen .proj-body-muted { font-size: var(--ed-fs-support); }
+.project-frankenteen .proj-lede { margin-bottom: var(--space-evidence); }
+
+/* Chapter mark — a very low-contrast Roman numeral woven directly behind
+   a chapter heading, naming which act the chapter belongs to. Not a
+   floating decorative object: it sits inside the heading's own box,
+   never extends into empty space beside it, and reads as a soft texture
+   rather than a separate shape. Used once, on the two Act 3 chapters. */
+.project-frankenteen .proj-section-title > .chapter-mark {
+  position: absolute;
+  left: 0.03em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 340;
+  font-size: 2.05em;
+  line-height: 1;
+  color: var(--frankenteen-violet);
+  opacity: 0.065;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.project-frankenteen .proj-section-title > *:not(.chapter-mark) { position: relative; z-index: 1; }
+
+/* Feature-chapter media — large, filled panels. Two-up evidence pairs
+   (approach + build, dominant + technical inset) sit at a size that
+   actually occupies its space, never a small image adrift in empty
+   space. Shared/unscoped: any project page can reach for a dominant
+   image plus a smaller companion image without a stretched grid ratio.
+   Each figure targets its own native-capped width (--native-w) via
+   flex-basis; on desktop the row never wraps, so both figures share the
+   row and shrink together (proportionally, via equal flex-shrink) when
+   their combined native widths exceed the panel, never stretching a
+   source image past its real pixel size, and never stranding a small
+   image on its own mostly-empty row either. */
+.feature-media {
+  display: flex;
+  flex-direction: column;
+  gap: var(--seam);
+}
+@media (min-width: 1024px) {
+  .feature-media { flex-direction: row; align-items: flex-start; }
+}
+.feature-media figure {
+  background: var(--proj-surface-2);
+  border: 1px solid var(--proj-feature-line, var(--proj-line));
+  overflow: hidden;
+  flex: 1 1 var(--native-w, 100%);
+  max-width: var(--native-w, 100%);
+  min-width: 0;
+}
+.feature-media img { width: 100%; height: auto; display: block; }
+.feature-media figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  color: var(--muted);
+  padding: 12px 16px;
+  border-top: 1px solid var(--proj-feature-line, var(--proj-line));
+  line-height: 1.5;
+}
+
+/* Mobile safety — desktop numbers above are too large below the grid
+   breakpoint (same precedent as BETTR/CardioPal). */
+@media (max-width: 1023px) {
+  .project-frankenteen .proj-title { font-size: clamp(2.8rem, 12vw, 100px); }
+  .project-frankenteen .proj-thesis { font-size: clamp(1.15rem, 4vw, 30px); }
+  .project-frankenteen .proj-section-title { font-size: clamp(1.6rem, 5vw, 48px); }
+  .project-frankenteen .proj-section-title.is-feature { font-size: clamp(1.9rem, 6vw, 60px); }
+  .project-frankenteen .proj-section-title > .chapter-mark { font-size: 1.7em; opacity: 0.08; }
+}
+
+/* ==========================================================================
+   Echoes of Home-specific — quiet, spatial register: a muted cool
+   blue-grey primary accent (rules, links, section numbers, the scene-flow
+   corridor) against a deep desaturated navy/slate feature surface. Warm
+   lamp amber (--echoes-lamp) is a deliberately rare second accent, used
+   only for the one or two moments that are actually about lamp light or
+   memory, never as a second primary colour. Distinct from FrankenTeen's
+   mustard/violet, CardioPal's sage, and BETTR's red. Structure reuses the
+   shared editorial classes; the scene-flow corridor and the quiet
+   interlude are the two bespoke, page-local components (styled inline
+   per the stylesheet's own convention for one-off widgets). */
+
+.project-echoes .proj-hero { padding-top: clamp(40px, 5vh, 72px); padding-bottom: clamp(48px, 5vw, 80px); }
+.project-echoes .proj-title { font-size: var(--ed-fs-title); }
+.project-echoes .proj-thesis { font-size: var(--ed-fs-thesis); max-width: none; margin-top: var(--space-evidence); }
+.project-echoes .proj-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px var(--grid-gap);
+  margin-top: var(--space-evidence);
+  padding-top: 28px;
+}
+.project-echoes .proj-ownership { margin-top: var(--space-evidence); font-size: var(--ed-fs-support); max-width: none; }
+@media (min-width: 1024px) {
+  .project-echoes .proj-embed { height: clamp(520px, 58vh, 720px); }
+}
+.project-echoes .proj-eyebrow,
+.project-echoes .proj-meta-item,
+.project-echoes .proj-artifact-bar,
+.project-echoes .proj-artifact-caption,
+.project-echoes .proj-frame-bar,
+.project-echoes .proj-shot-caption,
+.project-echoes .process-tag { font-size: var(--ed-fs-meta); }
+
+.project-echoes .proj-section { padding-top: var(--space-major); }
+.project-echoes .proj-section:first-of-type { padding-top: clamp(80px, 7vw, 124px); }
+.project-echoes .proj-section.is-feature-chapter { padding-top: clamp(110px, 9vw, 165px); }
+.project-echoes .proj-section-head { margin-bottom: var(--space-internal); }
+.project-echoes .proj-num { font-size: var(--ed-fs-cardhead); }
+.project-echoes .proj-section-title { font-size: var(--ed-fs-h2); }
+.project-echoes .proj-body { font-size: var(--ed-fs-body); }
+.project-echoes .proj-body-muted { font-size: var(--ed-fs-support); }
+.project-echoes .proj-lede { margin-bottom: var(--space-evidence); }
+.project-echoes .proj-shot-caption { font-style: italic; }
+
+/* Quiet interlude — one deliberate full-width transition between
+   chapters, not a line of text floating in empty space: a single line of
+   the project's own language, framed by a hairline rule in the project's
+   own blue-grey accent above and below, with controlled, generous
+   padding on both sides. The signature move for this page, spent once,
+   echoing the project's own "the pacing is the point" design instinct
+   rather than illustrating it with more imagery. */
+.echoes-pause {
+  padding: clamp(48px, 7vw, 96px) var(--page-margin);
+  text-align: center;
+  border-top: 1px solid color-mix(in srgb, var(--echoes-accent) 40%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--echoes-accent) 40%, transparent);
+}
+.echoes-pause p {
+  margin: 0 auto;
+  max-width: 20em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 340;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  line-height: 1.4;
+  color: var(--proj-text-soft);
+}
+.echoes-pause p em { color: var(--echoes-lamp); font-style: italic; }
+
+/* Lamp-light word — the other deliberate, rare use of warm amber: an
+   inline span for the specific phrase describing the room's late-
+   afternoon glow, not a general emphasis colour. */
+.lamp-word { color: var(--echoes-lamp); }
+
+/* One selected large heading treatment — the room chapter's title picks
+   up the blue-grey accent directly, the single deliberate moment the
+   identity colour appears at display scale rather than just in small
+   structural marks (numbers, rules, captions). Used once, not on every
+   heading, so it stays a signal rather than becoming decoration. */
+.project-echoes .accent-heading { color: var(--proj-accent); }
+
+/* Large single-image chapters — one dominant, native-capped visual per
+   chapter rather than a small screenshot lost in empty space. */
+.project-echoes .proj-dominant-shot { margin-top: 0; }
+.project-echoes .proj-dominant-shot .proj-shot-caption { font-style: normal; }
+
+/* Mobile safety */
+@media (max-width: 1023px) {
+  .project-echoes .proj-title { font-size: clamp(2.8rem, 12vw, 100px); }
+  .project-echoes .proj-thesis { font-size: clamp(1.15rem, 4vw, 30px); }
+  .project-echoes .proj-section-title { font-size: clamp(1.6rem, 5vw, 48px); }
 }
 
 /* === Breadcrumb / prev-next frame === */
@@ -1634,6 +1882,51 @@ html.cursor-ready button {
 .video-block { background: var(--proj-surface-2); border: 1px solid var(--proj-line); overflow: hidden; }
 .video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
 .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Click-to-load poster facade: replaces a video host's own default
+   thumbnail (which can expose editor chrome, a facecam, or placeholder
+   text) with a quiet typographic cover instead of a stretched or
+   awkwardly small image. The iframe itself is only created on click,
+   so nothing loads from the video host until the reader asks for it. */
+.video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--proj-feature-surface, #000);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  cursor: pointer;
+}
+.video-poster-play {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid var(--proj-accent);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.video-poster:hover .video-poster-play,
+.video-poster:focus-visible .video-poster-play {
+  background: var(--proj-accent);
+  color: var(--ink);
+}
+.video-poster-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--paper);
+}
 .video-label {
   font-family: var(--font-mono);
   font-size: var(--ed-fs-caption);

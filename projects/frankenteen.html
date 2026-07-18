@@ -4,31 +4,16 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>FrankenTeen | Bharat Vyas Kodamana</title>
-<meta name="description" content="FrankenTeen — a top-down retelling of Frankenstein as teenage rebellion, built around one guitar input. Team of three; Act 3, the mansion, was mine.">
+<meta name="description" content="FrankenTeen: a top-down retelling of Frankenstein as teenage rebellion, built by a team of three. This case study covers Act 3, the mansion approach, the attic confrontation, and the systems I built to carry it.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FrankenTeen | Bharat Vyas Kodamana">
-<meta property="og:description" content="A control scheme as identity: one guitar input carries exploration, dialogue, and confrontation.">
-<meta property="og:image" content="../assets/frankenteen/frankenteen-hero-crop.jpg">
+<meta property="og:description" content="Designing and building Act 3 of a three-act guitar-driven adventure game: the mansion approach, the attic confrontation, and the Unity systems behind them.">
+<meta property="og:image" content="../assets/frankenteen/mansion-gate-crop.jpg">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/portfolio.css">
-<style>
-  /* FrankenTeen-specific: the credit grid and level-pacing chart use a
-     "dirty cream" notebook-paper surface, echoing the game's own second-pass
-     UI (torn-paper, marker-scrawled) rather than inventing a new motif. */
-  .credit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-top: var(--space-4); }
-  .credit-card { background: var(--frankenteen-cream); color: #201C14; border: 1px solid var(--frankenteen-cream-line); padding: var(--space-3); }
-  .credit-card.mine { box-shadow: inset 0 0 0 2px var(--proj-accent); }
-  .credit-role { font-family: var(--font-mono); font-size: 0.68rem; color: var(--proj-accent-deep); text-transform: uppercase; letter-spacing: 0.04em; }
-  .credit-name { font-size: 1rem; font-weight: 600; margin-top: 8px; }
-  .credit-list { font-size: 0.82rem; color: #4A4432; line-height: 1.7; margin-top: var(--space-2); padding-top: var(--space-2); border-top: 1px solid var(--frankenteen-cream-line); }
-
-  .pacing-note { background: var(--frankenteen-cream); color: #201C14; border: 1px solid var(--frankenteen-cream-line); padding: var(--space-3) var(--space-4); margin-top: var(--space-4); font-family: var(--font-display); font-style: italic; font-size: 1.05rem; line-height: 1.5; }
-
-  @media (max-width: 760px) { .credit-grid { grid-template-columns: 1fr; } }
-</style>
 </head>
 <body class="project-page project-frankenteen">
 <a class="skip-link" href="#content">Skip to content</a>
@@ -43,192 +28,178 @@
 
 <main id="content">
 
+  <!-- ============ OPENING — typography-led, one restrained visual ============ -->
   <section class="proj-hero">
-    <div class="proj-hero-grid">
-      <div class="proj-hero-main">
-        <p class="proj-eyebrow">Game design · Team of 3</p>
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-7">
+        <p class="proj-eyebrow">Game design · Team of three · Unity, Blender</p>
         <h1 class="proj-title">FrankenTeen</h1>
-        <p class="proj-thesis">A top-down isometric retelling of Frankenstein as teenage rebellion. Adam runs from boarding school to confront the man who made him, and the guitar strapped to his back is the only input the game ever asks for: exploration, dialogue, music, and confrontation, all through one mechanic.</p>
+        <p class="proj-thesis">FrankenTeen retells Frankenstein as teenage rebellion. Adam leaves boarding school to confront the man who made him, and a guitar is the only input the game ever asks for: exploration, dialogue, music, confrontation.</p>
+        <p class="proj-ownership">FrankenTeen was made by a team of three. I designed and built Act 3 end to end, the mansion approach and the attic confrontation, working in Blender and Unity to handle the environment, triggers, dialogue, and interaction that carry the ending.</p>
       </div>
-      <div class="proj-hero-aside">
-        <div class="proj-meta-grid">
-          <div class="proj-meta-item"><span class="proj-meta-label">Role</span>Designer, Act 3</div>
-          <div class="proj-meta-item"><span class="proj-meta-label">Tools</span>Unity · Blender</div>
-          <div class="proj-meta-item"><span class="proj-meta-label">Team</span>3 designers</div>
-          <div class="proj-meta-item"><span class="proj-meta-label">Contribution</span>90/100, self-assessed</div>
-        </div>
-        <p class="proj-ownership">Team of three. I owned Act 3 end to end — the mansion, the Victor encounter, and the game's emotional peak — named explicitly in the credit grid below.</p>
+      <div class="c8-13 self-center">
+        <figure class="hero-visual">
+          <img src="../assets/frankenteen/mansion-gate-crop.jpg" width="1070" height="657" alt="The mansion at dusk, seen through its front gate, in Act 3" />
+          <figcaption>Act 3, the mansion, the space I built</figcaption>
+        </figure>
       </div>
     </div>
   </section>
 
-  <section class="proj-artifact reveal">
-    <div class="proj-artifact-frame">
-      <div class="proj-artifact-bar">
-        <span>process footage · Act 3, greybox to playable</span>
-      </div>
-      <div style="position:relative; width:100%; aspect-ratio:16/9; background:#000;">
-        <iframe style="width:100%; height:100%; border:0;" src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_j1w7k3an&config[provider]={&quot;widgetId&quot;:&quot;1_rganw230&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="FrankenTeen process recording" loading="lazy" data-cursor="Play"></iframe>
-      </div>
-    </div>
-    <p class="proj-artifact-caption">Recorded directly from the Unity editor during Act 3 development — the section I owned end to end.</p>
-  </section>
-
+  <!-- ============ 01 — THE SHARED CONCEPT ============ -->
   <section class="proj-section reveal">
     <div class="proj-section-head">
       <span class="proj-num mono">01</span>
-      <h2 class="proj-section-title">The idea</h2>
+      <h2 class="proj-section-title">The shared concept</h2>
     </div>
     <div class="cols" data-layout="asymmetric">
-      <div class="c1-7">
-        <p class="proj-body">FrankenTeen reinterprets Mary Shelley's Frankenstein through a coming-of-age lens rather than a horror one. The Creature becomes Adam: a rebellious teenager navigating expectation, control, and emotional isolation rather than literal monstrosity. The narrative stays linear, but player input shapes emotional tone rather than plot direction — dialogue choices reflect Adam's stance in the moment, defensive, dismissive, vulnerable, or confrontational, and those tonal shifts carry through to the final confrontation with Victor.</p>
-        <p class="proj-body">The world is built from gothic architecture — tall arches, heavy stone, vertical weight — with Adam's punk identity deliberately disrupting it. The guitar, his posture, his attitude are all visual friction against the environment around him. Across three acts, school, town, and mansion, the spatial design moves from confinement to rebellion to intimate confrontation.</p>
-      </div>
-      <div class="c8-13 self-center">
-        <div class="proj-shot native" style="--native-w:600px;">
-          <img src="../assets/frankenteen/room-thumb-crop.jpg" width="600" height="320" loading="lazy" alt="Isometric render of Adam's bedroom — warm rug, band posters, guitar by the bed — the game's opening space" />
-          <div class="proj-shot-caption">Adam's bedroom, isometric render — team art pass, the game's opening space</div>
+      <div class="c1-6 self-center">
+        <div class="proj-shot native" style="--native-w:660px;">
+          <img src="../assets/frankenteen/bedroom-clean-crop.jpg" width="660" height="435" loading="lazy" alt="Isometric render of Adam's bedroom: warm rug, band posters, guitar and amp by the bed, the game's opening space" />
+          <div class="proj-shot-caption">Adam's bedroom, the game's opening space</div>
         </div>
+        <div class="proj-shot native" style="--native-w:330px; margin-top:16px;">
+          <img src="../assets/frankenteen/guitar-prop-crop.jpg" width="330" height="127" loading="lazy" alt="Clean Blender render of the guitar prop" />
+          <div class="proj-shot-caption">The guitar prop, modelled in Blender</div>
+        </div>
+      </div>
+      <div class="c7-13">
+        <p class="proj-lede">We reinterpreted Frankenstein as a coming-of-age story instead of a horror one. The Creature becomes Adam, and the guitar he carries everywhere is both his identity and the game's only mechanic.</p>
+        <p class="proj-body">The world blends gothic architecture, tall arches, heavy stone, with Adam's punk identity disrupting it through posture, attitude, and that guitar. We kept the visuals low poly and let mood come from lighting and shadow instead of surface detail. The core interaction is a single input that context-switches between talking to NPCs, playing music, and, in confrontational moments, an expressive combat action. One button carrying that much weight meant the guitar had to read as identity and tool at once, never just a prop.</p>
+        <p class="proj-body proj-body-muted" style="margin-top:var(--space-3);">Most of the code is self-written. A couple of methods were borrowed and modified from an earlier project, and I used AI assistance to fix a persistent collider bug during Act 3 development.</p>
       </div>
     </div>
   </section>
 
+  <!-- ============ 02 — DESIGNING ACT 3 AND ITS PACING ============ -->
   <section class="proj-section reveal">
     <div class="proj-section-head">
       <span class="proj-num mono">02</span>
-      <h2 class="proj-section-title">One mechanic, every system</h2>
-    </div>
-    <p class="proj-body">The core idea is simple to state and harder to build well: the player can "play rock music" at certain NPCs or objects, and that single action changes what's possible around it. The guitar is always attached to Adam, so the same input context-switches between interaction, dialogue initiation, performance, and, in confrontational moments, an expressive combat action. The control scheme stays simple while the guitar carries the entire thematic weight of the game — it's identity and tool at once.</p>
-    <p class="proj-body proj-body-muted">Most of the code is self-written. A couple of swap and handler methods were adapted from an earlier project, and I used AI assistance to debug a persistent collider issue during Act 3 development.</p>
-  </section>
-
-  <section class="proj-section reveal">
-    <div class="proj-section-head">
-      <span class="proj-num mono">03</span>
-      <h2 class="proj-section-title">Level design and greyboxing</h2>
-    </div>
-    <div class="cols" data-layout="asymmetric">
-      <div class="c1-6">
-        <p class="proj-body">Level design followed emotional pacing rather than environmental scale. Each space is shaped to reflect Adam's psychological state and guide movement without unnecessary complexity. Layouts stay readable from a fixed isometric camera: sightlines, scale, and object placement are controlled to avoid occlusion, and movement is directed through narrowing corridors, open plazas, and linear procession paths rather than explicit signage.</p>
-        <p class="pacing-note">Pacing tracked emotional intensity from School through Town to House — a rising line, not a flat one, plotted against the same three-act structure as the world map below.</p>
-      </div>
-      <div class="c7-13 self-center">
-        <div class="proj-shot native" style="--native-w:655px;">
-          <img src="../assets/frankenteen/act1-dorm-crop.jpg" width="655" height="440" loading="lazy" alt="Act 1.1, Adam's dorm, greybox stage in Unity" />
-          <div class="proj-shot-caption">Act 1.1 — Adam's dorm, greybox stage</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="proj-section reveal">
-    <div class="proj-section-head">
-      <span class="proj-num mono">04</span>
-      <h2 class="proj-section-title">Designing in response to feedback</h2>
+      <h2 class="proj-section-title">Designing Act 3 and its pacing</h2>
     </div>
     <div class="cols" data-layout="asymmetric">
       <div class="c1-5">
-        <p class="proj-body">The first pass at UI leaned gothic, matching the architecture. The main feedback after that phase was to lean harder into the teenage rebellion side of the story rather than the horror side. The visual language shifted toward 90s zine culture: Raygun magazine, experimental typography, torn-paper textures. The pause and title screens became a notebook page with marker-scrawled menu items, which reads instantly as a teenager defacing schoolwork rather than a gothic interface.</p>
-        <p class="proj-body proj-body-muted" style="margin-top:var(--space-3);">Worth being direct about scope here: this style direction was fully designed but not fully wired into the shipped build given the time available. What's shown is the intended visual system, built and ready, rather than a completed in-game menu.</p>
+        <p class="proj-lede">Level design follows emotional pacing, not environmental scale. Each act had to intensify, and Act 3 needed to land as the highest point, not just the last location on the map.</p>
+        <p class="proj-body">I built the mansion approach and attic against that same curve: wide, open grounds outside give the player room to breathe after two acts of confinement, then the attic takes that room away again for the confrontation. Layouts stay readable from the fixed isometric camera through sightlines and object placement rather than signage, the same discipline the whole team used, just carried further here.</p>
       </div>
       <div class="c6-13 self-center">
-        <div class="cols" data-layout="media-grid" style="margin-top:0;">
-          <div class="proj-shot native c1-7" style="--native-w:560px;">
-            <img src="../assets/frankenteen/ui-notebook-crop.jpg" width="560" height="310" loading="lazy" alt="FrankenTeen notebook-styled main menu, second UI pass" />
-            <div class="proj-shot-caption">Main menu, second pass — notebook page, marker-scrawled labels</div>
-          </div>
-          <div class="proj-shot native c7-13" style="--native-w:660px;">
-            <img src="../assets/frankenteen/ui-paused-crop.jpg" width="660" height="390" loading="lazy" alt="FrankenTeen pause screen with hand-drawn PAUSED marker scrawl over the notebook menu" />
-            <div class="proj-shot-caption">Pause screen — same system, the "PAUSED" scrawl in character</div>
-          </div>
+        <div class="proj-shot native" style="--native-w:810px;">
+          <img src="../assets/frankenteen/pacing-chart-crop.jpg" width="810" height="625" loading="lazy" alt="Design-document chart plotting emotional intensity across School, Town, and House, rising sharply into House" />
+          <div class="proj-shot-caption">Emotional pacing, from the design document. School is Act 1, Town is Act 2, House is Act 3.</div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ============ 03 — BUILDING THE MANSION APPROACH ============ -->
+  <section class="proj-section is-feature-chapter reveal">
+    <div class="proj-section-head">
+      <span class="proj-num mono">03</span>
+      <h2 class="proj-section-title is-feature"><span class="chapter-mark" aria-hidden="true">III</span><span>Building the mansion approach</span></h2>
+    </div>
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-9">
+        <p class="proj-lede">By Act 3, Adam has spent two acts being restricted. I wanted the approach to feel like that pressure finally breaking open, before I take the room away again in the attic.</p>
+      </div>
+    </div>
+
+    <div class="proj-feature-surface">
+      <div class="feature-media pair">
+        <figure style="--native-w:1022px;">
+          <img src="../assets/frankenteen/mansion-approach-crop.jpg" width="1022" height="627" loading="lazy" alt="The mansion grounds in the Unity editor, fountain and gate visible, with a spatial trigger volume marked" />
+          <figcaption>The wireframe marks a trigger volume around the fountain, one of the spatial cues that slows the player down before the door.</figcaption>
+        </figure>
+        <figure style="--native-w:444px;">
+          <img src="../assets/frankenteen/mansion-progression-crop.jpg" width="444" height="894" loading="lazy" alt="Three-stage build progression of the mansion exterior: texturing, lighting, and colliders" />
+          <figcaption>Texturing, then lighting, then colliders. Lighting is what turned a grey building into a place worth walking toward.</figcaption>
+        </figure>
+      </div>
+      <p class="proj-annotation" style="margin-top:var(--space-evidence);">I built the mansion from the team's modular kit, wall sections, roof pieces, door frames, so I could iterate on its silhouette without remodelling every time the layout changed. The gate, fountain, and tree-lined path are pacing beats, not decoration: trigger volumes keep movement controlled right up to the door, the same logic as the level design, scaled to a full act.</p>
+    </div>
+  </section>
+
+  <!-- ============ 04 — DESIGNING THE ATTIC CONFRONTATION ============ -->
+  <section class="proj-section is-feature-chapter reveal">
+    <div class="proj-section-head">
+      <span class="proj-num mono">04</span>
+      <h2 class="proj-section-title is-feature"><span class="chapter-mark" aria-hidden="true">III</span><span>Designing the attic confrontation</span></h2>
+    </div>
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-9">
+        <p class="proj-lede">The mansion's exterior is open. The attic does the opposite on purpose: once Adam is through the gate, the space narrows again for the confrontation with Victor.</p>
+      </div>
+    </div>
+
+    <div class="proj-feature-surface">
+      <div class="feature-media pair">
+        <figure style="--native-w:973px;">
+          <img src="../assets/frankenteen/attic-approach-crop.jpg" width="973" height="641" loading="lazy" alt="A courtyard archway and gate near the mansion, with a figure standing beside a lamp post" />
+          <figcaption>The last stretch before the confrontation, an archway and a gated courtyard that narrows the path to one route in.</figcaption>
+        </figure>
+        <figure style="--native-w:520px;">
+          <img src="../assets/frankenteen/attic-lab-crop.jpg" width="520" height="354" loading="lazy" alt="A dim, improvised laboratory space inside the mansion, lit by a glowing green containment tube and a candle" />
+          <figcaption>Development capture, Unity: the confrontation room mid-build, not a finished render.</figcaption>
+        </figure>
+      </div>
+      <p class="proj-annotation" style="margin-top:var(--space-evidence);">The confrontation happens somewhere improvised and abandoned, not grand, which is the spatial argument for why this is the climax and not just the last room in the game. Dialogue triggers, progression gates, and the breakable-object interactions that carry into this room were mine to set up. Lighting stays sparse on purpose, so the guitar's confrontation input reads as the brightest thing in the scene when it fires.</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 — BLENDER, ENVIRONMENT, IMPLEMENTATION ============ -->
   <section class="proj-section reveal">
     <div class="proj-section-head">
       <span class="proj-num mono">05</span>
-      <h2 class="proj-section-title">World structure</h2>
+      <h2 class="proj-section-title">Blender, environment, and implementation</h2>
     </div>
-    <p class="proj-body">All assets were modelled by the team, with buildings and structures kept as modular as possible so they could translate across different scenes without rebuilding from scratch each time. The maps below are design-doc planning material, not final imagery — they track scene triggers, NPCs, and interactables through the town, not all of which made it into the final implemented build.</p>
-    <div class="cols" data-layout="process-evidence">
-      <div class="c1-7">
-        <span class="process-tag">Planning / process evidence</span>
-        <div class="proj-shot">
-          <img src="../assets/frankenteen/town-overview-crop.jpg" width="1400" height="720" loading="lazy" alt="FrankenTeen town overview planning map with scene trigger, NPC, and interactable markers" />
-          <div class="proj-shot-caption">Town overview, design-doc pass — magenta marks scene triggers, red marks NPCs, yellow marks interactables</div>
-        </div>
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-8">
+        <p class="proj-lede">Everything in Act 3 traces back to two decisions: build modular, and let one system handle every interaction.</p>
+        <p class="proj-body">I built the mansion from the team's kit of reusable wall, roof, and door pieces rather than one bespoke model. Slower to set up, but it meant I could change the layout without remodelling. Interaction runs the same way: trigger zones and tagged identifiers instead of hard-coded logic per object, so a central script listens for the guitar input and fires the right event depending on what's nearby. That's what let one button cover talking, playing music, and combat without a pile of special cases, and it's the same system behind the demo level we built to test the mechanic before wiring it into the full Act 3 sequence.</p>
       </div>
-      <div class="c8-13">
-        <span class="process-tag">Act 3 — my act</span>
-        <div class="proj-shot native" style="--native-w:780px;">
-          <img src="../assets/frankenteen/act3-mansion-crop.jpg" width="780" height="400" loading="lazy" alt="FrankenTeen Act 3 mansion interior planning view with NPC and interactable markers, from the world map documentation" />
-          <div class="proj-shot-caption">Act 3 — the mansion interior, the space I owned; markers carried over from the same design-doc pass as the town map</div>
+      <div class="c9-13 self-center">
+        <div class="proj-shot native" style="--native-w:340px;">
+          <img src="../assets/frankenteen/blender-wall-module-crop.jpg" width="340" height="262" loading="lazy" alt="A single gothic wall module with arched windows, modelled in Blender" />
+          <div class="proj-shot-caption">One wall module, built to repeat</div>
         </div>
       </div>
     </div>
+    <div class="proj-artifact-frame" style="margin-top:var(--space-internal);">
+      <div class="proj-artifact-bar">
+        <span>process footage · Act 3, greybox to playable</span>
+      </div>
+      <div class="video-wrap">
+        <iframe src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_j1w7k3an&config[provider]={&quot;widgetId&quot;:&quot;1_rganw230&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="FrankenTeen process recording" loading="lazy" data-cursor="Play"></iframe>
+      </div>
+    </div>
+    <p class="proj-artifact-caption">Recorded from the Unity editor during Act 3 development: the trigger and dialogue system above, plus the mansion approach and attic confrontation, running as one playable sequence.</p>
   </section>
 
+  <!-- ============ 06 — TESTING, LIMITATIONS, REFLECTION ============ -->
   <section class="proj-section reveal">
     <div class="proj-section-head">
       <span class="proj-num mono">06</span>
-      <h2 class="proj-section-title">What I owned</h2>
+      <h2 class="proj-section-title">Testing, limitations, and what I'd change</h2>
     </div>
-    <p class="proj-body">Each of the three of us self-assessed our contribution out of 100 against workload, initiative, collaboration, and responsibility. Mine sat at Act 3: the mansion, the emotional and narrative peak of the game.</p>
-    <div class="credit-grid">
-      <div class="credit-card">
-        <div class="credit-role">Designer Alpha</div>
-        <div class="credit-name">Hamish Reid, 95/100</div>
-        <div class="credit-list">Act 1 scenes and environmental layout, UI elements and styling, Act 1 character design, isometric room setup.</div>
-      </div>
-      <div class="credit-card">
-        <div class="credit-role">Designer Beta</div>
-        <div class="credit-name">Edward Newell, 95/100</div>
-        <div class="credit-list">Act 2 level design and environment construction, Blender modelling, 3D asset assembly, gameplay interaction prototyping.</div>
-      </div>
-      <div class="credit-card mine">
-        <div class="credit-role">Designer Gamma, me</div>
-        <div class="credit-name">Bharat Vyas Kodamana, 90/100</div>
-        <div class="credit-list">Act 3 level design and storytelling, the Victor encounter, dialogue trigger and progression setup, breakable object interaction design.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="proj-section reveal">
-    <div class="proj-section-head">
-      <span class="proj-num mono">07</span>
-      <h2 class="proj-section-title">User testing</h2>
-    </div>
-    <p class="proj-body">We built a short demo level around the core "play rock music" mechanic, letting testers try all three songs and their three functions. We deliberately said as little as possible going in, since anything the tutorial couldn't explain on its own was treated as a design gap, not a briefing gap. Findings were sorted into four bands: works fine, urgent, not urgent but nice, and out of scope.</p>
+    <p class="proj-body">We built a short demo level around the guitar mechanic and watched people play it without much explanation, on purpose: anything the level itself couldn't teach was a design gap, not a briefing gap.</p>
     <div class="proj-finding-list" data-layout="standard">
       <div class="proj-finding-row">
         <span class="proj-finding-tag tone-fine">Works fine</span>
-        <span class="proj-finding-text">Players understood that outline colour corresponds to which song to play. The art direction and the guitar mechanic itself were both well received, and the easter egg hidden in the wrong-direction corridor landed as intended.</span>
+        <span class="proj-finding-text">Players understood that outline colour tells them which song to play. The art direction and the guitar mechanic were both well received, and the easter egg hidden down the wrong-direction corridor landed as intended.</span>
       </div>
       <div class="proj-finding-row">
         <span class="proj-finding-tag tone-urgent">Urgent</span>
-        <span class="proj-finding-text">A glitch meant the yellow interaction outline didn't appear on the gate, which stalled several players completely. Key bindings for switching songs weren't intuitive, and NPCs weren't visually distinct enough as speakable.</span>
+        <span class="proj-finding-text">A glitch meant the yellow interaction outline didn't show up on the gate, which stalled several players completely. Key bindings weren't intuitive, and NPCs weren't visually distinct enough as speakable.</span>
       </div>
       <div class="proj-finding-row">
         <span class="proj-finding-tag tone-nice">Nice to have</span>
-        <span class="proj-finding-text">A UI indicator for key bindings, an on-screen reminder that pressing F interacts with NPCs, and a prompt for the "press enter to advance dialogue" instruction, which some testers missed entirely.</span>
+        <span class="proj-finding-text">A UI indicator for key bindings, an on-screen reminder to press F for NPCs, and a clearer prompt for advancing dialogue, since some testers missed it entirely.</span>
       </div>
       <div class="proj-finding-row">
         <span class="proj-finding-tag tone-fine">Worth noting</span>
-        <span class="proj-finding-text">Several testers tried re-entering Adam's room, and others tested whether songs would work on non-interactable objects just to check. Both are signs the mechanic was legible enough that people wanted to push on its edges.</span>
+        <span class="proj-finding-text">Several testers tried re-entering Adam's room and playing songs at non-interactable objects just to check. Both are signs the mechanic was legible enough that people wanted to push on its edges.</span>
       </div>
     </div>
-  </section>
-
-  <section class="proj-section reveal">
-    <div class="proj-section-head">
-      <span class="proj-num mono">08</span>
-      <h2 class="proj-section-title">What I'd still change</h2>
-    </div>
-    <div class="proj-reflection">
-      <p class="proj-body" style="margin:0;">The scene transition between the room and the demo level broke repeatedly during development, and it stayed frustrating until a teammate helped me track down the actual issue — a useful reminder that asking for help early costs far less than debugging alone for another three hours. The more personal the story got, the more responsibility I felt to get Act 3 right specifically, since it's where Adam finally confronts Victor and the whole emotional arc has to land. Moving forward, the priority isn't more content — it's sharpening the gate glitch, the key binding clarity, and the NPC readability so the existing systems feel as intentional as the concept already is.</p>
-    </div>
+    <p class="proj-body" style="margin-top:var(--space-evidence);">The UI direction shifted toward 90s zine culture after early feedback, fully designed but never wired into the shipped build given our time. That's a real limitation, not something I'm glossing over. The more personal Act 3 got, the more responsibility I felt to get it right: fix the gate glitch, make key bindings clearer, get NPCs reading as speakable at a glance. The systems are in the right shape. What's left is making them feel as intentional as the concept already is.</p>
     <div class="proj-refs">
       Shelley, M. (1818) Frankenstein; or, The Modern Prometheus. Project Gutenberg. Available at gutenberg.org/ebooks/84.
     </div>

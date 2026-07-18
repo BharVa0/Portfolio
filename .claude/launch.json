@@ -72,6 +72,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "4198", "--bind", "127.0.0.1"],
       "port": 4198
+    },
+    {
+      "name": "static-preview-game-pages",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4200", "--bind", "127.0.0.1"],
+      "port": 4200
     }
   ]
 }
