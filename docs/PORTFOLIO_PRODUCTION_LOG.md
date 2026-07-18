@@ -70,7 +70,7 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 - Lesson 5 ("Porting CardioPal, testing component reuse, and learning external embeds, fallbacks and project-specific variants") not started, per explicit instruction.
 - All prior open items (touch-device lens/pointer verification, multi-frame pointer convergence) unaffected and carried forward unchanged.
 
-**Commit:** pending (written just before the Lesson 4 commit)
+**Commit:** `23a3260`
 
 ### 2026-07-18 — Hero G ported to Next.js (Lesson 3)
 
