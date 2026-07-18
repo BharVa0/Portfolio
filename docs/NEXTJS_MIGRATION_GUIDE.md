@@ -1185,3 +1185,114 @@ sessions), is in this lesson's production-log entry.
 Porting CardioPal, testing component reuse, and learning external embeds,
 fallbacks and project-specific variants. Lesson 5 has not started in this
 session.
+
+---
+
+# Workflow note — Portfolio migration subagents (configured 2026-07-18)
+
+This is a configuration note, not a lesson — no portfolio content moved and
+no application code changed. It explains a tool the main agent now has
+available for the remaining lessons, most immediately Lesson 5 (CardioPal).
+
+## What a subagent actually is
+
+A subagent is a separate Claude Code conversation with its own system
+prompt, its own tool access, and its own context window. When the main
+agent (the one Bharat is talking to) delegates a task to a subagent, that
+subagent reads only what it's told and what it looks up itself — it does
+not see this conversation's history. It works independently and returns a
+summary; only that summary lands back in the main conversation.
+
+## Why a separate context matters here
+
+Auditing a static HTML page line by line, or reading through
+`next-portfolio/node_modules/next/dist/docs/` to confirm one API's exact
+behavior, produces a lot of text that's only useful once, in the moment
+it's being decided. If the main agent read all of that directly, the main
+conversation's context would fill up with source dumps and doc excerpts
+that aren't needed again five minutes later — this is exactly the kind of
+content-pollution the migration's own lessons have been careful about
+(e.g. never reading `assets/bettr-live/**` end-to-end unnecessarily). A
+subagent absorbs that cost in its own disposable context and hands back
+only the finding.
+
+## The four portfolio subagents
+
+All four live in `.claude/agents/` (checked into Git, so they're
+available in every session on this repo, not just this machine) and are
+all **read-only**: none of them can use Write, Edit, or (for three of the
+four) Bash, so none of them can modify a file, and none of them can stage
+or commit to Git.
+
+- **`static-source-auditor`** — reads one approved static page (HTML plus
+  the relevant CSS/JS) and returns a structured inventory: visible
+  content, referenced media with dimensions/aspect ratios (read from the
+  HTML's own `width`/`height` attributes), fonts/colors/motifs,
+  interactions and embeds, which CSS is global versus project-specific,
+  what must be preserved, and anything weak or unsupported. Use this
+  before writing the first line of a new project page's Next.js
+  component.
+- **`nextjs-docs-researcher`** — checks a specific framework-API question
+  against the Next.js docs actually installed in
+  `next-portfolio/node_modules/next/dist/docs/` (this Next.js version is
+  newer than most training data, per `next-portfolio/AGENTS.md`), and
+  only falls back to a live web search if the installed docs don't cover
+  it. Use this before writing code that touches an API this session
+  hasn't already confirmed.
+- **`content-integrity-reviewer`** — compares a migrated project page
+  against the approved static source (and any other source documents
+  provided) for factual accuracy: titles, roles, tools, results, and
+  participant claims, plus the site's writing rules (no invented claims,
+  no over/under-crediting collaborators, no AI-sounding language, no
+  teammate scores anywhere). Use this right after a page's content is
+  ported, before considering it done.
+- **`visual-qa-reviewer`** — audits an already-implemented Next.js route:
+  compares it against the static source, checks console/network output,
+  runs `npm run lint`/`npm run build`, checks responsive behavior and
+  reduced motion, and returns a blocker-first report. This one does have
+  Bash and browser-inspection tools (it needs to actually run the build
+  and load the page), but is still barred from Write/Edit and from
+  fixing anything itself. Use this after a route is implemented, before
+  considering it done.
+
+## What the main agent still owns
+
+Subagents report; they don't decide or implement. Writing the actual
+Next.js components, choosing the architecture, editing `tokens.css` or
+`projects.css`, resolving a discrepancy a reviewer flags, and every Git
+commit still happen in the main conversation, with the main agent reading
+each subagent's findings and deciding what to do with them. None of the
+four subagents can commit their own findings as code changes even if they
+wanted to — that boundary is enforced by their tool restrictions, not
+just by instruction.
+
+## When to use a subagent, and when not to
+
+Reach for one of these four when a task is read-only, self-contained, and
+would otherwise dump a lot of one-time-use detail into the main
+conversation (a full page audit, a docs lookup, a line-by-line content
+comparison, a QA pass). Skip them for quick, targeted questions where the
+answer is already visible in context, or for anything that requires
+actually writing code — that stays in the main conversation, where
+iteration is fast and the full picture is already loaded.
+
+## How this reduces context pollution without replacing anything else
+
+This doesn't replace `CLAUDE.md`, the direction doc, or the production
+log — those still hold the durable decisions and facts. It doesn't
+replace Git checkpoints either — commits are still how work actually gets
+saved. What it changes is where the *scratch work* behind a decision
+lives: in a subagent's disposable context instead of permanently in the
+main conversation's history.
+
+## Restart note
+
+Because `.claude/agents/` did not exist in this repository before this
+session started, this session's file-watcher does not pick up the new
+directory automatically — per the installed Claude Code documentation, the
+watcher only covers directories that already existed when the session
+began. **A new Claude Code session (or a restart of this one) is required
+before any of these four subagents can actually be delegated to.** They
+are not used later in this same session for that reason; first real use
+is intended to be during the Lesson 5 CardioPal migration, in a fresh
+session.

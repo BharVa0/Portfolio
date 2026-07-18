@@ -30,6 +30,39 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-18 — Four read-only migration subagents added
+
+**Stage:** Foundation
+**Scope:** new `.claude/agents/{static-source-auditor,nextjs-docs-researcher,content-integrity-reviewer,visual-qa-reviewer}.md`, `docs/NEXTJS_MIGRATION_GUIDE.md` (new "Workflow note" section), this log. No static or Next.js implementation file touched, no dependency changed. CardioPal migration (Lesson 5) not started.
+**Did:**
+- Created four project-level Claude Code subagents under `.claude/agents/`, checked in so the whole repo (and any future session) can use them, not just this machine:
+  - `static-source-auditor` — read-only inventory of one approved static page (content, media/dimensions, fonts/colors/motifs, interactions, global-vs-project CSS, must-preserve items, weak/missing assets) before it's ported.
+  - `nextjs-docs-researcher` — verifies framework APIs against `next-portfolio/node_modules/next/dist/docs/` (this Next.js version's own installed docs, per `next-portfolio/AGENTS.md`) before falling back to live web research.
+  - `content-integrity-reviewer` — compares a migrated project page's content against the approved static source and the site's writing rules (`CLAUDE.md`'s 2026-07-17 writing/content rules, direction doc §16) for factual accuracy and ownership framing.
+  - `visual-qa-reviewer` — post-implementation QA of a Next.js route: static-source comparison, console/network check, `npm run lint`/`npm run build`, responsive/reduced-motion checks, blocker-first report.
+- Each is read-only by tool restriction, not just instruction: `static-source-auditor`, `nextjs-docs-researcher`, and `content-integrity-reviewer` have `tools: Read, Grep, Glob` (`nextjs-docs-researcher` additionally has `WebFetch`/`WebSearch` as a documented fallback), and all three explicitly deny `Write, Edit, NotebookEdit, Bash`. `visual-qa-reviewer` additionally has `Bash` and the Browser-pane inspection tools (needed to actually run lint/build and load the route), still denies `Write, Edit, NotebookEdit`, and its system prompt states Bash may only run inspection/build/lint commands, never a file-mutating or Git-staging one.
+- All four set `model: sonnet`, `permissionMode: default` (standard prompting on any tool call that isn't already excluded — deliberately not `bypassPermissions`), and an explicit `maxTurns` (20-40 depending on scope).
+- Verified against the currently-installed Claude Code docs (`code.claude.com/docs/en/sub-agents`, fetched live this session) rather than assumed: confirmed the supported frontmatter field set (`name`, `description`, `tools`, `disallowedTools`, `model`, `permissionMode`, `maxTurns`, `color`, etc.), that `tools`/`disallowedTools` (not `permissionMode`) is the documented mechanism for enforcing read-only behavior in a custom subagent (the same mechanism the built-in Explore/Plan agents use), and that every tool name used (`Read`, `Write`, `Edit`, `NotebookEdit`, `Grep`, `Glob`, `Bash`, `WebFetch`, `WebSearch`, and the specific `mcp__Claude_Browser__*` tool names) is a real tool name in this environment.
+- Confirmed image dimensions don't require Bash/ImageMagick to inspect: the static site already declares real native `width`/`height` attributes directly on `<img>` tags (e.g. `projects/bettr.html`'s `width="1630" height="970"`), so `static-source-auditor` can extract them with Grep alone — this is why it has no Bash access at all.
+- Added a "Workflow note" section to `docs/NEXTJS_MIGRATION_GUIDE.md` explaining what a subagent is, why a separate context matters, what each of the four does, what the main agent still owns, when to use one versus not, and that a fresh session is required before first use.
+
+**Decisions:**
+- `permissionMode: default` (explicit) on all four rather than `plan` or `bypassPermissions` — `plan` mode is designed for the interactive plan-mode workflow and its interaction with Bash/browser tool availability isn't guaranteed to still allow `visual-qa-reviewer`'s required lint/build/browser checks; tool-list restriction is the mechanism the official docs themselves point to for a read-only custom subagent, so that carries the actual enforcement weight, and `permissionMode: default` keeps normal prompting as a backstop rather than silently allowing anything.
+- `visual-qa-reviewer` is the one agent with Bash and browser tools, because its named responsibilities (run lint/build, check console output) are impossible without them — the read-only guarantee for this one agent rests on `disallowedTools` plus an explicit system-prompt rule against file-mutating or Git-staging commands, not on tool omission, since Bash itself can't be scoped to "read-only shell commands" without a `PreToolUse` hook, which wasn't part of this task's scope.
+- All four agents were validated for parseable frontmatter (a small Node script parsed each file's YAML frontmatter block) and confirmed to have unique `name` values before committing.
+
+**Verified:**
+- `git status`/`git diff --stat` before committing confirmed no static portfolio file, no `next-portfolio/src/**` file, and no `package.json`/`package-lock.json` changed — only the four new agent files and the two docs.
+- Confirmed the seven pre-existing untracked items from before this session (scratchpad assets, `docs/VISUAL_CALIBRATION_AUDIT.md`, `v2-preview/bettr-editorial-layout/`, the skill's `__pycache__/`) remain untouched and untracked.
+- Confirmed current branch is `nextjs-port`.
+
+**Open:**
+- These four subagents cannot be delegated to within the session that created them — `.claude/agents/` did not exist before this session started, so the file-watcher won't pick it up until a restart. First real use is intended for the Lesson 5 CardioPal migration, in a new session.
+- Lesson 5 ("Porting CardioPal, testing component reuse, and learning external embeds, fallbacks and project-specific variants") not started, per explicit instruction.
+- All prior open items unaffected and carried forward unchanged.
+
+**Commit:** pending (written just before the commit)
+
 ### 2026-07-18 — BETTR ported as the first dynamic project route (Lesson 4)
 
 **Stage:** Pilot page
