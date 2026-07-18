@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
+@import "../styles/projects.css";
 
 /* Tailwind 4 CSS-first theme: expose shared tokens as utilities
    (bg-ink, text-paper, border-subtle, font-display, etc.) without a

@@ -46,6 +46,12 @@
   --width-standard: 88%;
   --width-wide: 100%;
 
+  /* Fluid 12-column grid gap + tight media-grid seam — shared by every
+     project page's .cols system (Lesson 4), exact values from
+     css/portfolio.css :root. */
+  --grid-gap: clamp(20px, 2.4vw, 56px);
+  --seam: clamp(2px, 0.35vw, 8px);
+
   /* Section rhythm. --space-section is the shared homepage-level rule
      (bare `section { padding: ... }`); --space-major/internal/evidence
      are the separate, project-page-only editorial rhythm, opt-in per
@@ -60,6 +66,23 @@
   --fs-statement: clamp(1.7rem, 3.4vw, 2.6rem);
   --fs-body: 1rem;
   --fs-support: 1.05rem;
+
+  /* Editorial type ramp — shared, opt-in per project page (Lesson 4).
+     Exact values from css/portfolio.css :root; a project page's own accent
+     module (e.g. BettrCaseStudy.module.css) assigns these to the shared
+     proj-* classes it uses, same pattern as the static site. */
+  --ed-fs-title: clamp(100px, 24px + 6.7vw, 168px);
+  --ed-fs-thesis: clamp(30px, 14px + 1.3vw, 40px);
+  --ed-fs-h2: clamp(48px, 22px + 2.5vw, 78px);
+  --ed-fs-h2-feature: clamp(68px, 22px + 4vw, 112px);
+  --ed-fs-lede: clamp(24px, 14px + 0.83vw, 32px);
+  --ed-fs-body: clamp(20px, 16.7px + 0.29vw, 23px);
+  --ed-fs-support: clamp(18px, 15px + 0.21vw, 20px);
+  --ed-fs-cardhead: clamp(22px, 13px + 0.63vw, 28px);
+  --ed-fs-caption: clamp(15px, 12.5px + 0.21vw, 17px);
+  --ed-fs-meta: clamp(15px, 12.5px + 0.21vw, 17px);
+  --ed-fs-refs: clamp(16px, 12.9px + 0.22vw, 18px);
+  --ed-fs-label: clamp(15px, 13px + 0.24vw, 18px);
 
   /* Focus ring — approved global treatment */
   --focus-ring-color: var(--ember-bright);

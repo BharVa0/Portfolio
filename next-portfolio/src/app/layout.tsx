@@ -5,6 +5,12 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  // Required so route-level metadata (e.g. the BETTR project route's
+  // og:image) can use a relative path instead of a hand-built absolute
+  // URL — Next.js errors on a relative URL-based metadata field without
+  // this set. Matches this repo's actual GitHub Pages deployment target
+  // (no custom domain/CNAME configured).
+  metadataBase: new URL("https://bharva0.github.io/Portfolio/"),
   title: "Bharat Vyas Kodamana — Design Portfolio",
   description:
     "Bharat Vyas Kodamana — MSc Design and Digital Media portfolio. Interactive systems, playable worlds and research-led experiences designed around real human behaviour.",

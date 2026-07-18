@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Copied, protected third-party assets (Lesson 4E) — BETTR's live
+    // build, served as-is from public/. Not application source; never
+    // edited, so never linted as if it were ours.
+    "public/**",
   ]),
 ]);
 

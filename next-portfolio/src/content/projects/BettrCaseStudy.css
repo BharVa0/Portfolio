@@ -1,0 +1,254 @@
+/* BETTR-specific — oxblood feature surface, palette band, real-font type
+   specimen, corner-bracket "observation" motif, and the approved editorial
+   type scale. Structure lives in the shared src/styles/projects.css
+   classes; everything here is colour, BETTR's own content, or a scoped
+   size override, so no other project page is affected. Ported verbatim
+   from css/portfolio.css's ".project-bettr" block (source of truth:
+   the approved v2-preview/bettr-editorial-layout/ prototype).
+
+   This is a plain global stylesheet, not a CSS Module — every selector
+   below is already scoped by the leading ".project-bettr" ancestor
+   selector, so there is nothing for CSS Modules' hashing to add; a plain
+   stylesheet also lets these rules target the exact same class names the
+   shared components render (.proj-title, .proj-section-title, etc.)
+   without needing :global() on every selector. Imported directly into
+   BettrCaseStudy.tsx — Next.js's App Router allows a global stylesheet to
+   be imported from any component, not just the root layout. */
+
+/* BETTR ships its own build fonts — read-only reference into the copied
+   live-build's font files (public/assets/bettr-live/Fonts/**), the same
+   files the live embed itself needs, never duplicated into a second copy.
+   See Lesson 4H for why this is a scoped @font-face, not next/font/local. */
+@font-face {
+  font-family: "Jersey 25";
+  src: url("/assets/bettr-live/Fonts/Jersey_25/Jersey25-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rajdhani";
+  src: url("/assets/bettr-live/Fonts/Rajdhani/Rajdhani-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rajdhani";
+  src: url("/assets/bettr-live/Fonts/Rajdhani/Rajdhani-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* Accent + feature-surface tokens. These live here rather than in shared
+   tokens.css because only BETTR's route exists this lesson — once a
+   project index needs to read a project's accent before its own page has
+   loaded (a homepage card, say), these should move to shared tokens.css
+   alongside the other project accents, matching how css/portfolio.css
+   already declares every project's accent at :root. Not needed yet. */
+.project-bettr {
+  --proj-accent: #eb5160;
+  --proj-accent-deep: #7a2a31;
+  --proj-feature-surface: #1c0d0f;
+  --proj-feature-line: rgba(235, 81, 96, 0.24);
+}
+
+/* Opening composition — text col 1-5, live build col 5-13, one spread */
+.project-bettr .proj-hero {
+  padding-top: clamp(40px, 5vh, 72px);
+  padding-bottom: clamp(48px, 5vw, 80px);
+}
+.project-bettr .proj-title {
+  font-size: var(--ed-fs-title);
+}
+.project-bettr .proj-thesis {
+  font-size: var(--ed-fs-thesis);
+  max-width: none;
+  margin-top: var(--space-evidence);
+}
+.project-bettr .proj-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px var(--grid-gap);
+  margin-top: var(--space-evidence);
+  padding-top: 28px;
+}
+.project-bettr .proj-ownership {
+  margin-top: var(--space-evidence);
+  font-size: var(--ed-fs-support);
+  max-width: none;
+}
+@media (min-width: 1024px) {
+  .project-bettr .proj-embed {
+    height: clamp(560px, 68vh, 800px);
+  }
+}
+
+.project-bettr .proj-eyebrow,
+.project-bettr .proj-meta-item,
+.project-bettr .proj-artifact-bar,
+.project-bettr .proj-open-link,
+.project-bettr .proj-artifact-caption,
+.project-bettr .proj-frame-bar,
+.project-bettr .proj-shot-caption,
+.project-bettr .proj-shot-note-head,
+.project-bettr .proj-shot-note .outcome,
+.project-bettr .process-tag {
+  font-size: var(--ed-fs-meta);
+}
+
+/* Corner-bracket "observation" motif — BETTR watches; the frame around
+   its own artifact quietly does too. Static, no animation. */
+.project-bettr .watched .corner-tr,
+.project-bettr .watched .corner-bl {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  z-index: 2;
+}
+.project-bettr .watched .corner-tr {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid var(--proj-accent);
+  border-right: 2px solid var(--proj-accent);
+}
+.project-bettr .watched .corner-bl {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid var(--proj-accent);
+  border-left: 2px solid var(--proj-accent);
+}
+
+/* Section rhythm — fluid vw-based pacing (shared tokens) in place of the
+   default padding; opening→01 and Scholarly→Walkthroughs trims match the
+   approved prototype exactly. */
+.project-bettr .proj-section {
+  padding-top: var(--space-major);
+}
+.project-bettr .proj-section:first-of-type {
+  padding-top: clamp(80px, 7vw, 124px);
+}
+.project-bettr .proj-section.tight-top {
+  padding-top: clamp(100px, 8.5vw, 145px);
+}
+.project-bettr .proj-section.is-feature-chapter {
+  padding-top: clamp(138px, 11.5vw, 195px);
+}
+.project-bettr .proj-section-head {
+  margin-bottom: var(--space-internal);
+}
+.project-bettr .proj-num {
+  font-size: var(--ed-fs-cardhead);
+}
+.project-bettr .proj-section-title {
+  font-size: var(--ed-fs-h2);
+}
+.project-bettr .proj-section-title.is-feature {
+  font-size: var(--ed-fs-h2-feature);
+}
+.project-bettr .proj-body {
+  font-size: var(--ed-fs-body);
+}
+.project-bettr .proj-body-muted {
+  font-size: var(--ed-fs-support);
+}
+.project-bettr .proj-quote {
+  font-size: var(--ed-fs-cardhead);
+  max-width: none;
+}
+.project-bettr .proj-refs {
+  font-size: var(--ed-fs-refs);
+}
+
+.project-bettr .proj-annotation-label,
+.project-bettr .type-label,
+.project-bettr .swatch-lg .swname,
+.project-bettr .swatch-lg .swrole {
+  font-size: var(--ed-fs-label);
+}
+
+/* Palette band — large material swatches at real scale, not small UI chips */
+.project-bettr .palette-band {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: var(--space-evidence);
+}
+.project-bettr .swatch-lg {
+  min-height: clamp(140px, 11vw, 196px);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+}
+.project-bettr .swatch-lg .swname {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+}
+.project-bettr .swatch-lg .swhex {
+  font-size: clamp(18px, 1.3vw, 23px);
+  margin-top: 14px;
+}
+.project-bettr .swatch-lg .swrole {
+  margin-top: auto;
+  padding-top: 14px;
+  opacity: 0.82;
+}
+
+/* Real-font type specimen — Jersey 25 display line + Rajdhani hierarchy,
+   BETTR's own shipped fonts, not the site's editorial faces. */
+.project-bettr .type-specimen-feature {
+  margin-top: var(--space-evidence);
+}
+.project-bettr .specimen-line {
+  font-family: "Jersey 25", monospace;
+  font-size: clamp(56px, 7.2vw, 148px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: var(--proj-text);
+}
+.project-bettr .type-rows-feature {
+  margin-top: var(--space-evidence);
+}
+.project-bettr .type-rows-feature .type-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--grid-gap);
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--proj-line);
+}
+.project-bettr .type-rows-feature .type-row:first-child {
+  margin-top: 0;
+  border-top: none;
+  padding-top: 0;
+}
+.project-bettr .type-label {
+  color: var(--muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Mobile safety — the approved desktop numbers (prototype targeted
+   1440/1920 only) are too large below the 1024px grid breakpoint. */
+@media (max-width: 1023px) {
+  .project-bettr .proj-title {
+    font-size: clamp(2.8rem, 12vw, 100px);
+  }
+  .project-bettr .proj-thesis {
+    font-size: clamp(1.15rem, 4vw, 30px);
+  }
+  .project-bettr .proj-section-title {
+    font-size: clamp(1.6rem, 5vw, 48px);
+  }
+  .project-bettr .proj-section-title.is-feature {
+    font-size: clamp(1.9rem, 6vw, 68px);
+  }
+  .project-bettr .specimen-line {
+    font-size: clamp(2.2rem, 10vw, 56px);
+  }
+  .project-bettr .palette-band {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px;
+  }
+}

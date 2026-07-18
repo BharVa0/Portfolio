@@ -903,3 +903,285 @@ the Next.js dev server (port 4202):
 Project data, dynamic routes, reusable case-study components, and porting
 BETTR as the first project route. Lesson 4 has not started in this
 session.
+
+---
+
+# Lesson 4 — Project data, dynamic routes, reusable case-study components, and porting BETTR
+
+Lesson 3 gave the homepage its first Client Component. Lesson 4 gives the
+app its first *content* route: `/projects/bettr`, generated from a typed
+data registry and a shared component system meant to be reused by every
+project page that follows — not just this one.
+
+## Routes, in plain language
+
+A **route** is a URL path the app responds to. In the App Router, a folder
+under `src/app/` becomes a URL segment automatically — no router config
+file to edit by hand.
+
+## Dynamic `[slug]` segments and params
+
+`src/app/projects/[slug]/page.tsx` — the square brackets mean this folder
+matches *any* single path segment: `/projects/bettr`, `/projects/cardiopal`,
+`/projects/anything` all route here. The matched text arrives as **route
+params**, delivered to the page (and to `generateMetadata`) as
+`params: Promise<{ slug: string }>` — a Promise, in this Next.js version,
+so both functions `await params` before reading `slug` off it.
+
+## generateStaticParams and static prerendering
+
+`generateStaticParams` returns the list of param values that actually
+exist — here, `PROJECT_SLUGS.map(slug => ({ slug }))`, which is just
+`["bettr"]` this lesson. Next.js calls this at build time and
+**prerenders** `/projects/bettr` to a plain HTML file then — `npm run
+build`'s route table confirms it with `●  (SSG)`. A visitor gets that
+pre-built file instantly; nothing runs per-request for this route. Only
+slugs actually in `PROJECT_SLUGS` get a route — CardioPal, FrankenTeen,
+Echoes stay unimplemented rather than shipping empty pages.
+
+## notFound()
+
+Calling `notFound()` inside the page bails out and renders Next.js's real
+404 UI. This route calls it whenever a slug has no metadata *or* no
+registered content component — covering both "this project doesn't exist"
+and "this project is documented but not built yet" with the same honest
+result, rather than a blank page or a crash.
+
+## Route metadata
+
+`generateMetadata` returns the `<title>`, description, and Open Graph tags
+for a route — here, pulled from the project's own metadata record so the
+`<head>` never needs hand-written per-route markup. It needed one small
+addition to the root layout: `metadataBase`, because a relative-path
+`og:image` requires it (Next.js errors the build otherwise) — set to this
+repo's actual GitHub Pages URL, not a placeholder.
+
+## Project data vs. a React component
+
+`src/data/projects.ts` holds `PROJECTS`, a typed, plain-object record —
+title, tools, accent, route, and so on. It's safe to loop over: a future
+homepage project index can map it straight into cards. `src/content/
+projects/registry.ts` holds a *different* mapping, slug → the React
+component that renders that project's actual case study. These are
+deliberately two files: metadata is a serializable value; a case-study
+composition is executable UI logic. Forcing BETTR's seven chapters of
+prose and images into the metadata object would mean inventing a tiny
+templating language just to reassemble them at render time — the whole
+reason this lesson keeps them apart.
+
+## Reusable components, controlled variants
+
+Eight components make up the shared case-study system, all Server
+Components, all visually neutral (BETTR's own colour, fonts and bespoke
+widgets stay out of them): `ProjectPageShell`, `ProjectOpening`,
+`ProjectSection`, `SectionHeading`, `MediaFigure`, `ProjectAnnotation`,
+`VideoBlock`, `PrototypeEmbed`. Every prop that controls layout is a
+**controlled union**, not a bare string — `ProjectSectionRhythm` is
+`"standard" | "feature" | "tight"`, not `string`. A typo like `"standrd"`
+fails at compile time with a real TypeScript error, instead of silently
+matching no CSS rule and rendering with no rhythm at all — confirmed
+directly this lesson (see "TypeScript guards, confirmed" below).
+
+Why controlled variants instead of one identical template per project: a
+generic `layout: string` would let every future project page invent its
+own ad hoc layout name, at which point the "shared" component system stops
+meaning anything — the type system is what keeps every project page
+actually using the same small vocabulary of layouts.
+
+## Why copy assets, never move them
+
+`assets/bettr-live/**` is a shipped, case-sensitive build the *live static
+site* still serves from directly — GitHub Pages' case sensitivity means
+even a renamed folder would break it. Copying (`public/assets/bettr-live/`
+in `next-portfolio`) gives the Next.js app its own independent files;
+moving would delete the static site's copy out from under it. Verified
+with `diff -rq` after copying: byte-identical, filenames, casing, and
+internal relative paths all untouched.
+
+## TypeScript guards, confirmed
+
+Four scratch-file checks (written, run through `npx tsc --noEmit`, then
+deleted — the Lesson 2 precedent):
+
+```
+const badSlug: ProjectSlug = "cardiopal";
+// error TS2322: Type '"cardiopal"' is not assignable to type '"bettr"'.
+
+const badMeta: ProjectMeta = { slug: "bettr", /* ...no title... */ };
+// error TS2741: Property 'title' is missing in type '{...}' but required in type 'ProjectMeta'.
+
+const badRhythm: ProjectSectionRhythm = "loose";
+// error TS2322: Type '"loose"' is not assignable to type 'ProjectSectionRhythm'.
+
+const badFigure: MediaFigureProps = { src: "...", alt: "x" };
+// error TS2739: Type '{...}' is missing the following properties: width, height
+```
+
+## The one Client Component: BettrLiveEmbed
+
+`BettrLiveEmbed.tsx` is this lesson's only `"use client"` file — the
+same-origin PLAY cursor bridge, ported from `js/portfolio.js`'s
+`bindBridge`/`releaseBridges`. One real, documented difference from the
+static site: there, the bridge hands control to a site-wide custom-cursor
+dot that doesn't exist in this Next.js app yet (a later lesson's job, per
+Lesson 3's own notes). This component ports the bridge's actual mechanics
+— same-origin `contentDocument` access, translating the iframe's local
+pointer coordinates directly (they're already relative to the iframe's own
+viewport, which is exactly where the overlay is positioned), injecting a
+`cursor: none` style into the iframe's document, dropping the reveal the
+instant the *parent* document receives pointer movement (iframes are their
+own document — motion inside never bubbles out, so a parent `mousemove`
+only ever fires once the pointer has actually left) — into a small,
+self-contained overlay instead of wiring into cursor infrastructure that
+isn't there. Verified directly: a synthetic `PointerEvent` dispatched
+inside the iframe's document produced the injected style, the overlay
+fading toward full opacity at the translated coordinates, and a synthetic
+parent `mousemove` immediately dropped it back to zero.
+
+Kept as the smallest practical boundary: `PrototypeEmbed` (the shared
+frame/bar/iframe chrome) stays a plain, directive-free component that
+`BettrLiveEmbed` imports and wraps with a ref plus one effect — the rest
+of the BETTR page, including `ProjectOpening` around the embed, stays
+Server Components.
+
+## Small Client Component islands inside Server pages
+
+The pattern from Lesson 3 (Hero G's Server/Client split) repeats here at a
+much smaller scale: `app/projects/[slug]/page.tsx` and every one of the 8
+shared components are Server Components; only `BettrLiveEmbed` opts into
+client rendering, and only for the one thing that genuinely needs a
+browser API (`iframe.contentDocument`, pointer events).
+
+## Project-scoped fonts, without a global font change
+
+BETTR ships its own fonts (Jersey 25, Rajdhani) that the rest of the site
+never uses. Rather than `next/font/local` (which would still work), this
+lesson uses a scoped `@font-face` inside `BettrCaseStudy.css`, pointing at
+the *same* copied font files the live embed itself already needs
+(`/assets/bettr-live/Fonts/**`) — no second copy of the font files, and no
+change to the global Fraunces/Inter/Space Mono setup in `tokens.css`/
+`fonts.ts`. This mirrors exactly what `css/portfolio.css` already does for
+BETTR on the static site.
+
+## Diagram
+
+```
+/projects/[slug]
+      │
+      ├─ generateStaticParams()  ──── PROJECT_SLUGS ("bettr")
+      ├─ generateMetadata()      ──── data/projects.ts (PROJECTS registry)
+      └─ <Content /> ─────────────── content/projects/registry.ts
+                                            │
+                                            ▼
+                                  BettrCaseStudy.tsx
+                                            │
+                    ┌───────────────────────┼────────────────────────┐
+                    ▼                       ▼                        ▼
+        components/projects/*     BettrLiveEmbed.tsx        BettrCaseStudy.css
+        (ProjectPageShell,        (Client Component,        (.project-bettr scope,
+         ProjectOpening,           PLAY cursor bridge)        Jersey 25/Rajdhani
+         ProjectSection,                                      @font-face, palette
+         MediaFigure, etc.)                                   band, specimen)
+                    │
+                    ▼
+        public/assets/bettr/**, public/assets/bettr-live/**
+        (copied from the static site, never moved)
+```
+
+## Files created
+
+```
+next-portfolio/src/
+├── app/
+│   └── projects/
+│       └── [slug]/
+│           └── page.tsx
+├── components/
+│   └── projects/
+│       ├── ProjectPageShell.tsx
+│       ├── ProjectOpening.tsx
+│       ├── ProjectSection.tsx
+│       ├── SectionHeading.tsx
+│       ├── MediaFigure.tsx
+│       ├── ProjectAnnotation.tsx
+│       ├── VideoBlock.tsx
+│       ├── PrototypeEmbed.tsx
+│       └── BettrLiveEmbed.tsx
+├── content/
+│   └── projects/
+│       ├── BettrCaseStudy.tsx
+│       ├── BettrCaseStudy.css
+│       └── registry.ts
+├── data/
+│   └── projects.ts
+├── types/
+│   └── project.ts
+└── styles/
+    └── projects.css        (new — shared grid + proj-* component classes)
+```
+
+Plus `public/assets/bettr/**` (7 images) and `public/assets/bettr-live/**`
+(the complete copied live build), and small edits to `tokens.css` (added
+`--ed-fs-*`/`--grid-gap`/`--seam`), `globals.css` (imports `projects.css`),
+`app/layout.tsx` (`metadataBase`), `app/page.tsx` (the temporary link), and
+`eslint.config.mjs` (excludes `public/**`).
+
+## Errors and fixes
+
+- ESLint initially flagged the copied `assets/bettr-live/**` JavaScript
+  files as if they were application source (unused-variable warnings in
+  third-party code that must never be edited) — fixed by adding
+  `public/**` to `eslint.config.mjs`'s ignore list.
+- `react/no-unescaped-entities` flagged every literal apostrophe in
+  BETTR's ported prose — fixed with `&apos;`, matching how the copy
+  already used `&ldquo;`/`&rdquo;` entities elsewhere in the same file.
+- `@next/next/no-html-link-for-pages` flagged the breadcrumb/footer `<a>`
+  tags pointing at internal routes — fixed by switching to `next/link`.
+- `@next/next/no-img-element` flagged `MediaFigure`'s plain `<img>` — fixed
+  by switching to `next/image`, the correct call here since every figure
+  is a static screenshot with known dimensions and no special iframe- or
+  animation-adjacent requirement.
+- Next.js's build step required `metadataBase` once BETTR's route-level
+  `og:image` used a relative path — fixed by adding it to the root
+  layout's metadata (see "Route metadata" above).
+
+## QA
+
+Run on port 4202 (`.claude/launch.json`'s `next-portfolio` config):
+`/projects/bettr` loads directly and via the temporary homepage link;
+browser back/forward and a hard reload on the route all work; an unknown
+slug 404s properly; zero console errors or hydration warnings in a fresh
+tab; no horizontal overflow at 1280/1440/1920/3440px (checked live via
+`scrollWidth`/`clientWidth`); the PLAY bridge's same-origin access,
+style-injection, overlay reveal, and drop-on-parent-motion all confirmed
+by dispatching synthetic pointer events; skip link first-focusable; one
+`<main>`, correct heading order, all iframes titled. `npm run lint`: zero
+warnings. `npm run build`: succeeded, `/projects/bettr` statically
+generated. Full detail, including the headless-Chrome tooling artifact
+encountered at 375px (a stale render from a reused browser session, not a
+real overflow — cross-checked live and documented in memory for future
+sessions), is in this lesson's production-log entry.
+
+## What Bharat should now be able to explain
+
+- What a dynamic `[slug]` route is, what `params` contains, and why it's a
+  `Promise` in this Next.js version.
+- What `generateStaticParams` does and how to read `●  (SSG)` in a build's
+  route table as proof it worked.
+- Why project metadata and a project's React component live in two
+  separate files, with a concrete example of what each is used for.
+- Why `ProjectSectionRhythm`/`MediaFigureCrop`/etc. are unions, not
+  `string` — and what compiler error each one actually catches (see the
+  four confirmed scratch-file errors above).
+- Why `assets/bettr-live/**` gets copied, never moved, into
+  `next-portfolio/public/`.
+- Why `BettrLiveEmbed` is the only Client Component this lesson, and what
+  specifically it does that a Server Component cannot.
+- Why BETTR's fonts are a scoped `@font-face`, not a change to the site's
+  global font setup.
+
+## What Lesson 5 will cover
+
+Porting CardioPal, testing component reuse, and learning external embeds,
+fallbacks and project-specific variants. Lesson 5 has not started in this
+session.

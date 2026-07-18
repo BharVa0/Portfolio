@@ -1,0 +1,562 @@
+/* Shared project-page component system — ported from css/portfolio.css's
+   "Project case-study pages" block (~L909-1994). Structure and generic
+   defaults only; every project's own accent, feature-surface colour, and
+   bespoke widgets (BETTR's palette band, type specimen, corner brackets)
+   stay in that project's own CSS Module, applied via a `.project-{slug}`
+   class from ProjectPageShell. Nothing here is BETTR-specific.
+
+   Plain global CSS (not a CSS Module), matching how globals.css/tokens.css
+   already expose shared shell classnames like .site-frame/.frame-bar —
+   class names below match the static site's own vocabulary exactly
+   (.proj-title, .c1-8, etc.) so a project's own module can override them
+   by writing e.g. `:global(.project-bettr .proj-title) { ... }` without
+   fighting CSS Modules' hashing, and so CLAUDE.md's existing "only these
+   cA-B classes are defined" note still applies unchanged. */
+
+/* Fluid 12-column grid: .cols is a stacking flow below 1024px, a 12-column
+   grid at and above. Placement classes .cA-B set grid-column: A / B. */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 1024px) {
+  .cols {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+  .c1-4 {
+    grid-column: 1 / 4;
+  }
+  .c1-5 {
+    grid-column: 1 / 5;
+  }
+  .c1-6 {
+    grid-column: 1 / 6;
+  }
+  .c1-7 {
+    grid-column: 1 / 7;
+  }
+  .c1-8 {
+    grid-column: 1 / 8;
+  }
+  .c1-9 {
+    grid-column: 1 / 9;
+  }
+  .c1-10 {
+    grid-column: 1 / 10;
+  }
+  .c1-13 {
+    grid-column: 1 / 13;
+  }
+  .c2-9 {
+    grid-column: 2 / 9;
+  }
+  .c4-13 {
+    grid-column: 4 / 13;
+  }
+  .c5-13 {
+    grid-column: 5 / 13;
+  }
+  .c6-12 {
+    grid-column: 6 / 12;
+  }
+  .c6-13 {
+    grid-column: 6 / 13;
+  }
+  .c7-13 {
+    grid-column: 7 / 13;
+  }
+  .c8-13 {
+    grid-column: 8 / 13;
+  }
+  .c9-13 {
+    grid-column: 9 / 13;
+  }
+}
+
+/* Explicit per-block layout modes — applied per block, never to a
+   page-wide wrapper. "reading" is the only narrow mode, reserved for long
+   paragraphs. */
+[data-layout] {
+  margin-top: var(--space-4);
+}
+[data-layout="reading"] {
+  max-width: var(--width-reading);
+}
+[data-layout="standard"] {
+  max-width: var(--width-standard);
+}
+[data-layout="wide"] {
+  max-width: none;
+  width: 100%;
+}
+.cols[data-layout="asymmetric"] {
+  align-items: start;
+}
+@media (max-width: 1023px) {
+  [data-layout="standard"] {
+    max-width: none;
+  }
+}
+
+/* Row-gap variant for evidence grids stacking multiple rows of figures —
+   default .cols gap stays for column spacing; align-items:start keeps
+   each figure at its own natural aspect-ratio height. */
+.rows-loose {
+  row-gap: var(--space-internal);
+  align-items: start;
+}
+
+/* Chip labelling planning/process material, distinct from a polished
+   outcome shot. */
+.process-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--proj-line, var(--charcoal));
+  padding: 5px 12px;
+}
+
+/* === Project page base — accent + surface tokens, overridden per
+   project by that project's own .project-{slug} class. === */
+.project-page {
+  --proj-surface: var(--ink);
+  --proj-surface-2: var(--ink-soft);
+  --proj-text: var(--paper);
+  --proj-text-soft: var(--paper-soft);
+  --proj-line: var(--charcoal);
+  --proj-accent: var(--ember);
+  --proj-accent-deep: var(--ember-deep);
+  background: var(--proj-surface);
+  color: var(--proj-text);
+}
+
+/* === Breadcrumb / prev-next frame === */
+.proj-frame {
+  padding: clamp(18px, 2.6vh, 28px) var(--page-margin) 0;
+}
+.proj-frame-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding-bottom: clamp(16px, 2.2vh, 24px);
+  border-bottom: 1px solid var(--proj-line);
+}
+.proj-frame-bar a {
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.15s ease;
+  padding: 13px 6px;
+  margin: -13px -6px;
+}
+.proj-frame-bar a:hover,
+.proj-frame-bar a:focus-visible {
+  color: var(--proj-accent);
+}
+.proj-frame-count {
+  color: var(--proj-text-soft);
+}
+
+/* === Hero — full-grid composition === */
+.proj-hero {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: clamp(48px, 8vh, 110px) var(--page-margin) var(--space-6);
+}
+.proj-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--proj-accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--space-3);
+}
+.proj-eyebrow::before {
+  content: "";
+  width: 20px;
+  height: 1px;
+  background: var(--proj-accent);
+  display: inline-block;
+}
+.proj-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 380;
+  font-size: clamp(2.8rem, 7.4vw, 7rem);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+}
+.proj-title .dot {
+  color: var(--proj-accent);
+}
+.proj-thesis {
+  font-family: var(--font-display);
+  font-weight: 340;
+  font-size: clamp(1.15rem, 1.6vw, 1.6rem);
+  line-height: 1.45;
+  color: var(--proj-text-soft);
+  margin-top: var(--space-3);
+  max-width: 30em;
+}
+.proj-meta-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--proj-line);
+}
+.proj-meta-item {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+.proj-meta-label {
+  display: block;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+}
+.proj-ownership {
+  margin-top: var(--space-4);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--proj-text);
+  max-width: 40em;
+  border-left: 2px solid var(--proj-accent);
+  padding-left: var(--space-3);
+}
+
+/* === Artifact (embed / hero image) === */
+.proj-artifact-frame {
+  border: 1px solid var(--proj-line);
+  background: var(--proj-surface-2);
+  overflow: hidden;
+  position: relative;
+}
+.proj-artifact-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--proj-line);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+.proj-open-link {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--proj-line);
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+.proj-open-link:hover,
+.proj-open-link:focus-visible {
+  border-color: var(--proj-accent);
+  color: var(--proj-accent);
+}
+.proj-embed {
+  width: 100%;
+  height: clamp(560px, 74vh, 940px);
+  border: 0;
+  display: block;
+  background: #000;
+}
+.proj-artifact-caption {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: var(--space-3);
+  max-width: 60em;
+}
+
+/* === Numbered section system === */
+.proj-section {
+  width: 100%;
+  max-width: var(--page-max);
+  padding: clamp(72px, 11vh, 150px) var(--page-margin) 0;
+  margin: 0 auto;
+}
+.proj-section:last-of-type {
+  padding-bottom: clamp(72px, 11vh, 150px);
+}
+.proj-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--proj-line);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.proj-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--proj-accent);
+}
+.proj-section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+  letter-spacing: -0.01em;
+}
+.proj-body {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--proj-text);
+  max-width: var(--width-reading);
+}
+.proj-body + .proj-body {
+  margin-top: var(--space-3);
+}
+.proj-body-muted {
+  color: var(--proj-text-soft);
+}
+.proj-quote {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-left: 2px solid var(--proj-accent);
+  background: var(--proj-surface-2);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.55;
+  max-width: 38em;
+}
+.cols .proj-quote {
+  margin-top: 0;
+}
+
+/* === Evidence shots === */
+.proj-shot {
+  background: var(--proj-surface-2);
+  border: 1px solid var(--proj-line);
+  overflow: hidden;
+}
+.proj-shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.proj-shot.native {
+  max-width: var(--native-w, 100%);
+}
+.proj-shot-caption {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--muted);
+  padding: 12px 16px;
+  border-top: 1px solid var(--proj-line);
+  line-height: 1.5;
+}
+@media (max-width: 1023px) {
+  .proj-shot.native {
+    max-width: min(var(--native-w, 100%), 100%);
+  }
+}
+
+/* Annotation attached directly beneath a figure's own caption. */
+.proj-shot-note {
+  padding: 14px 16px 16px;
+  border-top: 1px solid var(--proj-line);
+}
+.proj-shot-note-head {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--proj-accent);
+}
+.proj-shot-note p {
+  font-size: var(--ed-fs-support);
+  line-height: 1.6;
+  color: var(--proj-text-soft);
+  margin-top: 8px;
+}
+.proj-shot-note .outcome {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  color: var(--proj-accent);
+  margin-top: 12px;
+}
+
+/* Crop tight to a figure's legible corner when the full frame isn't
+   readable at display size (e.g. an IDE window). */
+.proj-shot.crop-tl img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: 0% 0%;
+}
+
+/* Larger introductory argument ahead of a feature chapter. */
+.proj-lede {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-size: var(--ed-fs-lede);
+  line-height: 1.48;
+  color: var(--proj-text);
+}
+
+/* Annotation label + paragraph pairing beneath design-system evidence. */
+.proj-annotation-label {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-label);
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.proj-annotation {
+  max-width: 66ch;
+  font-size: var(--ed-fs-support);
+  line-height: 1.62;
+  color: var(--proj-text-soft);
+  margin-top: var(--space-evidence);
+}
+
+/* Full-bleed feature-chapter surface — mechanism is shared; colour is
+   per-project via --proj-feature-surface/--proj-feature-line, falling
+   back to the standard surface so an unaccented project page doesn't get
+   a stray band. */
+.proj-feature-surface {
+  background: var(--proj-feature-surface, var(--proj-surface-2));
+  border-top: 1px solid var(--proj-feature-line, var(--proj-line));
+  border-bottom: 1px solid var(--proj-feature-line, var(--proj-line));
+  margin-top: var(--space-internal);
+  margin-inline: calc(-1 * var(--page-margin));
+  padding-block: clamp(56px, 6vw, 96px);
+  padding-inline: var(--page-margin);
+}
+.proj-feature-surface .cols + .cols {
+  margin-top: var(--space-internal);
+}
+
+/* Paired video walkthroughs with a mono label strip. */
+.video-block {
+  background: var(--proj-surface-2);
+  border: 1px solid var(--proj-line);
+  overflow: hidden;
+}
+.video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-label {
+  font-family: var(--font-mono);
+  font-size: var(--ed-fs-caption);
+  color: var(--muted);
+  padding: 14px 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--proj-line);
+}
+
+/* === Reflection + references === */
+.proj-reflection {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  background: var(--proj-surface-2);
+  border-left: 2px solid var(--proj-accent);
+  max-width: 60em;
+}
+.cols .proj-reflection {
+  margin-top: 0;
+  max-width: none;
+}
+.proj-refs {
+  margin-top: var(--space-3);
+  font-size: 0.86rem;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.cols .proj-refs {
+  margin-top: 0;
+}
+
+/* === Footer prev/next nav === */
+.proj-footer-nav {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: clamp(72px, 11vh, 150px) auto 0;
+  padding: var(--space-4) var(--page-margin) var(--space-8);
+  border-top: 1px solid var(--proj-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.proj-nav-back {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  padding: 13px 6px;
+  margin: -13px -6px;
+}
+.proj-nav-back:hover,
+.proj-nav-back:focus-visible {
+  color: var(--proj-accent);
+}
+.proj-nav-next {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--proj-text);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  transition: color 0.15s ease;
+  padding: 13px 6px;
+  margin: -13px -6px;
+}
+.proj-nav-next:hover,
+.proj-nav-next:focus-visible {
+  color: var(--proj-accent);
+}
+.proj-next-label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 760px) {
+  .proj-embed {
+    height: clamp(420px, 70vh, 640px);
+  }
+}

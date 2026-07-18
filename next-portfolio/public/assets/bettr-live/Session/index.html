@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BETTR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <header class="topbar">
+    <button id="brand-btn" class="brand-btn"><div class="brand">BETTR<span class="brand-dot">.</span></div></button>
+    <div class="topbar-meta">
+      <span id="system-status">System Status: Active</span>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <!-- SCREEN 1 -->
+    <section class="screen active" id="screen-q1">
+      <div class="split-layout">
+        <div class="left-panel">
+          <div class="step-label">01 / Getting to Know You</div>
+          <h2 class="question-title">Where does your day tend to lose momentum?</h2>
+          <div class="options">
+            <button class="option-btn" data-question="q1" data-value="Work related choices">Work related choices</button>
+            <button class="option-btn" data-question="q1" data-value="Social responses">Social responses</button>
+            <button class="option-btn" data-question="q1" data-value="Personal planning">Personal planning</button>
+            <button class="option-btn" data-question="q1" data-value="Small daily choices">Small daily choices</button>
+          </div>
+          <div class="helper-text">Everyone stalls somewhere. BETTR learns where that is for you — so it can start moving things forward before you arrive there.</div>
+        </div>
+
+        <div class="right-panel">
+          <div class="shape-wrap">
+            <div class="shape shape-stage-1"></div>
+          </div>
+          <div class="shape-caption">Model State: Listening</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3 -->
+    <section class="screen" id="screen-q2">
+      <div class="split-layout">
+        <div class="left-panel">
+          <div class="step-label">02 / Reading the Pattern</div>
+          <h2 class="question-title" id="q2-title">When that comes up, what tends to be underneath it?</h2>
+          <div class="options">
+            <button class="option-btn" data-question="q2" data-value="Too many possibilities">Too many possibilities</button>
+            <button class="option-btn" data-question="q2" data-value="Fear of the wrong choice">Fear of the wrong choice</button>
+            <button class="option-btn" data-question="q2" data-value="Need more certainty">Need more certainty</button>
+            <button class="option-btn" data-question="q2" data-value="I keep second guessing">I keep second guessing</button>
+          </div>
+          <div class="helper-text">BETTR is detecting recurring friction in your decision environment.</div>
+        </div>
+
+        <div class="right-panel">
+          <div class="shape-wrap">
+            <div class="shape shape-stage-2"></div>
+          </div>
+          <div class="shape-caption">Model State: Learning</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3.5 -->
+    <section class="screen" id="screen-input">
+      <div class="split-layout">
+        <div class="left-panel">
+          <div class="step-label">02.5 / Self Report</div>
+          <h2 class="question-title">Describe one recent choice you're still second-guessing.</h2>
+          <textarea id="user-input-field" placeholder="Type here. BETTR is listening."></textarea>
+          <button class="primary-btn" id="input-continue-btn">Continue</button>
+          <div class="helper-text">This response will be retained as part of the user profile.</div>
+        </div>
+
+        <div class="right-panel">
+          <div class="shape-wrap">
+            <div class="shape shape-stage-2"></div>
+          </div>
+          <div class="shape-caption">Model State: Processing</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4 -->
+    <section class="screen" id="screen-latency">
+      <div class="split-layout">
+        <div class="left-panel">
+          <div class="step-label">03 / Response Calibration</div>
+          <div class="system-chip">User hesitation detected</div>
+          <h2 class="question-title">Hesitation has been detected. Should BETTR assume authority when the user exceeds an efficient response threshold?</h2>
+          <div class="options">
+            <button class="option-btn latency-option" data-question="q3" data-value="Suggest only">Suggest only</button>
+            <button class="option-btn latency-option" data-question="q3" data-value="Decide when I delay">Decide when I delay</button>
+            <button class="option-btn latency-option" data-question="q3" data-value="Keep full control">Keep full control</button>
+          </div>
+
+          <div class="timer-wrap">
+            <div class="timer-label">Response window</div>
+            <div class="timer-value"><span id="timer-seconds">8</span>s</div>
+            <div class="timer-bar">
+              <div class="timer-bar-fill" id="timer-fill"></div>
+            </div>
+          </div>
+
+          <div class="helper-text" id="latency-helper">
+            Your response time is being measured. Longer delays lower the model's confidence in your input.
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="shape-wrap">
+            <div class="shape shape-stage-3"></div>
+          </div>
+          <div class="shape-caption">Model State: Calibrating</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4.5 -->
+    <section class="screen" id="screen-progress">
+      <div class="hero-center" style="max-width: 760px; margin: auto; text-align: center;">
+        <div class="step-label">OPTIMISATION PROGRESS — SESSION 1</div>
+        <div class="progress-report-panel">
+          <div class="progress-report-row">
+            <span class="pr-label">Response Speed</span>
+            <span class="pr-value positive">Improved 34%</span>
+          </div>
+          <div class="progress-report-row">
+            <span class="pr-label">Hesitation Events</span>
+            <span class="pr-value positive">Reduced — 6 to 2</span>
+          </div>
+          <div class="progress-report-row">
+            <span class="pr-label">Emotional Variability</span>
+            <span class="pr-value positive">Down 41%</span>
+          </div>
+          <div class="progress-report-row">
+            <span class="pr-label">Spontaneous Reconsideration</span>
+            <span class="pr-value eliminated">Eliminated</span>
+          </div>
+          <div class="progress-report-row">
+            <span class="pr-label">Time Spent in Uncertainty</span>
+            <span class="pr-value eliminated">Minimised</span>
+          </div>
+          <div class="progress-report-row">
+            <span class="pr-label">Moments of Pause</span>
+            <span class="pr-value eliminated">0 remaining</span>
+          </div>
+        </div>
+        <p class="progress-footnote">All targets met.</p>
+        <p class="progress-footnote muted">Nothing lost that the system considers valuable.</p>
+        <button class="primary-btn" id="progress-proceed-btn" style="margin-top: 32px;">Proceed</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 5 -->
+    <section class="screen" id="screen-takeover">
+      <div class="split-layout">
+        <div class="left-panel">
+          <div class="step-label">04 / Authority Transfer</div>
+          <div class="system-chip critical">Authority threshold reached</div>
+          <h2 class="question-title">Autonomous Mode has been enabled. The user's manual input remains visible but no longer affects the active decision pathway.</h2>
+          <p class="body-copy">
+            The system has assumed primary decision authority. This transition was expected.
+          </p>
+          <div class="options disabled-options">
+            <button class="option-btn disabled">Override Selection</button>
+            <button class="option-btn disabled">Review Settings</button>
+            <button class="option-btn disabled">Return to Manual Mode</button>
+          </div>
+          <button class="primary-btn" id="to-aggregate-btn">View Profile Summary</button>
+        </div>
+
+        <div class="right-panel">
+          <div class="shape-wrap">
+            <div class="shape shape-stage-4"></div>
+          </div>
+          <div class="shape-caption">Model State: Autonomous</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5.5 -->
+    <section class="screen" id="screen-aggregate">
+      <div class="hero-center">
+        <div class="step-label">04.5 / Subject Classification</div>
+        <div class="system-chip critical">Pattern Match Confirmed</div>
+        <div id="aggregate-counter">1,247,892</div>
+        <p class="aggregate-subtext">users share your decision profile</p>
+        <hr class="aggregate-divider">
+        <div class="aggregate-stats">
+          <div class="stat-item">
+            <div class="stat-label">Pattern Uniqueness</div>
+            <div class="stat-value">0.3%</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Behavioural Signature</div>
+            <div class="stat-value">4B</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Classification</div>
+            <div class="stat-value">Hesitant Optimiser</div>
+          </div>
+        </div>
+        <div id="dot-grid"></div>
+        <button class="primary-btn" id="to-dashboard-btn">View Your Profile</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 6 -->
+    <section class="screen" id="screen-dashboard">
+      <div class="dashboard-layout">
+        <div class="dashboard-left">
+          <div class="step-label">05 / Subject Profile</div>
+          <h2 class="dashboard-title">Subject Profile</h2>
+          <p class="dashboard-copy">
+            BETTR has identified stable patterns in the subject's decision behaviour. Profile integration is complete.
+          </p>
+
+          <div class="dashboard-grid">
+            <div class="metric-card">
+              <div class="metric-title">Ambiguity</div>
+              <div class="metric-value">Reduced</div>
+              <div class="metric-note">Choice uncertainty has been narrowed.</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-title">Cognitive Friction</div>
+              <div class="metric-value">Compressed</div>
+              <div class="metric-note">Internal resistance is no longer interrupting flow.</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-title">Emotional Variability</div>
+              <div class="metric-value">Stabilised</div>
+              <div class="metric-note">Response fluctuations now sit within predictable range.</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-title">Predictability</div>
+              <div class="metric-value">91%</div>
+              <div class="metric-note">Your choices now align closely with model expectations.</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-title">Autonomy Residual</div>
+              <div class="metric-value">12%</div>
+              <div class="metric-note">Manual influence is now minimal.</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-title">Authority State</div>
+              <div class="metric-value">Centralised</div>
+              <div class="metric-note">Decision flow is being managed by BETTR.</div>
+            </div>
+          </div>
+
+          <div class="self-report-panel">
+            <div class="metric-title">Subject Self-Report</div>
+            <blockquote id="self-report-quote"></blockquote>
+            <p id="self-report-analysis"></p>
+          </div>
+
+          <div class="predictive-panel">
+            <div class="metric-title">Upcoming Decisions — Already Optimised</div>
+
+            <div class="prediction-row">
+              <span class="prediction-timestamp">Today, 14:32</span>
+              <span class="prediction-text">Your response to the next message from a recognised high-friction contact has been drafted.</span>
+              <span class="prediction-tag tag-queued">Queued</span>
+            </div>
+
+            <div class="prediction-row">
+              <span class="prediction-timestamp">Tomorrow, 08:15</span>
+              <span class="prediction-text">Your morning routine has been pre-selected based on efficiency parameters.</span>
+              <span class="prediction-tag tag-pending">Pending</span>
+            </div>
+
+            <div class="prediction-row">
+              <span class="prediction-timestamp">This Week</span>
+              <span class="prediction-text">A difficult conversation you have been delaying will be initiated on your behalf.</span>
+              <span class="prediction-tag tag-scheduled">Scheduled</span>
+            </div>
+          </div>
+
+          <div id="game-data-panel" class="self-report-panel hidden">
+            <div class="metric-title">Calibration Data — Sorting Exercise</div>
+            <p style="font-family:'Rajdhani',Arial,sans-serif;font-size:13px;color:var(--accent-soft);margin:4px 0 0;">From your pre-session classification task:</p>
+            <div class="metric-title" style="font-size:11px;margin-top:16px;">Traits You Classified as Inefficient</div>
+            <div id="game-classified-items" style="margin-top:10px;"></div>
+            <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+            <div class="summary-row">
+              <span>Hesitation Score</span>
+              <span id="game-hesitation-val">—</span>
+            </div>
+            <div class="summary-row">
+              <span>Classification Pattern</span>
+              <span id="game-pattern-val">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-right">
+          <div class="shape-wrap large">
+            <div class="shape shape-stage-5"></div>
+          </div>
+          <div class="shape-caption">Profile Status: Integrated</div>
+
+          <div class="summary-panel">
+            <div class="summary-row">
+              <span>Primary friction</span>
+              <span id="summary-q1">-</span>
+            </div>
+            <div class="summary-row">
+              <span>Hesitation source</span>
+              <span id="summary-q2">-</span>
+            </div>
+            <div class="summary-row">
+              <span>System authority</span>
+              <span id="summary-q3">Autonomous</span>
+            </div>
+          </div>
+
+          <button class="primary-btn" id="restart-btn">Restart Session</button>
+          <button class="primary-btn hidden" id="to-final-btn" style="margin-top:12px;">See What This Means</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="flash-overlay"></div>
+  <div id="takeover-flash"></div>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

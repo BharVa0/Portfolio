@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HeroG } from "@/components/hero/HeroG";
 import { Section } from "@/components/layout/Section";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -26,6 +27,11 @@ export default function Home() {
             the &ldquo;Selected work&rdquo; route to land on — not the real
             index. The six projects move over, as reusable case-study
             components with real content, once that lesson starts.
+          </p>
+          <p className="work-placeholder-body">
+            <Link href="/projects/bettr">
+              View migrated BETTR case study →
+            </Link>
           </p>
         </PageContainer>
       </Section>
