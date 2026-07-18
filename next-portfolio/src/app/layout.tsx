@@ -22,9 +22,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // suppressHydrationWarning: Hero G's bootstrap script (see
+    // components/hero/HeroG.tsx) adds classes to this element before
+    // React's first hydration pass, so it can decide the loader/entrance
+    // state without a flash. That's an intentional, expected class
+    // change React didn't make itself — this only silences the harmless
+    // mismatch warning for it, nothing deeper in the tree is affected.
     <html
       lang="en"
       className={`${fraunces.variable} ${inter.variable} ${spaceMono.variable}`}
+      suppressHydrationWarning
     >
       <body>
         <SkipLink />

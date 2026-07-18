@@ -526,3 +526,380 @@ choice here since the static site actually relies on in-between weights
   CSS `@import` wouldn't.
 - Why `PageContainer` and `Section` are two separate components rather
   than one (gutter + rhythm vs. width + centering are different concerns).
+
+---
+
+# Lesson 3 — Client Components, hooks, browser APIs, and porting Hero G
+
+Lesson 2 built a shell that shipped zero client JavaScript. Lesson 3 ports
+Hero G — the four kinetic thesis bands, the pointer-follow inspection
+lens, the first-visit loader — from the approved static integration
+(`index.html` + `css/portfolio.css` + `js/portfolio.js`, commit `e37af20`)
+onto that shell. This is the lesson where the app gets its first real
+client-side JavaScript, and the concepts below are the reason it needs it.
+
+## What "use client" means
+
+Every file in Lessons 1–2 was a **Server Component**: React renders it to
+HTML on the server (or at build time), sends that HTML to the browser,
+and ships no JavaScript for it at all — there's nothing to "run" in the
+browser because the component doesn't do anything after it's rendered.
+
+`"use client"` is a directive at the top of a file that tells Next.js
+"this component needs to keep running in the browser after the initial
+HTML arrives." Only one new file in this lesson has it:
+`src/components/hero/HeroGInteractive.tsx`. Everything else — the root
+layout, `SiteHeader`, `HeroG.tsx` itself, `page.tsx` — stays a Server
+Component, exactly as the brief required.
+
+## What a Client Component actually is
+
+A Client Component is not "a component that only runs in the browser." By
+default, Next.js still renders it to HTML on the server first (so a
+visitor with JavaScript disabled, or a slow connection, still gets real
+content) — the directive's real effect is that React **also** ships that
+component's JavaScript to the browser and re-attaches it there. That
+re-attachment step has a name:
+
+## Hydration
+
+**Hydration** is React taking the static HTML the server already sent and
+"waking it up" — attaching event listeners, running effects, turning
+inert markup back into an interactive component — without throwing away
+and re-building the DOM from scratch. For Hero G, this means the four
+bands, the name, and the CTA link are all real, readable HTML the moment
+the page arrives; hydration is what makes the pointer lens and the loader
+start working a moment later, on the same markup.
+
+This matters for a subtle bug class: a **hydration mismatch**. If the
+server-rendered HTML and the very first thing React renders in the
+browser don't match, React logs a warning (or in bad cases, visibly
+flickers). `HeroG.tsx`'s bootstrap script deliberately causes one small,
+expected mismatch — it adds classes to `<html>` before React hydrates —
+which is why `layout.tsx`'s `<html>` tag now carries
+`suppressHydrationWarning`. That prop doesn't disable hydration checking
+site-wide; it only tells React "I know this specific element's attributes
+get changed by something outside React, don't warn about it."
+
+## useRef
+
+`useRef` gives a component a mutable box (`{ current: ... }`) that
+**survives across re-renders without causing one when it changes**. Hero G
+uses it two ways:
+
+1. **DOM references.** `bandRefs`, `lensRef`, `anchorRef`, and friends are
+   how `HeroGInteractive` gets a real handle to the `<p>` and `<div>`
+   elements it needs to animate — the `ref={el => bandRefs.current[i] = el}`
+   pattern on each band is React's way of saying "hand me this DOM node
+   once it exists."
+2. **Non-visual engine state.** The `engineRef` holds the pointer engine's
+   entire mutable state — current and target positions for all four
+   bands, the lens coordinates, scroll easing, whether the engine is
+   currently running. None of this is ever read by JSX, so none of it
+   needs to be React state.
+
+```ts
+// Simplified from HeroGInteractive.tsx
+const engineRef = useRef({ px: [0, 0, 0, 0], /* ...more fields... */ });
+
+function onHeroPointerMove(e: MouseEvent) {
+  engineRef.current.tx[0] = /* ...new target... */;
+  // no setState call — nothing needs to re-render because of this
+}
+```
+
+## useState
+
+`useState` is for **values a component's JSX actually branches on** —
+when a different value should visibly produce different markup. Hero G
+uses **zero `useState` calls**, which is worth explaining rather than
+treating as an oversight: the loader overlay isn't JSX at all (it's a
+plain DOM node the bootstrap script inserts directly — see below), the
+entrance animation is driven entirely by CSS classes on `<html>`, and the
+lens label text is written straight to `lensLabelRef.current.textContent`
+in the same way the original static `js/portfolio.js` did. There was
+never a point where "if X, render different markup" applied, so there was
+never a reason to reach for `useState`. This is the flip side of the
+brief's own rule — use refs, not state, for anything that updates every
+animation frame — taken to its actual conclusion for this component.
+
+## useEffect
+
+`useEffect` is where a component does things that aren't "return some
+markup": talking to browser APIs, setting up subscriptions, starting
+timers. `HeroGInteractive` has exactly one `useEffect`, with an empty
+dependency array plus `bands` (`[bands]`) — it runs once, right after the
+component's first real DOM nodes exist, and never again for the life of
+that mounted component.
+
+```ts
+useEffect(() => {
+  // ...set up alignBand2, the loader continuation, the pointer/scroll engine...
+  return () => {
+    // ...undo every single thing the block above did...
+  };
+}, [bands]);
+```
+
+## Why effects need cleanup
+
+Every `addEventListener`, every `requestAnimationFrame`, every
+`setTimeout` this effect starts is something the *browser*, not React,
+keeps doing until told to stop. If the component ever re-runs this effect
+— and in development, **React Strict Mode deliberately runs every effect
+twice** (mount → cleanup → mount again) specifically to catch code that
+forgot this — an effect without cleanup would attach a second
+`mousemove` listener, start a second `requestAnimationFrame` loop, and so
+on, on top of the first. Nothing removes the old ones, so the page gets
+progressively more listeners every time.
+
+The cleanup function `HeroGInteractive`'s effect returns removes, in
+order: the `resize` listener for band-2 alignment, the loader's pending
+`requestAnimationFrame` and `setTimeout` handles, the engine's
+`mousemove`/`mouseleave`/`scroll`/`resize` listeners, both `matchMedia`
+`change` listeners, and the engine's own `requestAnimationFrame` handle.
+This was verified directly during QA: after several Fast Refresh cycles
+in development (each one exercising mount → cleanup → mount), the page
+still had exactly one `#hero-g`, one lens, and four bands — no
+duplicates.
+
+## requestAnimationFrame
+
+`requestAnimationFrame` (rAF) asks the browser to run a callback right
+before its next repaint — the standard way to drive smooth, 60fps-ish
+visual updates, instead of a `setInterval` that has no relationship to
+when the screen actually redraws. Hero G's `heroFrame()` function is a rAF
+loop: it computes new positions, writes them to the DOM, and — this is
+the important part — **only schedules another frame if something is still
+moving**:
+
+```ts
+if (moving) {
+  rafIdRef.current = requestAnimationFrame(heroFrame);
+} else {
+  engine.running = false;
+  rafIdRef.current = null; // the loop stops entirely here
+}
+```
+
+This is why the animation "sleeps": once the pointer stops and every
+lerped value has settled within a small threshold, the loop simply
+doesn't reschedule itself. It wakes back up the next time `heroWake()` is
+called, from a pointer move or a scroll event.
+
+## Direct DOM/CSS updates versus React re-renders
+
+Every visual update in the pointer engine — band `transform`, band
+`opacity`, the lens's `transform`, the anchor's inline styles — is
+written with `element.style.property = value` directly through a ref,
+**never** through `setState`. If this went through React state instead,
+every pointer move (potentially 60+ times a second) would trigger a full
+component re-render and a diff against the previous render, for a value
+React never needed to know about in the first place. Writing straight to
+the DOM through a ref is the standard escape hatch for exactly this
+situation: high-frequency updates where React's rendering model would
+only add overhead, never correctness.
+
+## Browser APIs used, and why they can't run on the server
+
+None of the following exist while Next.js is rendering a Server
+Component on the server — they're all only defined once actual browser
+code is running:
+
+- **`sessionStorage`** — remembers, for one browser tab's session, whether
+  the loader has already played (`hs-next-loader-seen`, namespaced
+  separately from the static site's own `hs-loader-seen`).
+- **`matchMedia`** — reads `(prefers-reduced-motion: reduce)`,
+  `(hover: hover) and (pointer: fine)`, and `(min-width: 1024px)` live, and
+  the two input-mode queries are re-checked on `change` so a hybrid device
+  (a touchscreen laptop with a mouse plugged in mid-session) never gets
+  stuck with a stale mode.
+- **`document.fonts.ready`** — a promise that resolves once web fonts have
+  finished loading, used both by the loader (to track *real* readiness,
+  not a fake delay) and by `alignBand2` (font metrics affect the measured
+  text width it depends on).
+- **`requestAnimationFrame`**, **`getBoundingClientRect`**,
+  **`document.createRange`** — all real-time, real-layout browser APIs
+  with no server-side equivalent.
+
+This is the concrete answer to "why browser APIs can't run during server
+rendering": a server has no viewport, no pointer, no fonts rendered on a
+screen, and no per-tab session — these APIs only mean something once an
+actual page is actually displayed somewhere.
+
+IntersectionObserver was **not** used this lesson — that's the static
+site's site-wide `.reveal` scroll-entrance system, out of scope until the
+lesson that ports it everywhere, not just the hero.
+
+## The component boundary: why one Client Component, not several
+
+The brief's default preference is the smallest possible `"use client"`
+boundary. Hero G is the case it explicitly carves an exception for: one
+`requestAnimationFrame` loop reads and writes the pointer offsets, scroll
+easing, and lens position of the bands, their ember twins, the anchor,
+and the CTA row **together, in the same frame** — splitting that into
+multiple Client Components would mean either duplicating this markup
+between a "static" and an "interactive" version, or threading eight-plus
+DOM refs through props for no real benefit. So the boundary landed at:
+
+- **`HeroG.tsx`** (Server Component) — owns the real content (band text,
+  name, statement, CTA, metadata) as plain data, owns the semantic outer
+  `<section id="hero-g">`, and renders the bootstrap `<script>`. Zero
+  client JavaScript cost for any of this.
+- **`HeroGInteractive.tsx`** (Client Component) — receives that content as
+  a prop and renders the entire interactive subtree itself (bands, twin
+  bands, anchor, lens). This is still server-rendered on the initial
+  request (Client Components aren't skipped during SSR, only hydrated
+  afterward), so a no-JavaScript visitor still gets the complete hero.
+
+## The loader and hydration: why a plain `<script>`, not `next/script`
+
+The obvious tool for "run something before the page settles" is
+`next/script`'s `beforeInteractive` strategy. The installed Next.js 16
+docs (`node_modules/next/dist/docs/.../script.md`) rule it out here for a
+specific reason: `beforeInteractive` scripts **must be placed in the root
+layout** — they're meant for site-wide concerns (bot detectors, consent
+managers), and putting Hero-G-only logic there would mean every future
+route pays for it.
+
+Instead, `HeroG.tsx` renders a plain inline `<script>` with
+`dangerouslySetInnerHTML`, positioned exactly where the hero renders. This
+is the same technique libraries like `next-themes` use to avoid a
+theme-flash: a literal `<script>` tag executes synchronously, in document
+order, as the browser parses that part of the page — before React
+hydrates anything. There is no user input anywhere in that string (every
+value is a build-time constant or a CSS Modules class name resolved at
+build time), so the usual risk `dangerouslySetInnerHTML`'s name warns
+about doesn't apply here.
+
+That script does two things, matching the static site's own early inline
+script:
+
+1. Adds `hg-can-animate` to `<html>` unless `prefers-reduced-motion:
+   reduce` is set.
+2. On a first visit with motion allowed, adds `hg-pending` and inserts the
+   loader overlay; otherwise (repeat visit, or reduced motion) adds
+   `hg-ready` directly — no loader, no flash, no visible jump.
+
+`HeroGInteractive`'s effect then **continues** whatever the bootstrap
+script started — driving the 00→100 tick via `document.fonts.ready` and
+a clamped 800–1400ms window, exactly like `js/portfolio.js`'s loader
+section — because `sessionStorage`, `matchMedia`, and the tick's own
+`requestAnimationFrame` loop are all browser-only APIs a Server Component
+genuinely cannot touch.
+
+## Reduced motion and input modes
+
+Verified directly via headless Chrome's `--force-prefers-reduced-motion`
+flag against both the static site and the Next.js port: both land on
+exactly `<html class="ready">` / `<html class="... hg-ready">` — no
+`can-animate`/`hg-can-animate`, no loader element in the DOM, no pending
+class. Because the interactive engine's entire `useEffect` body checks
+`html.classList.contains("hg-can-animate")` before starting the pointer
+engine at all, reduced-motion users never run the lens, never get pointer
+displacement, and see the complete, final composition immediately — the
+same outcome as the static site, reached the same way (never starting the
+engine, not starting-then-hiding it).
+
+Coarse pointers and viewports under 1024px are handled the same way as
+static: a CSS media-query backstop (`display: none !important` on the
+lens and the ember twin field) plus the engine's own `lensAllowed()`
+check, so the native pointer is never hidden on a touch device.
+
+## Errors encountered
+
+One TypeScript build error, fixed during this lesson: `heroEl` (from
+`document.getElementById("hero-g")`) was checked for `null` at the top of
+the effect (`if (!heroEl) return;`), but TypeScript doesn't carry that
+narrowing into the `heroFrame` function declared later in the same
+effect, because that function is called asynchronously (via rAF), not in
+the same synchronous pass. Fixed by rebinding to an explicitly-typed
+`const heroEl: HTMLElement = heroElMaybe;` right after the check, which
+closures capture as definitely non-null everywhere.
+
+One ESLint warning, fixed: an `eslint-disable-next-line` comment added
+defensively around the bootstrap `<script>` turned out to disable rules
+that weren't actually firing — removed once `npm run lint` confirmed it
+was reporting an "unused directive" warning instead.
+
+## QA results
+
+Compared directly against the approved static homepage (port 4200) from
+the Next.js dev server (port 4202):
+
+- **Geometry, byte-for-byte:** band widths, unshifted anchor position, and
+  the JS-computed `--anchor-shift` value all matched to sub-pixel
+  precision once both pages were given a fresh, settled measurement — an
+  initial ~90px discrepancy traced back to a *testing* artifact (the two
+  pages' `alignBand2` had last run at different moments during repeated
+  manual viewport resizes), not a real difference; forcing a synchronous
+  resize event on both converged them to the identical value
+  (`-19.036865234375px`).
+- **Responsive breakpoints:** 1280×800, 1440×900, 1600×1000, 1920×1080,
+  2560×1080, 2560×1440, 3440×1440, and 375×812 all checked for horizontal
+  overflow (`scrollWidth` vs `clientWidth`) on both sites — identical,
+  zero overflow, at every width. The ultra-wide letter-spacing/font-size
+  tier (`min-aspect-ratio: 22/10`) engaged identically on both at
+  3440×1440.
+- **Header overlay:** confirmed `position: absolute` on `.site-frame` at
+  desktop widths on both sites (the `:has()` rule), and confirmed it
+  reverts to `position: static` below 1024px and at 375px on both.
+- **Loader/hydration:** confirmed via a fresh session that the loader
+  shows on first visit and is skipped on a repeat visit (the
+  `sessionStorage` flag persisted correctly across a reload in the same
+  tab); confirmed via `--force-prefers-reduced-motion` that no loader
+  element ever enters the DOM under reduced motion, on either site.
+- **No-JS content:** fetched the raw served HTML directly (no browser
+  JavaScript involved) and confirmed "Bharat Vyas" and "Interactive
+  Systems" are present as real text, not JS-injected.
+- **Keyboard/skip link:** confirmed the skip link is the first focusable
+  element, targets `#main-content` (which exists), and that `#work`
+  exists with the CTA's `href="#work"` pointing at it.
+- **Fast Refresh:** edited a comment in `HeroGInteractive.tsx` to force
+  several Fast Refresh cycles, then confirmed exactly one `#hero-g`, one
+  lens, and four bands remained — no duplicates from repeated
+  mount/cleanup.
+- **Pointer engine:** a dispatched synthetic `mousemove` produced an
+  immediate, correctly-directioned band `transform` and toggled the lens
+  to its "live" state on the first animation frame — full multi-frame
+  lerp convergence could not be observed live in this session's Browser
+  pane, which has a known issue (documented from prior sessions) where
+  `requestAnimationFrame` stalls in that specific pane independent of tab
+  focus; this is a tooling limitation of this environment, not something
+  observed to affect the shipped code, whose rAF loop logic mirrors the
+  verified static implementation line-for-line.
+- **`npm run lint`:** clean, zero warnings.
+- **`npm run build`:** succeeded; TypeScript passed; `/` and `/_not-found`
+  both prerendered as static content.
+- **Console/network:** zero errors in either dev-server console or the
+  network panel; every asset (fonts, chunks, the inline SVG grain
+  texture) returned `200`.
+- **Static site:** confirmed untouched — `git diff --stat` against
+  `index.html`, `css/portfolio.css`, `js/portfolio.js`, `projects/`,
+  `assets/`, and `v2-preview/` reports no changes.
+
+## What Bharat should now be able to explain
+
+- The difference between a Server Component and a Client Component, and
+  why "use client" doesn't mean "server rendering is skipped."
+- What hydration is, and why a deliberate, expected class-list mismatch
+  (Hero G's bootstrap script) needs `suppressHydrationWarning` rather
+  than being treated as a bug.
+- Why `useRef` — not `useState` — is correct for a value that updates 60
+  times a second, and why this component ended up needing exactly zero
+  `useState` calls despite that being an available tool.
+- Why an effect that adds a listener must return a function that removes
+  it, and what actually breaks (duplicate listeners) if it doesn't —
+  demonstrated concretely via the Fast Refresh + element-count check.
+- Why `requestAnimationFrame` loops should stop scheduling themselves once
+  nothing is moving, instead of running forever.
+- Why `next/script`'s `beforeInteractive` strategy was the wrong tool
+  here, and what a plain inline `<script>` gets you instead.
+- Why sessionStorage, matchMedia, and document.fonts are all browser-only
+  and cannot run during server rendering.
+
+## What Lesson 4 will cover
+
+Project data, dynamic routes, reusable case-study components, and porting
+BETTR as the first project route. Lesson 4 has not started in this
+session.

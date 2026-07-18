@@ -30,6 +30,45 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-18 — Hero G ported to Next.js (Lesson 3)
+
+**Stage:** Foundation
+**Scope:** `CLAUDE.md`, `docs/PORTFOLIO_DIRECTION_V2.md` (stale-documentation correction), new `next-portfolio/src/components/hero/{HeroG.tsx,HeroGInteractive.tsx,HeroG.module.css,HeroG.types.ts}`, `next-portfolio/src/app/{layout.tsx,globals.css,page.tsx}` (modified), `docs/NEXTJS_MIGRATION_GUIDE.md` (new Lesson 3 chapter), this log. No project page, no Selected Work index, no new dependency. Static portfolio files (`index.html`, `css/portfolio.css`, `js/portfolio.js`, `projects/**`, `assets/**`, `v2-preview/**`) untouched.
+**Did:**
+- **Resolved the stale-documentation flag carried from the Lesson 2 entry below:** `CLAUDE.md` and the direction doc's §11 previously stated "no public homepage integration has happened yet" for Hero G, which was already wrong at the time — static commit `e37af20` had integrated it. Both docs now record: Hero G is live on the static homepage (commit `e37af20`), that static integration (not `v2-preview/hero-g-kinetic-thesis/`) is the production source of truth, and the Next.js port works from it.
+- Audited the exact static Hero G implementation across `index.html`, `css/portfolio.css` (~lines 249–524), and `js/portfolio.js` (the guarded Hero G IIFE) before writing any Next.js code.
+- Built the component boundary: `HeroG.tsx` (Server Component) owns real content (band text, name, statement, CTA, metadata) as plain data and the semantic `<section id="hero-g">`; `HeroGInteractive.tsx` (Client Component, the only `"use client"` file this lesson) owns and animates the entire interactive subtree (bands, ember twin field, anchor, lens) as one unit — split further would have meant duplicating markup between a static and interactive version for a single shared rAF loop.
+- Ported, materially unchanged: all four thesis bands with their authored offsets and edge overshoot, the asymmetric ~38%-centre "Bharat Vyas" knockout (confirmed not recentred), the positioning statement, the Selected Work CTA, degree/location metadata, the ultra-wide aspect tier, pointer counter-displacement, the rectangular inspection lens with its clipped-ember reveal, the four contextual labels, scroll-linked band separation, the masked clip-wipe entrance, and the first-visit 0–100 loader.
+- Loader/hydration: a plain inline `<script>` (not `next/script`'s `beforeInteractive`, which the installed Next.js 16 docs confirm must live in the root layout) sets `hg-can-animate`/`hg-pending`/`hg-ready` on `<html>` and inserts the loader overlay before hydration, exactly mirroring the static site's own early-script split; `HeroGInteractive`'s effect continues the tick. Session key namespaced (`hs-next-loader-seen`) separately from the static site's `hs-loader-seen`. `layout.tsx`'s `<html>` carries `suppressHydrationWarning` for this one, expected, class-list mutation.
+- Header overlay (Lesson 3J): `.site-frame:has(+ main #hero-g)` in `globals.css` makes the shared header absolute-position itself over Hero G only when `#hero-g` exists in `<main>` — CSS-only, no pathname check, `SiteHeader` stays a Server Component. Falls back gracefully (header in normal flow) on browsers without `:has()` support, and reverts to normal flow below 1024px like the static site.
+- Replaced the Lesson 2 demo homepage in `page.tsx` with Hero G plus one restrained placeholder `<section id="work">` ("Selected work — Project index migration follows in a later lesson"), sized only to prove the scroll handoff and the `#work` anchor land somewhere real.
+- Cleanup: the single `useEffect` (dependency `[bands]`) returns one cleanup function undoing every listener, rAF handle, and timeout it started — verified via repeated Fast Refresh cycles in dev leaving exactly one `#hero-g`, one lens, and four bands (no duplicates).
+
+**Decisions:**
+- Zero `useState` calls in `HeroGInteractive` — the loader overlay isn't JSX (inserted procedurally by the bootstrap script), the entrance is CSS-class-driven, and the lens label is written via `textContent` through a ref, so nothing here ever needed a conditional render branch. Documented as a deliberate conclusion of the "refs for per-frame updates" rule, not an oversight.
+- Grouped the pointer engine's mutable state (pointer offsets, lens position, scroll easing, running/settled guards) into one `useRef`-held plain object rather than a dozen separate refs, since every field is read/written together by the same rAF loop.
+- IntersectionObserver and the site-wide contextual cursor were not ported this lesson — both are static-site systems that extend beyond the hero (`.reveal` site-wide, cursor decorates project rows too) and are out of scope until a lesson that covers the whole site, not just Hero G. The lens still hides the native pointer over the hero on its own, independent of that unbuilt cursor system.
+
+**Verified:**
+- Geometry matched the static site to sub-pixel precision (band widths, unshifted anchor position, and the JS-computed `--anchor-shift`, `-19.036865234375px` on both) once measured at a settled moment — an initial ~90px discrepancy was traced to a testing artifact (repeated manual resizes catching each site's `alignBand2` mid-settle at different times), not a real difference; forcing a synchronous resize on both converged them identically.
+- No horizontal overflow at 1280×800, 1440×900, 1600×1000, 1920×1080, 2560×1080, 2560×1440, 3440×1440, or 375×812, on both sites; the ultra-wide tier engaged identically at 3440×1440.
+- Header overlay confirmed `position: absolute` at desktop widths, `position: static` below 1024px, on both sites.
+- Loader confirmed to show on a fresh session and skip on repeat visit (same tab, reloaded); confirmed absent from the DOM under `--force-prefers-reduced-motion` on both sites, alongside the `hg-can-animate`/`can-animate` class also being absent on both.
+- No-JS content confirmed via a direct fetch of the raw served HTML (no browser JS involved): "Bharat Vyas" and "Interactive Systems" present as real text.
+- Skip link confirmed first-focusable, targets `#main-content`; `#work` confirmed to exist with the CTA's `href="#work"` pointing at it.
+- `npm run lint`: clean. `npm run build`: succeeded, TypeScript passed, `/` and `/_not-found` both statically prerendered.
+- One TypeScript build error hit and fixed: `heroEl`'s null-check didn't narrow into the `heroFrame` function declared later in the same effect (called asynchronously via rAF); fixed by rebinding to an explicitly-typed non-null `const`.
+- Console and network confirmed clean at every tested viewport; `git diff --stat` confirmed zero changes to any static portfolio file.
+- Multi-frame pointer-lerp convergence could not be observed live in this session's Browser pane (a documented `requestAnimationFrame` stall specific to that pane, unrelated to tab focus) — a dispatched synthetic pointer event did produce an immediate, correctly-directioned band transform and lens-live toggle on the first frame before the stall; full live convergence is a tooling gap in this environment, not a discrepancy observed in the shipped code.
+
+**Open:**
+- Multi-frame pointer engine convergence (beyond the first frame) unverified live, per the tooling limitation above — the ported logic is a line-for-line match of the verified static implementation.
+- Touch-device verification of the lens/pointer fallback on a real touch screen — still outstanding (carried from prior static-site entries, applies equally here).
+- Lesson 4 ("Project data, dynamic routes, reusable case-study components and porting BETTR as the first project route") not started, per explicit instruction.
+- All prior static-redesign open items unaffected and carried forward unchanged.
+
+**Commit:** pending (written just before the Lesson 3 commit)
+
 ### 2026-07-18 — Next.js shared site shell (Lesson 2)
 
 **Stage:** Foundation
@@ -59,8 +98,8 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 - Confirmed via `git status` that only the intended `next-portfolio/src/**` files changed; static portfolio files, the checkpoint tag, and all seven pre-existing untracked items remain untouched.
 
 **Open:**
-- Lesson 3 ("Porting Hero G and learning Client Components, hooks, browser APIs and interactive cleanup") not started, per explicit instruction.
-- The `CLAUDE.md` staleness flag above (Hero G already live in `index.html` despite the doc saying otherwise) is unresolved and not part of this session's scope.
+- ~~Lesson 3 ("Porting Hero G and learning Client Components, hooks, browser APIs and interactive cleanup") not started, per explicit instruction.~~ Done — see the 2026-07-18 "Hero G ported to Next.js (Lesson 3)" entry above.
+- ~~The `CLAUDE.md` staleness flag above (Hero G already live in `index.html` despite the doc saying otherwise) is unresolved and not part of this session's scope.~~ Resolved in the Lesson 3 entry above.
 - All prior static-redesign open items unaffected and carried forward unchanged.
 
 **Commit:** pending (written just before the Lesson 2 commit)

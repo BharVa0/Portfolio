@@ -220,7 +220,7 @@ All other §11 content not specifically about the image — message hierarchy, p
   - The masked-track entrance (bands reveal via horizontal clip-wipes; no per-letter animation).
   - The natural-scroll handoff into Selected Work (bands separate at different restrained rates; no scroll-jacking, no pinning).
 - **21st.dev (`docs/HERO_21ST_RESEARCH.md`) informed masking and pointer-follow mechanics only.** No component was copied or installed; no React/Tailwind dependency entered the production portfolio — Hero G is self-contained vanilla HTML/CSS/JS, consistent with CLAUDE.md's architecture decisions.
-- **No public homepage integration has happened yet.** `index.html`, `css/portfolio.css`, and `js/portfolio.js` stay untouched by this approval; Hero G remains isolated under `/v2-preview/` until a separate, explicit integration pass.
+- **Integrated into the public static homepage, 2026-07-18 (commit `e37af20`).** `index.html`, `css/portfolio.css`, and `js/portfolio.js` now carry the shipped Hero G implementation — this integration, not the isolated `v2-preview/hero-g-kinetic-thesis/` prototype, is the production source of truth. The Next.js port (`next-portfolio/`) ports Hero G from this static integration; see `docs/NEXTJS_MIGRATION_GUIDE.md` Lesson 3.
 - **Future work may tune implementation details during integration** — e.g. for browser compatibility, accessibility, or performance — **only when needed**, and without materially changing the approved composition or locked behaviours above.
 
 ### Hero direction — prototypes D/E rejected, 2026-07-16

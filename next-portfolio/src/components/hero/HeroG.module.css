@@ -1,0 +1,337 @@
+/* Hero G, "Kinetic Thesis Field" — ported from the approved static
+ * integration (css/portfolio.css lines ~249-524, index.html, js/portfolio.js).
+ * Locked composition per docs/PORTFOLIO_DIRECTION_V2.md §11 — values below
+ * are copied, not redesigned. Only two things differ from the static rules,
+ * both explained where they appear:
+ *   1. State classes read off <html> (pending/ready/can-animate/lens-on)
+ *      are prefixed "hg-" here, scoped to this port only, since the site-
+ *      wide reveal-on-scroll/cursor system those names also drive on the
+ *      static site hasn't been ported yet (a later lesson's job).
+ *   2. The contextual cursor dot (site-wide, decorates project rows too)
+ *      is out of scope for this lesson — the lens still hides the native
+ *      cursor over the hero on its own, independent of that system.
+ */
+
+.hero {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.heroGrain {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* Kinetic typographic field — each band sized from min(vw, vh) so it
+   always overshoots both viewport edges; authored margin-left offsets
+   place the crop per band (verified at seven QA widths, static site). */
+.field {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 11.5vh 0 6.5vh;
+  overflow: hidden;
+}
+.band {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  width: max-content;
+  will-change: transform;
+}
+.b1 {
+  font-size: min(13vw, 17vh);
+  font-weight: 560;
+  color: var(--paper);
+  letter-spacing: 0.04em;
+  margin-left: -8vh;
+}
+.b2 {
+  font-size: min(16.5vw, 21.5vh);
+  font-weight: 380;
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--paper);
+  letter-spacing: 0.045em;
+  margin-left: -4.5vh;
+}
+.b3 {
+  font-size: min(10.5vw, 13.5vh);
+  font-weight: 340;
+  color: var(--paper);
+  opacity: 0.92;
+  letter-spacing: 0.05em;
+  margin-left: -7vh;
+}
+.b4 {
+  font-size: min(9vw, 12vh);
+  font-weight: 500;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(242, 238, 233, 0.52);
+  letter-spacing: 0.02em;
+  margin-left: -13vh;
+}
+@supports not (-webkit-text-stroke: 1px #000) {
+  .b2 { color: var(--paper-soft); }
+  .b4 { color: var(--muted); }
+}
+/* Wide aspect ratios (16:9 and wider): the vh caps above leave the
+   bands short of the right edge, so they get ~14% more height. */
+@media (min-aspect-ratio: 185/100) {
+  .b1 { font-size: min(13vw, 19.5vh); }
+  .b2 { font-size: min(16.5vw, 24.5vh); }
+  .b3 { font-size: min(10.5vw, 15.5vh); }
+  .b4 { font-size: min(9vw, 13vh); }
+  .field { padding: 10.5vh 0 6vh; }
+}
+/* Ultra-wide (~21:9 and wider): vertical space is exhausted, so the
+   extra width comes from letter-spacing (the field stretches with the
+   screen) plus a modest final font step — not a global type increase. */
+@media (min-aspect-ratio: 22/10) {
+  .b1 { font-size: min(13vw, 21.5vh); letter-spacing: 0.13em; margin-left: -14vh; }
+  .b2 { font-size: min(16.5vw, 27vh); letter-spacing: 0.14em; }
+  .b3 { font-size: min(10.5vw, 17vh); letter-spacing: 0.14em; margin-left: -12vh; }
+  .b4 { font-size: min(9vw, 14.5vh); letter-spacing: 0.13em; margin-left: -16vh; }
+  .field { padding: 9vh 0 5vh; }
+}
+
+/* Ember inspection layer — exact duplicate of the field, revealed only
+   through the lens rectangle via clip-path (HeroGInteractive.tsx). Under
+   inspection every band reads solid ember: outlines solidify. */
+.fieldX { z-index: 12; visibility: hidden; pointer-events: none; }
+.fieldX .band {
+  color: var(--ember-bright);
+  -webkit-text-stroke: 0;
+  opacity: 1 !important;
+}
+
+/* Foreground identity anchor — centre-offset (~38% horizontal centre,
+   intentional, straddling bands 2-3). The ink backing knocks the field
+   out cleanly — same colour as the page, so it reads as type on the ink
+   field, not a card. --anchor-shift is a small JS-derived nudge that
+   keeps band 2's word gap straddling the knockout. Do not recentre. */
+.anchor {
+  --anchor-x: -63%;
+  --anchor-shift: 0px;
+  --ax-pad: clamp(18px, 2.6vh, 32px);
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: 46%;
+  transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%);
+  width: max-content;
+  max-width: min(88vw, 980px);
+}
+.anchorIn {
+  background: var(--ink);
+  padding: clamp(16px, 2.6vh, 30px) var(--ax-pad) clamp(14px, 2vh, 24px);
+}
+.anchorName {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 420;
+  font-size: clamp(3rem, 10.5vh, 9rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  color: var(--paper);
+}
+.anchorStatement {
+  font-family: var(--font-display);
+  font-weight: 350;
+  font-size: clamp(1.05rem, 2.35vh, 1.6rem);
+  line-height: 1.42;
+  color: var(--paper);
+  margin-top: clamp(14px, 2vh, 22px);
+}
+.stmtLine { display: block; }
+.anchorCtaRow {
+  background: var(--ink);
+  width: max-content;
+  padding: 4px var(--ax-pad) clamp(14px, 1.8vh, 20px);
+}
+.heroCta {
+  display: inline-block;
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.7vh, 1.2rem);
+  text-decoration: none;
+  border-bottom: 2px solid var(--ember);
+  padding-bottom: 6px;
+}
+.heroCta:hover { color: var(--ember-bright); border-bottom-color: var(--ember-bright); }
+.arrow { font-family: var(--font-mono); }
+
+/* Metadata — secondary, bottom-right, ink knockout */
+.heroMeta {
+  position: absolute;
+  z-index: 20;
+  right: var(--page-margin);
+  bottom: clamp(22px, 3.4vh, 40px);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.75;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  text-align: right;
+  background: var(--ink);
+  padding: 8px 0 0 16px;
+}
+.heroMeta strong { color: var(--paper); font-weight: 400; }
+
+/* === Cursor inspection window (lens) ===
+   Fixed, so it escapes .hero's overflow:hidden. Only shown once fine
+   pointer + wide viewport + no reduced motion are all true
+   (HeroGInteractive.tsx toggles html.hg-lens-on). The static site's
+   site-wide cursor dot suspension is out of scope this lesson — no
+   custom cursor exists yet to suspend — but the lens still hides the
+   native pointer over the hero on its own, same as static. */
+.lens {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  border: 1px solid rgba(211, 92, 52, 0.85);
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+:global(html.hg-lens-on) .lens.lensLive { visibility: visible; opacity: 1; }
+.lensLabel {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: -1px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--ember-bright);
+  white-space: nowrap;
+}
+:global(html.hg-lens-on) .hero { cursor: none; }
+:global(html.hg-lens-on) .hero a { cursor: pointer; }
+@media (hover: none), (pointer: coarse), (max-width: 1023px) {
+  .lens, .fieldX { display: none !important; }
+}
+
+/* === Entrance: alternating horizontal clip-wipes, then the anchor ===
+   Default (no-JS) state is the finished composition; .hg-pending is
+   JS-added, .hg-ready fires the one-shot reveal. No per-letter motion. */
+:global(html.hg-pending) .band { clip-path: inset(-2% 102% -2% -2%); }
+:global(html.hg-pending) .b2,
+:global(html.hg-pending) .b4 { clip-path: inset(-2% -2% -2% 102%); }
+:global(html.hg-pending) .anchor,
+:global(html.hg-pending) .heroMeta { opacity: 0; }
+
+:global(html.hg-can-animate.hg-ready) .band {
+  animation: bandInL 0.52s cubic-bezier(0.3, 0.65, 0.15, 1) backwards;
+}
+:global(html.hg-can-animate.hg-ready) .b2,
+:global(html.hg-can-animate.hg-ready) .b4 {
+  animation-name: bandInR;
+}
+:global(html.hg-can-animate.hg-ready) .b1 { animation-delay: 0.04s; }
+:global(html.hg-can-animate.hg-ready) .b2 { animation-delay: 0.12s; }
+:global(html.hg-can-animate.hg-ready) .b3 { animation-delay: 0.20s; }
+:global(html.hg-can-animate.hg-ready) .b4 { animation-delay: 0.28s; }
+@keyframes bandInL {
+  from { clip-path: inset(-2% 102% -2% -2%); transform: translateX(-44px); }
+  to   { clip-path: inset(-2% -2% -2% -2%); transform: translateX(0); }
+}
+@keyframes bandInR {
+  from { clip-path: inset(-2% -2% -2% 102%); transform: translateX(44px); }
+  to   { clip-path: inset(-2% -2% -2% -2%); transform: translateX(0); }
+}
+:global(html.hg-can-animate.hg-ready) .anchor {
+  animation: anchorIn 0.46s cubic-bezier(0.25, 0.7, 0.2, 1) 0.42s backwards;
+}
+@keyframes anchorIn {
+  from { opacity: 0; transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), calc(-50% + 26px)); }
+  to   { opacity: 1; transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%); }
+}
+:global(html.hg-can-animate.hg-ready) .heroMeta {
+  animation: metaIn 0.4s ease 0.56s backwards;
+}
+@keyframes metaIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .band, .anchor, .heroMeta {
+    animation: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+  .anchor { transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%) !important; }
+  .lens, .fieldX { display: none !important; }
+}
+
+/* === Below 1024px: static poster, no pointer systems ===
+   The kinetic field is desktop-first by design (direction doc §11); the
+   header-overlay rule (globals.css) reverts to normal flow at this
+   breakpoint too. */
+@media (max-width: 1023px) {
+  .field { padding: 13vh 0 8vh; }
+  .b1 { font-size: min(17vw, 10vh); margin-left: -6vh; }
+  .b2 { font-size: min(21vw, 12.5vh); margin-left: -3vh; }
+  .b3 { font-size: min(14vw, 8vh); margin-left: -2vh; }
+  .b4 { font-size: min(12vw, 7vh); margin-left: -5vh; }
+  .anchor { --anchor-x: -50%; max-width: 92vw; }
+  .anchorName { font-size: clamp(2.4rem, 11vw, 3.6rem); }
+  .anchorStatement { font-size: clamp(1rem, 4vw, 1.2rem); }
+  .stmtLine { display: inline; }
+  .heroMeta { right: auto; left: var(--page-margin); text-align: left; padding: 8px 16px 0 0; }
+}
+
+/* === Opening loader ===
+   Markup for this overlay is inserted by the inline bootstrap script in
+   HeroG.tsx (not React-rendered — see that file's comment for why), but
+   these classnames are still resolved from this module at build time and
+   interpolated into the script string, so the overlay stays fully scoped
+   to this CSS module like everything else here. */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: opacity 0.38s ease-in, visibility 0.38s ease-in;
+}
+.loaderName {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.loaderCount {
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+.loaderExit {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}

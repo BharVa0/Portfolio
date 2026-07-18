@@ -117,6 +117,33 @@ button:focus-visible {
   white-space: nowrap;
 }
 
+/* Homepage-only: overlay the persistent header on top of Hero G, exactly
+   like the static integration's `.site-frame.on-hero`. SiteHeader is
+   rendered once in the root layout and shared by every route, so it
+   can't hard-code "am I on the homepage" without either a Client
+   Component pathname check or a prop threaded down from every route's
+   layout — both fragile, and both would cost SiteHeader its Server
+   Component status for a purely cosmetic decision.
+   :has() lets the header answer that question from CSS alone: it reads
+   "make .site-frame absolute IF its very next sibling is the <main> that
+   contains #hero-g" — true only on the homepage, since #hero-g only
+   exists there. No JavaScript, no route awareness in the component tree.
+   Browsers without :has() support (below Baseline 2023) simply keep the
+   header in normal flow above the hero: a graceful fallback, not a
+   broken one — the hero still renders complete, just pushed down by the
+   header's height instead of overlaid. */
+@supports selector(:has(a)) {
+  @media (min-width: 1024px) {
+    .site-frame:has(+ main #hero-g) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+    }
+  }
+}
+
 /* Section rhythm — "major" mirrors the shared bare `section { padding }`
    rule from css/portfolio.css; "compact" is a tighter variant for
    smaller nested blocks. No decorative styling (background, borders)
@@ -149,71 +176,31 @@ button:focus-visible {
   max-width: var(--width-wide);
 }
 
-/* Temporary Lesson 2 shell-validation demo (src/app/page.tsx). Not the
-   final homepage — no Hero G, no project content. Sizes not already
-   fixed by an approved global token (the name heading, demo swatches)
-   are new for this demo only and are expected to be replaced when the
-   real homepage is built. */
-.demo-eyebrow {
+/* Temporary Lesson 3 post-hero placeholder (src/app/page.tsx). Replaces
+   Lesson 2's shell-validation demo now that Hero G is real content. This
+   section exists only to prove Hero G's scroll handoff lands somewhere
+   real and that #work is a reachable anchor — it is not the Selected
+   Work index itself, which is a later lesson's job (no project cards,
+   no ported project listing). */
+.work-placeholder-eyebrow {
+  font-family: var(--font-mono);
   font-size: var(--fs-eyebrow);
   letter-spacing: 0.06em;
   color: var(--muted);
   text-transform: uppercase;
   margin-bottom: var(--space-2);
 }
-.demo-name {
+.work-placeholder-heading {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  line-height: 1.05;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
   margin-bottom: var(--space-3);
 }
-.demo-statement {
-  font-family: var(--font-display);
-  font-weight: 360;
-  font-size: var(--fs-statement);
-  line-height: 1.25;
-  margin-bottom: var(--space-4);
-}
-.demo-heading {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.6rem;
-  margin-bottom: var(--space-3);
-}
-.demo-body {
+.work-placeholder-body {
   font-size: var(--fs-support);
   line-height: 1.7;
   color: var(--paper-soft);
-}
-.demo-body code {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-  color: var(--paper);
-}
-
-.demo-swatch-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  list-style: none;
-  margin-top: var(--space-4);
-}
-.demo-swatch {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-.demo-swatch-block {
-  width: 96px;
-  height: 64px;
-  border: 1px solid var(--border-subtle);
-}
-.demo-swatch-label {
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-  line-height: 1.4;
+  max-width: var(--width-reading);
 }
 
 .sr-only {
