@@ -4,196 +4,235 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Echoes of Home | Bharat Vyas Kodamana</title>
+<meta name="description" content="Echoes of Home: a solo Unity environmental-storytelling project built from the homes I've actually lived in. No dialogue carries the weight. The lighting, the objects, and one small symbolic act do.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Echoes of Home | Bharat Vyas Kodamana">
+<meta property="og:description" content="A low-poly memory room, built solo. The lighting, the objects, and one small symbolic act carry the story.">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/portfolio.css">
 <style>
-  :root{
-    --bg:#0C1118; --surface:#141B26; --surface-2:#1C2531;
-    --ink:#EDEFF2; --muted:#7C8696; --accent:#E14B3C;
-    --line: rgba(237,239,242,0.08); --line-2: rgba(237,239,242,0.14);
-    --mono: "Space Mono", monospace; --sans: "Inter", Arial, sans-serif;
-  }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  html,body{ background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
-  a{ color:inherit; text-decoration:none; }
-  .wrap{ max-width:980px; margin:0 auto; padding:0 32px; }
+  /* Echoes-specific bespoke widget: the scene-flow corridor (a threaded
+     vertical line connecting the experience's beats, since order here is
+     real sequence, not decoration) and the quote pair. Structure/scale
+     hooks live in css/portfolio.css (.project-echoes); these stay inline
+     since nothing else on the site reuses them. */
+  .flow-list { position: relative; margin-top: var(--space-evidence); }
+  .flow-list::before { content: ""; position: absolute; left: 27px; top: 16px; bottom: 16px; width: 1px; background: var(--proj-accent); opacity: 0.35; }
+  .flow-row { position: relative; display: flex; gap: var(--space-3); align-items: flex-start; padding: 16px 0; }
+  .flow-num { flex: 0 0 auto; font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); background: var(--proj-accent); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .flow-copy { flex: 1 1 auto; display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .flow-name { flex: 0 0 170px; font-family: var(--font-display); font-size: 1.14rem; font-weight: 400; color: var(--proj-text); }
+  .flow-desc { flex: 1 1 260px; font-size: 0.98rem; line-height: 1.6; color: var(--proj-text-soft); }
 
-  .statusbar{ display:flex; justify-content:space-between; align-items:center; padding:28px 0; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; letter-spacing:0.04em; color:var(--muted); text-transform:uppercase; }
-  .statusbar a:hover{ color:var(--accent); }
+  .quote-grid { margin-top: var(--space-3); display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .quote-card { background: var(--proj-surface-2); border: 1px solid var(--proj-accent); border-opacity: 0.3; padding: var(--space-3) var(--space-4); font-family: var(--font-display); font-style: italic; font-size: 1.08rem; line-height: 1.5; }
+  @media (max-width: 760px) { .quote-grid { grid-template-columns: 1fr; } }
 
-  .proj-hero{ padding:64px 0 40px; }
-  .proj-eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
-  .proj-eyebrow::before{ content:""; width:18px; height:1px; background:var(--accent); display:inline-block; }
-  .proj-title{ font-family:var(--mono); font-weight:700; font-size:clamp(34px, 6vw, 64px); letter-spacing:-0.01em; line-height:1.05; }
-  .proj-thesis{ margin-top:24px; font-size:19px; line-height:1.6; color:var(--muted); max-width:640px; }
-  .proj-tags{ margin-top:28px; display:flex; gap:10px; flex-wrap:wrap; }
-  .proj-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line-2); padding:6px 14px; border-radius:999px; }
-
-  .video-hero{ margin-top:48px; background:var(--surface); border:1px solid var(--line-2); border-radius:10px; overflow:hidden; }
-  .video-hero .vh-bar{ display:flex; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11px; color:var(--muted); }
-  .video-hero .vh-wrap{ position:relative; width:100%; aspect-ratio:16/9; background:#000; }
-  .video-hero .vh-wrap iframe{ width:100%; height:100%; border:0; }
-  .video-caption{ font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:14px; line-height:1.6; }
-
-  .section{ margin-top:88px; }
-  .section-head{ display:flex; align-items:baseline; gap:16px; border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:32px; }
-  .section-num{ font-family:var(--mono); font-size:13px; color:var(--accent); }
-  .section-title{ font-size:24px; font-weight:600; letter-spacing:-0.01em; }
-
-  .body-text{ font-size:16px; line-height:1.75; color:var(--ink); max-width:680px; }
-  .body-text + .body-text{ margin-top:18px; }
-  .body-muted{ color:var(--muted); }
-
-  .shot-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:32px; }
-  .shot{ background:var(--surface); border:1px solid var(--line); overflow:hidden; }
-  .shot img{ width:100%; display:block; }
-  .shot-caption{ font-family:var(--mono); font-size:11px; color:var(--muted); padding:12px 16px; border-top:1px solid var(--line); line-height:1.5; }
-
-  .flow-list{ margin-top:32px; display:flex; flex-direction:column; gap:1px; }
-  .flow-row{ display:grid; grid-template-columns:160px 1fr; gap:20px; padding:16px 0; border-bottom:1px solid var(--line); }
-  .flow-name{ font-family:var(--mono); font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:0.03em; }
-  .flow-desc{ font-size:14px; line-height:1.6; color:var(--muted); }
-
-  .quote-grid{ margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  .quote-card{ background:var(--surface); border:1px solid var(--line); padding:18px 20px; font-size:14px; line-height:1.6; color:var(--ink); font-style:italic; }
-
-  .reflection-box{ margin-top:32px; padding:28px 30px; background:var(--surface); border-left:2px solid var(--accent); border-radius:0 8px 8px 0; }
-  .refs{ margin-top:24px; font-size:13px; line-height:1.9; color:var(--muted); max-width:680px; }
-
-  .proj-footer-nav{ margin-top:110px; padding:40px 0 70px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
-  .nav-back{ font-family:var(--mono); font-size:13px; color:var(--muted); transition:color 0.2s ease; }
-  .nav-back:hover{ color:var(--accent); }
-  .nav-next{ font-family:var(--mono); font-size:13px; color:var(--ink); display:flex; align-items:center; gap:10px; transition:color 0.2s ease; }
-  .nav-next:hover{ color:var(--accent); }
-  .nav-next .next-label{ color:var(--muted); font-size:11px; text-transform:uppercase; display:block; margin-bottom:4px; }
-
-  @media (max-width:760px){
-    .shot-grid, .quote-grid{ grid-template-columns:1fr; }
-    .flow-row{ grid-template-columns:1fr; }
-  }
+  /* Problem / decision / result / limitation — a compact structured
+     record for the implementation chapter, reusing the shared
+     annotation-label pattern rather than a new component. Border uses
+     the project accent, not the default line colour, to keep the
+     blue-grey identity visible in this structural device too. */
+  .pdrl { margin-top: var(--space-evidence); display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3) var(--grid-gap); }
+  .pdrl-item { border-top: 1px solid color-mix(in srgb, var(--proj-accent) 45%, var(--proj-line) 55%); padding-top: 14px; }
+  @media (max-width: 760px) { .pdrl { grid-template-columns: 1fr; } }
 </style>
 </head>
-<body>
+<body class="project-page project-echoes">
+<a class="skip-link" href="#content">Skip to content</a>
 
-<div class="wrap">
+<header class="proj-frame">
+  <div class="proj-frame-bar">
+    <a href="../index.html">← Index</a>
+    <span class="proj-frame-count mono">04 / 06 · Echoes of Home</span>
+    <a href="smartphone-mold.html">Next: Breaking the Smartphone Mold →</a>
+  </div>
+</header>
 
-  <div class="statusbar">
-    <a href="../index.html">← index</a>
-    <span>04 / 06 · Echoes of Home</span>
+<main id="content">
+
+  <!-- ============ OPENING — typography-led, one dominant atmospheric visual ============ -->
+  <section class="proj-hero">
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-5">
+        <p class="proj-eyebrow">Environmental storytelling · Solo · Unity, Blender</p>
+        <h1 class="proj-title">Echoes of Home</h1>
+        <p class="proj-thesis">A low-poly memory room built from the homes I've actually lived in. No dialogue carries the weight here. The lighting, the objects, and one small symbolic act do.</p>
+        <p class="proj-ownership">Solo project, Unity and Blender. I designed, built, and modelled every scene myself, including the runner track.</p>
+      </div>
+      <div class="c6-13 self-center">
+        <figure class="proj-shot tone-dim native proj-dominant-shot" style="--native-w:471px;">
+          <img src="../assets/echoes/laptop-interaction-crop.jpg" width="471" height="356" loading="lazy" alt="Unity Scene view of the room, warm light against cool furniture, a trigger volume marked in magenta" />
+          <figcaption class="proj-shot-caption">Development capture, Unity Scene view. Warmth and shadow overlapping, the way memory does.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 — THE ROOM AS A MEMORY SPACE ============ -->
+  <section class="proj-section is-feature-chapter reveal">
+    <div class="proj-section-head">
+      <span class="proj-num mono">01</span>
+      <h2 class="proj-section-title accent-heading">The room as a memory space</h2>
+    </div>
+    <div class="cols" data-layout="asymmetric">
+      <div class="c1-5">
+        <p class="proj-lede">The room comes first because it's where the memories actually live.</p>
+        <p class="proj-body">I'm asking the player to notice objects, not plot: the posters, the furniture, the way <span class="lamp-word">lamp light</span> falls across the rug. None of it is explained. Movement runs on a Character Controller, a raycast detects what's interactable, and trigger zones fire events without a special case for every prop. The lighting is baked, adjusted until it read as a specific time of day rather than a generic interior.</p>
+      </div>
+      <div class="c6-13 self-center">
+        <figure class="proj-shot tone-dim native proj-dominant-shot" style="--native-w:471px;">
+          <img src="../assets/echoes/room-scene-crop.jpg" width="471" height="356" loading="lazy" alt="Unity Scene view of the room, gizmos on, showing the phone's trigger volume as a magenta capsule" />
+          <figcaption class="proj-shot-caption">Development capture. The magenta shape is the phone's trigger volume, the object the player is meant to notice and reach for.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUIET INTERLUDE — deliberate full-width transition ============ -->
+  <div class="echoes-pause reveal">
+    <p>It's short <em>by design.</em> The pacing is the point.</p>
   </div>
 
-  <section class="proj-hero">
-    <div class="proj-eyebrow">environmental storytelling</div>
-    <h1 class="proj-title">Echoes of Home</h1>
-    <p class="proj-thesis">A low-poly memory room built from the homes I've actually lived in. No dialogue carries the emotional weight here. The lighting, the objects, and one small symbolic act do all of it instead.</p>
-    <div class="proj-tags">
-      <span class="proj-tag">Environmental storytelling</span>
-      <span class="proj-tag">Unity</span>
-      <span class="proj-tag">Blender</span>
-      <span class="proj-tag">Solo project</span>
+  <!-- ============ 02 — EXPERIENCE FLOW ============ -->
+  <section class="proj-section reveal">
+    <div class="proj-section-head">
+      <span class="proj-num mono">02</span>
+      <h2 class="proj-section-title">Experience flow</h2>
     </div>
-  </section>
-
-  <section class="video-hero">
-    <div class="vh-bar">
-      <span>full playthrough</span>
-      <span>screen recording</span>
-    </div>
-    <div class="vh-wrap">
-      <iframe src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_6anm1jue&config[provider]={&quot;widgetId&quot;:&quot;1_a4enzzr2&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="Echoes of Home screen recording"></iframe>
-    </div>
-  </section>
-  <p class="video-caption">Watch the full experience here. It's short by design, the pacing is the point.</p>
-
-  <section class="section">
-    <div class="section-head">
-      <span class="section-num">01</span>
-      <span class="section-title">The idea</span>
-    </div>
-    <p class="body-text">This project expands an earlier idea: a memory room built from the homes I lived in. It now moves through multiple connected spaces, story prompts, and a playable mini-game, with an alternate room added to strengthen the emotional arc. The runner sequence was rebuilt around a custom-modelled track and a coin-based reward structure. The whole thing is built on one design instinct: gentle storytelling, carried by small, readable interactions rather than exposition.</p>
-    <p class="body-text body-muted">The approach centred on warmth, clarity, and emotional consistency. A low-poly style reduces visual noise so the memories feel soft rather than sharp. Lighting was adjusted repeatedly to land on a late-afternoon glow that supports the nostalgic tone, and slides between scenes give the player a breath before each story beat rather than cutting straight in.</p>
-  </section>
-
-  <section class="section">
-    <div class="section-head">
-      <span class="section-num">02</span>
-      <span class="section-title">Scene flow</span>
-    </div>
-    <p class="body-text">The experience moves through seven connected beats, each one handing off to the next.</p>
+    <p class="proj-body">The phone is a literal gateway between the room and the runner, a deliberate contrast between stillness and speed. This is the actual order a player moves through, not a list rearranged for effect.</p>
     <div class="flow-list">
-      <div class="flow-row"><div class="flow-name">Intro</div><div class="flow-desc">Ambient sound, simple visuals, and opening text set the tone before anything is asked of the player.</div></div>
-      <div class="flow-row"><div class="flow-name">Room scene</div><div class="flow-desc">A blended memory space the player explores freely, looking for the phone.</div></div>
-      <div class="flow-row"><div class="flow-name">Phone interaction</div><div class="flow-desc">The entry point into the runner sequence, and the first major interaction of the experience.</div></div>
-      <div class="flow-row"><div class="flow-name">Runner scene</div><div class="flow-desc">A fast-paced sequence: collect coins, avoid obstacles, on a custom-modelled track.</div></div>
-      <div class="flow-row"><div class="flow-name">Coin milestone</div><div class="flow-desc">At twenty coins, the player can continue or return to the room. Nothing is forced.</div></div>
-      <div class="flow-row"><div class="flow-name">Alternate room</div><div class="flow-desc">A calm space where the player completes one symbolic task: placing a laptop back where it belongs.</div></div>
-      <div class="flow-row"><div class="flow-name">Ending</div><div class="flow-desc">Closes the emotional arc before returning the player to the main room.</div></div>
+      <div class="flow-row"><span class="flow-num">1</span><div class="flow-copy"><span class="flow-name">Room</span><p class="flow-desc">The player explores freely, looking for the phone.</p></div></div>
+      <div class="flow-row"><span class="flow-num">2</span><div class="flow-copy"><span class="flow-name">Interaction</span><p class="flow-desc">Touching the phone is the gateway to the runner.</p></div></div>
+      <div class="flow-row"><span class="flow-num">3</span><div class="flow-copy"><span class="flow-name">Story transition</span><p class="flow-desc">A slide gives the player a breath before the next beat.</p></div></div>
+      <div class="flow-row"><span class="flow-num">4</span><div class="flow-copy"><span class="flow-name">Runner</span><p class="flow-desc">Collect coins, avoid obstacles, on a custom-modelled track.</p></div></div>
+      <div class="flow-row"><span class="flow-num">5</span><div class="flow-copy"><span class="flow-name">Alternate room</span><p class="flow-desc">A quieter space: one symbolic task, putting a laptop back where it belongs.</p></div></div>
+      <div class="flow-row"><span class="flow-num">6</span><div class="flow-copy"><span class="flow-name">Ending</span><p class="flow-desc">Closes the arc and returns the player to the main room.</p></div></div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-head">
-      <span class="section-num">03</span>
-      <span class="section-title">Building it</span>
+  <!-- ============ 03 — THE RUNNER SEQUENCE ============ -->
+  <section class="proj-section is-feature-chapter reveal">
+    <div class="proj-section-head">
+      <span class="proj-num mono">03</span>
+      <h2 class="proj-section-title">The runner sequence</h2>
     </div>
-    <p class="body-text">The project runs on a modular scene-based structure. A Character Controller handles movement, with a separate script for camera look. Interactions use trigger zones and tags. The runner relies on procedural obstacle spawning with a probability weight on each obstacle type, so the track never feels identical twice, plus a coin manager, collision pickups, and UI overlays on a custom-modelled track. All scene transitions are asynchronous to avoid stutters, and a single manager controls menus, slides, and in-game screens. Room scenes use baked lighting for performance; the runner uses mixed lighting to support movement.</p>
-    <div class="shot-grid">
-      <div class="shot">
-        <img src="../assets/echoes/room-scene.jpeg" alt="Unity editor view of the room scene with the laptop interaction prefab selected" />
-        <div class="shot-caption">Room scene, Unity editor, laptop interaction object selected</div>
-      </div>
-      <div class="shot">
-        <img src="../assets/echoes/laptop-interaction.jpeg" alt="Unity editor inspector view of the laptop pickup script and trigger collider" />
-        <div class="shot-caption">Laptop pickup script and trigger collider, inspector view</div>
+    <div class="cols" data-layout="wide">
+      <div class="c1-13">
+        <figure class="proj-shot tone-dim native proj-dominant-shot" style="--native-w:471px; margin:0 auto;">
+          <img src="../assets/echoes/runner-scene-crop.jpg" width="471" height="356" loading="lazy" alt="Unity Scene view of the runner track, lanes stretching ahead under a storm-lit sky, the player character mid-run" />
+          <figcaption class="proj-shot-caption">Development capture, Unity Scene view. The track and lanes, mid-run.</figcaption>
+        </figure>
       </div>
     </div>
-    <div class="shot-grid">
-      <div class="shot">
-        <img src="../assets/echoes/track-blender.jpeg" alt="Blender viewport showing the custom-modelled runner track" />
-        <div class="shot-caption">The runner track, modelled from scratch in Blender</div>
+    <div class="cols" data-layout="asymmetric" style="margin-top:var(--space-internal);">
+      <div class="c1-8">
+        <p class="proj-body">The runner is a deliberate contrast: fast where the room is slow, energy against stillness. Obstacles spawn procedurally with weighted probability so the track never repeats, and a coin manager tracks progress toward a twenty-coin milestone across a few lanes. I modelled the track myself in Blender rather than using a stock asset, which let me set its length and the spacing between obstacles directly against the pacing I wanted, not the other way around.</p>
       </div>
-      <div class="shot">
-        <img src="../assets/echoes/runner-scene.jpeg" alt="Unity editor view of the runner scene at runtime with player character on the track" />
-        <div class="shot-caption">Runner scene at runtime, player controller and animator visible</div>
+      <div class="c9-13 self-center">
+        <div class="proj-shot tone-dim native" style="--native-w:280px;">
+          <img src="../assets/echoes/track-blender-crop.jpg" width="280" height="204" loading="lazy" alt="Blender viewport showing the custom-modelled runner track" />
+          <div class="proj-shot-caption">The track, modelled from scratch</div>
+        </div>
       </div>
     </div>
-    <p class="body-text body-muted" style="margin-top:24px;">The trickiest part of development was the handoff between the room scene and the runner scene, which broke repeatedly before it stabilised. A short delay was added so audio could fade out naturally before the next ambient layer faded in, and most of the underlying issue traced back to how Unity handles multiple audio listeners and scene activation order.</p>
   </section>
 
-  <section class="section">
-    <div class="section-head">
-      <span class="section-num">04</span>
-      <span class="section-title">What testing actually found</span>
+  <!-- ============ 04 — IMPLEMENTATION, TESTING, LIMITATIONS ============ -->
+  <section class="proj-section reveal">
+    <div class="proj-section-head">
+      <span class="proj-num mono">04</span>
+      <h2 class="proj-section-title">Implementation, testing, and limitations</h2>
     </div>
-    <p class="body-text">Testing was informal: three short sessions, think-aloud, with a small group of peers moving from the intro scene through to the alternate room. Some issues showed up immediately. Several players walked around the room for a while before noticing the phone, which meant the interaction hotspot needed more visual presence. A few story prompts were unclear enough to disrupt the emotional flow, and the runner's navigation felt difficult for some players, partly down to depth-perception issues during obstacles.</p>
-    <p class="body-text">None of that took away from the part that mattered most. Every tester reacted positively on entering the alternate room, often slowing down just to look around it. Two testers specifically said the laptop task felt like a grounded moment against the intensity of the runner section just before it, and one said the experience felt personal even without knowing the full story behind it, which was the actual goal.</p>
+    <p class="proj-body">A single manager runs menus and story slides; a separate audio manager handles ambient loops and scene-based fading. Testing was informal, three short sessions, think-aloud, moving from the intro through to the alternate room.</p>
+
+    <div class="proj-feature-surface">
+      <div class="proj-artifact-frame">
+        <div class="proj-artifact-bar">
+          <span>full playthrough · development recording</span>
+        </div>
+        <div class="video-wrap">
+          <button type="button" class="video-poster" data-cursor="Play" aria-label="Play the full playthrough recording"
+            data-video-src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_6anm1jue&config[provider]={&quot;widgetId&quot;:&quot;1_a4enzzr2&quot;}"
+            data-video-title="Echoes of Home screen recording">
+            <span class="video-poster-play" aria-hidden="true">&#9658;</span>
+            <span class="video-poster-title">Watch the recording</span>
+          </button>
+          <noscript><iframe src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_6anm1jue&config[provider]={&quot;widgetId&quot;:&quot;1_a4enzzr2&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="Echoes of Home screen recording"></iframe></noscript>
+        </div>
+      </div>
+      <p class="proj-artifact-caption">The complete sequence, recorded from Unity during development, room through to ending.</p>
+    </div>
+
+    <div class="pdrl">
+      <div class="pdrl-item">
+        <p class="proj-annotation-label">The problem</p>
+        <p class="proj-annotation">The room-to-runner handoff broke repeatedly. Scene transitions run asynchronously, and Unity was briefly running two audio listeners at once during the switch.</p>
+      </div>
+      <div class="pdrl-item">
+        <p class="proj-annotation-label">The decision</p>
+        <p class="proj-annotation">A short delay lets audio fade out before the next layer fades in. I only found the real cause after a teammate looked at it with fresh eyes.</p>
+      </div>
+      <div class="pdrl-item">
+        <p class="proj-annotation-label">What testing found</p>
+        <p class="proj-annotation">Players missed the phone hotspot at first, story prompts were sometimes unclear, and more than one tester said the fonts looked generic against the tone I wanted.</p>
+      </div>
+      <div class="pdrl-item">
+        <p class="proj-annotation-label">What's still limited</p>
+        <p class="proj-annotation">No touch support, the ending needs more polish, and the main room doesn't visibly change when the player returns. That last one is mechanical, not just emotional, and it's the first thing I'd fix.</p>
+      </div>
+    </div>
     <div class="quote-grid">
       <div class="quote-card">"Is this the phone I am supposed to click?"</div>
       <div class="quote-card">"What exactly do I do with the laptop?"</div>
     </div>
-    <p class="body-text body-muted" style="margin-top:20px;">Changes made in response: increased the visibility of the phone interaction zone, replaced the coin pickup sound with a clearer and louder cue (one tester genuinely thought it wasn't working), rewrote and re-paced the story slides, refined the runner's obstacle spacing and collision sizes, and shifted the typeface toward something softer and more nostalgic.</p>
   </section>
 
-  <section class="section">
-    <div class="section-head">
-      <span class="section-num">05</span>
-      <span class="section-title">What I'd still change</span>
+  <!-- ============ 05 — REFLECTION ============ -->
+  <section class="proj-section reveal">
+    <div class="proj-section-head">
+      <span class="proj-num mono">05</span>
+      <h2 class="proj-section-title">What I'd still change</h2>
     </div>
-    <div class="reflection-box">
-      <p class="body-text" style="margin:0;">This project taught me more about patience and iteration than any technical lesson did. Balancing emotion against gameplay pacing took far longer than expected, and the room-to-runner transition broke enough times that a teammate had to help me track down the actual cause, which was a good reminder that asking for help early saves time later. The more personal the underlying story became, the more pressure I felt to represent it properly rather than just functionally. I'd still like to add more memory objects with their own small unlockable moments, build an artifact gallery so players can revisit what they've uncovered, and refine the lighting across scenes for a more consistent atmosphere overall.</p>
+    <div class="proj-reflection">
+      <p class="proj-body" style="margin:0;">This project taught me more about patience than any single technical lesson did. Balancing emotion against gameplay pacing took longer than I expected, and the more personal the underlying story became, the more pressure I felt to represent it properly. I'd add more memory objects, support touch controls, and give the room some real trace of what the player just did. I came out of it more confident with Unity, and with shaping something interactive around a personal story rather than a mechanical one.</p>
     </div>
   </section>
 
   <div class="proj-footer-nav">
-    <a class="nav-back" href="../index.html">← back to index</a>
-    <a class="nav-next" href="smartphone-mold.html">
-      <span class="next-label">Next project</span>
+    <a class="proj-nav-back" href="../index.html">← Back to index</a>
+    <a class="proj-nav-next" href="smartphone-mold.html">
+      <span class="proj-next-label">Next project</span>
       Breaking the Smartphone Mold →
     </a>
   </div>
 
-</div>
+</main>
 
+<script>
+(function () {
+  var html = document.documentElement;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduced) html.classList.add("can-animate");
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduced) {
+    html.classList.add("has-custom-cursor");
+  }
+  document.querySelectorAll(".video-poster[data-video-src]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var iframe = document.createElement("iframe");
+      iframe.src = btn.getAttribute("data-video-src");
+      iframe.title = btn.getAttribute("data-video-title");
+      iframe.allowFullscreen = true;
+      iframe.setAttribute("allow", "autoplay *; fullscreen *; encrypted-media *");
+      btn.parentElement.appendChild(iframe);
+      btn.remove();
+    });
+  });
+})();
+</script>
+<script src="../js/portfolio.js"></script>
 </body>
 </html>
