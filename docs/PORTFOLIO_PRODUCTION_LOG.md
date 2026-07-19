@@ -30,6 +30,36 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-19 — Session 2 project migration QA complete
+
+**Stage:** Project migration verification
+**Scope:** `docs/NEXTJS_MIGRATION_GUIDE.md` and this log only. Combined QA covered the Next.js homepage and all six generated project routes. No implementation, approved static source, Hero G source, package/dependency file, configuration, preview, scratch file, or protected untracked item changed.
+
+**Did:**
+- Completed Session 2 after the Echoes of Home (`f2df6d76f4ad51b076d3114df9e2556576070116`), Breaking the Smartphone Mold (`3188ed190d5c941e8002cd2cdb3cbd2b1333ccf8`), and Playing Freedom (`77ca9b61f952466b8acbefab47675b0c4dd9fe65`) project commits.
+- Rechecked the homepage, Hero G shell, BETTR, CardioPal, FrankenTeen, Echoes, Breaking the Smartphone Mold, Playing Freedom, project-navigation sequence, route metadata, approved media, local assets, focus treatment, and invalid-slug behavior as one system.
+- Confirmed all approved projects are now present in the typed metadata/content registries and generated through the existing dynamic SSG route. Homepage work-index and contact/navigation work were not started.
+
+**Decisions:**
+- No combined-QA implementation change was warranted. The approved static sources remain the comparison baseline and project identities remain intentionally distinct.
+- Deep behavior inside cross-origin Kaltura and Figma documents remains outside what parent-page automation can prove; only visible loading, exact sources, titles, permissions, focusability, and framing are claimed.
+
+**Verified:**
+- `npm.cmd run lint`: clean. `npm.cmd run build`: successful, with ten generated pages and all six approved project slugs listed under `/projects/[slug]`.
+- At 1280, 1440, and 1920, the homepage and all project routes directly load with clean console/hydration output, zero horizontal overflow, no clipped headings, no detected image distortion, and approved embed geometry. Repeated direct navigation at all three widths also exercises fresh same-URL route loading.
+- Every local project asset reference returns HTTP 200. The BETTR live build and two Kaltura videos, CardioPal Figma canvas, FrankenTeen Kaltura recording, Echoes click-to-load recording, and Playing Freedom documentary retain their approved URLs and framing. Kaltura documentary surfaces remain 16:9.
+- Route titles and descriptions remain distinct; OG images appear only on BETTR and FrankenTeen. Project next links remain BETTR → CardioPal → FrankenTeen → Echoes → Smartphone Mold → Playing Freedom → index. `/projects/not-a-project` returns HTTP 404.
+- Hero G reaches `hg-ready` after its loader, with four labelled thesis bands, the Bharat Vyas anchor, and inspection lens present. BETTR remains pink/oxblood, CardioPal sage/paper, FrankenTeen mustard/violet, Echoes blue-grey/slate, and the two research dossiers dark/red.
+- Focus indicators remain visible; Echoes' poster recheck showed the shared 2px outline with 4px offset and then loaded the exact 1308×736 iframe. Earlier per-project focus checks remain recorded in Lessons 4–9.
+- Diff checks confirm no package, lockfile, dependency, approved static source, Hero G implementation, earlier project implementation, Claude/Codex configuration, or protected untracked file changed after the Session 2 starting commit.
+- No new combined-QA defect was found. Session 2's corrected migration defects are the three Echoes fixes documented in Lesson 7 and Smartphone Mold's direct-JPEG delivery fix documented in Lesson 8.
+
+**Open:**
+- Deep cross-origin playback and Figma editing behavior cannot be inspected from the parent route and are not claimed.
+- Homepage work-index implementation is the next migration task. Contact/navigation work and Phase 2 redesign remain unstarted.
+
+**Commit:** `Complete Session 2 migration QA` (hash in Git history; this entry ships in that commit)
+
 ### 2026-07-19 — Playing Freedom ported to Next.js (Lesson 9)
 
 **Stage:** Project migration

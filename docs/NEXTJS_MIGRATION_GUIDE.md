@@ -1676,3 +1676,56 @@ and framing are verified but deep playback is not claimed.
 All six approved project routes are now implemented. The next step is combined
 Session 2 regression QA and documentation; homepage work-index development
 remains a separate later task.
+
+---
+
+# Session 2 completion — combined project-route QA
+
+Session 2 is complete. Echoes of Home, Breaking the Smartphone Mold, and
+Playing Freedom are committed as `f2df6d76f4ad51b076d3114df9e2556576070116`,
+`3188ed190d5c941e8002cd2cdb3cbd2b1333ccf8`, and
+`77ca9b61f952466b8acbefab47675b0c4dd9fe65` respectively. Together with
+BETTR, CardioPal, and FrankenTeen, the typed route now generates all six
+approved project slugs.
+
+## Combined verification
+
+The homepage and all six project routes were directly loaded at 1280, 1440,
+and 1920 pixels. All routes remain console- and hydration-warning-free with
+no horizontal overflow or clipped headings. Image geometry preserves declared
+or intentionally cropped proportions; every local asset URL referenced by the
+project source returned HTTP 200. Kaltura documentary surfaces remain 16:9,
+the BETTR live build and CardioPal Figma canvas retain their approved fixed
+framing, and captions remain with their source media.
+
+Route titles and descriptions remain isolated. Only BETTR and FrankenTeen
+emit their approved Open Graph images. BETTR retains `#EB5160`, CardioPal
+retains sage `#5B7A73` and its paper panel, FrankenTeen retains mustard/violet,
+Echoes retains blue-grey `#87A2B8` and slate `#171B20`, and the two research
+dossiers retain their approved dark/red treatment. Project next links follow
+the approved sequence through Playing Freedom, whose footer returns to the
+index.
+
+Hero G still completes its first-visit loader into the four approved thesis
+bands, asymmetric Bharat Vyas anchor, contextual labels, and inspection lens.
+The shared shell is unchanged. Echoes' poster remains keyboard-focusable and
+loads its exact 1308×736 Kaltura iframe after activation. Cross-origin player
+documents and the Figma document remain inaccessible to parent-page DOM
+inspection, so visible loading, sources, titles, permissions, focusability,
+and framing are verified without claiming deep playback or editing behavior.
+
+`npm.cmd run lint` passes. `npm.cmd run build` passes and reports ten generated
+pages, including all six project slugs. Every intended route returns HTTP 200;
+`/projects/not-a-project` returns the real HTTP 404. No package, lockfile,
+dependency, approved static source, Hero G source, earlier project-specific
+implementation, or protected untracked file changed during the remaining
+migrations or combined QA.
+
+No new defect was found during the combined pass. The Session 2 migration-only
+corrections remain the three documented Echoes fixes (JSX spacing, room-heading
+accent, and eager loading for the opening image) and Smartphone Mold's direct
+JPEG delivery fix. No shared regression correction was required.
+
+The next migration task is the homepage work index. Contact and navigation
+work, broader responsive redesign, and Phase 2 polish remain explicitly out of
+scope until their own tasks.
