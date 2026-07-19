@@ -177,33 +177,6 @@ button:focus-visible {
   max-width: var(--width-wide);
 }
 
-/* Temporary Lesson 3 post-hero placeholder (src/app/page.tsx). Replaces
-   Lesson 2's shell-validation demo now that Hero G is real content. This
-   section exists only to prove Hero G's scroll handoff lands somewhere
-   real and that #work is a reachable anchor — it is not the Selected
-   Work index itself, which is a later lesson's job (no project cards,
-   no ported project listing). */
-.work-placeholder-eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--fs-eyebrow);
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: var(--space-2);
-}
-.work-placeholder-heading {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
-  margin-bottom: var(--space-3);
-}
-.work-placeholder-body {
-  font-size: var(--fs-support);
-  line-height: 1.7;
-  color: var(--paper-soft);
-  max-width: var(--width-reading);
-}
-
 .sr-only {
   position: absolute;
   width: 1px;

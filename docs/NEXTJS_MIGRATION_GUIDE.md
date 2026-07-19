@@ -1729,3 +1729,81 @@ JPEG delivery fix. No shared regression correction was required.
 The next migration task is the homepage work index. Contact and navigation
 work, broader responsive redesign, and Phase 2 polish remain explicitly out of
 scope until their own tasks.
+
+---
+
+# Lesson 10 - Migrating the homepage work index without redesigning it
+
+Session 3 ports only the approved static homepage content between Hero G and
+the practice section. The authoritative boundary is `index.html`: the
+`About the work` introduction and the six-row `Selected work` section are now
+rendered after `HeroG`; `#practice`, `#about`, contact, footer contact, and
+global-navigation changes remain outside this lesson.
+
+## Data and component architecture
+
+`src/data/workIndex.ts` records the homepage-specific order, copy, routes,
+accent classes, cursor labels, and responsive image candidates. This is kept
+separate from `src/data/projects.ts` because route metadata and homepage
+editorial copy have different responsibilities.
+
+`WorkIndex` is a Server Component. It renders the introduction, the six
+semantic project links, their exact media attributes, and the same direct
+`main > section` structure as the static page. The approved order is BETTR,
+CardioPal, FrankenTeen, Echoes of Home, Breaking the Smartphone Mold, and
+Playing Freedom. Their Next.js destinations are `/projects/bettr`,
+`/projects/cardiopal`, `/projects/frankenteen`, `/projects/echoes`,
+`/projects/smartphone-mold`, and `/projects/playing-freedom`.
+
+The small `WorkIndexInteractions` Client Component owns only behavior that
+requires browser APIs: intersection-based reveal classes and the contextual
+View/Play cursor on fine pointers. It observes the already-rendered Server
+Component markup rather than moving content or data into a client boundary.
+Reduced-motion users do not receive the reveal bootstrap or custom cursor.
+
+## Styling and image fidelity
+
+`WorkIndex.module.css` carries the approved static introduction, 12-column
+work rows, project accents, hover/focus treatment, native image caps, and
+responsive stacking rules without changing Hero G or shared project styles.
+The temporary homepage placeholder and its now-unused global CSS were removed.
+
+Four missing responsive files were copied from the static asset tree into
+`public`: BETTR's 480px dashboard, FrankenTeen's original and 480px room crop,
+and Smartphone Mold's 480px handset image. SHA-256 comparisons confirm every
+copy is byte-identical. Existing BETTR and Smartphone Mold originals were also
+hash-checked against their static sources. Plain `img` elements intentionally
+preserve the source page's exact `src`, `srcset`, dimensions, lazy loading, and
+browser candidate selection instead of introducing generated image variants.
+
+## Verification
+
+The static and Next work index were compared at 1280, 1440, and 1920 pixels.
+Section and row geometry, 12-column placements, capped media sizes, Smartphone
+Mold's 4:3 crop, type, colours, copy, and responsive source choices match, with
+no horizontal overflow. Intersection reveal, the Hero-to-work anchor,
+keyboard focus, contextual View/Play labels, link destinations, direct route
+loading, and invalid-slug behavior were exercised. The six project routes and
+all six homepage media URLs return HTTP 200; an unknown project returns 404.
+
+Hero G remains structurally and behaviorally isolated: its loader reaches the
+ready state with four labelled thesis bands, the asymmetric Bharat Vyas anchor,
+inspection-lens markup, and natural handoff into the new sections. No Hero G,
+project-route, registry, package, lockfile, dependency, approved static source,
+or protected untracked file changed.
+
+`git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass. The build
+statically prerenders the homepage and all six project routes. A transient
+FrankenTeen image-aspect warning seen in one accumulated development log did
+not reproduce in a fresh direct route load; the homepage and clean route loads
+had no console errors, warnings, or hydration failures.
+
+The browser harness could not emulate the operating system's
+`prefers-reduced-motion` setting, so the guarded code path was inspected but a
+live media-query emulation is not claimed. Cross-origin project embeds remain
+subject to the verification limits documented in Lessons 4-9.
+
+## What follows Lesson 10
+
+The next separately scoped task is contact and navigation work. Footer-contact
+integration, broader mobile redesign, and Phase 2 polish remain unstarted.

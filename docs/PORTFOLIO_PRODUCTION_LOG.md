@@ -30,6 +30,38 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-19 - Homepage work index ported to Next.js (Lesson 10)
+
+**Stage:** Homepage migration
+**Scope:** `next-portfolio/src/{app/{page.tsx,globals.css},data/workIndex.ts,components/home/{WorkIndex.tsx,WorkIndexInteractions.tsx,WorkIndex.module.css}}`, four approved responsive files under `next-portfolio/public/assets/`, `docs/NEXTJS_MIGRATION_GUIDE.md`, and this log. No approved static source, Hero G file, project implementation or registry, package/dependency file, Claude/Codex configuration, preview, scratch file, or protected untracked item was touched.
+
+**Did:**
+- Replaced the temporary post-Hero placeholder with the approved static `About the work` introduction and six-row `Selected work` index, stopping before `#practice` exactly as scoped.
+- Preserved the approved order and linked every row to its implemented Next.js route: BETTR, CardioPal, FrankenTeen, Echoes of Home, Breaking the Smartphone Mold, and Playing Freedom.
+- Added typed homepage-specific work-index data and a Server Component for semantic content and links. Added one small Client Component only for the approved intersection reveal and fine-pointer contextual cursor.
+- Ported the exact 12-column layout, project accents, native media caps, Smartphone Mold crop, hover/focus states, responsive stacking, and reduced-motion guards into a homepage-scoped CSS module.
+- Copied the four missing responsive source files for BETTR, FrankenTeen, and Smartphone Mold. Reused and verified the two original-size public files already present.
+
+**Decisions:**
+- Homepage editorial data stays separate from route metadata because the static index has its own descriptions, ordering, media choices, and cursor labels.
+- Plain `img` preserves the approved `srcset` and byte-exact browser source selection; generated optimization derivatives are intentionally not introduced here.
+- Contact, practice/about content, footer contact, global-navigation restructuring, mobile redesign, and Phase 2 remain outside this migration.
+
+**Verified:**
+- SHA-256 hashes match for all four copied files and both reused originals. All six homepage media URLs and the homepage plus six project routes return HTTP 200; an invalid project route returns HTTP 404.
+- Static/Next comparisons at 1280, 1440, and 1920 confirm matching content, row geometry, column placement, image caps/crop, typography, colour, and zero horizontal overflow.
+- The introduction and rows reveal from the same guarded initial state; Hero G's Selected work link reaches the index; all row destinations work; keyboard focus has the shared 2px ember outline with 4px offset; View/Play contextual cursor labels appear on the scoped work surface.
+- Hero G still completes its loader and retains four labelled bands, the asymmetric name anchor, inspection-lens markup, and natural-scroll handoff. All six completed project routes retain their direct loading, titles, accents, media, and next-project sequence.
+- Fresh homepage, BETTR, and FrankenTeen loads have no console errors, warnings, or hydration failures. A FrankenTeen image-aspect warning seen once in an accumulated development log did not reproduce in a clean direct load and no project file was changed.
+- `git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass. The production build emits the static homepage and all six SSG project routes.
+
+**Open:**
+- Live `prefers-reduced-motion` emulation was unavailable in the browser harness; its guarded implementation was inspected, but OS-level media-query behavior is not claimed from automation.
+- Cross-origin embed internals retain the documented Lessons 4-9 verification limits.
+- Contact and navigation work is next. Footer-contact integration, broader mobile redesign, and Phase 2 polish remain unstarted.
+
+**Commit:** `Migrate homepage work index to Next.js` (hash in Git history; this entry ships in that commit)
+
 ### 2026-07-19 — Session 2 project migration QA complete
 
 **Stage:** Project migration verification
