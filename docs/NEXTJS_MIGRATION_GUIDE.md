@@ -1371,7 +1371,88 @@ control clicks did not expose a reliable state change, so deep prototype
 interaction is recorded as externally constrained rather than claimed as
 passed.
 
-## What Lesson 6 will cover
+---
 
-FrankenTeen is next. It remains unstarted at this checkpoint and will be
-ported only after the focused CardioPal commit.
+# Lesson 6 — Reusing the project route for FrankenTeen
+
+FrankenTeen completes the first sequential project-migration session. It uses
+the same dynamic `app/projects/[slug]/page.tsx` route and neutral case-study
+components as BETTR and CardioPal, while preserving the approved page's own
+mustard, violet, and dark theatrical identity.
+
+## What moved
+
+`PROJECT_SLUGS` now includes `"frankenteen"`. Its approved metadata lives in
+`src/data/projects.ts`, its content-registry entry lives in
+`src/content/projects/registry.ts`, and the complete page is rendered by
+`FrankenTeenCaseStudy.tsx` with scoped rules in
+`FrankenTeenCaseStudy.css`. The route is statically generated alongside BETTR
+and CardioPal; no separate page file or routing branch was added.
+
+The component preserves the static source's opening and six numbered chapters
+in order, including the two Act III feature chapters, their low-opacity Roman
+numeral marks, the paired native-capped evidence figures, the testing findings,
+references, and both project-navigation bars. `ProjectSection` and
+`SectionHeading` now accept `ReactNode` titles so the approved chapter-mark
+markup can pass through the existing heading component. Plain string titles
+for BETTR and CardioPal are unchanged.
+
+## Assets and Kaltura embed
+
+Only the nine JPEGs referenced by `projects/frankenteen.html` were copied to
+`public/assets/frankenteen/`: the mansion gate, bedroom, guitar prop, pacing
+chart, mansion approach and progression, attic approach and lab, and Blender
+wall module. Each copied file matches its static original by SHA-256. The
+untracked FrankenTeen crops that the approved page does not reference were not
+used or touched.
+
+The Kaltura process recording remains a plain 16:9 iframe with the exact
+approved `entry_id=1_j1w7k3an` source, title, lazy loading, autoplay/fullscreen/
+encrypted-media permission string, and standard plus legacy fullscreen
+attributes. There is no autoplay, loop, mute, poster replacement, or new
+facade. The player visibly renders its Unity-editor poster and play control.
+
+## Server and Client Component boundary
+
+`FrankenTeenCaseStudy` remains a Server Component. Static images, links, and a
+third-party iframe need no state, effects, event listeners, or browser APIs, so
+the migration adds no FrankenTeen Client Component and no dependency. The only
+shared type change is the backward-compatible `ReactNode` heading title noted
+above.
+
+## Content and visual parity
+
+The rendered opening, all six chapters, references, and footer navigation were
+compared with the approved static page after normalizing insignificant HTML
+whitespace. The texts match exactly and in the same order. All nine images,
+their captions, native dimensions/caps, the Kaltura placement, the feature
+chapter hierarchy, and the `#C68A2E` / `#7A5A82` identity remain associated
+with the same content.
+
+## Verification and Session 1 QA
+
+`npm.cmd run lint` and `npm.cmd run build` pass. The production route table
+lists BETTR, CardioPal, and FrankenTeen as SSG output. FrankenTeen and its nine
+local asset URLs load directly; metadata, project navigation, keyboard-focus
+targets, iframe permissions, 16:9 framing, and the real invalid-slug 404 were
+checked. The page has no horizontal overflow at 1280, 1440, or 1920 pixels,
+and its console is clean at the checked widths.
+
+The combined Session 1 pass reloaded the homepage, BETTR, and CardioPal at the
+same three widths and reconfirmed clean consoles, no horizontal overflow, and
+distinct project tokens. Hero G's four approved thesis lines, name anchor,
+inspection lens, and shell remain present. BETTR retains its approved Open
+Graph image and oxblood/red treatment; CardioPal still emits no fabricated OG
+image and retains its sage/paper exhibit; FrankenTeen emits only its approved
+metadata. CardioPal's next-project link navigates to FrankenTeen, and an
+unknown project slug returns HTTP 404.
+
+The Kaltura document is cross-origin and therefore unavailable to parent-page
+DOM inspection. One automation click on the visible play control produced no
+observable state change, so deep playback is not claimed as verified; the
+loaded poster, source, permissions, focusability, and framing are verified.
+
+## What Lesson 7 will cover
+
+Echoes of Home is the next sequential migration task. It was not started in
+this lesson.

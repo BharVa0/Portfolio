@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import type { ProjectSlug } from "@/types/project";
 import { BettrCaseStudy } from "./BettrCaseStudy";
 import { CardioPalCaseStudy } from "./CardioPalCaseStudy";
+import { FrankenTeenCaseStudy } from "./FrankenTeenCaseStudy";
 
 /*
  * Maps a project slug to the React component that renders its case
@@ -15,4 +16,5 @@ import { CardioPalCaseStudy } from "./CardioPalCaseStudy";
 export const PROJECT_CONTENT: Record<ProjectSlug, ComponentType> = {
   bettr: BettrCaseStudy,
   cardiopal: CardioPalCaseStudy,
+  frankenteen: FrankenTeenCaseStudy,
 };

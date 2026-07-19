@@ -8,7 +8,7 @@ import type { ReactNode, Ref } from "react";
  * Adding a slug here (once that project's route is built) is the only
  * change generateStaticParams needs — see app/projects/[slug]/page.tsx.
  */
-export const PROJECT_SLUGS = ["bettr", "cardiopal"] as const;
+export const PROJECT_SLUGS = ["bettr", "cardiopal", "frankenteen"] as const;
 
 export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
 
@@ -66,7 +66,7 @@ export type ProjectSectionRhythm = "standard" | "feature" | "tight";
 export interface ProjectSectionProps {
   id?: string;
   number: string;
-  title: string;
+  title: ReactNode;
   /** Applies the larger `.is-feature` title treatment for a feature chapter. */
   featureTitle?: boolean;
   rhythm?: ProjectSectionRhythm;
@@ -75,7 +75,7 @@ export interface ProjectSectionProps {
 
 export interface SectionHeadingProps {
   number: string;
-  title: string;
+  title: ReactNode;
   feature?: boolean;
 }
 

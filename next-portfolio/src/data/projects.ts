@@ -34,6 +34,20 @@ export const PROJECTS: Record<ProjectSlug, ProjectMeta> = {
     ogDescription:
       "A companion app for a handheld EKG device, designed to reassure, not just inform, across 25+ screens.",
   },
+  frankenteen: {
+    slug: "frankenteen",
+    title: "FrankenTeen",
+    shortDescription:
+      "FrankenTeen: a top-down retelling of Frankenstein as teenage rebellion, built by a team of three. This case study covers Act 3, the mansion approach, the attic confrontation, and the systems I built to carry it.",
+    type: "Game design · Team of three",
+    role: "Act 3 design and implementation",
+    tools: ["Unity", "Blender"],
+    accent: "frankenteen",
+    route: "/projects/frankenteen",
+    ogDescription:
+      "Designing and building Act 3 of a three-act guitar-driven adventure game: the mansion approach, the attic confrontation, and the Unity systems behind them.",
+    ogImage: "/assets/frankenteen/mansion-gate-crop.jpg",
+  },
 };
 
 export function getProjectMeta(slug: string): ProjectMeta | undefined {
