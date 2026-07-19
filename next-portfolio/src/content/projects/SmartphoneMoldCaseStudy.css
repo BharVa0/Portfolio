@@ -1,0 +1,313 @@
+.project-smartphone-mold {
+  --smartphone-bg: #0c1118;
+  --smartphone-surface: #141b26;
+  --smartphone-ink: #edeff2;
+  --smartphone-muted: #7c8696;
+  --smartphone-accent: #e14b3c;
+  --smartphone-line: rgba(237, 239, 242, 0.08);
+  --smartphone-line-2: rgba(237, 239, 242, 0.14);
+  --proj-surface: var(--smartphone-bg);
+  --proj-text: var(--smartphone-ink);
+  --proj-accent: var(--smartphone-accent);
+  background: var(--smartphone-bg);
+  color: var(--smartphone-ink);
+  font-family: var(--font-body);
+}
+
+.project-smartphone-mold *,
+.project-smartphone-mold *::before,
+.project-smartphone-mold *::after {
+  box-sizing: border-box;
+}
+
+.smartphone-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.smartphone-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--smartphone-line);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--smartphone-muted);
+  text-transform: uppercase;
+}
+
+.smartphone-statusbar a,
+.smartphone-nav-back,
+.smartphone-nav-next {
+  color: inherit;
+  text-decoration: none;
+}
+
+.smartphone-statusbar a:hover,
+.smartphone-statusbar a:focus-visible,
+.smartphone-nav-back:hover,
+.smartphone-nav-back:focus-visible,
+.smartphone-nav-next:hover,
+.smartphone-nav-next:focus-visible {
+  color: var(--smartphone-accent);
+}
+
+.smartphone-hero {
+  padding: 64px 0 40px;
+}
+
+.smartphone-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--smartphone-accent);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.smartphone-eyebrow::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: var(--smartphone-accent);
+  display: inline-block;
+}
+
+.smartphone-title {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(30px, 5.2vw, 54px);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.smartphone-thesis {
+  margin-top: 24px;
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--smartphone-muted);
+  max-width: 640px;
+}
+
+.smartphone-tags {
+  margin-top: 28px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.smartphone-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--smartphone-muted);
+  border: 1px solid var(--smartphone-line-2);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+.smartphone-hero-image {
+  margin-top: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--smartphone-line-2);
+}
+
+.smartphone-hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.smartphone-hero-caption {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--smartphone-muted);
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.smartphone-section {
+  margin-top: 88px;
+}
+
+.smartphone-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  border-bottom: 1px solid var(--smartphone-line);
+  padding-bottom: 14px;
+  margin-bottom: 32px;
+}
+
+.smartphone-section-head span {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--smartphone-accent);
+}
+
+.smartphone-section-head h2 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.smartphone-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--smartphone-ink);
+  max-width: 680px;
+}
+
+.smartphone-body + .smartphone-body {
+  margin-top: 18px;
+}
+
+.smartphone-body-muted {
+  color: var(--smartphone-muted);
+}
+
+.smartphone-shot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 32px;
+}
+
+.smartphone-shot {
+  background: var(--smartphone-surface);
+  border: 1px solid var(--smartphone-line);
+  overflow: hidden;
+}
+
+.smartphone-shot img {
+  width: 100%;
+  display: block;
+  height: 260px;
+  object-fit: cover;
+}
+
+.smartphone-quote {
+  margin-top: 28px;
+  padding: 20px 24px;
+  border-left: 2px solid var(--smartphone-accent);
+  background: var(--smartphone-surface);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--smartphone-ink);
+  font-style: italic;
+  max-width: 640px;
+}
+
+.smartphone-frame-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 32px;
+}
+
+.smartphone-frame-card {
+  background: var(--smartphone-surface);
+  border: 1px solid var(--smartphone-line);
+  padding: 20px 18px;
+}
+
+.smartphone-frame-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.smartphone-frame-card p {
+  font-size: 13px;
+  color: var(--smartphone-muted);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.smartphone-quote-shot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.smartphone-quote-shot p {
+  font-size: 14px;
+  color: var(--smartphone-muted);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.smartphone-reflection {
+  margin-top: 32px;
+  padding: 28px 30px;
+  background: var(--smartphone-surface);
+  border-left: 2px solid var(--smartphone-accent);
+  border-radius: 0 8px 8px 0;
+}
+
+.smartphone-reflection .smartphone-body {
+  margin: 0;
+}
+
+.smartphone-refs {
+  margin-top: 24px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--smartphone-muted);
+  max-width: 680px;
+}
+
+.smartphone-footer-nav {
+  margin-top: 110px;
+  padding: 40px 0 70px;
+  border-top: 1px solid var(--smartphone-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.smartphone-nav-back {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--smartphone-muted);
+  transition: color 0.2s ease;
+}
+
+.smartphone-nav-next {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--smartphone-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.smartphone-nav-next span {
+  color: var(--smartphone-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .smartphone-shot-grid,
+  .smartphone-frame-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .smartphone-statusbar,
+  .smartphone-footer-nav {
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+}

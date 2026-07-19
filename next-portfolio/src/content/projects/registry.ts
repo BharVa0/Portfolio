@@ -4,6 +4,7 @@ import { BettrCaseStudy } from "./BettrCaseStudy";
 import { CardioPalCaseStudy } from "./CardioPalCaseStudy";
 import { EchoesCaseStudy } from "./EchoesCaseStudy";
 import { FrankenTeenCaseStudy } from "./FrankenTeenCaseStudy";
+import { SmartphoneMoldCaseStudy } from "./SmartphoneMoldCaseStudy";
 
 /*
  * Maps a project slug to the React component that renders its case
@@ -19,4 +20,5 @@ export const PROJECT_CONTENT: Record<ProjectSlug, ComponentType> = {
   cardiopal: CardioPalCaseStudy,
   frankenteen: FrankenTeenCaseStudy,
   echoes: EchoesCaseStudy,
+  "smartphone-mold": SmartphoneMoldCaseStudy,
 };

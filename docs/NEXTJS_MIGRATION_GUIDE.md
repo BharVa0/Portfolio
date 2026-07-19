@@ -1542,3 +1542,80 @@ appearance.
 
 Breaking the Smartphone Mold is the next sequential Session 2 migration task.
 It was not started in this lesson.
+
+---
+
+# Lesson 8 — Preserving Breaking the Smartphone Mold's research dossier
+
+Breaking the Smartphone Mold is the fifth approved project and the second
+Session 2 migration. Its authoritative source is
+`projects/smartphone-mold.html`, its existing public slug is
+`smartphone-mold`, and the dynamic project route now generates
+`/projects/smartphone-mold`.
+
+## Route and component architecture
+
+`PROJECT_SLUGS`, `PROJECTS`, and `PROJECT_CONTENT` now include
+`"smartphone-mold"`. `SmartphoneMoldCaseStudy` carries the complete static
+content, while `SmartphoneMoldCaseStudy.css` scopes the project's original
+Space Mono/Inter research-dossier treatment, `#0C1118` field,
+`#E14B3C` accent, 980px reading frame, tag pills, three-part isomorphism
+framework, evidence pairs, interview quote, reflection, and references.
+
+The component is a Server Component. The approved page contains no state,
+hooks, event listeners, script, video, iframe, or browser-only interaction,
+so no Client Component or dependency is needed. The existing root shell and
+dynamic route remain unchanged.
+
+## Approved assets and media sequence
+
+Only the four files directly referenced by the approved source were copied to
+`public/assets/smartphone/`: `convergence-figure1.jpeg`,
+`nothing-transparent.jpeg`, `cmf-product.jpeg`, and `glyph-leak.jpeg`. The
+unused `nothing-transparent-480.jpg` was not copied. Each public file matches
+its static original by SHA-256.
+
+All four `next/image` instances use `unoptimized`, deliberately preserving the
+approved JPEG URL, format, original bytes, intrinsic resolution, and browser
+decode rather than introducing a generated WebP/AVIF derivative. The opening
+figure retains its natural aspect ratio; the three photographic evidence
+images keep the static page's fixed 260px `object-fit: cover` treatment.
+
+## Content and visual parity
+
+The rendered project status bar, opening, tags, caption, five numbered
+sections, framework cards, quote, reflection, references, and footer
+navigation match the approved source exactly after insignificant whitespace
+normalization: 5,692 characters in the same order. No copy, metric, caption,
+credit, or reference was added, removed, or rewritten.
+
+Static and Next layouts were compared at 1280, 1440, and 1920 pixels. The
+project-local 980px frame, 916px hero figure, 457px evidence cards, 260px crop
+height, section count, dark surfaces, red accent, and Space Mono title all
+match. The Next root's established shared site header accounts for the only
+expected vertical offset above the otherwise matching project-local geometry.
+No horizontal overflow appears at any checked width.
+
+## Verification and focused regression
+
+`git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass. The build
+statically generates Breaking the Smartphone Mold alongside the four earlier
+projects. Direct loading, a fresh same-URL navigation, route metadata, exact
+next-project href, focus outline, local media decoding, HTTP asset responses,
+console/hydration output, and the real unknown-slug HTTP 404 were checked.
+
+All four browser image requests resolve directly to the approved `.jpeg`
+files, report their source dimensions, and return HTTP 200. The route has no
+embed or local video to test. It intentionally emits no Open Graph image
+because the approved static source defines none.
+
+The one defect found during verification was generated image optimization,
+which could change format and compression even though the copied public files
+were exact. Adding `unoptimized` to these four project-local images restored
+direct delivery of the approved JPEGs without changing layout or shared image
+behavior elsewhere.
+
+## What Lesson 9 will cover
+
+Playing Freedom is the sixth and final approved lighter project and the next
+sequential Session 2 migration task. It was not started in this lesson.

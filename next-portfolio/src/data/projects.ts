@@ -61,6 +61,17 @@ export const PROJECTS: Record<ProjectSlug, ProjectMeta> = {
     ogDescription:
       "A low-poly memory room, built solo. The lighting, the objects, and one small symbolic act carry the story.",
   },
+  "smartphone-mold": {
+    slug: "smartphone-mold",
+    title: "Breaking the Smartphone Mold",
+    shortDescription:
+      "Strip the logos off ten flagship phones and most people couldn't tell you which is which. This is a case study on why that happened, using Nothing and CMF by Nothing as the test case, grounded in an actual interview with someone who works there.",
+    type: "Design research · Cultural analysis",
+    role: "Researcher and interviewer",
+    tools: ["Design research", "Industry interview", "Media & culture"],
+    accent: "smartphone-mold",
+    route: "/projects/smartphone-mold",
+  },
 };
 
 export function getProjectMeta(slug: string): ProjectMeta | undefined {

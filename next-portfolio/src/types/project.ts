@@ -13,6 +13,7 @@ export const PROJECT_SLUGS = [
   "cardiopal",
   "frankenteen",
   "echoes",
+  "smartphone-mold",
 ] as const;
 
 export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
@@ -24,7 +25,12 @@ export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
  * even though not every accent has a Next.js route yet. A component that
  * accepts an accent shouldn't need a new route to exist first.
  */
-export type ProjectAccent = "bettr" | "cardiopal" | "frankenteen" | "echoes";
+export type ProjectAccent =
+  | "bettr"
+  | "cardiopal"
+  | "frankenteen"
+  | "echoes"
+  | "smartphone-mold";
 
 /** Stable, serializable project facts — never a React component. */
 export interface ProjectMeta {

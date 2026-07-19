@@ -30,6 +30,37 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-19 — Breaking the Smartphone Mold ported to Next.js (Lesson 8)
+
+**Stage:** Project migration
+**Scope:** `next-portfolio/src/{types/project.ts,data/projects.ts,content/projects/{registry.ts,SmartphoneMoldCaseStudy.tsx,SmartphoneMoldCaseStudy.css}}`, four approved files under `next-portfolio/public/assets/smartphone/`, `docs/NEXTJS_MIGRATION_GUIDE.md`, and this log. No approved static file, Hero G file, earlier project-specific implementation, package/dependency file, configuration, imported skill, cache, preview, scratch asset, or protected untracked file was touched.
+
+**Did:**
+- Confirmed `projects/smartphone-mold.html` as the authoritative fifth approved project and preserved `smartphone-mold` as `/projects/smartphone-mold` through the existing typed metadata/content registries and dynamic SSG route.
+- Ported the status bar, opening, tags, hero figure and caption, five numbered sections, three-part institutional-isomorphism framework, paired evidence treatments, interview quote, commercial-pressure test, reflection, complete references, and footer navigation verbatim and in order.
+- Added only project-scoped styling for the approved Space Mono/Inter research-dossier identity, `#0C1118` surface, `#E14B3C` accent, 980px frame, 260px evidence crops, cards, tags, quote, reflection, and desktop/mobile safety rules.
+- Copied only `convergence-figure1.jpeg`, `nothing-transparent.jpeg`, `cmf-product.jpeg`, and `glyph-leak.jpeg`. The unreferenced `nothing-transparent-480.jpg` remains uncopied and untouched.
+
+**Decisions:**
+- `SmartphoneMoldCaseStudy` is a Server Component because the static page contains no stateful or browser-only behavior. No Client Component, shared component change, or dependency was introduced.
+- The four project-local `next/image` elements use `unoptimized`, preserving direct delivery of the original JPEG URLs, formats, intrinsic dimensions, and quality. This does not alter image behavior on any earlier project.
+- No Open Graph image is emitted because the approved static source defines none.
+
+**Verified:**
+- `git diff --check` and `npm.cmd run lint`: clean. `npm.cmd run build`: successful; the route table includes Breaking the Smartphone Mold alongside BETTR, CardioPal, FrankenTeen, and Echoes.
+- Static-vs-Next visible content comparison after whitespace normalization: exact 5,692-character match across all five sections, framework labels, quotes, references, and navigation.
+- All four copied JPEGs match their static originals by SHA-256, load at their original intrinsic dimensions, and return HTTP 200. The approved natural hero ratio and 260px `object-fit: cover` evidence treatment remain unchanged.
+- At 1280, 1440, and 1920, the project-local 980px frame, 916px hero, 457px evidence cards, section count, colors, and title typography match the static source with no horizontal overflow. The established shared site header explains the only expected vertical offset.
+- Direct route loading and a fresh same-URL navigation work. Metadata uses the approved title/thesis and has no OG image. Both project-navigation links have the exact approved destinations; Playing Freedom remains the next unimplemented route until Lesson 9.
+- Browser console and hydration output are clean. The keyboard-focused index link shows the shared visible 2px outline with 4px offset. `/projects/not-a-project` returns HTTP 404. No iframe, video, audio, or cross-origin media exists on this page.
+- Corrected one migration-only defect: generated image optimization could change format/compression. Project-local `unoptimized` flags restore direct JPEG delivery without changing shared behavior.
+
+**Open:**
+- Playing Freedom is the sixth and final approved lighter project and the next sequential Session 2 migration. It was not started in this lesson.
+- Combined Session 2 QA remains pending until Playing Freedom is committed.
+
+**Commit:** `Migrate Breaking the Smartphone Mold to Next.js` (hash in Git history; this entry ships in that commit)
+
 ### 2026-07-19 — Echoes of Home ported to Next.js (Lesson 7)
 
 **Stage:** Project migration
