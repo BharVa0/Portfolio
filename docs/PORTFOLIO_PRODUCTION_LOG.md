@@ -30,6 +30,39 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-19 — Echoes of Home ported to Next.js (Lesson 7)
+
+**Stage:** Project migration
+**Scope:** `next-portfolio/src/{types/project.ts,data/projects.ts,content/projects/{registry.ts,EchoesCaseStudy.tsx,EchoesCaseStudy.css,EchoesVideoPoster.tsx}}`, four approved files under `next-portfolio/public/assets/echoes/`, `docs/NEXTJS_MIGRATION_GUIDE.md`, and this log. No approved static file, Hero G file, earlier project-specific implementation, dependency/package manifest, Claude/Codex configuration, imported skill, cache, preview, scratch crop, or other protected untracked file was touched.
+
+**Did:**
+- Confirmed `projects/echoes.html` as the authoritative static source and `echoes` as the existing public slug, then added `/projects/echoes` to the typed metadata/content registries and existing dynamic SSG route.
+- Ported the approved project frame, typography-led opening, five numbered chapters, full-width quiet interlude, six-step experience-flow corridor, runner composition, implementation/testing/limitations record, quote pair, reflection, and both navigation bars verbatim and in source order.
+- Added scoped Echoes styling for the approved blue-grey (`#87A2B8`), slate (`#171B20`), and rare lamp amber (`#C99A5B`) identity, including the same native image caps, type ramp, section rhythm, full-bleed media surface, and responsive safety rules.
+- Copied only `laptop-interaction-crop.jpg`, `room-scene-crop.jpg`, `runner-scene-crop.jpg`, and `track-blender-crop.jpg`, the four tracked assets directly referenced by the approved page. The unrelated untracked `runner-text-crop.jpg` remains untouched.
+- Preserved the approved click-to-load Kaltura facade with a small `EchoesVideoPoster` Client Component and `noscript` fallback. The rest of `EchoesCaseStudy` remains a Server Component.
+
+**Decisions:**
+- The poster interaction is Echoes' only Client Component because replacing a button with an iframe after activation genuinely requires browser-side state. Images, content, links, and layout remain server-rendered.
+- Echoes emits no `og:image`; the approved static source defines none. Its standard and Open Graph descriptions remain distinct and verbatim.
+- The Kaltura host's placeholder/editor/facecam thumbnail stays hidden until the visitor asks to watch. No new poster asset, replacement media, autoplay, or presentation redesign was introduced.
+
+**Verified:**
+- `git diff --check`: clean. `npm.cmd run lint`: clean. `npm.cmd run build`: successful; TypeScript passed and BETTR, CardioPal, FrankenTeen, and Echoes are listed as SSG output.
+- Static-vs-Next visible content comparison after whitespace normalization: exact 4,218-character match across the project frame, opening, five chapters, interlude, flow labels, testing quotes, poster copy, reflection, and footer navigation.
+- All four copied JPEGs match their approved originals by SHA-256 and return HTTP 200. Browser inspection after scrolling confirmed all four decoded successfully; displayed dimensions remain at or below the approved 471×356 and 280×204 caps without distortion.
+- Direct `/projects/echoes` loading and hard refresh are clean. Metadata matches the approved title/descriptions and has no OG image. FrankenTeen's top navigation reaches Echoes; Echoes' top/footer next links both target `/projects/smartphone-mold`.
+- Browser/static geometry checks at 1280, 1440, and 1920 confirmed five ordered chapters, the interlude, native-capped images, 16:9 media surface, associated captions, correct palette, clean console/hydration output, and `scrollWidth === clientWidth`.
+- The initial poster is focusable and shows the shared 2px focus outline. Activation removes it and visibly loads one 1308×736 Kaltura iframe at 1440 with exact `entry_id=1_6anm1jue`, widget configuration, title, permission string, and fullscreen flag. The cross-origin document is inaccessible to parent inspection, so deep playback is not claimed.
+- Focused regressions at 1440: homepage/Hero G, BETTR, CardioPal, and FrankenTeen retain their titles, approved tokens, expected embeds, clean consoles, and zero overflow. BETTR/FrankenTeen retain their OG images; CardioPal still has none. `/projects/not-a-project` returns HTTP 404. Package and lockfile diff is empty.
+- Corrected three migration-only defects found during parity checks: restored one JSX space after “lamp light,” restored the room chapter's approved blue-grey heading accent through the existing ReactNode title slot, and changed only the above-the-fold opening image from lazy to eager loading to remove Next.js's LCP warning without changing its media treatment.
+
+**Open:**
+- Deep interaction/playback inside the cross-origin Kaltura player remains externally constrained; poster activation, visible player loading, URL, permissions, focusability, and framing are verified.
+- Breaking the Smartphone Mold is the next sequential Session 2 migration and was not started.
+
+**Commit:** `Migrate Echoes of Home project to Next.js` (hash in Git history; this entry ships in that commit)
+
 ### 2026-07-19 — FrankenTeen ported; Session 1 project QA complete (Lesson 6)
 
 **Stage:** Project migration

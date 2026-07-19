@@ -8,7 +8,12 @@ import type { ReactNode, Ref } from "react";
  * Adding a slug here (once that project's route is built) is the only
  * change generateStaticParams needs — see app/projects/[slug]/page.tsx.
  */
-export const PROJECT_SLUGS = ["bettr", "cardiopal", "frankenteen"] as const;
+export const PROJECT_SLUGS = [
+  "bettr",
+  "cardiopal",
+  "frankenteen",
+  "echoes",
+] as const;
 
 export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
 

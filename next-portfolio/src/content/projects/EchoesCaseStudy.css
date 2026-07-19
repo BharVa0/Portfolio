@@ -1,0 +1,256 @@
+/* Echoes of Home's approved quiet, spatial identity: cool blue-grey
+   structural marks, one rare lamp amber, and a deep slate feature surface. */
+.project-echoes {
+  --echoes-accent: #87a2b8;
+  --echoes-accent-deep: #56707f;
+  --echoes-slate: #171b20;
+  --echoes-slate-line: rgba(135, 162, 184, 0.2);
+  --echoes-lamp: #c99a5b;
+  --proj-accent: var(--echoes-accent);
+  --proj-accent-deep: var(--echoes-accent-deep);
+  --proj-feature-surface: var(--echoes-slate);
+  --proj-feature-line: var(--echoes-slate-line);
+}
+
+@media (min-width: 1024px) {
+  .project-echoes .self-center {
+    align-self: center;
+  }
+}
+
+.project-echoes .tone-dim img {
+  filter: saturate(0.78) brightness(0.94) contrast(1.03);
+}
+
+.project-echoes .proj-hero {
+  padding-top: clamp(40px, 5vh, 72px);
+  padding-bottom: clamp(48px, 5vw, 80px);
+}
+.project-echoes .proj-title {
+  font-size: var(--ed-fs-title);
+}
+.project-echoes .proj-thesis {
+  font-size: var(--ed-fs-thesis);
+  max-width: none;
+  margin-top: var(--space-evidence);
+}
+.project-echoes .proj-ownership {
+  margin-top: var(--space-evidence);
+  font-size: var(--ed-fs-support);
+  max-width: none;
+}
+.project-echoes .proj-eyebrow,
+.project-echoes .proj-artifact-bar,
+.project-echoes .proj-artifact-caption,
+.project-echoes .proj-frame-bar,
+.project-echoes .proj-shot-caption {
+  font-size: var(--ed-fs-meta);
+}
+
+.project-echoes .proj-section {
+  padding-top: var(--space-major);
+}
+.project-echoes .proj-section:first-of-type {
+  padding-top: clamp(80px, 7vw, 124px);
+}
+.project-echoes .proj-section.is-feature-chapter {
+  padding-top: clamp(110px, 9vw, 165px);
+}
+.project-echoes .proj-section-head {
+  margin-bottom: var(--space-internal);
+}
+.project-echoes .proj-num {
+  font-size: var(--ed-fs-cardhead);
+}
+.project-echoes .proj-section-title {
+  font-size: var(--ed-fs-h2);
+}
+.project-echoes .proj-body {
+  font-size: var(--ed-fs-body);
+}
+.project-echoes .proj-lede {
+  margin-bottom: var(--space-evidence);
+}
+.project-echoes .proj-shot-caption {
+  font-style: italic;
+}
+.project-echoes .accent-heading {
+  color: var(--proj-accent);
+}
+.project-echoes .proj-dominant-shot {
+  margin-top: 0;
+}
+.project-echoes .proj-dominant-shot .proj-shot-caption {
+  font-style: normal;
+}
+.project-echoes .runner-dominant {
+  margin-inline: auto;
+}
+
+.project-echoes .echoes-pause {
+  padding: clamp(48px, 7vw, 96px) var(--page-margin);
+  text-align: center;
+  border-top: 1px solid
+    color-mix(in srgb, var(--echoes-accent) 40%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--echoes-accent) 40%, transparent);
+}
+.project-echoes .echoes-pause p {
+  margin: 0 auto;
+  max-width: 20em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 340;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  line-height: 1.4;
+  color: var(--proj-text-soft);
+}
+.project-echoes .echoes-pause p em {
+  color: var(--echoes-lamp);
+  font-style: italic;
+}
+.project-echoes .lamp-word {
+  color: var(--echoes-lamp);
+}
+
+.project-echoes .flow-list {
+  position: relative;
+  margin-top: var(--space-evidence);
+}
+.project-echoes .flow-list::before {
+  content: "";
+  position: absolute;
+  left: 27px;
+  top: 16px;
+  bottom: 16px;
+  width: 1px;
+  background: var(--proj-accent);
+  opacity: 0.35;
+}
+.project-echoes .flow-row {
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: 16px 0;
+}
+.project-echoes .flow-num {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink);
+  background: var(--proj-accent);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.project-echoes .flow-copy {
+  flex: 1 1 auto;
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.project-echoes .flow-name {
+  flex: 0 0 170px;
+  font-family: var(--font-display);
+  font-size: 1.14rem;
+  font-weight: 400;
+  color: var(--proj-text);
+}
+.project-echoes .flow-desc {
+  flex: 1 1 260px;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--proj-text-soft);
+}
+
+.project-echoes .pdrl {
+  margin-top: var(--space-evidence);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3) var(--grid-gap);
+}
+.project-echoes .pdrl-item {
+  border-top: 1px solid
+    color-mix(in srgb, var(--proj-accent) 45%, var(--proj-line) 55%);
+  padding-top: 14px;
+}
+.project-echoes .quote-grid {
+  margin-top: var(--space-3);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.project-echoes .quote-card {
+  background: var(--proj-surface-2);
+  border: 1px solid var(--proj-accent);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
+.project-echoes .video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--proj-feature-surface, #000);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  cursor: pointer;
+}
+.project-echoes .video-poster-play {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid var(--proj-accent);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+.project-echoes .video-poster:hover .video-poster-play,
+.project-echoes .video-poster:focus-visible .video-poster-play {
+  background: var(--proj-accent);
+  color: var(--ink);
+}
+.project-echoes .video-poster-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--paper);
+}
+
+@media (max-width: 1023px) {
+  .project-echoes .proj-title {
+    font-size: clamp(2.8rem, 12vw, 100px);
+  }
+  .project-echoes .proj-thesis {
+    font-size: clamp(1.15rem, 4vw, 30px);
+  }
+  .project-echoes .proj-section-title {
+    font-size: clamp(1.6rem, 5vw, 48px);
+  }
+}
+
+@media (max-width: 760px) {
+  .project-echoes .pdrl,
+  .project-echoes .quote-grid {
+    grid-template-columns: 1fr;
+  }
+}

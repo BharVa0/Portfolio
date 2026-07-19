@@ -1452,7 +1452,93 @@ DOM inspection. One automation click on the visible play control produced no
 observable state change, so deep playback is not claimed as verified; the
 loaded poster, source, permissions, focusability, and framing are verified.
 
-## What Lesson 7 will cover
+---
 
-Echoes of Home is the next sequential migration task. It was not started in
-this lesson.
+# Lesson 7 — Preserving Echoes of Home's click-to-load media
+
+Echoes of Home starts Session 2 of the sequential project migration. Its
+authoritative source is `projects/echoes.html`, its approved public slug is
+`echoes`, and the existing dynamic route now generates `/projects/echoes`.
+The shared case-study shell remains neutral; Echoes supplies its own quiet,
+spatial composition and cool blue-grey/slate identity.
+
+## Route and component architecture
+
+`PROJECT_SLUGS` now includes `"echoes"`. Approved metadata lives in
+`src/data/projects.ts`, the content registry maps the slug to
+`EchoesCaseStudy`, and `EchoesCaseStudy.css` scopes the project's tokens,
+type ramp, chapter rhythm, memory-room interlude, six-step flow corridor,
+runner composition, implementation record, quote pair, and media poster.
+
+`EchoesCaseStudy` remains a Server Component. The one exception is
+`EchoesVideoPoster`, a small Client Component that preserves the approved
+click-to-load behavior: initial HTML renders the quiet “Watch the recording”
+button and a `noscript` fallback; the exact Kaltura iframe is created only
+after activation. This interaction genuinely needs browser state, while the
+rest of the page remains server-rendered. No dependency or shared visual
+component was added.
+
+## Approved assets and media sequence
+
+Only the four JPEGs directly referenced by `projects/echoes.html` were copied
+to `public/assets/echoes/`: `laptop-interaction-crop.jpg`,
+`room-scene-crop.jpg`, `runner-scene-crop.jpg`, and
+`track-blender-crop.jpg`. Each copy matches its static original by SHA-256 and
+returns HTTP 200. The pre-existing untracked `runner-text-crop.jpg` is not
+referenced by the approved page and was neither used nor touched.
+
+The approved sequence remains: laptop interaction in the opening, room scene
+in chapter 01, runner scene plus the smaller Blender track inset in chapter
+03, then the Kaltura full playthrough inside chapter 04. The Kaltura source
+retains `entry_id=1_6anm1jue`, the approved widget configuration, title,
+fullscreen flag, and `autoplay *; fullscreen *; encrypted-media *` permission.
+It remains behind the poster because its host thumbnail exposes Unity chrome,
+placeholder copy, and a facecam.
+
+## Content and visual parity
+
+The rendered project frame, opening, five chapters, quiet interlude, all six
+experience-flow steps, testing record, quotes, reflection, poster label, and
+footer navigation match the approved static source exactly after insignificant
+whitespace normalization: 4,218 characters in the same order. All four images
+retain their approved declared dimensions and native display caps; the video
+surface remains 16:9. Echoes adds no Open Graph image because the static source
+does not define one.
+
+Static and Next layouts were compared at 1280, 1440, and 1920 pixels. Hero,
+chapter, interlude, runner, full-bleed video, quote, and footer widths align;
+there is no horizontal overflow. The approved `#87A2B8` accent, `#171B20`
+feature surface, and rare `#C99A5B` lamp emphasis remain distinct from the
+other projects.
+
+## Verification and focused regression
+
+`git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass. The build
+lists BETTR, CardioPal, FrankenTeen, and Echoes as SSG output. Direct load,
+hard refresh, metadata, navigation from FrankenTeen, expected next-project
+hrefs, focus targets, asset requests, console/hydration output, image loading,
+poster activation, iframe framing, and the real unknown-slug HTTP 404 were
+checked.
+
+The click-to-load control removes the poster and renders one visible
+1308×736 Kaltura iframe at 1440 pixels. Its source, title, permission string,
+and fullscreen flag are exact. The cross-origin player document cannot be
+inspected from the parent route, so deep playback is not claimed.
+
+The focused regression pass reconfirmed the homepage/Hero G shell and the
+BETTR, CardioPal, and FrankenTeen routes at 1440 pixels: correct titles and
+project tokens, expected embeds, no metadata leakage, no console warnings, and
+no horizontal overflow. BETTR and FrankenTeen retain their approved OG images;
+CardioPal still emits none. No package or lockfile changed.
+
+Three migration defects were corrected during verification: an omitted JSX
+space after the highlighted “lamp light” phrase; the room chapter's blue-grey
+heading accent, restored through the shared heading's existing ReactNode title
+slot; and Next.js's above-the-fold image warning, resolved by eagerly loading
+only the opening image without changing its source, dimensions, crop, or
+appearance.
+
+## What Lesson 8 will cover
+
+Breaking the Smartphone Mold is the next sequential Session 2 migration task.
+It was not started in this lesson.

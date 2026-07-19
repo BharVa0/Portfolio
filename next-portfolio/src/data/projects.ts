@@ -48,6 +48,19 @@ export const PROJECTS: Record<ProjectSlug, ProjectMeta> = {
       "Designing and building Act 3 of a three-act guitar-driven adventure game: the mansion approach, the attic confrontation, and the Unity systems behind them.",
     ogImage: "/assets/frankenteen/mansion-gate-crop.jpg",
   },
+  echoes: {
+    slug: "echoes",
+    title: "Echoes of Home",
+    shortDescription:
+      "Echoes of Home: a solo Unity environmental-storytelling project built from the homes I've actually lived in. No dialogue carries the weight. The lighting, the objects, and one small symbolic act do.",
+    type: "Environmental storytelling · Solo",
+    role: "Solo project",
+    tools: ["Unity", "Blender"],
+    accent: "echoes",
+    route: "/projects/echoes",
+    ogDescription:
+      "A low-poly memory room, built solo. The lighting, the objects, and one small symbolic act carry the story.",
+  },
 };
 
 export function getProjectMeta(slug: string): ProjectMeta | undefined {

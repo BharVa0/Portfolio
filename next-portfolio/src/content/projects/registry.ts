@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import type { ProjectSlug } from "@/types/project";
 import { BettrCaseStudy } from "./BettrCaseStudy";
 import { CardioPalCaseStudy } from "./CardioPalCaseStudy";
+import { EchoesCaseStudy } from "./EchoesCaseStudy";
 import { FrankenTeenCaseStudy } from "./FrankenTeenCaseStudy";
 
 /*
@@ -17,4 +18,5 @@ export const PROJECT_CONTENT: Record<ProjectSlug, ComponentType> = {
   bettr: BettrCaseStudy,
   cardiopal: CardioPalCaseStudy,
   frankenteen: FrankenTeenCaseStudy,
+  echoes: EchoesCaseStudy,
 };
