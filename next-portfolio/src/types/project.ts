@@ -14,6 +14,7 @@ export const PROJECT_SLUGS = [
   "frankenteen",
   "echoes",
   "smartphone-mold",
+  "playing-freedom",
 ] as const;
 
 export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
@@ -30,7 +31,8 @@ export type ProjectAccent =
   | "cardiopal"
   | "frankenteen"
   | "echoes"
-  | "smartphone-mold";
+  | "smartphone-mold"
+  | "playing-freedom";
 
 /** Stable, serializable project facts — never a React component. */
 export interface ProjectMeta {

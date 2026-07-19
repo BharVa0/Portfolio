@@ -30,6 +30,36 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-19 — Playing Freedom ported to Next.js (Lesson 9)
+
+**Stage:** Project migration
+**Scope:** `next-portfolio/src/{types/project.ts,data/projects.ts,content/projects/{registry.ts,PlayingFreedomCaseStudy.tsx,PlayingFreedomCaseStudy.css}}`, `docs/NEXTJS_MIGRATION_GUIDE.md`, and this log. No asset, approved static file, Hero G file, earlier project implementation, shared project component, package/dependency file, configuration, preview, scratch file, or protected untracked item was touched.
+
+**Did:**
+- Confirmed `projects/playing-freedom.html` as the authoritative sixth approved project and preserved `playing-freedom` as `/projects/playing-freedom` through the existing typed metadata/content registries and dynamic SSG route.
+- Ported the status bar, opening, tags, documentary framing and caption, four numbered sections, sourcing note, scholarship and references, reflection, and footer navigation verbatim and in order.
+- Added only project-scoped styling for the approved Space Mono/Inter research-dossier identity, `#0C1118` surface, `#E14B3C` accent, 980px reading frame, 16:9 media surface, note, reference, and reflection treatments.
+- Preserved the exact Kaltura URL, `entry_id=1_jf3kb1k3`, widget configuration, title, fullscreen attributes, and permission string. No local asset was copied because the approved source references none.
+
+**Decisions:**
+- `PlayingFreedomCaseStudy` is a Server Component because an iframe does not itself require browser-side React state. No Client Component, shared variant, or dependency was introduced.
+- The documentary remains the primary deliverable in its approved position; no poster, fallback image, autoplay behavior, or replacement media was invented.
+- No Open Graph image is emitted because the approved static source defines none.
+
+**Verified:**
+- `git diff --check` and `npm.cmd run lint`: clean. `npm.cmd run build`: successful and all six approved project routes are statically generated.
+- Static-vs-Next visible content comparison after whitespace normalization: exact 4,232-character match, including all four sections, reference text, media caption, and navigation.
+- The Kaltura iframe source and permissions are exact and its 16:9 frame is visible. At 1440, both static and Next media surfaces measure approximately 915×515 pixels; only the established shared site-header offset differs.
+- Responsive checks at 1280, 1440, and 1920 show a centered project frame and no horizontal overflow. The approved dark/red tokens and Space Mono title remain project-specific.
+- Direct loading and fresh same-URL navigation work. Metadata matches the approved title/thesis with no OG image. Keyboard focus shows the shared 2px outline with 4px offset, the console is clean, and `/projects/not-a-project` returns HTTP 404.
+- The Kaltura document is cross-origin, so its source, permissions, visibility, and framing are verified but deep playback is not claimed.
+
+**Open:**
+- Combined Session 2 regression QA and its final documentation commit remain pending.
+- Homepage work-index development remains the next separate implementation task; it was not started.
+
+**Commit:** `Migrate Playing Freedom to Next.js` (hash in Git history; this entry ships in that commit)
+
 ### 2026-07-19 — Breaking the Smartphone Mold ported to Next.js (Lesson 8)
 
 **Stage:** Project migration

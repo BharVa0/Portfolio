@@ -72,6 +72,17 @@ export const PROJECTS: Record<ProjectSlug, ProjectMeta> = {
     accent: "smartphone-mold",
     route: "/projects/smartphone-mold",
   },
+  "playing-freedom": {
+    slug: "playing-freedom",
+    title: "Playing Freedom",
+    shortDescription:
+      "A video documentary on how Assassin's Creed IV: Black Flag, Freedom Cry turns the history of slavery into something playable, told through Adéwalé, a formerly enslaved man, and asking what that translation actually costs.",
+    type: "Critical analysis · Game studies",
+    role: "Video documentary",
+    tools: ["Critical analysis", "Game studies", "Video documentary"],
+    accent: "playing-freedom",
+    route: "/projects/playing-freedom",
+  },
 };
 
 export function getProjectMeta(slug: string): ProjectMeta | undefined {

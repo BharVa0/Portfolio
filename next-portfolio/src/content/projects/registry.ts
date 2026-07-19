@@ -4,6 +4,7 @@ import { BettrCaseStudy } from "./BettrCaseStudy";
 import { CardioPalCaseStudy } from "./CardioPalCaseStudy";
 import { EchoesCaseStudy } from "./EchoesCaseStudy";
 import { FrankenTeenCaseStudy } from "./FrankenTeenCaseStudy";
+import { PlayingFreedomCaseStudy } from "./PlayingFreedomCaseStudy";
 import { SmartphoneMoldCaseStudy } from "./SmartphoneMoldCaseStudy";
 
 /*
@@ -21,4 +22,5 @@ export const PROJECT_CONTENT: Record<ProjectSlug, ComponentType> = {
   frankenteen: FrankenTeenCaseStudy,
   echoes: EchoesCaseStudy,
   "smartphone-mold": SmartphoneMoldCaseStudy,
+  "playing-freedom": PlayingFreedomCaseStudy,
 };

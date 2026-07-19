@@ -1619,3 +1619,60 @@ behavior elsewhere.
 
 Playing Freedom is the sixth and final approved lighter project and the next
 sequential Session 2 migration task. It was not started in this lesson.
+
+---
+
+# Lesson 9 — Preserving Playing Freedom's documentary-first dossier
+
+Playing Freedom is the sixth and final approved project in the current static
+portfolio sequence. Its authoritative source is `projects/playing-freedom.html`,
+its approved slug is `playing-freedom`, and the existing dynamic route now
+generates `/projects/playing-freedom`.
+
+## Route and component architecture
+
+`PROJECT_SLUGS`, `PROJECTS`, and `PROJECT_CONTENT` now include
+`"playing-freedom"`. `PlayingFreedomCaseStudy` contains the complete approved
+page, while `PlayingFreedomCaseStudy.css` scopes its Space Mono/Inter research
+dossier, `#0C1118` field, `#E14B3C` accent, 980px reading frame, 16:9
+documentary surface, notes, references, reflection, and footer navigation.
+
+The case study remains a Server Component. A third-party iframe does not need
+React state, hooks, or browser APIs, and the static source defines no custom
+player control. No Client Component, shared component variant, dependency, or
+package change was introduced.
+
+## Approved media and content
+
+The static source references no local image, audio, or video asset, so nothing
+was copied. Its sole media item is the Kaltura documentary iframe. The port
+retains the exact provider URL, `entry_id=1_jf3kb1k3`, widget configuration,
+title, fullscreen attributes, and `autoplay *; fullscreen *; encrypted-media *`
+permission string.
+
+The rendered status bar, opening, tags, documentary framing and caption, four
+numbered sections, sourcing note, scholarship and references, reflection, and
+footer links match the approved source exactly after insignificant whitespace
+normalization: 4,232 characters in the same order. The route intentionally
+emits no Open Graph image because the static source defines none.
+
+## Verification
+
+`git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass. The build
+statically generates all six approved project slugs. Direct route loading and
+fresh same-URL navigation work, the iframe remains visible at the approved
+16:9 ratio, the browser console is clean, keyboard focus is visible, and an
+unknown slug returns HTTP 404.
+
+At 1280, 1440, and 1920 pixels, the project-local frame remains centered and
+overflow-free. At the shared 1440 comparison width, the static and Next iframe
+are both 915×515 pixels; the established Next.js site header accounts for the
+only expected vertical offset. The Kaltura document is cross-origin and
+cannot be inspected from the parent route, so source, permissions, visibility,
+and framing are verified but deep playback is not claimed.
+
+## What follows Lesson 9
+
+All six approved project routes are now implemented. The next step is combined
+Session 2 regression QA and documentation; homepage work-index development
+remains a separate later task.
