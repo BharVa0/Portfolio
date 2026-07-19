@@ -284,6 +284,9 @@
   display: block;
   background: #000;
 }
+.proj-embed.tone-light {
+  background: #fff;
+}
 .proj-artifact-caption {
   font-family: var(--font-mono);
   font-size: 0.8rem;

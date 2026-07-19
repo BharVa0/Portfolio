@@ -8,7 +8,7 @@ import type { ReactNode, Ref } from "react";
  * Adding a slug here (once that project's route is built) is the only
  * change generateStaticParams needs — see app/projects/[slug]/page.tsx.
  */
-export const PROJECT_SLUGS = ["bettr"] as const;
+export const PROJECT_SLUGS = ["bettr", "cardiopal"] as const;
 
 export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
 
@@ -16,7 +16,7 @@ export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
  * Broader than ProjectSlug on purpose: accent identifiers exist for every
  * project the static site already ships an identity for (css/portfolio.css
  * defines --cardiopal-accent, --frankenteen-accent, --echoes-accent too),
- * even though only "bettr" has a Next.js route so far. A component that
+ * even though not every accent has a Next.js route yet. A component that
  * accepts an accent shouldn't need a new route to exist first.
  */
 export type ProjectAccent = "bettr" | "cardiopal" | "frankenteen" | "echoes";
@@ -32,7 +32,10 @@ export interface ProjectMeta {
   tools: string[];
   accent: ProjectAccent;
   route: string;
-  ogImage: string;
+  /** Optional route-specific Open Graph summary when the approved source uses copy distinct from the standard meta description. */
+  ogDescription?: string;
+  /** Optional: CardioPal has no image assets at all (a deliberate constraint, not a gap — see its own case study), so this can't be required for every project. */
+  ogImage?: string;
 }
 
 export interface ProjectPageShellProps {
@@ -135,5 +138,9 @@ export interface PrototypeEmbedProps {
   onIframeLoad?: () => void;
   /** Bridge-owned overlay (e.g. BettrLiveEmbed's PLAY label), rendered over the iframe. */
   overlay?: ReactNode;
+  /** Sets the `allowfullscreen` attribute — required by some third-party embeds (e.g. Figma's). */
+  allowFullScreen?: boolean;
+  /** Applies the `.tone-light` variant for an embed with a white/light background, matching the static site's own iframe tone class. */
+  toneLight?: boolean;
   className?: string;
 }

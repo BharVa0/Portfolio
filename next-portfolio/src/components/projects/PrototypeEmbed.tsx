@@ -22,6 +22,8 @@ export function PrototypeEmbed({
   iframeRef,
   onIframeLoad,
   overlay,
+  allowFullScreen,
+  toneLight,
   className,
 }: PrototypeEmbedProps) {
   return (
@@ -54,10 +56,11 @@ export function PrototypeEmbed({
       <div style={{ position: "relative" }}>
         <iframe
           ref={iframeRef}
-          className="proj-embed"
+          className={`proj-embed${toneLight ? " tone-light" : ""}`}
           src={src}
           title={title}
           loading="lazy"
+          allowFullScreen={allowFullScreen}
           onLoad={onIframeLoad}
         />
         {overlay}

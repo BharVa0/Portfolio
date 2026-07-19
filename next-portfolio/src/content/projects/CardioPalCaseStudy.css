@@ -1,0 +1,226 @@
+/* CardioPal's approved static identity: calm sage on the shared dark shell,
+   with one controlled paper surface for usability evidence. All values and
+   relationships are ported from css/portfolio.css and cardiopal.html. */
+.project-cardiopal {
+  --cardiopal-accent: #5b7a73;
+  --cardiopal-accent-deep: #3f544f;
+  --proj-accent: var(--cardiopal-accent);
+  --proj-accent-deep: var(--cardiopal-accent-deep);
+  --proj-feature-surface: color-mix(
+    in srgb,
+    var(--cardiopal-accent) 10%,
+    var(--ink) 90%
+  );
+  --proj-feature-line: rgba(91, 122, 115, 0.28);
+}
+
+.project-cardiopal .proj-paper-panel {
+  --proj-surface-2: var(--paper-soft);
+  --proj-line: rgba(13, 12, 11, 0.14);
+  --proj-text: var(--ink);
+  --proj-text-soft: #4a4038;
+  background: var(--paper);
+  color: var(--ink);
+  padding: clamp(24px, 2.6vw, 56px);
+  border: 1px solid var(--paper-soft);
+  margin-top: var(--space-evidence);
+}
+.project-cardiopal .proj-paper-panel > *:first-child {
+  margin-top: 0;
+}
+
+.project-cardiopal .proj-hero {
+  padding-top: clamp(40px, 5vh, 72px);
+  padding-bottom: clamp(48px, 5vw, 80px);
+}
+.project-cardiopal .proj-title {
+  font-size: var(--ed-fs-title);
+}
+.project-cardiopal .proj-thesis {
+  font-size: var(--ed-fs-thesis);
+  max-width: none;
+  margin-top: var(--space-evidence);
+}
+.project-cardiopal .proj-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px var(--grid-gap);
+  margin-top: var(--space-evidence);
+  padding-top: 28px;
+}
+.project-cardiopal .proj-ownership {
+  margin-top: var(--space-evidence);
+  font-size: var(--ed-fs-support);
+  max-width: none;
+}
+@media (min-width: 1024px) {
+  .project-cardiopal .proj-embed {
+    height: clamp(560px, 62vh, 760px);
+  }
+}
+
+.project-cardiopal .proj-eyebrow,
+.project-cardiopal .proj-meta-item,
+.project-cardiopal .proj-artifact-bar,
+.project-cardiopal .proj-open-link,
+.project-cardiopal .proj-artifact-caption,
+.project-cardiopal .proj-frame-bar,
+.project-cardiopal .process-tag {
+  font-size: var(--ed-fs-meta);
+}
+
+.project-cardiopal .proj-section {
+  padding-top: var(--space-major);
+}
+.project-cardiopal .proj-section:first-of-type {
+  padding-top: clamp(80px, 7vw, 124px);
+}
+.project-cardiopal .proj-section.is-feature-chapter {
+  padding-top: clamp(110px, 9vw, 165px);
+}
+.project-cardiopal .proj-section-head {
+  margin-bottom: var(--space-internal);
+}
+.project-cardiopal .proj-num {
+  font-size: var(--ed-fs-cardhead);
+}
+.project-cardiopal .proj-section-title {
+  font-size: var(--ed-fs-h2);
+}
+.project-cardiopal .proj-body {
+  font-size: var(--ed-fs-body);
+}
+.project-cardiopal .proj-body-muted {
+  font-size: var(--ed-fs-support);
+}
+.project-cardiopal .proj-lede {
+  margin-bottom: var(--space-evidence);
+}
+.project-cardiopal .proj-annotation-label,
+.project-cardiopal .proj-shot-note-head {
+  font-size: var(--ed-fs-label);
+}
+.project-cardiopal .proj-annotation {
+  font-size: var(--ed-fs-support);
+}
+.project-cardiopal .proj-section > .proj-annotation-label {
+  margin-top: var(--space-evidence);
+}
+
+.project-cardiopal .feature-list {
+  margin-top: var(--space-evidence);
+}
+.project-cardiopal .feature-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 300px) 1fr;
+  gap: var(--grid-gap);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--proj-feature-line, var(--proj-line));
+}
+.project-cardiopal .feature-list .feature-row:last-child {
+  border-bottom: 1px solid var(--proj-feature-line, var(--proj-line));
+}
+.project-cardiopal .feature-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--ed-fs-cardhead);
+  color: var(--proj-text);
+}
+.project-cardiopal .feature-desc {
+  font-size: var(--ed-fs-support);
+  line-height: 1.65;
+  color: var(--proj-text-soft);
+  max-width: 46em;
+}
+
+.project-cardiopal .vitals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: var(--space-4);
+}
+.project-cardiopal .vitals-card {
+  background: var(--proj-surface-2);
+  border: 1px solid var(--proj-line);
+  padding: var(--space-3);
+}
+.project-cardiopal .vitals-num {
+  font-family: var(--font-display);
+  font-weight: 380;
+  font-size: clamp(2.3rem, 3.2vw, 3.4rem);
+  color: var(--proj-accent-deep);
+  line-height: 1;
+}
+.project-cardiopal .vitals-label {
+  font-size: 0.95rem;
+  color: var(--proj-text-soft);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.project-cardiopal .task-list {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.project-cardiopal .task-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--proj-line);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+.project-cardiopal .task-name {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--proj-text);
+}
+.project-cardiopal .task-desc {
+  color: var(--proj-text-soft);
+}
+.project-cardiopal .quote-grid {
+  margin-top: var(--space-3);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  align-content: start;
+}
+.project-cardiopal .quote-card {
+  background: var(--proj-surface-2);
+  border: 1px solid var(--proj-line);
+  padding: var(--space-3);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 1023px) {
+  .project-cardiopal .proj-title {
+    font-size: clamp(2.8rem, 12vw, 100px);
+  }
+  .project-cardiopal .proj-thesis {
+    font-size: clamp(1.15rem, 4vw, 30px);
+  }
+  .project-cardiopal .proj-section-title {
+    font-size: clamp(1.6rem, 5vw, 48px);
+  }
+  .project-cardiopal .feature-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 760px) {
+  .project-cardiopal .vitals-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .project-cardiopal .task-row {
+    grid-template-columns: 1fr;
+  }
+  .project-cardiopal .quote-grid {
+    grid-template-columns: 1fr;
+  }
+}

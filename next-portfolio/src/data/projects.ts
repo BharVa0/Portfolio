@@ -21,6 +21,19 @@ export const PROJECTS: Record<ProjectSlug, ProjectMeta> = {
     route: "/projects/bettr",
     ogImage: "/assets/bettr/dashboard-wide-crop.jpg",
   },
+  cardiopal: {
+    slug: "cardiopal",
+    title: "CardioPal",
+    shortDescription:
+      "CardioPal — a companion app for a handheld EKG device, designed across 25+ screens to reassure a person tracking their own heart health, not alarm them.",
+    type: "UX design · Health tech",
+    role: "Sole UX designer",
+    tools: ["Figma"],
+    accent: "cardiopal",
+    route: "/projects/cardiopal",
+    ogDescription:
+      "A companion app for a handheld EKG device, designed to reassure, not just inform, across 25+ screens.",
+  },
 };
 
 export function getProjectMeta(slug: string): ProjectMeta | undefined {

@@ -1296,3 +1296,82 @@ before any of these four subagents can actually be delegated to.** They
 are not used later in this same session for that reason; first real use
 is intended to be during the Lesson 5 CardioPal migration, in a fresh
 session.
+
+---
+
+# Lesson 5 — Reusing the project route for CardioPal
+
+Lesson 4 established the dynamic project route and the neutral case-study
+components with BETTR. Lesson 5 proves that architecture can carry a second,
+visually distinct project without turning the shared components into BETTR
+components or redesigning CardioPal to fit them.
+
+## What moved
+
+`PROJECT_SLUGS` now contains `"bettr"` and `"cardiopal"`. CardioPal has a
+plain metadata entry in `src/data/projects.ts`, a component entry in
+`src/content/projects/registry.ts`, and its own composition and scoped styles
+in `CardioPalCaseStudy.tsx` / `CardioPalCaseStudy.css`. The existing
+`app/projects/[slug]/page.tsx` generates the new route without another page
+file or route branch.
+
+The content component follows the same boundary as BETTR: reusable structure
+comes from `ProjectPageShell`, `ProjectOpening`, `ProjectSection`, and
+`PrototypeEmbed`; the project's own visual identity stays scoped beneath
+`.project-cardiopal`. All visible content and ordering come from the approved
+static `projects/cardiopal.html` source.
+
+## Why there are no copied CardioPal assets
+
+The static CardioPal page has no image source and no `assets/cardiopal/`
+folder. That absence is deliberate: the live Figma prototype is the only real
+interface evidence and acts as the opening artifact. The migration therefore
+copies no screenshots, crops, placeholders, or unrelated images.
+
+## Completing PrototypeEmbed without making it interactive
+
+CardioPal's Figma iframe needs two presentational details BETTR did not:
+
+- `allowFullScreen`, which emits the standard React `allowFullScreen` iframe
+  attribute; and
+- `toneLight`, which adds the static page's `.tone-light` class so the iframe
+  has a white loading surface instead of BETTR's black one.
+
+These are plain rendered attributes/classes. They do not need state, effects,
+or a Client Component. `CardioPalCaseStudy` and `PrototypeEmbed` remain Server
+Components. BETTR does not pass either option, so its existing iframe markup
+and cursor bridge remain unchanged.
+
+## Metadata for a project with no image
+
+`ProjectMeta.ogImage` is optional because requiring a fabricated image would
+misrepresent CardioPal. `generateMetadata` conditionally adds
+`openGraph.images` only when a project supplies a real image. BETTR therefore
+keeps its existing image metadata, while CardioPal emits valid Open Graph
+metadata without an image array containing `undefined`.
+
+CardioPal's approved static page also uses a shorter Open Graph description
+than its normal meta description. The optional `ogDescription` field preserves
+that distinction while letting other projects fall back to
+`shortDescription`.
+
+## Verification and external-iframe boundary
+
+Lint and the production build pass, with both project slugs listed as SSG
+output. The route was checked at 1280, 1440, and 1920 with no horizontal
+overflow; static-vs-Next content is exact, and the internal CardioPal geometry
+at 1440/1920 matches the approved page. BETTR and invalid-slug routing remain
+clean.
+
+The Figma canvas and its native controls render in the iframe, and the source
+URL, open-prototype URL, title, light tone, and fullscreen permission all match
+the static page. Because the iframe is cross-origin, its internal DOM is not
+available to the parent route or the browser inspector used here. Automated
+control clicks did not expose a reliable state change, so deep prototype
+interaction is recorded as externally constrained rather than claimed as
+passed.
+
+## What Lesson 6 will cover
+
+FrankenTeen is next. It remains unstarted at this checkpoint and will be
+ported only after the focused CardioPal commit.

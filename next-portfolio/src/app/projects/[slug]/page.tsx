@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   const { slug } = await params;
   const project = getProjectMeta(slug);
   if (!project) return {};
+  const openGraphDescription = project.ogDescription ?? project.shortDescription;
 
   return {
     title: `${project.title} | Bharat Vyas Kodamana`,
@@ -30,8 +31,8 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     openGraph: {
       type: "article",
       title: `${project.title} | Bharat Vyas Kodamana`,
-      description: project.shortDescription,
-      images: [project.ogImage],
+      description: openGraphDescription,
+      ...(project.ogImage ? { images: [project.ogImage] } : {}),
     },
   };
 }
