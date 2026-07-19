@@ -78,14 +78,14 @@ export function BettrCaseStudy() {
               identity and narrative arc, but no real memory of what a user
               had done — every path was linear, and nothing carried through.
               The coded version removes that buffer. What you classify as
-              &ldquo;inefficient&rdquo; in the sorting game becomes a labelled
+              &quot;inefficient&quot; in the sorting game becomes a labelled
               friction point on your own dashboard later. The system isn&apos;t
               pretending to profile you. It actually is.
             </p>
           </div>
           <blockquote className="proj-quote c9-13">
-            &ldquo;The critique is not delivered as an argument. It is
-            delivered as an experience.&rdquo;
+            &quot;The critique is not delivered as an argument. It is
+            delivered as an experience.&quot;
           </blockquote>
         </div>
       </ProjectSection>
@@ -386,8 +386,8 @@ export function BettrCaseStudy() {
               much distance, letting them appreciate it without feeling
               implicated. This version fixes that by making the branching
               logic do real conceptual work. The language shift from
-              &ldquo;you&rdquo; to &ldquo;the user&rdquo; to
-              &ldquo;subject&rdquo; is slow enough that people I showed it to
+              &quot;you&quot; to &quot;the user&quot; to
+              &quot;subject&quot; is slow enough that people I showed it to
               missed it completely in the moment, and only caught it when I
               walked them back through it afterward. That&apos;s not an accident.
               That&apos;s the mechanism working. The most useful thing I learned

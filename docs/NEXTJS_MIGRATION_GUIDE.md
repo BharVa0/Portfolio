@@ -1906,3 +1906,80 @@ project skip links now target their approved `#content` main wrapper.
 Phase 1 implementation is complete. The next separately scoped task is the
 final migration-wide QA and documentation pass. Phase 2 redesign and polish
 have not started.
+
+---
+
+# Phase 1 closure - migration-wide QA
+
+Phase 1 now contains the approved homepage and all six approved project routes:
+`/`, `/projects/bettr`, `/projects/cardiopal`, `/projects/frankenteen`,
+`/projects/echoes-of-home`, `/projects/smartphone-mold`, and
+`/projects/playing-freedom`. Each valid route survives direct loading and hard
+refresh; an unknown project slug returns a real 404 without inheriting the
+homepage frame or homepage metadata.
+
+The final architecture keeps document-wide fonts, global styles, and
+`metadataBase` in the root layout. The homepage and project routes own their
+source-specific metadata, navigation, landmarks, and content. Approved
+project data remains registry-driven. Most output is rendered by Server
+Components; the four deliberately small Client Component islands are
+`HeroGInteractive`, `WorkIndexInteractions`, `BettrLiveEmbed`, and
+`EchoesVideoPoster`. They exist only for the approved loader/lens/cursor and
+reveal behavior, the BETTR live embed, and Echoes' click-to-load recording.
+
+## Final parity results
+
+Whitespace-normalized readable content matches the approved static source on
+the homepage and all six case studies. BETTR's pointer-only `PLAY` overlay is
+decorative and excluded from readable-copy comparison. All approved internal,
+external, media, resume, and next-project destinations and attributes match.
+The final public migration asset set contains 49 approved files; every public
+copy is byte-for-byte identical to its static source. All 49 direct asset
+requests and all 29 local image optimizer requests returned HTTP 200. No
+scratch crop is referenced.
+
+Metadata was checked route by route. Titles, descriptions, Open Graph fields,
+and available approved images match their static sources; no social image was
+invented for routes whose source has none. The homepage uses the approved
+FrankenTeen crop and `summary_large_image`. The default Next.js favicon was
+replaced with the approved static SVG. The 404 has no leaked homepage
+description or Open Graph data.
+
+Static and Next.js output was compared at 1280, 1440, and 1920 pixels for all
+seven routes. Page and section geometry, project identity, media sizing,
+embeds, Hero G, the full homepage handoff, and the Smartphone Mold and Playing
+Freedom legacy compositions match without horizontal overflow. Direct loads,
+hard refreshes, hash navigation, Hero G completion, fine-pointer lens/cursor
+behavior, client remount cleanup, Echoes' lazy video creation, and project
+navigation were exercised without console, hydration, or duplicate-interaction
+errors.
+
+The final DOM audit found one correctly targeted skip link and one main
+landmark on each valid route, logical heading and content order, titled
+iframes, non-empty image alternatives, no duplicate IDs, no focus traps, and
+no meaningful information available only on hover. Reduced-motion guards and
+visible focus styles were inspected in source. The browser harness could not
+emulate the operating system's reduced-motion setting or dispatch Tab/Enter as
+native keyboard input, so those two live behaviors are not claimed. Deep
+cross-origin player internals, external social destinations beyond their
+verified URLs/attributes, and launching the OS mail client also remain outside
+the verified boundary.
+
+## Defects closed
+
+The final audit found no Critical or Major defects. Seven Minor parity defects
+were corrected: homepage metadata/favicon and 404 metadata isolation; BETTR's
+standard versus Open Graph descriptions; the homepage `#content` skip target;
+global line-height leakage into the Smartphone Mold and Playing Freedom
+headings; the Smartphone Mold next-project footer alignment; the Playing
+Freedom iframe baseline; and ten BETTR quotation marks that had been converted
+from the approved straight punctuation. No redesign, dependency, package,
+approved static source, Hero G code, BETTR live-embed behavior, configuration,
+or protected untracked file was changed.
+
+`git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass, with the
+build statically generating the homepage and all six project routes. Phase 1
+is closed by the commit `Complete Next.js migration QA`; the annotated tag
+`nextjs-migration-checkpoint` resolves to that exact commit. The next stage is
+a separately scoped Phase 2 redesign and polish pass. No Phase 2 work is part
+of this checkpoint.

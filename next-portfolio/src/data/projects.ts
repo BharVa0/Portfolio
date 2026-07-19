@@ -13,6 +13,8 @@ export const PROJECTS: Record<ProjectSlug, ProjectMeta> = {
     slug: "bettr",
     title: "BETTR.",
     shortDescription:
+      "BETTR — a speculative AI decision interface that profiles the person using it, then shows them exactly what that costs. Solo-built, live HTML/CSS/JS.",
+    ogDescription:
       "A speculative AI decision interface that profiles the person using it, then shows them exactly what that costs.",
     type: "Speculative design · Live build",
     role: "Sole designer & developer",

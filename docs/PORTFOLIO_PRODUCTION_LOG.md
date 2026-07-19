@@ -30,6 +30,33 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-19 - Phase 1 Next.js migration QA completed
+
+**Stage:** A11y/perf pass
+**Scope:** Final audit and narrowly scoped parity corrections in `next-portfolio/src/app/{layout.tsx,page.tsx,icon.svg,favicon.ico}`, `next-portfolio/src/data/projects.ts`, `next-portfolio/src/content/projects/{BettrCaseStudy.tsx,PlayingFreedomCaseStudy.css,SmartphoneMoldCaseStudy.css}`, one approved FrankenTeen Open Graph asset under `next-portfolio/public/assets/`, `docs/NEXTJS_MIGRATION_GUIDE.md`, and this log.
+
+**Did:**
+- Closed Phase 1 with the homepage and all six project routes present, directly loadable, refresh-safe, registry-driven where applicable, and isolated from the real 404 route.
+- Confirmed whitespace-normalized readable-copy parity, project order, links, asset use, media/embed configuration, route metadata, landmarks, and approved interaction behavior against the static source. BETTR's decorative pointer-only `PLAY` overlay was excluded from readable-copy comparison.
+- Confirmed all 49 migrated public assets are byte-identical to their approved sources; all 49 direct asset requests and 29 local image optimizer requests returned HTTP 200. No scratch crop is referenced.
+- Corrected seven Minor parity defects: the homepage social metadata/favicon and 404 metadata isolation; separate exact BETTR standard/Open Graph descriptions; the homepage `#content` skip target; legacy-project heading line-height leakage; Smartphone Mold footer alignment; Playing Freedom iframe baseline; and ten BETTR quotation marks.
+- Preserved the Server Component architecture and the four bounded Client Component islands: Hero G interaction, work-index interaction, BETTR live embed, and Echoes click-to-load video. No dependency, package file, approved static source, Hero G code, BETTR live-embed behavior, configuration, protected untracked item, or Phase 2 design was changed.
+
+**Decisions:**
+- Phase 1 is complete at this checkpoint. The next stage is a separately scoped Phase 2 redesign and polish pass.
+- Routes without an approved social image continue to omit one; no metadata image or content was invented for parity.
+
+**Verified:**
+- Static/Next comparisons at 1280, 1440, and 1920 pixels cover all seven routes, page/section geometry, project identities, Hero G, homepage handoff, embeds, legacy compositions, and horizontal overflow.
+- Direct load, hard refresh, valid and invalid routes, hash navigation, Hero completion, fine-pointer lens/cursor behavior, remount cleanup, Echoes lazy video creation, project navigation, console/hydration output, duplicate IDs, image alternatives, iframe titles, landmarks, heading order, and focus/reduced-motion source guards were checked.
+- `git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass; the production build statically generates the homepage and all six project routes.
+
+**Open:**
+- The browser harness could not live-emulate OS reduced motion or native Tab/Enter input. Deep cross-origin player internals, launching the OS mail client, and external social destinations beyond their verified URLs/attributes remain outside the verified boundary.
+- Phase 2 redesign and polish has not started.
+
+**Commit:** `Complete Next.js migration QA` (this closure's commit; annotated tag `nextjs-migration-checkpoint` resolves to its exact hash)
+
 ### 2026-07-19 - Phase 1 homepage, contact, footer, and navigation completed (Lesson 11)
 
 **Stage:** Homepage migration
