@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PROJECT_SLUGS } from "@/types/project";
 import { PROJECTS, getProjectMeta } from "@/data/projects";
 import { PROJECT_CONTENT } from "@/content/projects/registry";
+import { SkipLink } from "@/components/site/SkipLink";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -49,5 +50,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  return <Content />;
+  return (
+    <>
+      <SkipLink href="#content" />
+      <main id="content">
+        <Content />
+      </main>
+    </>
+  );
 }

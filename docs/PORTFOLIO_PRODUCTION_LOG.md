@@ -30,6 +30,36 @@ Compact, reusable record of what shipped, when, and against which decision. Appe
 
 ## Log
 
+### 2026-07-19 - Phase 1 homepage, contact, footer, and navigation completed (Lesson 11)
+
+**Stage:** Homepage migration
+**Scope:** `next-portfolio/src/app/{layout.tsx,page.tsx,globals.css,projects/[slug]/page.tsx}`, `next-portfolio/src/components/{home/HomepageClosing.*,site/{SiteFooter.*,SiteHeader.tsx,SiteNavigation.tsx,SkipLink.tsx}}`, `next-portfolio/src/data/navigation.ts`, `next-portfolio/public/assets/resume/Bharat-Vyas-Resume.pdf`, `docs/NEXTJS_MIGRATION_GUIDE.md`, and this log. No approved static source, completed Hero G/work-index/project component, registry, package/dependency file, Claude/Codex configuration, preview, scratch file, or protected untracked item was touched.
+
+**Did:**
+- Ported the exact approved `index.html` boundary from `section#practice` through `section#about`, `section#contact`, and the body-level `.site-footer`, preserving all copy, IDs, labels, links, and desktop styling.
+- Completed the approved homepage frame with `#work`, `#practice`, `#about`, and `#contact`; scoped it to the homepage and kept every project route on its own approved Index/next-project navigation.
+- Added Server Components for the closing homepage sections and footer. Reused the existing work-index interaction island for guarded reveals and contextual cursor behavior; no new Client Component or dependency was added.
+- Preserved the email, LinkedIn, resume, GitHub, footer location/year/email, external-link attributes, new-tab announcements, and literal 2026 year. Copied the approved resume into the public asset tree.
+- Corrected the pre-existing shared-shell integration defect that duplicated the homepage frame on project routes, and restored each project skip target/main wrapper to `#content` without changing case-study output.
+
+**Decisions:**
+- The root layout owns only document-wide metadata/fonts/styles; homepage and project routes own their source-specific navigation and main landmarks.
+- Plain hash anchors retain the approved homepage behavior. No sticky navigation, current-page state, mobile menu, back-to-top control, form, availability message, or Phase 2 polish was introduced.
+
+**Verified:**
+- The resume source/public copy are both 80,857 bytes with SHA-256 `A92BD72CF939F0A4C67402766F0B4E648CE21CE0E4D63B137A70ED2785181A92`; its route returns HTTP 200.
+- Static/Next comparisons at 1280, 1440, and 1920 confirm matching header, Practice, About, Contact, and footer geometry/content and no horizontal overflow. Direct load, hard refresh, full Hero-to-footer scroll, all section anchors, contact destinations, external popups, focus styling, contextual cursor label, console/hydration output, asset delivery, and duplicate IDs were checked.
+- Hero G still completes its loader with four labelled bands, asymmetric name anchor, lens, cursor behavior, and natural handoff. The introduction and six-row work index retain exact copy/order, media geometry, reveals, destinations, focus treatment, View/Play labels, and zero overflow.
+- All six project routes directly load and refresh with their approved navigation, metadata, styles, home/next links, clean console, and no overflow. `/projects/not-a-project` remains a real HTTP 404 without the homepage frame.
+- Navigation and contact use semantic native anchors in logical document order; skip targets, visible 2px focus outlines with 4px offset, external-link explanations, heading order, decorative hiding, and absence of duplicate IDs/focus traps were verified.
+- `git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass. The production build emits the homepage and all six project routes.
+
+**Open:**
+- The browser harness could not live-emulate `prefers-reduced-motion` or dispatch Tab/Enter as native input. Guarded code, semantic order, href activation paths, and visible focus states were verified, but those two live automation claims are excluded. The OS mail client was not launched, and cross-origin embed internals retain the Lessons 4-9 limits.
+- The final migration-wide QA and documentation pass is the next separate task. Phase 2 redesign/polish has not started.
+
+**Commit:** `Migrate contact and navigation to Next.js` (hash in Git history; this entry ships in that commit)
+
 ### 2026-07-19 - Homepage work index ported to Next.js (Lesson 10)
 
 **Stage:** Homepage migration

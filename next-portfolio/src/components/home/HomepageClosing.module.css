@@ -1,0 +1,141 @@
+.section {
+  padding: var(--space-section) var(--page-margin);
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  margin-bottom: var(--space-2);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.statement {
+  max-width: 26em;
+  font-family: var(--font-display);
+  font-size: var(--fs-statement);
+  font-weight: 360;
+  line-height: 1.25;
+}
+
+.practice,
+.about {
+  border-bottom: 1px solid var(--charcoal);
+}
+
+.practiceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
+  max-width: 1600px;
+  margin-top: var(--space-6);
+}
+
+.practiceColumn h3 {
+  margin-bottom: var(--space-2);
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.practiceColumn p {
+  color: var(--paper-soft);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-top: 0;
+}
+
+.aboutBody {
+  max-width: var(--width-reading);
+  color: var(--paper-soft);
+  font-size: var(--fs-support);
+  line-height: 1.75;
+}
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.contactCta {
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--ember);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.contactCta:hover {
+  border-bottom-color: var(--ember-bright);
+  color: var(--ember-bright);
+}
+
+.contactLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.contactLinks a {
+  display: inline-block;
+  margin: -13px -4px;
+  padding: 13px 4px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.contactLinks a:hover {
+  color: var(--ember-bright);
+}
+
+@media (min-width: 1024px) {
+  .aboutGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .aboutGrid .statement {
+    grid-column: 1 / 6;
+  }
+
+  .aboutBody {
+    grid-column: 7 / 13;
+  }
+}
+
+@media (max-width: 1023px) {
+  .aboutBody {
+    margin-top: var(--space-4);
+  }
+}
+
+@media (max-width: 760px) {
+  .practiceGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}

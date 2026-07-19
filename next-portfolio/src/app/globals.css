@@ -73,11 +73,8 @@ button:focus-visible {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* Site header — ported from css/portfolio.css .site-frame/.frame-*.
-   The static site's Hero G integration adds a `.on-hero` modifier that
-   makes this absolutely positioned over the hero; that modifier is
-   Hero G-specific and is not ported here (§CLAUDE.md: no Hero G in
-   Lesson 2). This is the plain, in-flow header. */
+/* Homepage site header, ported from css/portfolio.css
+   .site-frame/.frame-* and rendered only by app/page.tsx. */
 .site-frame {
   padding: clamp(18px, 2.6vh, 30px) var(--page-margin) 0;
 }
@@ -118,21 +115,9 @@ button:focus-visible {
   white-space: nowrap;
 }
 
-/* Homepage-only: overlay the persistent header on top of Hero G, exactly
-   like the static integration's `.site-frame.on-hero`. SiteHeader is
-   rendered once in the root layout and shared by every route, so it
-   can't hard-code "am I on the homepage" without either a Client
-   Component pathname check or a prop threaded down from every route's
-   layout — both fragile, and both would cost SiteHeader its Server
-   Component status for a purely cosmetic decision.
-   :has() lets the header answer that question from CSS alone: it reads
-   "make .site-frame absolute IF its very next sibling is the <main> that
-   contains #hero-g" — true only on the homepage, since #hero-g only
-   exists there. No JavaScript, no route awareness in the component tree.
-   Browsers without :has() support (below Baseline 2023) simply keep the
-   header in normal flow above the hero: a graceful fallback, not a
-   broken one — the hero still renders complete, just pushed down by the
-   header's height instead of overlaid. */
+/* Overlay the homepage frame on Hero G like `.site-frame.on-hero` in the
+   approved static integration. :has() keeps this cosmetic relationship in
+   CSS; older browsers retain the safe in-flow header fallback. */
 @supports selector(:has(a)) {
   @media (min-width: 1024px) {
     .site-frame:has(+ main #hero-g) {

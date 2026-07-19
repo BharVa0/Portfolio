@@ -2,7 +2,7 @@ import { SiteNavigation } from "@/components/site/SiteNavigation";
 
 export function SiteHeader() {
   return (
-    <header className="site-frame">
+    <header className="site-frame" data-work-index-scope>
       <div className="frame-bar">
         <span className="frame-id">
           <strong>Bharat Vyas</strong> · Portfolio

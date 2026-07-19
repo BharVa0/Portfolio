@@ -3,10 +3,9 @@ export type NavigationEntry = {
   href: string;
 };
 
-/* Labels and hrefs match the approved static site's frame-nav exactly
- * (index.html). They're anchors into homepage sections that don't exist
- * on this temporary shell page yet (Lesson 2H) — they'll resolve once
- * the real homepage sections are built in a later lesson. */
+/* Labels and hrefs match the approved static homepage frame-nav exactly.
+ * SiteHeader renders only on `/`; project routes retain their separate
+ * approved project frame with an Index link and next-project navigation. */
 export const primaryNavigation: readonly NavigationEntry[] = [
   { label: "Work", href: "#work" },
   { label: "Practice", href: "#practice" },

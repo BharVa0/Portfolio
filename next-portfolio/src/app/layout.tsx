@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { fraunces, inter, spaceMono } from "@/styles/fonts";
-import { SkipLink } from "@/components/site/SkipLink";
-import { SiteHeader } from "@/components/site/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -39,11 +37,7 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
-      <body>
-        <SkipLink />
-        <SiteHeader />
-        <main id="main-content">{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

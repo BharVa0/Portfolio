@@ -1807,3 +1807,102 @@ subject to the verification limits documented in Lessons 4-9.
 
 The next separately scoped task is contact and navigation work. Footer-contact
 integration, broader mobile redesign, and Phase 2 polish remain unstarted.
+
+---
+
+# Lesson 11 - Completing the homepage, contact, footer, and navigation
+
+The final Phase 1 implementation ports the remaining approved homepage from
+the root `index.html`. The exact content boundary begins at
+`<section id="practice" class="practice reveal" aria-label="Practice">`,
+continues through the `#about` and `#contact` sections, and stops after the
+body-level `<footer class="site-footer">`. The approved homepage
+`<header class="site-frame on-hero">` is also retained. No hidden,
+preview-only, back-to-top, availability, or additional contact content exists
+inside this approved boundary.
+
+## Page and navigation architecture
+
+`HomepageClosing` is a Server Component for the Practice, About, and Contact
+sections, and `SiteFooter` is a Server Component for the body-level footer.
+Both use scoped styles copied from the approved static rules. The homepage
+now owns its skip link, site frame, `main#main-content`, and footer, while the
+root layout retains only document metadata, fonts, global CSS, and its body.
+This keeps the homepage frame off project routes, whose approved sources use
+their own project-local navigation. The dynamic project route now owns a
+project-specific skip link and `main#content` wrapper around each existing
+case-study component.
+
+The homepage frame remains a Server Component and preserves its four plain
+hash links exactly: `#work`, `#practice`, `#about`, and `#contact`. It remains
+absolutely positioned over Hero G at desktop widths and does not become
+sticky or fixed. Project pages retain their existing Index and next-project
+links; no global homepage-section menu, current-page state, mobile menu, or
+back-to-top control was invented for them or for the 404 page.
+
+No new Client Component was required. The existing guarded
+`WorkIndexInteractions` island already observes every
+`data-work-index-scope` present at hydration, so the remaining reveal surfaces
+and approved contextual cursor participate without changing the completed
+Hero G or work-index components. Reduced-motion users therefore retain the
+existing guarded behavior.
+
+## Contact, footer, and asset fidelity
+
+The visible copy, heading order, section IDs, `aria-label` values, layout,
+borders, spacing, colors, focus treatment, and work-to-footer sequence match
+the approved source. The email CTA remains
+`mailto:bharatvyask@gmail.com`; LinkedIn remains
+`https://www.linkedin.com/in/bharat-vyas-k-bb9680217/`; GitHub remains
+`https://github.com/BharVa0`; and the resume remains
+`/assets/resume/Bharat-Vyas-Resume.pdf`. The three external/download links
+retain `target="_blank"`, `rel="noopener"`, and screen-reader new-tab text.
+The footer preserves `Edinburgh, Scotland`, the literal
+`Bharat Vyas Kodamana, 2026`, and the displayed email link.
+
+The resume was copied from `assets/resume/Bharat-Vyas-Resume.pdf` to
+`next-portfolio/public/assets/resume/Bharat-Vyas-Resume.pdf`. Both files are
+80,857 bytes and have SHA-256
+`A92BD72CF939F0A4C67402766F0B4E648CE21CE0E4D63B137A70ED2785181A92`.
+
+## Focused verification
+
+`git diff --check`, `npm.cmd run lint`, and `npm.cmd run build` pass; the build
+emits the homepage and all six generated project routes. Static and Next
+homepage comparisons at 1280, 1440, and 1920 pixels confirm exact remaining
+section/header/footer geometry, content order, links, desktop behavior, and
+zero horizontal overflow. Direct load, hard refresh, the full Hero-to-footer
+scroll, every section anchor, external-link popup destinations, resume HTTP
+delivery, visible focus styles, contextual cursor label, console output,
+hydration output, and duplicate IDs were checked. The mail client itself was
+not launched, but both mailto destinations and their focusability were
+verified.
+
+Hero G still completes its first-visit loader and retains the four labelled
+bands, asymmetric name anchor, lens, cursor behavior, and natural handoff.
+The introduction and six work rows retain exact copy, order, geometry,
+reveals, destinations, focus styling, View/Play labels, and overflow behavior.
+All six project routes directly load and refresh with their own approved
+navigation, metadata, styles, next-project sequence, clean console, and no
+overflow; the invalid slug remains an HTTP 404 without the homepage frame.
+No project source or completed component was changed.
+
+The browser harness could not live-emulate `prefers-reduced-motion` and did
+not dispatch Tab/Enter as native keyboard input. The media-query guards,
+semantic anchor order, skip targets, native href activation paths, absence of
+focus traps, and visible 2px/4px focus treatment were inspected and verified,
+but OS-level reduced-motion behavior and a harness-driven Enter activation are
+not claimed. Deep cross-origin embed behavior remains subject to the limits
+recorded in Lessons 4-9.
+
+## Defect corrected and what follows Lesson 11
+
+The pre-existing root layout rendered the homepage frame above every project
+route even though the approved static project pages use separate navigation.
+Scoping the frame/footer to `app/page.tsx` corrects that shared-shell
+integration defect without changing project case-study markup or styling;
+project skip links now target their approved `#content` main wrapper.
+
+Phase 1 implementation is complete. The next separately scoped task is the
+final migration-wide QA and documentation pass. Phase 2 redesign and polish
+have not started.
