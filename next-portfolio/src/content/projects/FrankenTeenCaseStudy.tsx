@@ -1,9 +1,10 @@
-import type { CSSProperties } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { MediaFigure } from "@/components/projects/MediaFigure";
+import { MediaFigure, MediaDuo } from "@/components/projects/MediaFigure";
 import { ProjectPageShell } from "@/components/projects/ProjectPageShell";
+import { ProjectOpening } from "@/components/projects/ProjectOpening";
 import { ProjectSection } from "@/components/projects/ProjectSection";
+import { ProjectBackground } from "@/components/projects/ProjectBackground";
+import { ProjectScrollProgress } from "@/components/projects/ProjectScrollProgress";
 import "./FrankenTeenCaseStudy.css";
 
 const KALTURA_PROCESS_URL =
@@ -14,13 +15,12 @@ const legacyFullscreenAttributes = {
   mozallowfullscreen: "",
 };
 
-function nativeWidth(width: number): CSSProperties {
-  return { "--native-w": `${width}px` } as CSSProperties;
-}
-
 export function FrankenTeenCaseStudy() {
   return (
     <ProjectPageShell accent="frankenteen">
+      <ProjectBackground accent="#c68a2e" motif="harmonic-wave" />
+      <ProjectScrollProgress label="03 / 06 · FrankenTeen" />
+
       <header className="proj-frame">
         <div className="proj-frame-bar">
           <Link href="/">← Index</Link>
@@ -29,40 +29,29 @@ export function FrankenTeenCaseStudy() {
         </div>
       </header>
 
-      <section className="proj-hero">
-        <div className="cols" data-layout="asymmetric">
-          <div className="c1-7">
-            <p className="proj-eyebrow">
-              Game design · Team of three · Unity, Blender
-            </p>
-            <h1 className="proj-title">FrankenTeen</h1>
-            <p className="proj-thesis">
-              FrankenTeen retells Frankenstein as teenage rebellion. Adam
-              leaves boarding school to confront the man who made him, and a
-              guitar is the only input the game ever asks for: exploration,
-              dialogue, music, confrontation.
-            </p>
-            <p className="proj-ownership">
-              FrankenTeen was made by a team of three. I designed and built Act
-              3 end to end, the mansion approach and the attic confrontation,
-              working in Blender and Unity to handle the environment, triggers,
-              dialogue, and interaction that carry the ending.
-            </p>
-          </div>
-          <div className="c8-13 self-center">
-            <figure className="hero-visual">
-              <Image
-                src="/assets/frankenteen/mansion-gate-crop.jpg"
-                width={1070}
-                height={657}
-                loading="eager"
-                alt="The mansion at dusk, seen through its front gate, in Act 3"
-              />
-              <figcaption>Act 3, the mansion, the space I built</figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
+      <ProjectOpening
+        variant="balanced"
+        eyebrow="Game design · Team of three · Unity, Blender"
+        title="FrankenTeen"
+        thesis="FrankenTeen retells Frankenstein as teenage rebellion. Adam leaves boarding school to confront the man who made him, and a guitar is the only input the game ever asks for: exploration, dialogue, music, confrontation."
+        meta={[
+          { label: "Role", value: "Act 3 design and implementation" },
+          { label: "Tools", value: "Unity · Blender" },
+          { label: "Team", value: "Team of three" },
+          { label: "Focus", value: "Mansion approach & attic" },
+        ]}
+        ownership="FrankenTeen was made by a team of three. I designed and built Act 3 end to end, the mansion approach and the attic confrontation, working in Blender and Unity to handle the environment, triggers, dialogue, and interaction that carry the ending."
+      >
+        <MediaFigure
+          src="/assets/frankenteen/mansion-gate-crop.jpg"
+          width={1070}
+          height={657}
+          loading="eager"
+          alt="The mansion at dusk, seen through its front gate, in Act 3"
+          caption="Act 3, the mansion, the space I built"
+          treatment="spotlight"
+        />
+      </ProjectOpening>
 
       <ProjectSection number="01" title="The shared concept">
         <div className="cols" data-layout="asymmetric">
@@ -83,7 +72,7 @@ export function FrankenTeenCaseStudy() {
                 height={127}
                 alt="Clean Blender render of the guitar prop"
                 caption="The guitar prop, modelled in Blender"
-                crop="native"
+                treatment="supporting"
                 nativeWidth={330}
               />
             </div>
@@ -174,43 +163,47 @@ export function FrankenTeenCaseStudy() {
           </div>
         </div>
         <div className="proj-feature-surface">
-          <div className="feature-media pair">
-            <figure style={nativeWidth(1022)}>
-              <Image
+          <div className="cols" data-layout="asymmetric">
+            <div className="c1-8">
+              <MediaFigure
                 src="/assets/frankenteen/mansion-approach-crop.jpg"
                 width={1022}
                 height={627}
+                loading="eager"
                 alt="The mansion grounds in the Unity editor, fountain and gate visible, with a spatial trigger volume marked"
+                caption="The wireframe marks a trigger volume around the fountain, one of the spatial cues that slows the player down before the door."
+                treatment="spotlight"
               />
-              <figcaption>
-                The wireframe marks a trigger volume around the fountain, one
-                of the spatial cues that slows the player down before the door.
-              </figcaption>
-            </figure>
-            <figure style={nativeWidth(444)}>
-              <Image
+            </div>
+            <div className="c9-13">
+              <MediaFigure
                 src="/assets/frankenteen/mansion-progression-crop.jpg"
                 width={444}
                 height={894}
+                loading="eager"
                 alt="Three-stage build progression of the mansion exterior: texturing, lighting, and colliders"
+                caption="Texturing, then lighting, then colliders. Lighting is what turned a grey building into a place worth walking toward."
+                treatment="supporting"
+                nativeWidth={444}
               />
-              <figcaption>
-                Texturing, then lighting, then colliders. Lighting is what
-                turned a grey building into a place worth walking toward.
-              </figcaption>
-            </figure>
+            </div>
           </div>
-          <p
-            className="proj-annotation"
+          <div
+            className="cols"
+            data-layout="asymmetric"
             style={{ marginTop: "var(--space-evidence)" }}
           >
-            I built the mansion from the team&apos;s modular kit, wall
-            sections, roof pieces, door frames, so I could iterate on its
-            silhouette without remodelling every time the layout changed. The
-            gate, fountain, and tree-lined path are pacing beats, not
-            decoration: trigger volumes keep movement controlled right up to
-            the door, the same logic as the level design, scaled to a full act.
-          </p>
+            <div className="c1-9">
+              <p className="proj-annotation" style={{ margin: 0 }}>
+                I built the mansion from the team&apos;s modular kit, wall
+                sections, roof pieces, door frames, so I could iterate on its
+                silhouette without remodelling every time the layout changed. The
+                gate, fountain, and tree-lined path are pacing beats, not
+                decoration: trigger volumes keep movement controlled right up to
+                the door, the same logic as the level design, scaled to a full act.
+              </p>
+            </div>
+          </div>
         </div>
       </ProjectSection>
 
@@ -237,32 +230,25 @@ export function FrankenTeenCaseStudy() {
           </div>
         </div>
         <div className="proj-feature-surface">
-          <div className="feature-media pair">
-            <figure style={nativeWidth(973)}>
-              <Image
-                src="/assets/frankenteen/attic-approach-crop.jpg"
-                width={973}
-                height={641}
-                alt="A courtyard archway and gate near the mansion, with a figure standing beside a lamp post"
-              />
-              <figcaption>
-                The last stretch before the confrontation, an archway and a
-                gated courtyard that narrows the path to one route in.
-              </figcaption>
-            </figure>
-            <figure style={nativeWidth(520)}>
-              <Image
-                src="/assets/frankenteen/attic-lab-crop.jpg"
-                width={520}
-                height={354}
-                alt="A dim, improvised laboratory space inside the mansion, lit by a glowing green containment tube and a candle"
-              />
-              <figcaption>
-                Development capture, Unity: the confrontation room mid-build,
-                not a finished render.
-              </figcaption>
-            </figure>
-          </div>
+          <MediaDuo
+            aspectRatio="16/10"
+            left={{
+              src: "/assets/frankenteen/attic-approach-crop.jpg",
+              width: 973,
+              height: 641,
+              loading: "eager",
+              alt: "A courtyard archway and gate near the mansion, with a figure standing beside a lamp post",
+              caption: "The last stretch before the confrontation, an archway and a gated courtyard that narrows the path to one route in.",
+            }}
+            right={{
+              src: "/assets/frankenteen/attic-lab-crop.jpg",
+              width: 520,
+              height: 354,
+              loading: "eager",
+              alt: "A dim, improvised laboratory space inside the mansion, lit by a glowing green containment tube and a candle",
+              caption: "Development capture, Unity: the confrontation room mid-build, not a finished render.",
+            }}
+          />
           <p
             className="proj-annotation"
             style={{ marginTop: "var(--space-evidence)" }}
@@ -302,14 +288,15 @@ export function FrankenTeenCaseStudy() {
               3 sequence.
             </p>
           </div>
-          <div className="c9-13 self-center">
+          <div className="c9-13">
             <MediaFigure
               src="/assets/frankenteen/blender-wall-module-crop.jpg"
               width={340}
               height={262}
+              loading="eager"
               alt="A single gothic wall module with arched windows, modelled in Blender"
               caption="One wall module, built to repeat"
-              crop="native"
+              treatment="supporting"
               nativeWidth={340}
             />
           </div>

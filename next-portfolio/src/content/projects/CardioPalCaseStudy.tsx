@@ -3,6 +3,8 @@ import { ProjectPageShell } from "@/components/projects/ProjectPageShell";
 import { ProjectOpening } from "@/components/projects/ProjectOpening";
 import { ProjectSection } from "@/components/projects/ProjectSection";
 import { PrototypeEmbed } from "@/components/projects/PrototypeEmbed";
+import { ProjectBackground } from "@/components/projects/ProjectBackground";
+import { ProjectScrollProgress } from "@/components/projects/ProjectScrollProgress";
 import "./CardioPalCaseStudy.css";
 
 const FIGMA_PROTOTYPE_URL =
@@ -14,6 +16,9 @@ const FIGMA_EMBED_URL =
 export function CardioPalCaseStudy() {
   return (
     <ProjectPageShell accent="cardiopal">
+      <ProjectBackground accent="#82b5a5" motif="ekg-pulse" />
+      <ProjectScrollProgress label="02 / 06 · CardioPal" />
+
       <header className="proj-frame">
         <div className="proj-frame-bar">
           <Link href="/">← Index</Link>

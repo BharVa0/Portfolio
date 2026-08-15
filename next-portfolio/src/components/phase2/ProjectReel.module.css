@@ -1,0 +1,423 @@
+/* ==========================================================================
+   Project Reel Module Stylesheet — Phase 2 Kinetic Project Reel
+   Image-free, typography-led portfolio sequence with persistent background owner
+   ========================================================================== */
+
+.reel {
+  --reel-gutter: clamp(20px, 4vw, 72px);
+  position: relative;
+  background: #100f0e;
+  color: var(--paper, #f4efe6);
+  isolation: isolate;
+}
+
+/* --------------------------------------------------------------------------
+   Persistent Background System
+   -------------------------------------------------------------------------- */
+.persistentBg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bgAtmosphere {
+  position: absolute;
+  inset: 0;
+  background-color: var(--active-bg, #100f0e);
+  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bgMotifSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.motifGroup {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motifActive {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Stage Section & Sticky Staging (Desktop)
+   -------------------------------------------------------------------------- */
+.stageSection {
+  position: relative;
+  min-height: 150svh;
+  z-index: 1;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 680px;
+  overflow: hidden;
+  padding: clamp(24px, 3.5vh, 40px) var(--reel-gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stageChrome {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid rgba(244, 239, 230, 0.25);
+  padding-top: 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.66rem, 0.7vw, 0.78rem);
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.selectedMarker {
+  display: flex;
+  gap: clamp(18px, 3.6vw, 64px);
+}
+
+.stageNumber {
+  font-weight: 700;
+  color: var(--active-accent, #ff6a78);
+  transition: color 0.5s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Stage Body & Typographic Variations
+   -------------------------------------------------------------------------- */
+.stageBody {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-top: clamp(20px, 3vh, 48px);
+  padding-bottom: clamp(20px, 3vh, 48px);
+}
+
+.identityBlock {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.eyebrow {
+  margin-bottom: clamp(14px, 2vh, 24px);
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.66rem, 0.68vw, 0.78rem);
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.72);
+}
+
+.stageTitle {
+  margin: 0;
+  font-family: var(--font-display, serif);
+  font-weight: 520;
+  line-height: 0.84;
+  letter-spacing: -0.075em;
+  font-size: clamp(4.2rem, 9.5vw, 11rem);
+}
+
+.stageTitle [data-split-copy] {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.stageTitle [data-split-word] {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Project-Specific Title Colors */
+.title_bettr { color: #ff6a78; }
+.title_cardiopal { color: #82b5a5; }
+.title_frankenteen { color: #f4a261; }
+.title_echoes { color: #e9c46a; }
+.title_smartphone-mold { color: #e63946; }
+.title_playing-freedom { color: #457b9d; }
+
+.metaBadge {
+  display: inline-block;
+  margin-top: clamp(16px, 2.5vh, 28px);
+  padding: 6px 14px;
+  border: 1px solid rgba(244, 239, 230, 0.22);
+  border-radius: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.64rem, 0.65vw, 0.74rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.85);
+  background: rgba(16, 15, 14, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.premise {
+  max-width: 38rem;
+  margin-top: clamp(20px, 3vh, 36px);
+  font-size: clamp(1.05rem, 1.25vw, 1.45rem);
+  line-height: 1.45;
+  color: rgba(244, 239, 230, 0.92);
+}
+
+.actionWrapper {
+  margin-top: clamp(24px, 3.5vh, 44px);
+}
+
+.projectLink {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 20px;
+  padding: 0 24px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--paper, #f4efe6);
+  background: rgba(16, 15, 14, 0.35);
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.projectLink:hover {
+  color: #ffffff;
+  background: var(--active-accent, #ff6a78);
+  border-color: var(--active-accent, #ff6a78);
+  transform: translateY(-2px);
+}
+
+.linkArrow {
+  font-size: 1.1em;
+  transition: transform 180ms ease;
+}
+
+.projectLink:hover .linkArrow {
+  transform: translate(2px, -2px);
+}
+
+/* --------------------------------------------------------------------------
+   Spatial & Layout Rhythms Across Stages
+   -------------------------------------------------------------------------- */
+.heroic-left .identityBlock {
+  max-width: 68vw;
+  margin-left: 0;
+}
+
+.asymmetric-right .identityBlock {
+  max-width: 60vw;
+  margin-left: auto;
+  text-align: right;
+}
+.asymmetric-right .metaBadge {
+  margin-left: auto;
+}
+.asymmetric-right .premise {
+  margin-left: auto;
+}
+
+.split-editorial .identityBlock {
+  max-width: 72vw;
+  margin-left: 5vw;
+}
+
+.staggered-left .identityBlock {
+  max-width: 64vw;
+  margin-left: 2vw;
+}
+
+.wide-center .identityBlock {
+  max-width: 80vw;
+  margin: 0 auto;
+  text-align: center;
+}
+.wide-center .metaBadge {
+  margin-left: auto;
+  margin-right: auto;
+}
+.wide-center .premise {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grand-finale .identityBlock {
+  max-width: 76vw;
+  margin-left: 4vw;
+}
+
+/* --------------------------------------------------------------------------
+   Intentional End-of-Reel Section
+   -------------------------------------------------------------------------- */
+.endSection {
+  position: relative;
+  z-index: 2;
+  min-height: 60svh;
+  display: flex;
+  align-items: center;
+  padding: clamp(60px, 10vw, 140px) var(--reel-gutter);
+  background: #0d0c0b;
+  border-top: 1px solid rgba(244, 239, 230, 0.2);
+}
+
+.endContent {
+  max-width: 46rem;
+}
+
+.endMarker {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--active-accent, #ff6a78);
+  margin-bottom: 16px;
+}
+
+.endTitle {
+  font-family: var(--font-display, serif);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0 0 20px 0;
+}
+
+.endBody {
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  line-height: 1.5;
+  color: rgba(244, 239, 230, 0.8);
+  margin-bottom: 32px;
+}
+
+.endNavButton {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid rgba(244, 239, 230, 0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--paper, #f4efe6);
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.endNavButton:hover {
+  background: rgba(244, 239, 230, 0.12);
+  border-color: rgba(244, 239, 230, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .stageSection {
+    min-height: auto;
+  }
+
+  .stage {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+    overflow: hidden;
+    padding: 28px var(--reel-gutter) clamp(56px, 8vw, 96px);
+  }
+
+  .identityBlock {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: left !important;
+  }
+
+  .asymmetric-right .metaBadge,
+  .wide-center .metaBadge {
+    margin-left: 0 !important;
+  }
+
+  .asymmetric-right .premise,
+  .wide-center .premise {
+    margin-left: 0 !important;
+  }
+
+  .stageTitle {
+    font-size: clamp(3.4rem, 14vw, 7.5rem);
+  }
+}
+
+@media (max-width: 599px) {
+  .reel {
+    --reel-gutter: 18px;
+  }
+
+  .stageChrome {
+    font-size: 0.6rem;
+  }
+
+  .selectedMarker {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stageTitle {
+    font-size: clamp(2.8rem, 16vw, 4.8rem);
+    letter-spacing: -0.06em;
+  }
+
+  .premise {
+    font-size: 1rem;
+  }
+
+  .projectLink {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .stageSection {
+    min-height: auto;
+  }
+
+  .stage {
+    position: relative;
+    height: auto;
+    min-height: auto;
+    padding-bottom: 60px;
+  }
+
+  .bgAtmosphere,
+  .motifGroup,
+  .projectLink,
+  .stageNumber {
+    transition: none !important;
+  }
+
+  .motifGroup {
+    opacity: 0.4;
+  }
+
+  .stageTitle [data-split-word] {
+    will-change: auto;
+  }
+}

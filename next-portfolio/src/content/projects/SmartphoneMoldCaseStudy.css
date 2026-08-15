@@ -9,7 +9,9 @@
   --proj-surface: var(--smartphone-bg);
   --proj-text: var(--smartphone-ink);
   --proj-accent: var(--smartphone-accent);
-  background: var(--smartphone-bg);
+  background: transparent;
+  position: relative;
+  z-index: 1;
   color: var(--smartphone-ink);
   font-family: var(--font-body);
   line-height: normal;

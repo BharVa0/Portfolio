@@ -6,6 +6,8 @@ import { MediaFigure } from "@/components/projects/MediaFigure";
 import { ProjectAnnotation } from "@/components/projects/ProjectAnnotation";
 import { VideoBlock } from "@/components/projects/VideoBlock";
 import { BettrLiveEmbed } from "@/components/projects/BettrLiveEmbed";
+import { ProjectBackground } from "@/components/projects/ProjectBackground";
+import { ProjectScrollProgress } from "@/components/projects/ProjectScrollProgress";
 import "./BettrCaseStudy.css";
 
 /*
@@ -25,6 +27,9 @@ import "./BettrCaseStudy.css";
 export function BettrCaseStudy() {
   return (
     <ProjectPageShell accent="bettr">
+      <ProjectBackground accent="#ff6a78" motif="profiling-grid" />
+      <ProjectScrollProgress label="01 / 06 · BETTR." />
+
       <header className="proj-frame">
         <div className="proj-frame-bar">
           <Link href="/">← Index</Link>

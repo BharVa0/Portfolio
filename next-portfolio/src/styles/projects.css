@@ -131,7 +131,9 @@
   --proj-line: var(--charcoal);
   --proj-accent: var(--ember);
   --proj-accent-deep: var(--ember-deep);
-  background: var(--proj-surface);
+  background: transparent;
+  position: relative;
+  z-index: 1;
   color: var(--proj-text);
 }
 
@@ -378,6 +380,64 @@
   .proj-shot.native {
     max-width: min(var(--native-w, 100%), 100%);
   }
+}
+
+/* Named Media Treatments: Spotlight, Duo, Supporting */
+.proj-shot.treatment-spotlight {
+  width: 100%;
+}
+.proj-shot.treatment-spotlight img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.proj-shot.treatment-supporting {
+  max-width: var(--native-w, 360px);
+  width: 100%;
+}
+.proj-shot.treatment-supporting img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Enforced Aspect Ratio for Media Figures */
+.proj-shot-media.has-aspect {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--figure-aspect, 16 / 10);
+  overflow: hidden;
+  background: var(--proj-surface-2);
+}
+.proj-shot-media.has-aspect img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Paired Duo: exactly two images side by side with matched aspect ratio and caption baseline */
+.media-duo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .media-duo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+}
+.media-duo .proj-shot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.media-duo .proj-shot .proj-shot-caption {
+  margin-top: auto;
 }
 
 /* Annotation attached directly beneath a figure's own caption. */

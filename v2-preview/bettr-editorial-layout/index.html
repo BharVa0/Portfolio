@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BETTR — editorial layout prototype (v2-preview)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   PROTOTYPE ONLY — v2-preview/bettr-editorial-layout
+   Desktop editorial-layout study for the BETTR case study. Establishes
+   typography, alignment and composition before application to the site.
+   Designed for 1440×900 and 1920×1080; must not break at 1280.
+   ========================================================================== */
+
+/* The type sample uses BETTR's real shipped fonts (read-only reference
+   into the live build — never modified). */
+@font-face {
+  font-family: "Jersey 25";
+  src: url("../../assets/bettr-live/Fonts/Jersey_25/Jersey25-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rajdhani";
+  src: url("../../assets/bettr-live/Fonts/Rajdhani/Rajdhani-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rajdhani";
+  src: url("../../assets/bettr-live/Fonts/Rajdhani/Rajdhani-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+:root {
+  /* Human Systems tokens (direction doc §3) + BETTR accent (§9) */
+  --ink: #0D0C0B;
+  --ink-soft: #151311;
+  --charcoal: #1D1A18;
+  --paper: #F2EEE9;
+  --paper-soft: #DDD6CF;
+  --bettr-red: #EB5160;
+  --bettr-red-deep: #7A2A31;
+
+  /* Feature-chapter surface — restrained oxblood/warm-black, distinct from --ink */
+  --feature-surface: #1C0D0F;
+  --feature-line: rgba(235, 81, 96, 0.24);
+
+  /* Raised-contrast muted tiers — captions/metadata/references must be
+     comfortably readable, not decorative microtext */
+  --text-soft: #DED2C3;     /* supporting body — raised for contrast */
+  --text-caption: #B6ACA0;  /* captions, metadata labels */
+  --text-refs: #C6BDB2;     /* bibliography */
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+
+  /* Page frame */
+  --gutter: clamp(56px, 5vw, 112px);
+  --gap: clamp(24px, 2vw, 40px);
+
+  /* Editorial rhythm (refinement §1)
+     major     — section-to-section pacing
+     internal  — heading-to-content, stacked evidence rows
+     evidence  — tightly paired text + media */
+  --space-major: clamp(120px, 10vw, 170px);
+  --space-internal: clamp(48px, 5vw, 84px);
+  --space-evidence: clamp(24px, 3vw, 40px);
+
+  /* Type ramp — targets: 1440 / 1920
+     title       120.5 / 152.6  (spec 112–136 / 140–168)
+     thesis       32.7 / 39.0   (spec 30–34 / 34–40)
+     h2           58.0 / 70.0   (spec 54–64 / 64–76)
+     h2-feature   79.6 / 98.8   (spec 72–88 / 88–110)
+     lede         26.0 / 30.0
+     body         20.9 / 22.3   (spec 20–22 / 21–23)
+     support      18.0 / 19.0   (spec 18–20 / 19–21)
+     card head    22.1 / 25.1
+     caption/meta 15.5 / 16.5   (spec 15–16 / 16–17)
+     refs         16.1 / 17.1   (spec ≥16 / ≥17) */
+  --fs-title: clamp(100px, 24px + 6.7vw, 168px);
+  --fs-thesis: clamp(30px, 14px + 1.3vw, 40px);
+  --fs-h2: clamp(48px, 22px + 2.5vw, 78px);
+  --fs-h2-feature: clamp(68px, 22px + 4vw, 112px);
+  --fs-lede: clamp(24px, 14px + 0.83vw, 32px);
+  --fs-body: clamp(20px, 16.7px + 0.29vw, 23px);
+  --fs-support: clamp(18px, 15px + 0.21vw, 20px);
+  --fs-cardhead: clamp(22px, 13px + 0.63vw, 28px);
+  --fs-caption: clamp(15px, 12.5px + 0.21vw, 17px);
+  --fs-meta: clamp(15px, 12.5px + 0.21vw, 17px);
+  --fs-refs: clamp(16px, 12.9px + 0.22vw, 18px);
+  /* Palette/type-specimen labels only (§4 refinement) — a touch above
+     --fs-caption so the smallest labels in section 04 read at a solid
+     15–16px minimum rather than sitting right on the floor. */
+  --fs-label: clamp(15px, 13px + 0.24vw, 18px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { background: var(--ink); overflow-x: clip; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* defensive safeguard only — .feature-surface no longer
+                        relies on a 100vw breakout, so this should never
+                        actually clip anything measurable */
+}
+img { max-width: 100%; display: block; height: auto; }
+a { color: inherit; }
+
+/* === One coherent 12-column grid ===
+   Every composed row uses .grid; placement classes are grid line numbers.
+   The gutters and gap are shared page-wide — no section-specific origins. */
+.frame-inner,
+.grid {
+  padding-inline: var(--gutter);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: var(--gap);
+  align-items: start;
+}
+.g1-5  { grid-column: 1 / 5; }
+.g1-6  { grid-column: 1 / 6; }
+.g1-7  { grid-column: 1 / 7; }
+.g1-8  { grid-column: 1 / 8; }
+.g1-9  { grid-column: 1 / 9; }
+.g1-13 { grid-column: 1 / 13; }
+.g5-9  { grid-column: 5 / 9; }
+.g5-13 { grid-column: 5 / 13; }
+.g6-13 { grid-column: 6 / 13; }
+.g7-13 { grid-column: 7 / 13; }
+.g8-13 { grid-column: 8 / 13; }
+.g9-13 { grid-column: 9 / 13; }
+
+/* === Navigation frame === */
+.frame-inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap);
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.04em;
+  color: var(--text-caption);
+  padding-top: 26px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--charcoal);
+}
+.frame-inner a {
+  text-decoration: none;
+  color: var(--text-caption);
+  transition: color 0.15s ease;
+}
+.frame-inner a:hover,
+.frame-inner a:focus-visible { color: var(--bettr-red); }
+.frame-count { color: var(--paper-soft); }
+
+/* === Opening composition — 4 / 8 ===
+   Tightened so title, thesis, facts and the live build read as one spread;
+   the transition into "01" is where the major editorial pacing lives. */
+.opening {
+  padding-top: clamp(40px, 5vh, 72px);
+  padding-bottom: clamp(48px, 5vw, 80px);
+}
+.open-text { grid-column: 1 / 5; }
+.open-artifact { grid-column: 5 / 13; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bettr-red);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--bettr-red);
+}
+.title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 380;
+  font-size: var(--fs-title);
+  line-height: 0.94;
+  letter-spacing: -0.015em;
+  margin-top: 22px;
+}
+.title .dot { color: var(--bettr-red); }
+.thesis {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-size: var(--fs-thesis);
+  line-height: 1.36;
+  color: var(--paper);
+  margin-top: var(--space-evidence);
+}
+.facts {
+  margin-top: var(--space-evidence);
+  padding-top: 28px;
+  border-top: 1px solid var(--charcoal);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px var(--gap);
+}
+.fact {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  line-height: 1.55;
+  color: var(--paper-soft);
+}
+.fact-label {
+  display: block;
+  color: var(--text-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+.ownership {
+  margin-top: var(--space-evidence);
+  font-size: var(--fs-support);
+  line-height: 1.6;
+  color: var(--paper);
+  border-left: 2px solid var(--bettr-red);
+  padding-left: 22px;
+}
+
+/* Artifact — the live build, with the "watched" corner-bracket motif:
+   BETTR observes its user; the frame around the artifact quietly does too. */
+.artifact-frame {
+  position: relative;
+  border: 1px solid var(--charcoal);
+  background: var(--ink-soft);
+}
+.corner-tr, .corner-bl {
+  position: absolute;
+  width: 22px; height: 22px;
+  pointer-events: none;
+  z-index: 2;
+}
+.corner-tr { top: -1px; right: -1px; border-top: 2px solid var(--bettr-red); border-right: 2px solid var(--bettr-red); }
+.corner-bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--bettr-red); border-left: 2px solid var(--bettr-red); }
+.artifact-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--charcoal);
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  color: var(--text-caption);
+}
+.open-link {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  color: var(--text-caption);
+  text-decoration: none;
+  border: 1px solid var(--charcoal);
+  padding: 6px 16px;
+  border-radius: 999px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+.open-link:hover,
+.open-link:focus-visible { border-color: var(--bettr-red); color: var(--bettr-red); }
+.embed {
+  width: 100%;
+  height: clamp(560px, 68vh, 800px);
+  border: 0;
+  display: block;
+  background: #000;
+}
+.artifact-caption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-caption);
+  line-height: 1.6;
+  margin-top: 16px;
+}
+
+/* === Numbered section frame ===
+   Number and heading share one literal baseline (same line box); the
+   rule beneath spans the full grid. Identical for every section — the
+   feature chapter (§04) only changes title scale and pacing, never the
+   header's own alignment, so the recurring edge holds site-wide. */
+.sec { padding-top: var(--space-major); }
+.sec-feature { padding-top: clamp(138px, 11.5vw, 195px); }
+/* §1 — opening→01 transition trimmed ~20–25%; the opening composition
+   itself (padding, title/thesis/facts spacing) is untouched. */
+.sec-first { padding-top: clamp(80px, 7vw, 124px); }
+/* §5 — scholarly grounding→walkthroughs trimmed ~15%; every other
+   section-to-section gap stays on --space-major. */
+.sec-tight-top { padding-top: clamp(100px, 8.5vw, 145px); }
+.sec-head {
+  grid-column: 1 / 13;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(20px, 1.8vw, 34px);
+  border-bottom: 1px solid var(--charcoal);
+  padding-bottom: 22px;
+}
+.sec-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-cardhead);
+  color: var(--bettr-red);
+}
+.sec-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.sec-title-feature { font-size: var(--fs-h2-feature); }
+.sec .grid { padding-inline: 0; }
+.sec > .grid { padding-inline: var(--gutter); }
+
+/* Content grid directly beneath a section header. row-gap defaults to
+   --gap (compact evidence spacing); .sec-body--rows raises it to
+   --space-internal for sections stacking distinct evidence rows. */
+.sec-body { margin-top: var(--space-internal); }
+.sec-body--rows { row-gap: var(--space-internal); }
+
+/* === Text roles === */
+.body-text {
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--paper);
+}
+.body-text + .body-text { margin-top: 1.2em; }
+.support-text {
+  font-size: var(--fs-support);
+  line-height: 1.62;
+  color: var(--text-soft);
+}
+.pull-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 340;
+  font-size: var(--fs-cardhead);
+  line-height: 1.5;
+  color: var(--paper);
+  border-left: 2px solid var(--bettr-red);
+  padding-left: 26px;
+}
+
+/* === Media === */
+figure.shot { margin: 0; }
+.shot img {
+  width: 100%;
+  height: auto; /* intrinsic ratio always preserved */
+  border: 1px solid var(--charcoal);
+}
+.shot figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-caption);
+  line-height: 1.55;
+  padding-top: 12px;
+}
+/* Full VS Code IDE chrome isn't legible at display size — crop tighter to
+   the file-tree/tab area the caption actually describes, trimming the
+   wide illegible code pane rather than showing it at a squeezed scale. */
+.shot.crop-tl img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: 0% 0%;
+}
+/* Stage annotation attached beneath its own image — every stage (1–4)
+   uses this same figure > figcaption > .stage-note pattern so evidence
+   and explanation are never separated into a disconnected strip. */
+.stage-note {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--charcoal);
+}
+.stage-note-head {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bettr-red);
+}
+.stage-note p {
+  font-size: var(--fs-support);
+  line-height: 1.6;
+  color: var(--text-soft);
+  margin-top: 8px;
+}
+.stage-note .outcome {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--bettr-red);
+  margin-top: 12px;
+}
+
+.process-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-caption);
+  border: 1px solid var(--charcoal);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+
+/* === Design-system evidence (shared) === */
+.annotation-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-caption);
+}
+.annotation {
+  max-width: 66ch;
+  font-size: var(--fs-support);
+  line-height: 1.62;
+  color: var(--text-soft);
+  margin-top: var(--space-evidence);
+}
+
+/* === Feature chapter — Designing for hidden influence ===
+   The strongest editorial chapter after the live artifact: an oversized
+   heading (above), a larger introductory argument, and a full-bleed
+   oxblood surface carrying the colour system and type specimen at real
+   material scale — not small UI cards. */
+.feature-lede {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-size: var(--fs-lede);
+  line-height: 1.48;
+  color: var(--paper);
+}
+/* §6 — full-bleed without a 100vw breakout: .sec-feature (and every
+   ancestor up to <body>) carries no horizontal padding of its own — only
+   .grid elements do — so this direct child already measures edge-to-edge
+   at its parent's actual width. No vw arithmetic, so no scrollbar-width
+   overflow to guard against. */
+.feature-surface {
+  background: var(--feature-surface);
+  border-top: 1px solid var(--feature-line);
+  border-bottom: 1px solid var(--feature-line);
+  margin-top: var(--space-internal);
+  padding-block: clamp(56px, 6vw, 96px);
+}
+.feature-surface .grid { padding-inline: var(--gutter); }
+.feature-surface .grid + .grid { margin-top: var(--space-internal); }
+.feature-surface .type-row { border-top-color: var(--feature-line); }
+
+.palette-band {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: var(--space-evidence);
+}
+.swatch-lg {
+  min-height: clamp(140px, 11vw, 196px);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+}
+.swatch-lg .swname {
+  font-size: var(--fs-label);
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+}
+.swatch-lg .swhex { font-size: clamp(18px, 1.3vw, 23px); margin-top: 14px; }
+.swatch-lg .swrole {
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: var(--fs-label);
+  line-height: 1.5;
+  opacity: 0.82;
+}
+
+.type-specimen-feature { margin-top: var(--space-evidence); }
+.specimen-line {
+  font-family: "Jersey 25", monospace;
+  font-size: clamp(56px, 7.2vw, 148px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: var(--paper);
+}
+.type-rows-feature { margin-top: var(--space-evidence); }
+.type-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--gap);
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--charcoal);
+}
+.type-row:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+.type-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  line-height: 1.5;
+  color: var(--text-caption);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* === References === */
+.refs { display: flex; flex-direction: column; gap: 18px; }
+.refs p {
+  font-size: var(--fs-refs);
+  line-height: 1.6;
+  color: var(--text-refs);
+}
+
+/* === Walkthroughs === */
+.video-block { border: 1px solid var(--charcoal); background: var(--ink-soft); }
+.video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-caption);
+  padding: 14px 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--charcoal);
+}
+
+/* === Reflection === */
+.reflection {
+  background: var(--ink-soft);
+  border-left: 2px solid var(--bettr-red);
+  padding: clamp(28px, 2.4vw, 44px);
+}
+.reflection p { font-size: var(--fs-body); line-height: 1.65; }
+
+/* === Footer nav === */
+.footer-nav {
+  margin-top: var(--space-major);
+  padding-top: 30px;
+  padding-bottom: 64px;
+  border-top: 1px solid var(--charcoal);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap);
+  font-family: var(--font-mono);
+}
+.footer-nav a { text-decoration: none; transition: color 0.15s ease; }
+.nav-back { font-size: var(--fs-meta); color: var(--text-caption); }
+.nav-next {
+  font-size: var(--fs-support);
+  color: var(--paper);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.nav-next .next-label {
+  color: var(--text-caption);
+  font-size: var(--fs-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.footer-nav a:hover, .footer-nav a:focus-visible { color: var(--bettr-red); }
+
+a:focus-visible { outline: 2px solid var(--bettr-red); outline-offset: 4px; }
+
+/* === Prototype-only 12-column grid overlay (?grid=1) === */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  padding-inline: var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  pointer-events: none;
+  z-index: 9999;
+}
+.grid-overlay span {
+  background: rgba(235, 81, 96, 0.07);
+  border-inline: 1px solid rgba(235, 81, 96, 0.22);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="frame-inner">
+    <a href="../../index.html">← Index</a>
+    <span class="frame-count">01 / 06 · BETTR.</span>
+    <a href="../../projects/cardiopal.html">Next: CardioPal →</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ OPENING — 4 / 8 ============ -->
+  <section class="opening grid">
+    <div class="open-text">
+      <p class="eyebrow">Speculative design · Live build</p>
+      <h1 class="title">BETTR<span class="dot">.</span></h1>
+      <p class="thesis">An AI decision interface that looks like it wants to help. What it actually does is track your choices, build a profile from them, and gradually take over — slowly enough that most people don't notice until it already has.</p>
+      <div class="facts">
+        <div class="fact"><span class="fact-label">Role</span>Sole designer &amp; developer</div>
+        <div class="fact"><span class="fact-label">Tools</span>HTML · CSS · JavaScript</div>
+        <div class="fact"><span class="fact-label">Context</span>DPOP, MSc Design &amp; Digital Media</div>
+        <div class="fact"><span class="fact-label">Status</span>Live, coded build</div>
+      </div>
+      <p class="ownership">Solo project. Self-written end to end — a couple of swap/handler methods adapted from earlier work, AI-assisted for one collider bug and for tightening the written report.</p>
+    </div>
+    <div class="open-artifact">
+      <div class="artifact-frame">
+        <span class="corner-tr" aria-hidden="true"></span>
+        <span class="corner-bl" aria-hidden="true"></span>
+        <div class="artifact-bar">
+          <span>bettr, decision interface</span>
+          <a class="open-link" href="../../assets/bettr-live/index.html" target="_blank" rel="noopener">Open full screen ↗</a>
+        </div>
+        <iframe class="embed" src="../../assets/bettr-live/index.html" title="BETTR live interactive build" loading="lazy"></iframe>
+      </div>
+      <p class="artifact-caption">This is the actual build, running live, not a recording. Click Enter and go through it once before reading further — the argument is made through the interaction, not around it.</p>
+    </div>
+  </section>
+
+  <!-- ============ 01 ============ -->
+  <section class="sec sec-first" id="s1">
+    <div class="grid">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">What this is actually doing</h2>
+      </div>
+    </div>
+    <div class="grid sec-body">
+      <div class="g1-8">
+        <p class="body-text">BETTR simulates an AI decision tool: calm, clean, efficient — the kind of interface that looks like it wants to help. What it actually does is track every choice you make, build a profile from those choices, and gradually take over decisions on your behalf. The shift happens slowly enough that most people don't notice until it has already happened. That's the point.</p>
+        <p class="body-text">The project started as a Figma prototype with the right visual identity and narrative arc, but no real memory of what a user had done — every path was linear, and nothing carried through. The coded version removes that buffer. What you classify as "inefficient" in the sorting game becomes a labelled friction point on your own dashboard later. The system isn't pretending to profile you. It actually is.</p>
+      </div>
+      <blockquote class="pull-quote g9-13">"The critique is not delivered as an argument. It is delivered as an experience."</blockquote>
+    </div>
+  </section>
+
+  <!-- ============ 02 — FOUR STAGES ============ -->
+  <section class="sec" id="s2">
+    <div class="grid">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">Four stages of erosion</h2>
+      </div>
+    </div>
+    <div class="grid sec-body sec-body--rows">
+
+      <p class="body-text g1-8" style="margin-bottom: var(--space-evidence);">The experience is structured as four escalating stages, each one quietly taking more authority than the last.</p>
+
+      <!-- Top row: two self-contained stage blocks, 6/6. Each stage's
+           explanation lives directly beneath its own evidence — no
+           separate notes column. -->
+      <figure class="shot g1-7">
+        <img src="../../assets/bettr/stage1-crop.jpg" width="1630" height="970" alt="Stage 1 sorting game, classifying human qualities as efficient or inefficient" />
+        <figcaption>Stage 1 — the sorting game</figcaption>
+        <div class="stage-note">
+          <span class="stage-note-head">Stage 1</span>
+          <p>You classify hesitation, doubt, asking for clarification, as efficient or inefficient. Your answers feed stage 3 directly.</p>
+          <span class="outcome">→ you profile yourself</span>
+        </div>
+      </figure>
+      <figure class="shot g7-13">
+        <img src="../../assets/bettr/stage2-crop.jpg" width="1630" height="970" loading="lazy" alt="Stage 2 decision session with hesitation timer counting down" />
+        <figcaption>Stage 2 — decision session, hesitation timer depleting</figcaption>
+        <div class="stage-note">
+          <span class="stage-note-head">Stage 2</span>
+          <p>A live timer tracks hesitation. The language quietly shifts from "you" to "the user" to "subject."</p>
+          <span class="outcome">→ no path preserves control</span>
+        </div>
+      </figure>
+
+      <!-- Bottom row: 7 / 5 — stage 3 stays dominant, stage 4 is a
+           deliberate counterweight rather than a leftover-space thumbnail -->
+      <figure class="shot g1-8">
+        <img src="../../assets/bettr/dashboard-thumb-crop.jpg" width="1525" height="966" loading="lazy" alt="Stage 3 subject profile dashboard showing autonomy residual at 12 percent, the point where both earlier stages converge" />
+        <figcaption>Stage 3 — subject profile, Autonomy Residual at 12%. The dashboard is the argument's landing point, so it gets the most room.</figcaption>
+        <div class="stage-note">
+          <p>Both stages converge. Autonomy Residual: 12%. Your own earlier words are read back as system analysis.</p>
+          <span class="outcome">→ authority state: centralised</span>
+        </div>
+      </figure>
+      <figure class="shot g8-13">
+        <img src="../../assets/bettr/stage4-crop.jpg" width="1630" height="965" loading="lazy" alt="Stage 4 final scene, split screen relabeling system classifications as human qualities" />
+        <figcaption>Stage 4 — the final scene, classifications dissolve into human language</figcaption>
+        <div class="stage-note">
+          <p>A split screen dissolves the system's language. Only the human reframing remains.</p>
+          <span class="outcome">→ "optimisation is not neutral"</span>
+        </div>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ============ 03 — BUILDING IT ============ -->
+  <section class="sec" id="s3">
+    <div class="grid">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">Building it</h2>
+      </div>
+    </div>
+    <div class="grid sec-body sec-body--rows">
+
+      <!-- 4-col text / 8-col landing image -->
+      <div class="g1-5">
+        <p class="body-text">Built in VS Code using the Live Server extension for real-time preview, with Chrome DevTools running throughout to test the timer logic and the conditional branching that carries a user's input between stages.</p>
+      </div>
+      <figure class="shot g5-13">
+        <img src="../../assets/bettr/landing-crop.jpg" width="1918" height="1005" loading="lazy" alt="BETTR landing screen in browser, live server running on localhost" />
+        <figcaption>Landing screen, Live Server running on localhost:5500</figcaption>
+      </figure>
+
+      <!-- Process evidence: secondary 5-col figure, cropped tighter to the
+           file-tree/tab area so editor chrome and the illegible code pane
+           don't compete with the landing screenshot above -->
+      <figure class="shot crop-tl g1-6">
+        <img src="../../assets/bettr/vscode-structure.jpeg" width="1919" height="1079" loading="lazy" alt="VS Code project structure showing HTML, CSS, and JS files across stages" />
+        <figcaption>VS Code, project structure across the four stage folders</figcaption>
+      </figure>
+      <div class="g6-13">
+        <span class="process-tag">Process evidence</span>
+        <p class="support-text">The moment that told me it was actually working wasn't a design review. It was watching friends and classmates go quiet when they hit the dashboard and saw their own words quoted back as system analysis. That reaction is the argument landing.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 04 — FEATURE CHAPTER: DESIGN SYSTEM ============ -->
+  <section class="sec sec-feature" id="s4">
+    <div class="grid">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2 class="sec-title sec-title-feature">Designing for hidden influence</h2>
+      </div>
+    </div>
+    <div class="grid sec-body">
+      <p class="feature-lede g1-9">The interface had to do two things at once: look trustworthy enough that people would engage with it honestly, while encoding the conditions of its own critique in that same visual language. Susser, Roessler and Nissenbaum describe online manipulation as hidden influence — pressure that works because it doesn't feel like pressure. That became the entire design brief in one sentence.</p>
+    </div>
+
+    <div class="feature-surface">
+      <div class="grid">
+        <div class="g1-13">
+          <p class="annotation-label">Colour system — evolution from submission 1</p>
+          <div class="palette-band">
+            <div class="swatch-lg" style="background:#050506; color:#fff;">
+              <span class="swname">Background</span>
+              <span class="swhex">#050506</span>
+              <span class="swrole">Base canvas, near-black</span>
+            </div>
+            <div class="swatch-lg" style="background:#121212; color:#fff;">
+              <span class="swname">Panel</span>
+              <span class="swhex">#121212</span>
+              <span class="swrole">Card &amp; panel grouping</span>
+            </div>
+            <div class="swatch-lg" style="background:#EB5160; color:#1A0506;">
+              <span class="swname">Accent</span>
+              <span class="swhex">#EB5160</span>
+              <span class="swrole">Brand mark, later reads as system alert</span>
+            </div>
+            <div class="swatch-lg" style="background:#B7999C; color:#1A0506;">
+              <span class="swname">Accent soft</span>
+              <span class="swhex">#B7999C</span>
+              <span class="swrole">Muted variant, secondary states</span>
+            </div>
+            <div class="swatch-lg" style="background:#EAB308; color:#1A1203;">
+              <span class="swname">Warning / timer</span>
+              <span class="swhex">#EAB308</span>
+              <span class="swrole">Hesitation countdown</span>
+            </div>
+            <div class="swatch-lg" style="background:#22C55E; color:#04150A;">
+              <span class="swname">Compliant</span>
+              <span class="swhex">#22C55E</span>
+              <span class="swrole">Efficient classification</span>
+            </div>
+            <div class="swatch-lg" style="background:#EF4444; color:#1A0505;">
+              <span class="swname">Critical</span>
+              <span class="swhex">#EF4444</span>
+              <span class="swrole">Inefficient / flagged classification</span>
+            </div>
+          </div>
+          <p class="annotation">The accent red starts as a brand colour and migrates slowly into alerts and critical system states. By the time the dashboard arrives, the colour you first connected to the brand is marking your reduced autonomy. Nobody pointed this out while using it. They just felt something was off.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="g1-13">
+          <p class="annotation-label">Type system — Jersey 25 &amp; Rajdhani</p>
+          <div class="type-specimen-feature">
+            <div class="specimen-line">HESITATION DETECTED</div>
+          </div>
+          <div class="type-rows-feature">
+            <div class="type-row">
+              <span style="font-family:'Rajdhani',sans-serif; font-weight:600; font-size:clamp(20px, 1.4vw, 26px);">Stage 1: The Sorting Game</span>
+              <span class="type-label">Rajdhani 600, headings</span>
+            </div>
+            <div class="type-row">
+              <span style="font-family:'Rajdhani',sans-serif; font-weight:500; font-size:clamp(18px, 1.15vw, 22px); color:var(--text-soft);">Body copy reads cleanly on dark surfaces while keeping the utilitarian tone of the project.</span>
+              <span class="type-label">Rajdhani 500, body</span>
+            </div>
+          </div>
+          <p class="annotation">Moving from a single-weight display face to a full Rajdhani hierarchy let the interface carry more meaning through text alone — labels, questions, and system outputs each get their own register, which matters when the language itself is part of the argument.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 — SCHOLARLY GROUNDING ============ -->
+  <section class="sec" id="s5">
+    <div class="grid">
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <h2 class="sec-title">Scholarly grounding</h2>
+      </div>
+    </div>
+    <div class="grid sec-body">
+      <p class="body-text g1-8">Yeung's concept of the hypernudge — data-driven systems that shape behaviour through environments so tailored that resistance barely registers as a possibility — is the idea BETTR makes literal. Tufekci's argument that algorithmic harm rarely comes from bad intent, but from systems doing exactly what they were built to do, shaped the system's tone: it isn't malicious, it's efficient. Diakopoulos's work on accountability informed why BETTR keeps its classification criteria hidden until the final scene — when you can't see the criteria, you can't push back.</p>
+      <div class="refs g8-13">
+        <p>Burrell, J. (2016) How the machine thinks: understanding opacity in machine learning algorithms. <em>Big Data &amp; Society</em>, 3(1).</p>
+        <p>Diakopoulos, N. (2016) Accountability in algorithmic decision making. <em>Communications of the ACM</em>, 59(2), pp.56–62.</p>
+        <p>Ruckenstein, M. and Granroth, J. (2020) Algorithms, advertising and the intimacy of surveillance. <em>Journal of Cultural Economy</em>, 13(1), pp.12–25.</p>
+        <p>Susser, D., Roessler, B. and Nissenbaum, H. (2019) Online manipulation: hidden influences in a digital world. <em>Georgetown Law Technology Review</em>, 4(1).</p>
+        <p>Tufekci, Z. (2015) Algorithmic harms beyond Facebook and Google. <em>Colorado Technology Law Journal</em>, 13, pp.203–218.</p>
+        <p>Yeung, K. (2017) Hypernudge: big data as a mode of regulation by design. <em>Information, Communication &amp; Society</em>, 20(1), pp.118–136.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 — WALKTHROUGHS ============ -->
+  <section class="sec sec-tight-top" id="s6">
+    <div class="grid">
+      <div class="sec-head">
+        <span class="sec-num">06</span>
+        <h2 class="sec-title">Walkthroughs</h2>
+      </div>
+    </div>
+    <div class="grid sec-body">
+      <div class="video-block g1-7">
+        <div class="video-wrap">
+          <iframe src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_1lvy7on6&config[provider]={&quot;widgetId&quot;:&quot;1_i3whubu9&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="DPOP Project Walkthrough" loading="lazy"></iframe>
+        </div>
+        <div class="video-label">Process walkthrough</div>
+      </div>
+      <div class="video-block g7-13">
+        <div class="video-wrap">
+          <iframe src="https://cdnapisec.kaltura.com/p/2010292/embedPlaykitJs/uiconf_id/55171522?iframeembed=true&entry_id=1_4mtplrua&config[provider]={&quot;widgetId&quot;:&quot;1_or960bd7&quot;}" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" title="DPOP WebExp Walkthrough" loading="lazy"></iframe>
+        </div>
+        <div class="video-label">Final showcase</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 — REFLECTION ============ -->
+  <section class="sec" id="s7">
+    <div class="grid">
+      <div class="sec-head">
+        <span class="sec-num">07</span>
+        <h2 class="sec-title">What I'd still change</h2>
+      </div>
+    </div>
+    <div class="grid sec-body sec-body--rows">
+      <p class="body-text g1-8">Every path in the current build converges on the same outcome. A more developed version would have real forks, where resistance feels like a genuine option but is structurally made harder — real systems aren't inevitable, they're just built to feel that way.</p>
+      <div class="reflection g1-9">
+        <p>The feedback after the first submission was that the message needed to land more clearly — the prototype gave people too much distance, letting them appreciate it without feeling implicated. This version fixes that by making the branching logic do real conceptual work. The language shift from "you" to "the user" to "subject" is slow enough that people I showed it to missed it completely in the moment, and only caught it when I walked them back through it afterward. That's not an accident. That's the mechanism working. The most useful thing I learned building this is that the gap between a design that represents something and one that actually enacts it is where the real work is. That's the gap I want to keep working in.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-nav frame-inner" style="border-bottom: none;">
+    <a class="nav-back" href="../../index.html">← Back to index</a>
+    <a class="nav-next" href="../../projects/cardiopal.html">
+      <span class="next-label">Next project</span>
+      CardioPal →
+    </a>
+  </div>
+
+</main>
+
+<script>
+/* Prototype-only QA helpers — never shipped to the real portfolio.
+   ?grid=1  → 12-column overlay for alignment checks
+   ?goto=ID → scroll a section to the top of the viewport for capture */
+(function () {
+  var params = new URLSearchParams(location.search);
+  if (params.get("grid") === "1") {
+    var overlay = document.createElement("div");
+    overlay.className = "grid-overlay";
+    for (var i = 0; i < 12; i++) overlay.appendChild(document.createElement("span"));
+    document.body.appendChild(overlay);
+  }
+  var target = params.get("goto");
+  if (target) {
+    // Eager-load all media so a scrolled capture isn't blank, then jump.
+    document.querySelectorAll("img[loading=lazy]").forEach(function (img) {
+      img.loading = "eager";
+    });
+    // Headless Chrome won't repaint a programmatically scrolled viewport,
+    // so QA captures shift the page up instead of scrolling it.
+    var jump = function () {
+      var el = document.getElementById(target);
+      if (!el) return;
+      document.body.style.marginTop = "0px"; // measure from the true layout
+      document.body.style.marginTop = -el.offsetTop + "px";
+    };
+    jump();
+    window.addEventListener("load", jump);
+  }
+})();
+</script>
+</body>
+</html>

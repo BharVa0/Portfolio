@@ -1,13 +1,13 @@
 import type { ProjectOpeningProps } from "@/types/project";
 
-/*
+/**
  * The project's opening spread: eyebrow, title, thesis, metadata facts,
- * ownership statement, and a content slot (`children`) for the
- * evidence — BETTR's live embed, a future project's hero image. Only one
- * composition variant exists today ("split": text column + evidence
- * column, BETTR's `.c1-5` / `.c5-13` split) — the variant prop exists so a
- * future project needing a different opening shape doesn't have to fork
- * this component to get one.
+ * ownership statement, and a content slot (`children`) for the evidence.
+ *
+ * Supported variants:
+ * - "split": `.c1-5` text column / `.c5-13` evidence slot (designed for BETTR's live iframe embed)
+ * - "balanced": `.c1-7` text column / `.c8-13` evidence slot (designed for editorial projects
+ *   with longer titles like "FrankenTeen", providing comfortable text width without title clipping)
  */
 export function ProjectOpening({
   eyebrow,
@@ -16,25 +16,31 @@ export function ProjectOpening({
   meta,
   ownership,
   children,
+  variant = "split",
 }: ProjectOpeningProps) {
+  const textCol = variant === "balanced" ? "c1-7" : "c1-5";
+  const mediaCol = variant === "balanced" ? "c8-13 self-center" : "c5-13";
+
   return (
     <section className="proj-hero">
       <div className="cols" data-layout="asymmetric">
-        <div className="c1-5">
+        <div className={textCol}>
           <p className="proj-eyebrow">{eyebrow}</p>
           <h1 className="proj-title">{title}</h1>
           <p className="proj-thesis">{thesis}</p>
-          <div className="proj-meta-grid">
-            {meta.map((item) => (
-              <div className="proj-meta-item" key={item.label}>
-                <span className="proj-meta-label">{item.label}</span>
-                {item.value}
-              </div>
-            ))}
-          </div>
+          {meta && meta.length > 0 && (
+            <div className="proj-meta-grid">
+              {meta.map((item) => (
+                <div className="proj-meta-item" key={item.label}>
+                  <span className="proj-meta-label">{item.label}</span>
+                  {item.value}
+                </div>
+              ))}
+            </div>
+          )}
           <p className="proj-ownership">{ownership}</p>
         </div>
-        <div className="c5-13">{children}</div>
+        <div className={mediaCol}>{children}</div>
       </div>
     </section>
   );

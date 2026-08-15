@@ -1,0 +1,172 @@
+/* ==========================================================================
+   Phase 2 Preview Navbar Module Stylesheet
+   Reconciled motion curve: cubic-bezier(0.16, 1, 0.3, 1) per Phase 2 system
+   ========================================================================== */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: clamp(16px, 2.2vh, 24px) clamp(20px, 4vw, 72px);
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              backdrop-filter 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scrolled {
+  background-color: rgba(13, 12, 11, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: rgba(244, 239, 230, 0.15);
+}
+
+.navInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 2200px;
+  margin: 0 auto;
+}
+
+/* Static logo/wordmark (no magnetic pull or hover gimmicks) */
+.logoMark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--paper, #f4efe6);
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.72rem, 0.75vw, 0.84rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-height: 44px;
+  padding: 8px 0;
+}
+
+.logoName {
+  font-weight: 700;
+  color: var(--paper, #f4efe6);
+}
+
+.logoTag {
+  color: rgba(244, 239, 230, 0.72);
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.5vw, 36px);
+}
+
+/* Reactive Nav Links with Subtle Magnetic Support */
+.navItem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.66rem, 0.7vw, 0.78rem);
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(244, 239, 230, 0.75);
+  transition: color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.navText {
+  position: relative;
+  display: inline-block;
+}
+
+/* Animated Underline Draw-in Effect */
+.navText::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--ember, #ff6a78);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navItem:hover {
+  color: var(--paper, #f4efe6);
+}
+
+.navItem:hover .navText::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Persistent Active Route Indicator */
+.activeRoute {
+  color: var(--paper, #f4efe6);
+  font-weight: 600;
+}
+
+.activeRoute .navText::after {
+  transform: scaleX(1);
+  opacity: 1;
+  background-color: var(--ember, #ff6a78);
+}
+
+.activeDot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--ember, #ff6a78);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* Keyboard Focus Indicators */
+.logoMark:focus-visible,
+.navItem:focus-visible {
+  outline: 2px solid var(--ember, #ff6a78);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (max-width: 599px) {
+  .navbar {
+    padding: 14px 18px;
+  }
+
+  .navLinks {
+    gap: 12px;
+  }
+
+  .logoTag {
+    display: none;
+  }
+}
+
+/* Reduced Motion Fallback: Plain static underline, disable magnetic transforms */
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navItem,
+  .navText::after {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .navItem:hover .navText::after,
+  .activeRoute .navText::after {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

@@ -65,12 +65,12 @@ export interface ProjectOpeningProps {
   eyebrow: string;
   title: ReactNode;
   thesis: string;
-  meta: ProjectOpeningMetaItem[];
+  meta?: ProjectOpeningMetaItem[];
   ownership: string;
   /** Evidence/content slot — BETTR's live embed, a future project's hero image, etc. */
   children: ReactNode;
-  /** Column split between the text block and the evidence slot. Only one exists today. */
-  variant?: "split";
+  /** Column split between the text block and the evidence slot: "split" (c1-5/c5-13) or "balanced" (c1-7/c8-13). */
+  variant?: "split" | "balanced";
 }
 
 /** Section-level rhythm: standard spacing, a feature chapter's larger lead-in, or a tightened gap before it. */
@@ -102,6 +102,14 @@ export interface SectionHeadingProps {
  */
 export type MediaFigureCrop = "default" | "coverTopLeft" | "native";
 
+/**
+ * Three named media treatments for editorial case studies:
+ * - spotlight: one dominant, full-column-width image for a chapter's primary visual
+ * - duo: paired side-by-side images with shared aspect ratio
+ * - supporting: deliberately sized smaller image with consistent captioning
+ */
+export type MediaFigureTreatment = "spotlight" | "duo" | "supporting";
+
 export interface MediaFigureNote {
   heading?: string;
   body: ReactNode;
@@ -116,10 +124,21 @@ export interface MediaFigureProps {
   caption?: ReactNode;
   note?: MediaFigureNote;
   crop?: MediaFigureCrop;
-  /** Required when crop is "native" — sets the display width cap in pixels. */
+  treatment?: MediaFigureTreatment;
+  /** Enforced aspect ratio (e.g. "16/10", "3/2", "4/3", "16/9") */
+  aspectRatio?: string;
+  /** Required when crop is "native" or treatment is "supporting" — sets the display width cap in pixels. */
   nativeWidth?: number;
   loading?: "lazy" | "eager";
   /** Column-span utility class supplied by the caller (e.g. "c1-7"). */
+  className?: string;
+}
+
+export interface MediaDuoProps {
+  left: MediaFigureProps;
+  right: MediaFigureProps;
+  /** Shared aspect ratio enforced for both images in the duo (default: "16/10") */
+  aspectRatio?: string;
   className?: string;
 }
 

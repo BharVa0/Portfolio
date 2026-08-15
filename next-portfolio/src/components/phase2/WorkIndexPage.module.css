@@ -1,0 +1,467 @@
+/* ==========================================================================
+   Work Index Page Module Stylesheet
+   Uses tokens from docs/PHASE_2_DESIGN_SYSTEM.md
+   Typographic, image-free 6-project list layout with layoutId sliding highlight
+   and enlarged, permanently visible, actively animated project motif badges.
+   ========================================================================== */
+
+.pageWrapper {
+  min-height: 100vh;
+  background: var(--ink, #0d0c0b);
+  color: var(--paper, #f4efe6);
+}
+
+.mainContent {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(120px, 16vh, 180px) clamp(20px, 4vw, 72px) clamp(60px, 10vh, 120px);
+}
+
+.header {
+  max-width: 46rem;
+  margin-bottom: clamp(48px, 8vh, 88px);
+}
+
+.eyebrow {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.66rem, 0.7vw, 0.78rem);
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ember-bright, #d35c34);
+  margin-bottom: clamp(12px, 1.5vh, 20px);
+}
+
+.title {
+  font-family: var(--font-display, serif);
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  font-weight: 520;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  margin: 0 0 clamp(16px, 2vh, 28px) 0;
+  color: var(--paper, #f4efe6);
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.25vw, 1.35rem);
+  line-height: 1.5;
+  color: rgba(244, 239, 230, 0.82);
+}
+
+/* --------------------------------------------------------------------------
+   Typographic Project List
+   -------------------------------------------------------------------------- */
+.listSection {
+  position: relative;
+  border-top: 1px solid rgba(244, 239, 230, 0.2);
+}
+
+.listHeader {
+  display: grid;
+  grid-template-columns: 80px 2.2fr 2fr 160px;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(244, 239, 230, 0.12);
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.64rem, 0.65vw, 0.74rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.55);
+}
+
+.projectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.projectRowItem {
+  position: relative;
+  margin: 0;
+  border-bottom: 1px solid rgba(244, 239, 230, 0.12);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Shared layoutId Sliding Highlight Panel */
+.rowHighlight {
+  position: absolute;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--row-accent, #ff6a78) 12%, transparent);
+  border-left: 3.5px solid var(--row-accent, #ff6a78);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.projectRowLink {
+  display: grid;
+  grid-template-columns: 80px 2.2fr 2fr 160px;
+  align-items: center;
+  gap: 24px;
+  padding: clamp(24px, 3.2vh, 38px) 20px;
+  text-decoration: none;
+  color: var(--paper, #f4efe6);
+  position: relative;
+  z-index: 1;
+  outline: none;
+  transition: color 240ms ease;
+}
+
+.projectRowLink:hover .rowTitle,
+.projectRowLink:focus-visible .rowTitle {
+  color: var(--row-accent, #ff6a78);
+}
+
+.projectRowLink:hover .rowNumber,
+.projectRowLink:focus-visible .rowNumber {
+  color: var(--row-accent, #ff6a78);
+}
+
+.projectRowLink:hover .arrow,
+.projectRowLink:focus-visible .arrow {
+  color: var(--row-accent, #ff6a78);
+  transform: translate(3px, -3px);
+}
+
+.projectRowLink:hover .motifSvg,
+.projectRowLink:focus-visible .motifSvg {
+  opacity: 1;
+}
+
+/* Prevent child elements from intercepting mouse events */
+.rowNumber,
+.rowTitle,
+.rowDiscipline,
+.rowMotifWrapper,
+.motifSvg,
+.arrow {
+  pointer-events: none;
+}
+
+.rowNumber {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.85rem, 0.9vw, 1.05rem);
+  font-weight: 700;
+  color: rgba(244, 239, 230, 0.5);
+  transition: color 240ms ease;
+}
+
+.rowTitle {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.6rem, 2.8vw, 3rem);
+  font-weight: 520;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--paper, #f4efe6);
+  transition: color 240ms ease;
+}
+
+.rowDiscipline {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.7rem, 0.75vw, 0.84rem);
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.72);
+}
+
+.rowMotifWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+/* Enlarged permanently visible motif badge */
+.motifSvg {
+  width: 80px;
+  height: 30px;
+  opacity: 0.55;
+  transition: opacity 240ms ease;
+  overflow: visible;
+}
+
+.arrow {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  color: rgba(244, 239, 230, 0.5);
+  transition: color 240ms ease, transform 240ms ease;
+}
+
+/* Keyboard Focus Treatment */
+.projectRowLink:focus-visible {
+  outline: 2px solid var(--row-accent, #ff6a78);
+  outline-offset: -2px;
+}
+
+/* --------------------------------------------------------------------------
+   Amplified Ambient Motif Animations
+   -------------------------------------------------------------------------- */
+/* 1. BETTR: Radar concentric pulse & rotating ray */
+.radarCircle {
+  transform-origin: 40px 12px;
+  animation: radarPulse 2.2s ease-in-out infinite;
+}
+.radarRay {
+  transform-origin: 40px 12px;
+  animation: radarRotate 3.6s linear infinite;
+}
+@keyframes radarPulse {
+  0%, 100% {
+    transform: scale(0.9);
+    stroke-opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.48);
+    stroke-opacity: 1;
+  }
+}
+@keyframes radarRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 2. CardioPal: EKG line draw pulse */
+.ekgPath {
+  stroke-dasharray: 85 85;
+  stroke-dashoffset: 0;
+  animation: ekgPulse 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+@keyframes ekgPulse {
+  0% {
+    stroke-dashoffset: 170;
+    opacity: 0.35;
+    stroke-width: 1.4;
+  }
+  40% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    stroke-width: 2.1;
+  }
+  75%, 100% {
+    stroke-dashoffset: 0;
+    opacity: 0.85;
+    stroke-width: 1.6;
+  }
+}
+
+/* 3. FrankenTeen: Harmonic string wave oscillation */
+.harmonicWaveTop {
+  transform-origin: 40px 12px;
+  animation: harmonicTop 2.0s ease-in-out infinite;
+}
+.harmonicWaveBottom {
+  transform-origin: 40px 12px;
+  animation: harmonicBottom 2.0s ease-in-out infinite;
+}
+@keyframes harmonicTop {
+  0%, 100% {
+    transform: scaleY(0.9) translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(1.8) translateY(-3px);
+    opacity: 1;
+  }
+}
+@keyframes harmonicBottom {
+  0%, 100% {
+    transform: scaleY(0.9) translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(0.35) translateY(3px);
+    opacity: 0.35;
+  }
+}
+
+/* 4. Echoes of Home: Memory spatial plane float */
+.spatialPlane {
+  transform-origin: 40px 10px;
+  animation: spatialFloat 2.2s ease-in-out infinite;
+}
+.spatialLine {
+  transform-origin: 40px 21px;
+  animation: spatialBreathe 2.2s ease-in-out infinite;
+}
+@keyframes spatialFloat {
+  0%, 100% {
+    transform: translateY(1.5px) scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-4.5px) scale(1.15);
+    opacity: 1;
+  }
+}
+@keyframes spatialBreathe {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scaleY(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.35);
+  }
+}
+
+/* 5. Smartphone Mold: Glyph dashed frame crawl & center core */
+.glyphFrame {
+  animation: glyphDash 2.8s linear infinite;
+}
+.glyphCenter {
+  transform-origin: 40px 12px;
+  animation: glyphCore 1.8s ease-in-out infinite;
+}
+@keyframes glyphDash {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+@keyframes glyphCore {
+  0%, 100% {
+    transform: scale(0.85);
+    stroke-opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.65);
+    stroke-opacity: 1;
+  }
+}
+
+/* 6. Playing Freedom: Horizon dual wave undulation */
+.horizonWaveTop {
+  transform-origin: 40px 12px;
+  animation: horizonTop 2.2s ease-in-out infinite;
+}
+.horizonWaveBottom {
+  transform-origin: 40px 12px;
+  animation: horizonBottom 2.2s ease-in-out infinite;
+}
+@keyframes horizonTop {
+  0%, 100% {
+    transform: scaleY(0.8) translateY(0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scaleY(1.85) translateY(-2.5px);
+    opacity: 1;
+  }
+}
+@keyframes horizonBottom {
+  0%, 100% {
+    transform: scaleY(0.8) translateY(0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scaleY(0.3) translateY(2.5px);
+    opacity: 0.3;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Layouts
+   -------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .listHeader {
+    display: none;
+  }
+
+  .projectRowLink {
+    grid-template-columns: 50px 1fr auto;
+    grid-template-areas:
+      "num title arrow"
+      "num disc motif";
+    gap: 8px 16px;
+    padding: 24px 16px;
+  }
+
+  .rowNumber {
+    grid-area: num;
+  }
+
+  .rowTitle {
+    grid-area: title;
+    font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+  }
+
+  .rowDiscipline {
+    grid-area: disc;
+    font-size: 0.68rem;
+  }
+
+  .rowMotifWrapper {
+    grid-area: arrow;
+  }
+
+  .motifSvg {
+    width: 64px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 599px) {
+  .mainContent {
+    padding-top: 100px;
+  }
+
+  .projectRowLink {
+    grid-template-columns: 36px 1fr auto;
+    padding: 20px 12px;
+  }
+
+  .rowNumber {
+    font-size: 0.8rem;
+  }
+
+  .rowTitle {
+    font-size: 1.25rem;
+  }
+
+  .rowDiscipline {
+    font-size: 0.62rem;
+  }
+
+  .motifSvg {
+    width: 54px;
+    height: 20px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion Override
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .projectRowLink,
+  .rowTitle,
+  .rowNumber,
+  .arrow,
+  .motifSvg {
+    transition: none !important;
+  }
+
+  .rowHighlight {
+    transition: none !important;
+  }
+
+  .radarCircle,
+  .radarRay,
+  .ekgPath,
+  .harmonicWaveTop,
+  .harmonicWaveBottom,
+  .spatialPlane,
+  .spatialLine,
+  .glyphFrame,
+  .glyphCenter,
+  .horizonWaveTop,
+  .horizonWaveBottom {
+    animation: none !important;
+    transform: none !important;
+  }
+}

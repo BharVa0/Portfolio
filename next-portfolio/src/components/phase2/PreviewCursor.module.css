@@ -1,0 +1,48 @@
+.cursorWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--cursor-accent, var(--ember, #ff6a78));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, background-color 0.25s ease;
+  will-change: transform;
+}
+
+.ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.2px solid var(--cursor-accent, var(--ember, #ff6a78));
+  background-color: transparent;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, border-color 0.25s ease, background-color 0.25s ease;
+  will-change: transform;
+}
+
+.dot.visible,
+.ring.visible {
+  opacity: 1;
+}
+
+.ring.hovered {
+  border-color: var(--cursor-accent, var(--ember, #ff6a78));
+  background-color: rgba(255, 255, 255, 0.03);
+}

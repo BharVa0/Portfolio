@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { MediaFigure } from "@/components/projects/MediaFigure";
 import { ProjectPageShell } from "@/components/projects/ProjectPageShell";
+import { ProjectOpening } from "@/components/projects/ProjectOpening";
 import { ProjectSection } from "@/components/projects/ProjectSection";
+import { ProjectBackground } from "@/components/projects/ProjectBackground";
+import { ProjectScrollProgress } from "@/components/projects/ProjectScrollProgress";
 import { EchoesVideoPoster } from "./EchoesVideoPoster";
 import "./EchoesCaseStudy.css";
 
@@ -11,6 +14,9 @@ const KALTURA_PLAYTHROUGH_URL =
 export function EchoesCaseStudy() {
   return (
     <ProjectPageShell accent="echoes">
+      <ProjectBackground accent="#87a2b8" motif="spatial-ray" />
+      <ProjectScrollProgress label="04 / 06 · Echoes of Home" />
+
       <header className="proj-frame">
         <div className="proj-frame-bar">
           <Link href="/">← Index</Link>
@@ -23,38 +29,23 @@ export function EchoesCaseStudy() {
         </div>
       </header>
 
-      <section className="proj-hero">
-        <div className="cols" data-layout="asymmetric">
-          <div className="c1-5">
-            <p className="proj-eyebrow">
-              Environmental storytelling · Solo · Unity, Blender
-            </p>
-            <h1 className="proj-title">Echoes of Home</h1>
-            <p className="proj-thesis">
-              A low-poly memory room built from the homes I&apos;ve actually
-              lived in. No dialogue carries the weight here. The lighting, the
-              objects, and one small symbolic act do.
-            </p>
-            <p className="proj-ownership">
-              Solo project, Unity and Blender. I designed, built, and modelled
-              every scene myself, including the runner track.
-            </p>
-          </div>
-          <div className="c6-13 self-center">
-            <MediaFigure
-              src="/assets/echoes/laptop-interaction-crop.jpg"
-              width={471}
-              height={356}
-              alt="Unity Scene view of the room, warm light against cool furniture, a trigger volume marked in magenta"
-              caption="Development capture, Unity Scene view. Warmth and shadow overlapping, the way memory does."
-              crop="native"
-              nativeWidth={471}
-              loading="eager"
-              className="tone-dim proj-dominant-shot"
-            />
-          </div>
-        </div>
-      </section>
+      <ProjectOpening
+        variant="balanced"
+        eyebrow="Environmental storytelling · Solo · Unity, Blender"
+        title="Echoes of Home"
+        thesis="A low-poly memory room built from the homes I've actually lived in. No dialogue carries the weight here. The lighting, the objects, and one small symbolic act do."
+        ownership="Solo project, Unity and Blender. I designed, built, and modelled every scene myself, including the runner track."
+      >
+        <MediaFigure
+          src="/assets/echoes/laptop-interaction-crop.jpg"
+          width={471}
+          height={356}
+          loading="eager"
+          alt="Unity Scene view of the room, warm light against cool furniture, a trigger volume marked in magenta"
+          caption="Development capture, Unity Scene view. Warmth and shadow overlapping, the way memory does."
+          treatment="spotlight"
+        />
+      </ProjectOpening>
 
       <ProjectSection
         number="01"
@@ -88,9 +79,7 @@ export function EchoesCaseStudy() {
               height={356}
               alt="Unity Scene view of the room, gizmos on, showing the phone's trigger volume as a magenta capsule"
               caption="Development capture. The magenta shape is the phone's trigger volume, the object the player is meant to notice and reach for."
-              crop="native"
-              nativeWidth={471}
-              className="tone-dim proj-dominant-shot"
+              treatment="spotlight"
             />
           </div>
         </div>
@@ -180,9 +169,7 @@ export function EchoesCaseStudy() {
               height={356}
               alt="Unity Scene view of the runner track, lanes stretching ahead under a storm-lit sky, the player character mid-run"
               caption="Development capture, Unity Scene view. The track and lanes, mid-run."
-              crop="native"
-              nativeWidth={471}
-              className="tone-dim proj-dominant-shot runner-dominant"
+              treatment="spotlight"
             />
           </div>
         </div>
@@ -210,9 +197,8 @@ export function EchoesCaseStudy() {
               height={204}
               alt="Blender viewport showing the custom-modelled runner track"
               caption="The track, modelled from scratch"
-              crop="native"
+              treatment="supporting"
               nativeWidth={280}
-              className="tone-dim"
             />
           </div>
         </div>

@@ -1,52 +1,50 @@
-import Image from "next/image";
 import Link from "next/link";
+import { MediaFigure, MediaDuo } from "@/components/projects/MediaFigure";
 import { ProjectPageShell } from "@/components/projects/ProjectPageShell";
+import { ProjectOpening } from "@/components/projects/ProjectOpening";
+import { ProjectSection } from "@/components/projects/ProjectSection";
+import { ProjectBackground } from "@/components/projects/ProjectBackground";
+import { ProjectScrollProgress } from "@/components/projects/ProjectScrollProgress";
 import "./SmartphoneMoldCaseStudy.css";
 
 export function SmartphoneMoldCaseStudy() {
   return (
     <ProjectPageShell accent="smartphone-mold">
+      <ProjectBackground accent="#9eb8d9" motif="glyph-matrix" />
+      <ProjectScrollProgress label="05 / 06 · Breaking the Smartphone Mold" />
+
       <div className="smartphone-wrap">
-        <header className="smartphone-statusbar">
-          <Link href="/">← index</Link>
-          <span>05 / 06 · Breaking the Smartphone Mold</span>
+        <header className="proj-frame">
+          <div className="proj-frame-bar">
+            <Link href="/">← Index</Link>
+            <span className="proj-frame-count mono">
+              05 / 06 · Breaking the Smartphone Mold
+            </span>
+            <Link href="/projects/playing-freedom">
+              Next: Playing Freedom →
+            </Link>
+          </div>
         </header>
 
-        <section className="smartphone-hero">
-          <p className="smartphone-eyebrow">
-            design research, cultural analysis
-          </p>
-          <h1 className="smartphone-title">Breaking the Smartphone Mold</h1>
-          <p className="smartphone-thesis">
-            Strip the logos off ten flagship phones and most people
-            couldn&apos;t tell you which is which. This is a case study on why
-            that happened, using Nothing and CMF by Nothing as the test case,
-            grounded in an actual interview with someone who works there.
-          </p>
-          <div className="smartphone-tags">
-            <span className="smartphone-tag">Design research</span>
-            <span className="smartphone-tag">Industry interview</span>
-            <span className="smartphone-tag">Media &amp; culture</span>
-          </div>
-        </section>
-
-        <div className="smartphone-hero-image">
-          <Image
+        <ProjectOpening
+          variant="balanced"
+          eyebrow="design research, cultural analysis"
+          title="Breaking the Smartphone Mold"
+          thesis="Strip the logos off ten flagship phones and most people couldn't tell you which is which. This is a case study on why that happened, using Nothing and CMF by Nothing as the test case, grounded in an actual interview with someone who works there."
+          ownership="Design research · Industry interview · Media & culture"
+        >
+          <MediaFigure
             src="/assets/smartphone/convergence-figure1.jpeg"
             width={670}
             height={882}
-            sizes="(max-width: 980px) calc(100vw - 64px), 916px"
-            priority
-            unoptimized
             alt="Comparison of iPhone camera designs from 2019 to 2024 alongside competitor phones, showing visual convergence across the smartphone market"
+            caption="Visual convergence across flagship smartphones. Strip the branding and most devices share the same silhouette and camera arrangement."
+            treatment="spotlight"
+            loading="eager"
           />
-        </div>
-        <p className="smartphone-hero-caption">
-          Visual convergence across flagship smartphones. Strip the branding
-          and most devices share the same silhouette and camera arrangement.
-        </p>
+        </ProjectOpening>
 
-        <SmartphoneSection number="01" title="The actual question">
+        <ProjectSection number="01" title="The actual question">
           <p className="smartphone-body">
             Smartphones are some of the most visible objects in daily life,
             photographed, shared, and seen constantly in public. That should
@@ -67,9 +65,9 @@ export function SmartphoneMoldCaseStudy() {
             else. The answer, working through it honestly, turned out to be
             both at once.
           </p>
-        </SmartphoneSection>
+        </ProjectSection>
 
-        <SmartphoneSection number="02" title="Why everything looks the same">
+        <ProjectSection number="02" title="Why everything looks the same">
           <p className="smartphone-body">
             Institutional isomorphism gives the clearest explanation for why
             an entire industry converges visually. Mimetic isomorphism: firms
@@ -107,11 +105,12 @@ export function SmartphoneMoldCaseStudy() {
               </p>
             </div>
           </div>
-        </SmartphoneSection>
+        </ProjectSection>
 
-        <SmartphoneSection
+        <ProjectSection
           number="03"
           title="Transparency as both rebellion and brand"
+          rhythm="feature"
         >
           <p className="smartphone-body">
             Nothing&apos;s signature move is exposing what every other
@@ -123,28 +122,21 @@ export function SmartphoneMoldCaseStudy() {
             philosophy more broadly, offering interchangeable cases, textures,
             and finishes at a price point built for a wider audience.
           </p>
-          <div className="smartphone-shot-grid">
-            <div className="smartphone-shot">
-              <Image
-                src="/assets/smartphone/nothing-transparent.jpeg"
-                width={1235}
-                height={926}
-                sizes="(max-width: 760px) calc(100vw - 64px), 457px"
-                unoptimized
-                alt="Transparent back panel of Nothing Phone showing exposed internal components and structural design"
-              />
-            </div>
-            <div className="smartphone-shot">
-              <Image
-                src="/assets/smartphone/cmf-product.jpeg"
-                width={1164}
-                height={655}
-                sizes="(max-width: 760px) calc(100vw - 64px), 457px"
-                unoptimized
-                alt="CMF by Nothing accessories in orange, showing accessible customisation options"
-              />
-            </div>
-          </div>
+          <MediaDuo
+            aspectRatio="16/10"
+            left={{
+              src: "/assets/smartphone/nothing-transparent.jpeg",
+              width: 1235,
+              height: 926,
+              alt: "Transparent back panel of Nothing Phone showing exposed internal components and structural design",
+            }}
+            right={{
+              src: "/assets/smartphone/cmf-product.jpeg",
+              width: 1164,
+              height: 655,
+              alt: "CMF by Nothing accessories in orange, showing accessible customisation options",
+            }}
+          />
           <blockquote className="smartphone-quote">
             Transparency was chosen because it communicates a design
             philosophy, but also because it builds a strong, recognisable brand
@@ -158,9 +150,9 @@ export function SmartphoneMoldCaseStudy() {
             it&apos;s also doing branding work at the same time. Both things are
             true; neither cancels the other out.
           </p>
-        </SmartphoneSection>
+        </ProjectSection>
 
-        <SmartphoneSection number="04" title="How durable is any of this">
+        <ProjectSection number="04" title="How durable is any of this">
           <p className="smartphone-body">
             A Verge report surfaced a leak suggesting a future Nothing model
             might drop the Glyph interface entirely. Speculative, but a useful
@@ -173,16 +165,13 @@ export function SmartphoneMoldCaseStudy() {
             language actually survives contact with a mass market.
           </p>
           <div className="smartphone-shot-grid">
-            <div className="smartphone-shot">
-              <Image
-                src="/assets/smartphone/glyph-leak.jpeg"
-                width={1346}
-                height={576}
-                sizes="(max-width: 760px) calc(100vw - 64px), 457px"
-                unoptimized
-                alt="News headline reporting a leak that the Nothing Phone 3 may remove the Glyph lighting interface"
-              />
-            </div>
+            <MediaFigure
+              src="/assets/smartphone/glyph-leak.jpeg"
+              width={1346}
+              height={576}
+              alt="News headline reporting a leak that the Nothing Phone 3 may remove the Glyph lighting interface"
+              treatment="spotlight"
+            />
             <div className="smartphone-shot smartphone-quote-shot">
               <p>
                 &quot;The challenge lies in maintaining expressive features
@@ -190,9 +179,9 @@ export function SmartphoneMoldCaseStudy() {
               </p>
             </div>
           </div>
-        </SmartphoneSection>
+        </ProjectSection>
 
-        <SmartphoneSection number="05" title="What I'd still push on">
+        <ProjectSection number="05" title="What I'd still push on">
           <div className="smartphone-reflection">
             <p className="smartphone-body">
               CMF&apos;s personalisation model is real, but it&apos;s curated
@@ -227,41 +216,21 @@ export function SmartphoneMoldCaseStudy() {
             of brand authenticity on electronic word of mouth.{" "}
             <em>Frontiers in Psychology</em>.
           </div>
-        </SmartphoneSection>
+        </ProjectSection>
 
-        <footer className="smartphone-footer-nav">
-          <Link className="smartphone-nav-back" href="/">
-            ← back to index
+        <div className="proj-footer-nav">
+          <Link className="proj-nav-back" href="/">
+            ← Back to index
           </Link>
           <Link
-            className="smartphone-nav-next"
+            className="proj-nav-next"
             href="/projects/playing-freedom"
           >
-            <span>Next project</span>
+            <span className="proj-next-label">Next project</span>
             Playing Freedom →
           </Link>
-        </footer>
+        </div>
       </div>
     </ProjectPageShell>
-  );
-}
-
-function SmartphoneSection({
-  number,
-  title,
-  children,
-}: {
-  number: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="smartphone-section">
-      <header className="smartphone-section-head">
-        <span>{number}</span>
-        <h2>{title}</h2>
-      </header>
-      {children}
-    </section>
   );
 }
