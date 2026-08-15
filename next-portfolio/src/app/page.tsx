@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { HeroG } from "@/components/hero/HeroG";
 import { HomepageClosing } from "@/components/home/HomepageClosing";
-import { WorkIndex } from "@/components/home/WorkIndex";
+import { SiteNavbar } from "@/components/phase2/SiteNavbar";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { SiteHeader } from "@/components/site/SiteHeader";
 import { SkipLink } from "@/components/site/SkipLink";
 
 export const metadata: Metadata = {
@@ -23,20 +22,20 @@ export const metadata: Metadata = {
 };
 
 /*
- * Complete Phase 1 homepage, preserving the approved static sequence and
- * keeping homepage-only frame/footer markup off the project routes.
+ * Phase 2 Homepage: Hero G kinetic typography hero + floating navigation
+ * and editorial practice/about/contact closing sections.
  */
 export default function Home() {
   return (
     <>
       <SkipLink href="#content" />
-      <SiteHeader />
+      <SiteNavbar />
       <main id="content">
         <HeroG />
-        <WorkIndex />
         <HomepageClosing />
       </main>
       <SiteFooter />
     </>
   );
 }
+

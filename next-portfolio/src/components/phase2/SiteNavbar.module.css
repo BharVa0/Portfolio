@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Phase 2 Preview Navbar Module Stylesheet
+   Permanent Site Navbar Module Stylesheet
    Reconciled motion curve: cubic-bezier(0.16, 1, 0.3, 1) per Phase 2 system
    ========================================================================== */
 
@@ -59,114 +59,96 @@
 .navLinks {
   display: flex;
   align-items: center;
-  gap: clamp(16px, 2.5vw, 36px);
+  gap: clamp(12px, 1.8vw, 32px);
 }
 
-/* Reactive Nav Links with Subtle Magnetic Support */
+/* Base interactive item with magnetic physics */
 .navItem {
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
   min-height: 44px;
-  padding: 8px 12px;
+  min-width: 44px;
+  border-radius: 4px;
   font-family: var(--font-mono, monospace);
-  font-size: clamp(0.66rem, 0.7vw, 0.78rem);
-  line-height: 1.35;
+  font-size: clamp(0.72rem, 0.75vw, 0.84rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.78);
   text-decoration: none;
-  color: rgba(244, 239, 230, 0.75);
-  transition: color 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
   will-change: transform;
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navText {
   position: relative;
-  display: inline-block;
-}
-
-/* Animated Underline Draw-in Effect */
-.navText::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--ember, #ff6a78);
-  transform: scaleX(0);
-  transform-origin: left;
-  opacity: 0;
-  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navItem:hover {
   color: var(--paper, #f4efe6);
+  background-color: rgba(244, 239, 230, 0.05);
 }
 
-.navItem:hover .navText::after {
-  transform: scaleX(1);
-  opacity: 1;
+.navItem:hover .navText {
+  transform: translateY(-1px);
 }
 
-/* Persistent Active Route Indicator */
-.activeRoute {
-  color: var(--paper, #f4efe6);
-  font-weight: 600;
-}
-
-.activeRoute .navText::after {
-  transform: scaleX(1);
-  opacity: 1;
-  background-color: var(--ember, #ff6a78);
-}
-
+/* Subtle active indicator dot */
 .activeDot {
   display: inline-block;
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background-color: var(--ember, #ff6a78);
-  margin-left: 6px;
-  vertical-align: middle;
+  margin-left: 2px;
+  box-shadow: 0 0 8px rgba(255, 106, 120, 0.6);
 }
 
-/* Keyboard Focus Indicators */
+.activeRoute {
+  color: var(--paper, #f4efe6);
+  font-weight: 600;
+}
+
+/* Keyboard focus states */
 .logoMark:focus-visible,
 .navItem:focus-visible {
   outline: 2px solid var(--ember, #ff6a78);
-  outline-offset: 4px;
-  border-radius: 2px;
+  outline-offset: 3px;
 }
 
-@media (max-width: 599px) {
-  .navbar {
-    padding: 14px 18px;
+/* Accessibility: respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navItem,
+  .navText {
+    transition: none !important;
+    transform: none !important;
   }
+}
 
-  .navLinks {
-    gap: 12px;
+/* Mobile responsive collapse/adjustments */
+@media (max-width: 640px) {
+  .navbar {
+    padding: 12px 16px;
   }
 
   .logoTag {
     display: none;
   }
-}
 
-/* Reduced Motion Fallback: Plain static underline, disable magnetic transforms */
-@media (prefers-reduced-motion: reduce) {
-  .navbar,
-  .navItem,
-  .navText::after {
-    transition: none !important;
-    transform: none !important;
+  .navLinks {
+    gap: 4px;
   }
 
-  .navItem:hover .navText::after,
-  .activeRoute .navText::after {
-    transform: none !important;
-    opacity: 1 !important;
+  .navItem {
+    padding: 8px 10px;
+    font-size: 0.7rem;
   }
 }

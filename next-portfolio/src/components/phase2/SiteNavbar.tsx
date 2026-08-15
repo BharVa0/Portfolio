@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import styles from "./PreviewNavbar.module.css";
+import styles from "./SiteNavbar.module.css";
 
 interface MagneticNavItemProps {
   children: React.ReactNode;
@@ -79,7 +79,7 @@ function MagneticNavItem({
   );
 }
 
-export function PreviewNavbar() {
+export function SiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -93,15 +93,15 @@ export function PreviewNavbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isReelActive = pathname === "/phase-2-preview";
-  const isWorkActive = pathname === "/phase-2-preview/work";
+  const isReelActive = pathname === "/";
+  const isWorkActive = pathname === "/work";
 
   return (
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.navInner}>
         {/* Logo/wordmark is kept completely static per design restraint contract */}
         <Link
-          href="/phase-2-preview"
+          href="/"
           className={styles.logoMark}
           aria-label="Bharat Vyas Portfolio Home"
           data-cursor-color="var(--ember, #ff6a78)"
@@ -111,16 +111,16 @@ export function PreviewNavbar() {
         </Link>
 
         <nav className={styles.navLinks} aria-label="Primary Navigation">
-          <MagneticNavItem href="/phase-2-preview" isActive={isReelActive}>
+          <MagneticNavItem href="/" isActive={isReelActive}>
             Reel
           </MagneticNavItem>
-          <MagneticNavItem href="/phase-2-preview/work" isActive={isWorkActive}>
+          <MagneticNavItem href="/work" isActive={isWorkActive}>
             Work
           </MagneticNavItem>
-          <MagneticNavItem href="/phase-2-preview#about" isExternal>
+          <MagneticNavItem href="/#about" isExternal>
             About
           </MagneticNavItem>
-          <MagneticNavItem href="/phase-2-preview#contact" isExternal>
+          <MagneticNavItem href="/#contact" isExternal>
             Contact
           </MagneticNavItem>
         </nav>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { fraunces, inter, spaceMono } from "@/styles/fonts";
+import { MotionCursor } from "@/components/phase2/MotionCursor";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -26,7 +27,10 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        <MotionCursor />
+        {children}
+      </body>
     </html>
   );
 }

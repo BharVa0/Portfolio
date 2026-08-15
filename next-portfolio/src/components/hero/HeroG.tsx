@@ -20,7 +20,7 @@ const content: HeroGContent = {
     "playable worlds and research-led experiences.",
   ],
   ctaLabel: "Selected work",
-  ctaHref: "#work",
+  ctaHref: "/work",
   meta: {
     degree: "MSc Design and Digital Media",
     institution: "University of Edinburgh",
