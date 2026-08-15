@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { ProjectPageShell } from "@/components/projects/ProjectPageShell";
+import { ProjectOpening } from "@/components/projects/ProjectOpening";
+import { ProjectSection } from "@/components/projects/ProjectSection";
+import { ProjectBackground } from "@/components/projects/ProjectBackground";
+import { ProjectScrollProgress } from "@/components/projects/ProjectScrollProgress";
 import "./PlayingFreedomCaseStudy.css";
 
 const PLAYING_FREEDOM_VIDEO_URL =
@@ -13,51 +17,52 @@ const legacyFullscreenAttributes = {
 export function PlayingFreedomCaseStudy() {
   return (
     <ProjectPageShell accent="playing-freedom">
+      <ProjectBackground accent="#e14b3c" motif="horizon-grid" />
+      <ProjectScrollProgress label="06 / 06 · Playing Freedom" />
+
       <div className="freedom-wrap">
-        <header className="freedom-statusbar">
-          <Link href="/">← index</Link>
-          <span>06 / 06 · Playing Freedom</span>
+        <header className="proj-frame">
+          <div className="proj-frame-bar">
+            <Link href="/">← Index</Link>
+            <span className="proj-frame-count mono">
+              06 / 06 · Playing Freedom
+            </span>
+            <Link href="/projects/bettr">
+              Next: BETTR →
+            </Link>
+          </div>
         </header>
 
-        <section className="freedom-hero">
-          <p className="freedom-eyebrow">critical analysis, game studies</p>
-          <h1 className="freedom-title">Playing Freedom</h1>
-          <p className="freedom-thesis">
-            A video documentary on how Assassin&apos;s Creed IV: Black Flag,
-            Freedom Cry turns the history of slavery into something playable,
-            told through Adéwalé, a formerly enslaved man, and asking what that
-            translation actually costs.
+        <ProjectOpening
+          variant="balanced"
+          eyebrow="critical analysis, game studies"
+          title="Playing Freedom"
+          thesis="A video documentary on how Assassin's Creed IV: Black Flag, Freedom Cry turns the history of slavery into something playable, told through Adéwalé, a formerly enslaved man, and asking what that translation actually costs."
+          ownership="Critical analysis · Game studies · Video documentary · Global Design Culture"
+        >
+          <div className="freedom-video-hero">
+            <div className="freedom-video-bar">
+              <span>video documentary</span>
+              <span>full piece</span>
+            </div>
+            <div className="freedom-video-wrap">
+              <iframe
+                src={PLAYING_FREEDOM_VIDEO_URL}
+                allowFullScreen
+                {...legacyFullscreenAttributes}
+                allow="autoplay *; fullscreen *; encrypted-media *"
+                title="Playing Freedom video documentary"
+              />
+            </div>
+          </div>
+          <p className="freedom-video-caption">
+            The documentary is the deliverable for this project. Everything
+            below is context for what you&apos;re watching, not a substitute for
+            it.
           </p>
-          <div className="freedom-tags">
-            <span className="freedom-tag">Critical analysis</span>
-            <span className="freedom-tag">Game studies</span>
-            <span className="freedom-tag">Video documentary</span>
-            <span className="freedom-tag">Global Design Culture</span>
-          </div>
-        </section>
+        </ProjectOpening>
 
-        <section className="freedom-video-hero">
-          <div className="freedom-video-bar">
-            <span>video documentary</span>
-            <span>full piece</span>
-          </div>
-          <div className="freedom-video-wrap">
-            <iframe
-              src={PLAYING_FREEDOM_VIDEO_URL}
-              allowFullScreen
-              {...legacyFullscreenAttributes}
-              allow="autoplay *; fullscreen *; encrypted-media *"
-              title="Playing Freedom video documentary"
-            />
-          </div>
-        </section>
-        <p className="freedom-video-caption">
-          The documentary is the deliverable for this project. Everything
-          below is context for what you&apos;re watching, not a substitute for
-          it.
-        </p>
-
-        <FreedomSection number="01" title="What this is examining">
+        <ProjectSection number="01" title="What this is examining">
           <p className="freedom-body">
             Freedom Cry shifts Assassin&apos;s Creed&apos;s usual perspective
             onto Adéwalé, a formerly enslaved man, and structures its world to
@@ -77,9 +82,9 @@ export function PlayingFreedomCaseStudy() {
             academic writing on video games and colonialism, environmental
             storytelling, and cultural heritage representation in games.
           </p>
-        </FreedomSection>
+        </ProjectSection>
 
-        <FreedomSection number="02" title="Why this format">
+        <ProjectSection number="02" title="Why this format">
           <p className="freedom-body">
             A written essay can describe environmental storytelling. It
             can&apos;t actually show you the thing it&apos;s describing happening
@@ -97,9 +102,9 @@ export function PlayingFreedomCaseStudy() {
             was not presented, screened, or distributed publicly beyond the
             course submission.
           </div>
-        </FreedomSection>
+        </ProjectSection>
 
-        <FreedomSection number="03" title="The scholarship underneath it">
+        <ProjectSection number="03" title="The scholarship underneath it">
           <p className="freedom-body">
             This sits inside a growing body of work on what happens when
             colonial history and chattel slavery get adapted into mainstream,
@@ -132,9 +137,9 @@ export function PlayingFreedomCaseStudy() {
             <br />
             GameDesignSkills (2026) Environmental storytelling in video games.
           </div>
-        </FreedomSection>
+        </ProjectSection>
 
-        <FreedomSection number="04" title="Where I'd take this further">
+        <ProjectSection number="04" title="Where I'd take this further">
           <div className="freedom-reflection">
             <p className="freedom-body">
               The hardest part of this project wasn&apos;t finding sources, it
@@ -150,38 +155,21 @@ export function PlayingFreedomCaseStudy() {
               medium handles historical trauma more broadly.
             </p>
           </div>
-        </FreedomSection>
+        </ProjectSection>
 
-        <footer className="freedom-footer-nav">
-          <Link className="freedom-nav-back" href="/">
-            ← back to index
+        <div className="proj-footer-nav">
+          <Link className="proj-nav-back" href="/">
+            ← Back to index
           </Link>
-          <Link className="freedom-nav-next" href="/">
-            <span>Back to start</span>
-            All projects →
+          <Link
+            className="proj-nav-next"
+            href="/projects/bettr"
+          >
+            <span className="proj-next-label">Next project</span>
+            BETTR →
           </Link>
-        </footer>
+        </div>
       </div>
     </ProjectPageShell>
-  );
-}
-
-function FreedomSection({
-  number,
-  title,
-  children,
-}: {
-  number: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="freedom-section">
-      <header className="freedom-section-head">
-        <span>{number}</span>
-        <h2>{title}</h2>
-      </header>
-      {children}
-    </section>
   );
 }

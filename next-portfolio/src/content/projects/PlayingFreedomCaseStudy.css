@@ -9,7 +9,9 @@
   --proj-surface: var(--freedom-bg);
   --proj-text: var(--freedom-ink);
   --proj-accent: var(--freedom-accent);
-  background: var(--freedom-bg);
+  background: transparent;
+  position: relative;
+  z-index: 1;
   color: var(--freedom-ink);
   font-family: var(--font-body);
   line-height: normal;

@@ -1004,3 +1004,52 @@ The latest approved version of this file in the current working tree controls al
 | 20 July 2026 | External components require individual justification and documentation                                           | `LOCKED` |
 | 20 July 2026 | No staging or commit before visual approval                                                                      | `LOCKED` |
 | 20 July 2026 | Coding-agent changes require Bharat’s request                                                                    | `LOCKED` |
+
+---
+
+## 17. Pre-Main-Merge Checklist (Required Component Removals)
+
+**Status:** `OPEN / UNRESOLVED — MANDATORY BEFORE MERGE TO main`  
+**Approver:** Bharat Vyas  
+**Date Added:** 15 August 2026  
+
+The following three React Bits components received retroactive approval (15 August 2026) for their historical presence in the `phase-2-redesign` branch working tree and commit history. However, **none of the three are adopted for production**, and all three must be deleted along with their host pages and orphaned references before `phase-2-redesign` is merged into `main`:
+
+### 1. `PreviewDock` (`Dock`)
+* **Reason for Removal:** Superseded by `PreviewNavbar` on the `/phase-2-preview` layout; currently unmounted and unused.
+* **Exact Files to Delete:**
+  * `next-portfolio/src/components/phase2/PreviewDock.tsx`
+  * `next-portfolio/src/components/phase2/PreviewDock.module.css`
+
+### 2. `FlowingMenu`
+* **Reason for Removal:** Abandoned comparison experiment; superseded by the approved typographic `WorkIndexPage` on `/phase-2-preview/work`.
+* **Exact Files to Delete:**
+  * `next-portfolio/src/components/phase2/FlowingMenu.tsx`
+  * `next-portfolio/src/components/phase2/FlowingMenu.module.css`
+  * `next-portfolio/src/components/phase2/WorkFlowingPage.tsx`
+  * `next-portfolio/src/components/phase2/WorkFlowingPage.module.css`
+  * `next-portfolio/src/app/phase-2-preview/work-flowing/page.tsx`
+  * `next-portfolio/src/app/phase-2-preview/work-flowing/` (directory)
+
+### 3. `SplitStageTitle`
+* **Reason for Removal:** Only imported by `ProjectReel.tsx`, which is itself an unmounted component not rendered on any live or preview route.
+* **Exact Files to Delete:**
+  * `next-portfolio/src/components/phase2/SplitStageTitle.tsx`
+
+### 4. `ProjectReel` & Reel Prototype Subsystem
+* **Reason for Removal:** Obsolete homepage prototype subsystem from early in Phase 2, before the homepage was restructured into `HeroG` + `PreviewNavbar` + `WorkIndexPage`. Completely unmounted and unreferenced across all 13 active routes. (Note: Unlike items 1–3, this has no licensing/approval concerns; it is plain obsolete internal code).
+* **Exact Files to Delete:**
+  * `next-portfolio/src/components/phase2/ProjectReel.tsx`
+  * `next-portfolio/src/components/phase2/ProjectReel.module.css`
+  * `next-portfolio/src/components/phase2/ReelBackground.tsx`
+  * `next-portfolio/src/components/phase2/ReelMotion.tsx`
+* **Data Migration Note (`ReelData.ts`):**
+  * `next-portfolio/src/components/phase2/ReelData.ts` is currently imported by `ProjectReel`, `FlowingMenu`, and `WorkIndexPage`. When `ProjectReel` and `FlowingMenu` are deleted, `ReelData.ts` should be renamed/migrated (e.g., to `WorkIndexData.ts` or integrated into `src/data/`) so that the approved `WorkIndexPage` remains fully functional without legacy "Reel" naming.
+* **Auxiliary Prototype Remnants (Clean up in same pass):**
+  * `next-portfolio/src/components/phase2/BettrBackground.tsx` & `BettrBackground.module.css` (superseded by `src/components/projects/ProjectBackground.tsx`)
+  * `next-portfolio/src/components/phase2/ScrollProgress.tsx` & `ScrollProgress.module.css` (superseded by `src/components/projects/ProjectScrollProgress.tsx`)
+  * `next-portfolio/src/components/phase2/PreviewCursor.tsx` & `PreviewCursor.module.css` (superseded by `src/components/phase2/MotionCursor.tsx`)
+
+Any future task preparing the `phase-2-redesign` -> `main` merge must treat this checklist as an active blocker until all files above are removed and clean compilation is re-verified.
+
+

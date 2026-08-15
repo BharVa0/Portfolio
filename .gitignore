@@ -1,0 +1,41 @@
+# Python bytecode & cache
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Scratch & temporary testing directories
+scratch/
+tmp/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Node / Next.js build artifacts (safety at root)
+next-portfolio/.next/
+next-portfolio/out/
+next-portfolio/build/
+next-portfolio/node_modules/
+next-portfolio/*.tsbuildinfo
+
+# Review screenshots (Ignore future automation run captures)
+docs/review-screenshots/
