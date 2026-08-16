@@ -63,7 +63,7 @@
   align-items: center;
   gap: 24px;
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(244, 239, 230, 0.12);
+  border-bottom: 1px solid rgba(244, 239, 230, 0.14);
   font-family: var(--font-mono, monospace);
   font-size: clamp(0.64rem, 0.65vw, 0.74rem);
   letter-spacing: 0.08em;
@@ -80,7 +80,7 @@
 .projectRowItem {
   position: relative;
   margin: 0;
-  border-bottom: 1px solid rgba(244, 239, 230, 0.12);
+  border-bottom: 1px solid rgba(244, 239, 230, 0.14);
   isolation: isolate;
   overflow: hidden;
 }
@@ -199,6 +199,19 @@
 /* --------------------------------------------------------------------------
    Amplified Ambient Motif Animations
    -------------------------------------------------------------------------- */
+/* 0. Above the Noise: Terminal prompt cursor blink */
+.terminalCursor {
+  animation: terminalBlink 1.2s steps(2, start) infinite;
+}
+@keyframes terminalBlink {
+  0%, 100% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.12;
+  }
+}
+
 /* 1. BETTR: Radar concentric pulse & rotating ray */
 .radarCircle {
   transform-origin: 40px 12px;
@@ -452,6 +465,7 @@
 
   .radarCircle,
   .radarRay,
+  .terminalCursor,
   .ekgPath,
   .harmonicWaveTop,
   .harmonicWaveBottom,

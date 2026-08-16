@@ -27,7 +27,7 @@
 
 .practice,
 .about {
-  border-bottom: 1px solid var(--charcoal);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .practiceGrid {

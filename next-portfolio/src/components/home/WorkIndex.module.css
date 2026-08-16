@@ -15,7 +15,7 @@
 
 .intro {
   padding: var(--space-8) var(--page-margin);
-  border-bottom: 1px solid var(--charcoal);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .introGrid {
@@ -39,7 +39,7 @@
 
 .work {
   padding: var(--space-section) var(--page-margin);
-  border-bottom: 1px solid var(--charcoal);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .workList {
@@ -50,13 +50,13 @@
   display: block;
   text-decoration: none;
   color: var(--paper);
-  border-top: 1px solid var(--charcoal);
+  border-top: 1px solid var(--border-subtle);
   padding: clamp(48px, 6vh, 88px) 0;
   transition: background 0.25s ease;
 }
 
 .projectRow:last-child {
-  border-bottom: 1px solid var(--charcoal);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .projectNum {

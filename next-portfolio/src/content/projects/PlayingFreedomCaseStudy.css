@@ -4,8 +4,8 @@
   --freedom-ink: #edeff2;
   --freedom-muted: #7c8696;
   --freedom-accent: #e14b3c;
-  --freedom-line: rgba(237, 239, 242, 0.08);
-  --freedom-line-2: rgba(237, 239, 242, 0.14);
+  --freedom-line: color-mix(in srgb, var(--freedom-accent) 26%, rgba(237, 239, 242, 0.12));
+  --freedom-line-2: color-mix(in srgb, var(--freedom-accent) 38%, rgba(237, 239, 242, 0.18));
   --proj-surface: var(--freedom-bg);
   --proj-text: var(--freedom-ink);
   --proj-accent: var(--freedom-accent);
@@ -21,12 +21,6 @@
 .project-playing-freedom *::before,
 .project-playing-freedom *::after {
   box-sizing: border-box;
-}
-
-.freedom-wrap {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 0 32px;
 }
 
 .freedom-statusbar {
@@ -117,7 +111,7 @@
 }
 
 .freedom-video-hero {
-  margin-top: 48px;
+  margin-top: 0;
   background: var(--freedom-surface);
   border: 1px solid var(--freedom-line-2);
   border-radius: 10px;

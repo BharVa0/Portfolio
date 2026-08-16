@@ -10,6 +10,16 @@ import styles from "./WorkIndexPage.module.css";
 /* Permanently visible, amplified animated SVG motif details before the action arrow */
 function RowMotif({ motifType, accentHex }: { motifType: string; accentHex: string }) {
   switch (motifType) {
+    case "terminal-prompt":
+      return (
+        <svg viewBox="0 0 80 24" className={`${styles.motifSvg} ${styles.motifTerminalPrompt}`} aria-hidden="true">
+          <line x1="0" y1="5" x2="80" y2="5" stroke={accentHex} strokeWidth="1" strokeOpacity="0.22" strokeDasharray="4 2" />
+          <line x1="0" y1="19" x2="80" y2="19" stroke={accentHex} strokeWidth="1" strokeOpacity="0.22" strokeDasharray="4 2" />
+          <path d="M 20 7 L 27 12 L 20 17" fill="none" stroke={accentHex} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="32" y="8" width="9" height="8" fill={accentHex} className={styles.terminalCursor} />
+          <line x1="47" y1="12" x2="68" y2="12" stroke={accentHex} strokeWidth="1.2" strokeOpacity="0.4" strokeDasharray="3 2" />
+        </svg>
+      );
     case "profiling-grid":
       return (
         <svg viewBox="0 0 80 24" className={`${styles.motifSvg} ${styles.motifProfilingGrid}`} aria-hidden="true">
@@ -89,7 +99,7 @@ export function WorkIndexPage() {
           <p className={styles.eyebrow}>Selected Work / 2026</p>
           <h1 className={styles.title}>Work Index</h1>
           <p className={styles.description}>
-            Six projects exploring decision profiling, health reassurance, guitar-driven identity, memory space, industrial design research, and critical documentary.
+            Seven projects exploring decision profiling, health reassurance, guitar-driven identity, memory space, industrial design research, and critical documentary.
           </p>
         </header>
 

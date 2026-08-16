@@ -9,6 +9,7 @@ export interface WorkIndexProject {
   accentHex: string;
   bgHex: string;
   motifType:
+    | "terminal-prompt"
     | "profiling-grid"
     | "ekg-pulse"
     | "harmonic-wave"
@@ -26,22 +27,36 @@ export interface WorkIndexProject {
 
 export const WORK_INDEX_PROJECTS: readonly WorkIndexProject[] = [
   {
-    id: "bettr",
+    id: "above-the-noise",
     number: "01",
+    title: "Above the Noise",
+    discipline: "Scrollytelling · Design research",
+    meta: "WebGL · Three.js · Blender · Solo",
+    premise:
+      "A personal story about how a mass-produced object became personally significant, leading into a data-driven inquiry on gaming, identity, and refuge.",
+    link: "/projects/above-the-noise",
+    accentHex: "#3ddc84",
+    bgHex: "#0c1410",
+    motifType: "terminal-prompt",
+    layoutStyle: "heroic-left",
+  },
+  {
+    id: "bettr",
+    number: "02",
     title: "BETTR.",
     discipline: "Speculative design · Live build",
     meta: "HTML / CSS / JS · Live build · Solo",
     premise:
       "A speculative AI decision interface that quietly profiles the person using it, then shows them exactly how, and what that costs.",
     link: "/projects/bettr",
-    accentHex: "#ff6a78",
+    accentHex: "#ff4d8d",
     bgHex: "#260a10",
     motifType: "profiling-grid",
     layoutStyle: "heroic-left",
   },
   {
     id: "cardiopal",
-    number: "02",
+    number: "03",
     title: "CardioPal",
     discipline: "UX design · Health tech",
     meta: "Figma · UX design · 25+ screens",
@@ -55,57 +70,57 @@ export const WORK_INDEX_PROJECTS: readonly WorkIndexProject[] = [
   },
   {
     id: "frankenteen",
-    number: "03",
+    number: "04",
     title: "FrankenTeen",
     discipline: "Game design · Interactive systems",
     meta: "Unity · Blender · Team of 3",
     premise:
       "A control scheme as identity: one guitar input carries exploration, dialogue, and confrontation in a three-act game.",
     link: "/projects/frankenteen",
-    accentHex: "#f4a261",
-    bgHex: "#1c1611",
+    accentHex: "#c68a2e",
+    bgHex: "#1b140c",
     motifType: "harmonic-wave",
     layoutStyle: "split-editorial",
   },
   {
     id: "echoes",
-    number: "04",
+    number: "05",
     title: "Echoes of Home",
     discipline: "Environmental storytelling · 3D world",
     meta: "Unity · Blender · Solo",
     premise:
       "A memory room that uses environment, lighting, and one small symbolic act, rather than dialogue, to carry an entire emotional arc.",
     link: "/projects/echoes",
-    accentHex: "#e9c46a",
-    bgHex: "#181410",
+    accentHex: "#87a2b8",
+    bgHex: "#171b20",
     motifType: "spatial-ray",
     layoutStyle: "staggered-left",
   },
   {
     id: "smartphone-mold",
-    number: "05",
+    number: "06",
     title: "Breaking the Smartphone Mold",
     discipline: "Design research · Cultural analysis",
     meta: "Industry interview · Media & culture",
     premise:
       "Why every flagship phone looks the same, argued through an original interview with a marketer at CMF by Nothing.",
     link: "/projects/smartphone-mold",
-    accentHex: "#e63946",
-    bgHex: "#141414",
+    accentHex: "#38bdf8",
+    bgHex: "#0c1118",
     motifType: "glyph-matrix",
     layoutStyle: "wide-center",
   },
   {
     id: "playing-freedom",
-    number: "06",
+    number: "07",
     title: "Playing Freedom",
     discipline: "Critical analysis · Game studies",
     meta: "Video documentary · Critical essay",
     premise:
       "How a commercial game turns the history of slavery into something playable through Adéwalé in Black Flag: Freedom Cry, and what that translation costs.",
     link: "/projects/playing-freedom",
-    accentHex: "#457b9d",
-    bgHex: "#0d1b2a",
+    accentHex: "#e14b3c",
+    bgHex: "#0c1118",
     motifType: "horizon-grid",
     layoutStyle: "grand-finale",
   },

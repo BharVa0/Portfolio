@@ -1,9 +1,22 @@
-import interactionStyles from "./WorkIndex.module.css";
-import styles from "./HomepageClosing.module.css";
+/*
+ * HomepageClosing component:
+ * Preserved for rollback/reference.
+ * Sections #practice, #about, and #contact have been detached now that
+ * /about (integrating narrative + practice) and /contact have migrated
+ * to dedicated standalone pages.
+ */
+
+// import interactionStyles from "./WorkIndex.module.css";
+// import styles from "./HomepageClosing.module.css";
 
 export function HomepageClosing() {
   return (
     <>
+      {/* 
+        PRESERVED FOR ROLLBACK/REFERENCE: Original #practice homepage section.
+        Detached now that /about contains the full Practice chapters.
+      */}
+      {/*
       <section
         id="practice"
         className={`${styles.section} ${styles.practice} ${interactionStyles.reveal}`}
@@ -44,7 +57,13 @@ export function HomepageClosing() {
           </div>
         </div>
       </section>
+      */}
 
+      {/* 
+        PRESERVED FOR ROLLBACK/REFERENCE: Original #about homepage section.
+        Detached now that /about is a dedicated standalone route.
+      */}
+      {/*
       <section
         id="about"
         className={`${styles.section} ${styles.about} ${interactionStyles.reveal}`}
@@ -54,23 +73,27 @@ export function HomepageClosing() {
       >
         <div className={styles.inner}>
           <p className={styles.eyebrow}>About</p>
-          <div className={styles.aboutGrid}>
-            <p className={styles.statement}>
-              MSc Design and Digital Media, University of Edinburgh.
+          <p className={styles.statement}>
+            MSc Design and Digital Media, University of Edinburgh.
+          </p>
+          <div className={styles.aboutBody}>
+            <p>
+              The seven projects here range from a self-written speculative
+              interface to a three-person game team to a solo research
+              interview. Each page names what was self-built, what was
+              adapted, and where a teammate&apos;s contribution starts and mine
+              ends.
             </p>
-            <div className={styles.aboutBody}>
-              <p>
-                The six projects here range from a self-written speculative
-                interface to a three-person game team to a solo research
-                interview. Each page names what was self-built, what was
-                adapted, and where a teammate&apos;s contribution starts and mine
-                ends.
-              </p>
-            </div>
           </div>
         </div>
       </section>
+      */}
 
+      {/* 
+        PRESERVED FOR ROLLBACK/REFERENCE: Original #contact homepage closing section.
+        Detached now that /contact has migrated to a dedicated standalone page.
+      */}
+      {/*
       <section
         id="contact"
         className={`${styles.section} ${styles.contact} ${interactionStyles.reveal}`}
@@ -122,6 +145,7 @@ export function HomepageClosing() {
           </div>
         </div>
       </section>
+      */}
     </>
   );
 }

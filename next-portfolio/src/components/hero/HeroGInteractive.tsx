@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { HeroGContent } from "./HeroG.types";
+import type { HeroGContent, ThesisBand } from "./HeroG.types";
 import styles from "./HeroG.module.css";
 
 type HeroGInteractiveProps = {
@@ -102,6 +102,42 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
     // captured by a closure.
     const heroEl: HTMLElement = heroElMaybe;
 
+    /* === Hero animation & loader bootstrap ===
+     * Configures initial animation-state classes on <html> and, on first
+     * visit with motion enabled, attaches the loader overlay. Runs client-side
+     * on mount, eliminating raw <script> tags within React component JSX
+     * so client-side route transitions never trigger React script-tag warnings. */
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(loaderSessionKey) === "1";
+    } catch {
+      /* sessionStorage unavailable (private browsing / disabled storage) */
+    }
+
+    if (!reduced) {
+      html.classList.add("hg-can-animate");
+    }
+
+    let overlay = document.getElementById("hg-loader");
+    if (!reduced && !seen) {
+      html.classList.add("hg-pending");
+      if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.className = styles.loader;
+        overlay.id = "hg-loader";
+        overlay.setAttribute("role", "status");
+        overlay.setAttribute("aria-live", "polite");
+        overlay.innerHTML =
+          `<p class="${styles.loaderName}">Bharat Vyas</p>` +
+          `<p class="${styles.loaderCount}" id="hg-loader-count">00</p>`;
+        document.body.appendChild(overlay);
+      }
+    } else {
+      html.classList.remove("hg-pending");
+      html.classList.add("hg-ready");
+    }
+
     /* === Band 2 / anchor alignment ===
      * Geometric layout, not motion: "Playable Worlds" plus mandatory
      * edge overshoot is wider than any viewport, so this derives band
@@ -114,7 +150,7 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
       const b2 = bandRefs.current[1];
       const t2 = twinRefs.current[1];
       const anchorEl = anchorRef.current;
-      if (!b2 || !t2 || !anchorEl || !b2.firstChild) return;
+      if (!b2 || !t2 || !anchorEl) return;
 
       if (window.innerWidth < 1024) {
         b2.style.marginLeft = "";
@@ -124,13 +160,13 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
       }
 
       b2.style.marginLeft = "0px";
+      t2.style.marginLeft = "0px";
       anchorEl.style.setProperty("--anchor-shift", "0px");
 
-      const range = document.createRange();
-      const textLen = b2.firstChild.textContent?.length ?? 0;
-      range.setStart(b2.firstChild, 0);
-      range.setEnd(b2.firstChild, Math.min(WORD1_CHARS, textLen));
-      const w1 = range.getBoundingClientRect().width;
+      const span1 =
+        b2.querySelector<HTMLElement>("span[data-label='PLAYABLE']") ||
+        b2.querySelector<HTMLElement>("span[data-label]");
+      const w1 = span1 ? span1.getBoundingClientRect().width : b2.getBoundingClientRect().width * 0.45;
       const bandW = b2.getBoundingClientRect().width;
       const iw = window.innerWidth;
 
@@ -166,17 +202,9 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
       .catch(() => {});
 
     /* === Opening loader continuation ===
-     * The bootstrap script (HeroG.tsx) already decided whether to show
-     * the loader and inserted its markup before hydration; this effect
-     * only picks up the tick from there, exactly mirroring
-     * js/portfolio.js's loader section. sessionStorage and
-     * requestAnimationFrame are both browser-only APIs — this is the
-     * reason this whole loader continuation has to live in a Client
-     * Component's effect rather than in the Server Component that could
-     * otherwise have owned this content. */
+     * Drives the count-up animation and smooth handoff to the hero. */
     let loaderRafId: number | null = null;
     let loaderTimeoutId: number | undefined;
-    const overlay = document.getElementById("hg-loader");
 
     if (overlay && html.classList.contains("hg-pending")) {
       const countEl = document.getElementById("hg-loader-count");
@@ -401,7 +429,7 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
           const top = engine.ly - engine.lensH / 2;
           lens.style.transform = `translate3d(${left.toFixed(2)}px, ${top.toFixed(2)}px, 0)`;
           const hr = heroEl.getBoundingClientRect();
-          const lensInHero = engine.tly <= hr.bottom;
+          const lensInHero = engine.tly <= hr.bottom && engine.tly >= hr.top;
           lens.classList.toggle(styles.lensLive, lensInHero);
           fieldX.style.visibility = lensInHero ? "visible" : "hidden";
           const ct = Math.max(0, top - hr.top);
@@ -410,24 +438,36 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
           const cb = Math.max(0, hr.height - (top - hr.top + engine.lensH));
           fieldX.style.clipPath = `inset(${ct.toFixed(1)}px ${cr.toFixed(1)}px ${cb.toFixed(1)}px ${cl.toFixed(1)}px)`;
 
-          let label = "";
+          // Word-level dynamic label detection via Point-to-AABB distance
+          let dynamicWord = "";
           const cxp = engine.lx;
           const cyp = engine.ly;
           const ar = anchorIn?.getBoundingClientRect();
           const overAnchor =
             !!ar && aFade < 0.9 && cxp >= ar.left && cxp <= ar.right && cyp >= ar.top && cyp <= ar.bottom;
-          if (!overAnchor) {
-            for (let i = 0; i < 4; i++) {
-              const baseBand = bandRefs.current[i];
-              if (!baseBand) continue;
-              const br = baseBand.getBoundingClientRect();
-              if (cyp >= br.top && cyp <= br.bottom && cxp >= br.left && cxp <= br.right) {
-                label = bands[i]?.label ?? "";
-                break;
+
+          if (!overAnchor && lensInHero) {
+            let closestDist = Infinity;
+            const spans = heroEl.querySelectorAll<HTMLElement>(
+              "div[class*='field']:not([class*='fieldX']) p[class*='band'] span[data-label]"
+            );
+
+            for (let sIdx = 0; sIdx < spans.length; sIdx++) {
+              const span = spans[sIdx];
+              if (span.getAttribute("data-twin") === "true") continue;
+
+              const sr = span.getBoundingClientRect();
+              const dx = Math.max(sr.left - cxp, 0, cxp - sr.right);
+              const dy = Math.max(sr.top - cyp, 0, cyp - sr.bottom);
+              const dist = Math.hypot(dx, dy);
+
+              if (dist < closestDist) {
+                closestDist = dist;
+                dynamicWord = span.getAttribute("data-label") || "";
               }
             }
           }
-          if (lensLabelEl) lensLabelEl.textContent = label;
+          if (lensLabelEl) lensLabelEl.textContent = dynamicWord;
         }
       }
 
@@ -493,38 +533,63 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
     };
   }, [bands, loaderSessionKey]);
 
+  /**
+   * Single-source band renderer: renders identical DOM structure, identical
+   * segment spans, and identical child hierarchy for both the base layer
+   * and the twin ember reveal layer.
+   */
+  function renderBandItem(
+    band: ThesisBand,
+    index: number,
+    refCallback: (el: HTMLParagraphElement | null) => void,
+    isTwin: boolean
+  ) {
+    const segments = band.segments ?? [{ text: band.text, label: band.label }];
+    return (
+      <p
+        key={band.id}
+        ref={refCallback}
+        className={`${styles.band} ${styles[band.id]}`}
+        aria-hidden="true"
+      >
+        {segments.map((seg, sIdx) => (
+          <span key={sIdx}>
+            <span
+              data-label={seg.label}
+              data-twin={isTwin ? "true" : undefined}
+            >
+              {seg.text}
+            </span>
+            {sIdx < segments.length - 1 ? " " : null}
+          </span>
+        ))}
+      </p>
+    );
+  }
+
   return (
     <>
       <div className={styles.heroGrain} aria-hidden="true" />
 
+      {/* Main kinetic typography field (Base layer) */}
       <div className={styles.field} aria-hidden="true">
-        {bands.map((band, i) => (
-          <p
-            key={band.id}
-            ref={(el) => {
-              bandRefs.current[i] = el;
-            }}
-            className={`${styles.band} ${styles[band.id]}`}
-            data-label={band.label}
-          >
-            {band.text}
-          </p>
-        ))}
-      </div>
-      <div className={`${styles.field} ${styles.fieldX}`} aria-hidden="true" ref={fieldXRef}>
-        {bands.map((band, i) => (
-          <p
-            key={band.id}
-            ref={(el) => {
-              twinRefs.current[i] = el;
-            }}
-            className={`${styles.band} ${styles[band.id]}`}
-          >
-            {band.text}
-          </p>
-        ))}
+        {bands.map((band, i) =>
+          renderBandItem(band, i, (el) => {
+            bandRefs.current[i] = el;
+          }, false)
+        )}
       </div>
 
+      {/* Ember Inspection Twin Layer (under lens) - 100% Shared Single-Source Structure */}
+      <div className={`${styles.field} ${styles.fieldX}`} aria-hidden="true" ref={fieldXRef}>
+        {bands.map((band, i) =>
+          renderBandItem(band, i, (el) => {
+            twinRefs.current[i] = el;
+          }, true)
+        )}
+      </div>
+
+      {/* Foreground identity anchor — centre-offset (~38% horizontal centre) */}
       <div className={styles.anchor} ref={anchorRef}>
         <div className={styles.anchorIn} ref={anchorInRef}>
           <h1 className={styles.anchorName}>{name}</h1>
@@ -547,6 +612,7 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
         </div>
       </div>
 
+      {/* Bottom metadata credential block */}
       <p className={styles.heroMeta} ref={metaRef}>
         <strong>{meta.degree}</strong>
         <br />
@@ -555,6 +621,7 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
         {meta.location}
       </p>
 
+      {/* Cursor inspection window (Lens) */}
       <div className={styles.lens} ref={lensRef} aria-hidden="true">
         <span className={styles.lensLabel} ref={lensLabelRef} />
       </div>

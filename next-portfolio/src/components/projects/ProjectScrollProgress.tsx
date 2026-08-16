@@ -7,7 +7,7 @@ export interface ProjectScrollProgressProps {
   label?: string;
 }
 
-export function ProjectScrollProgress({ label = "03 / 06 · FrankenTeen" }: ProjectScrollProgressProps) {
+export function ProjectScrollProgress({ label = "04 / 07 · FrankenTeen" }: ProjectScrollProgressProps) {
   const [progress, setProgress] = useState(0);
   const [isActive, setIsActive] = useState(false);
 

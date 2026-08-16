@@ -44,10 +44,10 @@
    alongside the other project accents, matching how css/portfolio.css
    already declares every project's accent at :root. Not needed yet. */
 .project-bettr {
-  --proj-accent: #eb5160;
-  --proj-accent-deep: #7a2a31;
-  --proj-feature-surface: #1c0d0f;
-  --proj-feature-line: rgba(235, 81, 96, 0.24);
+  --proj-accent: #ff4d8d;
+  --proj-accent-deep: #8c1e48;
+  --proj-feature-surface: #1c0d14;
+  --proj-feature-line: rgba(255, 77, 141, 0.24);
 }
 
 /* Opening composition — text col 1-5, live build col 5-13, one spread */

@@ -9,6 +9,7 @@ import type { ReactNode, Ref } from "react";
  * change generateStaticParams needs — see app/projects/[slug]/page.tsx.
  */
 export const PROJECT_SLUGS = [
+  "above-the-noise",
   "bettr",
   "cardiopal",
   "frankenteen",
@@ -27,6 +28,7 @@ export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
  * accepts an accent shouldn't need a new route to exist first.
  */
 export type ProjectAccent =
+  | "above-the-noise"
   | "bettr"
   | "cardiopal"
   | "frankenteen"
@@ -68,7 +70,7 @@ export interface ProjectOpeningProps {
   meta?: ProjectOpeningMetaItem[];
   ownership: string;
   /** Evidence/content slot — BETTR's live embed, a future project's hero image, etc. */
-  children: ReactNode;
+  children?: ReactNode;
   /** Column split between the text block and the evidence slot: "split" (c1-5/c5-13) or "balanced" (c1-7/c8-13). */
   variant?: "split" | "balanced";
 }

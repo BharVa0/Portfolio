@@ -128,18 +128,20 @@
   --proj-surface-2: var(--ink-soft);
   --proj-text: var(--paper);
   --proj-text-soft: var(--paper-soft);
-  --proj-line: var(--charcoal);
   --proj-accent: var(--ember);
   --proj-accent-deep: var(--ember-deep);
+  --proj-line: color-mix(in srgb, var(--proj-accent) 26%, rgba(244, 239, 230, 0.12));
+  --proj-line-subtle: color-mix(in srgb, var(--proj-accent) 14%, rgba(244, 239, 230, 0.06));
+  --proj-line-strong: color-mix(in srgb, var(--proj-accent) 42%, rgba(244, 239, 230, 0.18));
   background: transparent;
   position: relative;
   z-index: 1;
   color: var(--proj-text);
 }
 
-/* === Breadcrumb / prev-next frame === */
+/* === Breadcrumb / prev-next frame (adjusted for fixed SiteNavbar clearance) === */
 .proj-frame {
-  padding: clamp(18px, 2.6vh, 28px) var(--page-margin) 0;
+  padding: clamp(84px, 11vh, 108px) var(--page-margin) 0;
 }
 .proj-frame-bar {
   display: flex;

@@ -11,6 +11,7 @@ const GrainGradient = dynamic(
 );
 
 export type ProjectMotifType =
+  | "terminal-prompt"
   | "harmonic-wave"
   | "profiling-grid"
   | "ekg-pulse"
@@ -85,11 +86,12 @@ export function ProjectBackground({
 
     // Shape mapping per project character
     const shapeMap: Record<ProjectMotifType, "wave" | "corners" | "blob" | "ripple" | "truchet" | "dots"> = {
+      "terminal-prompt": "truchet",
       "harmonic-wave": "wave",
       "profiling-grid": "corners",
       "ekg-pulse": "ripple",
       "spatial-ray": "corners",
-      "glyph-matrix": "blob",
+      "glyph-matrix": "corners",
       "horizon-grid": "wave",
     };
 

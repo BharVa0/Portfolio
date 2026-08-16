@@ -19,12 +19,12 @@ export function FrankenTeenCaseStudy() {
   return (
     <ProjectPageShell accent="frankenteen">
       <ProjectBackground accent="#c68a2e" motif="harmonic-wave" />
-      <ProjectScrollProgress label="03 / 06 · FrankenTeen" />
+      <ProjectScrollProgress label="04 / 07 · FrankenTeen" />
 
       <header className="proj-frame">
         <div className="proj-frame-bar">
-          <Link href="/">← Index</Link>
-          <span className="proj-frame-count mono">03 / 06 · FrankenTeen</span>
+          <Link href="/work">← All Work</Link>
+          <span className="proj-frame-count mono">04 / 07 · FrankenTeen</span>
           <Link href="/projects/echoes">Next: Echoes of Home →</Link>
         </div>
       </header>
@@ -393,8 +393,8 @@ export function FrankenTeenCaseStudy() {
       </ProjectSection>
 
       <div className="proj-footer-nav">
-        <Link className="proj-nav-back" href="/">
-          ← Back to index
+        <Link className="proj-nav-back" href="/work">
+          ← Back to all work
         </Link>
         <Link className="proj-nav-next" href="/projects/echoes">
           <span className="proj-next-label">Next project</span>

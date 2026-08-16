@@ -1,0 +1,338 @@
+/* ==========================================================================
+   About Page Module Stylesheet
+   Standalone editorial About page integrating About & Practice copy.
+   Adheres to docs/PHASE_2_DESIGN_SYSTEM.md and case-study chapter conventions.
+   ========================================================================== */
+
+.pageWrapper {
+  position: relative;
+  min-height: 100vh;
+  background: transparent;
+  color: var(--paper, #f2eee9);
+  z-index: 1;
+}
+
+.mainContent {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(120px, 16vh, 180px) clamp(20px, 4vw, 72px) clamp(80px, 12vh, 140px);
+}
+
+/* --------------------------------------------------------------------------
+   Section 1: About Lead Statement & Narrative
+   -------------------------------------------------------------------------- */
+.aboutSection {
+  position: relative;
+  margin-bottom: clamp(64px, 10vh, 120px);
+  padding-bottom: clamp(48px, 8vh, 88px);
+  border-bottom: 1px solid rgba(244, 239, 230, 0.14);
+}
+
+.eyebrow {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.72rem, 0.75vw, 0.82rem);
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ember-bright, #d35c34);
+  margin-bottom: clamp(16px, 2.2vh, 28px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: var(--ember-bright, #d35c34);
+}
+
+.leadStatement {
+  font-family: var(--font-display, serif);
+  font-size: clamp(2.6rem, 5.2vw, 4.6rem);
+  font-weight: 380;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  color: var(--paper, #f2eee9);
+  margin: 0 0 clamp(40px, 6vh, 64px) 0;
+  max-width: 26ch;
+}
+
+/* Widened Editorial Asymmetric Layout */
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 5vw, 64px);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .aboutGrid {
+    grid-template-columns: minmax(0, 1.6fr) minmax(320px, 1fr);
+    gap: clamp(48px, 5vw, 76px);
+  }
+}
+
+.narrativeCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.narrativeBody {
+  font-family: var(--font-body, sans-serif);
+  font-size: clamp(1.05rem, 1.2vw, 1.22rem);
+  line-height: 1.76;
+  color: var(--paper-soft, #ddd6cf);
+  max-width: 52rem;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Structured Focal Stack (Education & Experience Cards)
+   -------------------------------------------------------------------------- */
+.focalCol {
+  position: relative;
+  width: 100%;
+}
+
+.focalStack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.2vh, 22px);
+}
+
+.focalCard {
+  position: relative;
+  background: rgba(24, 20, 18, 0.68);
+  border: 1px solid rgba(244, 239, 230, 0.14);
+  backdrop-filter: blur(14px);
+  padding: clamp(24px, 3vh, 32px);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.focalCard:hover {
+  border-color: rgba(211, 92, 52, 0.35);
+  background: rgba(28, 23, 20, 0.82);
+}
+
+.focalRingWrapper {
+  position: absolute;
+  top: -36px;
+  right: -36px;
+  width: 160px;
+  height: 160px;
+  color: var(--ember-bright, #d35c34);
+  pointer-events: none;
+}
+
+.focalRingSvg {
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  animation: ringSlowDrift 28s linear infinite;
+}
+
+.ringArc {
+  stroke-dasharray: 240 80;
+  stroke-linecap: round;
+}
+
+@keyframes ringSlowDrift {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.focalMetaHeader {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ember-bright, #d35c34);
+  margin-bottom: 12px;
+}
+
+.focalDegree {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.25rem, 1.55vw, 1.5rem);
+  font-weight: 450;
+  color: var(--paper, #f2eee9);
+  line-height: 1.25;
+  margin: 0 0 6px 0;
+}
+
+.focalInstitution {
+  font-family: var(--font-body, sans-serif);
+  font-size: 1rem;
+  color: var(--paper-soft, #ddd6cf);
+  margin: 0 0 16px 0;
+}
+
+.focalDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.focalBullet {
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.56;
+  color: var(--paper-soft, #ddd6cf);
+  margin: 0;
+}
+
+.focalAward {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--ember-bright, #d35c34);
+  margin: 4px 0 0 0;
+  letter-spacing: 0.02em;
+}
+
+.focalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(244, 239, 230, 0.14);
+  flex-wrap: wrap;
+}
+
+.focalLocation {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  color: var(--muted, #91877f);
+  letter-spacing: 0.04em;
+}
+
+.focalYearTag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  color: var(--ember-bright, #d35c34);
+  border: 1px solid rgba(211, 92, 52, 0.45);
+  background: rgba(211, 92, 52, 0.1);
+  padding: 2px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* --------------------------------------------------------------------------
+   Section 2: Structured Numbered Practice Blocks (Case-Study Visual Language)
+   -------------------------------------------------------------------------- */
+.practiceSection {
+  position: relative;
+}
+
+.practiceHeader {
+  margin-bottom: clamp(36px, 6vh, 60px);
+}
+
+.practiceStatement {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+  font-weight: 380;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--paper, #f2eee9);
+  margin: 0;
+  max-width: 30ch;
+}
+
+.practiceGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 3.5vw, 36px);
+}
+
+@media (min-width: 900px) {
+  .practiceGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.practiceChapter {
+  position: relative;
+  background: rgba(21, 19, 17, 0.55);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  padding: clamp(28px, 4vh, 36px);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.practiceChapter:hover {
+  border-color: rgba(211, 92, 52, 0.45);
+  background: rgba(21, 19, 17, 0.8);
+  transform: translateY(-2px);
+}
+
+.chapterHead {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  border-bottom: 1px solid rgba(244, 239, 230, 0.14);
+  padding-bottom: 16px;
+  margin-bottom: 22px;
+}
+
+.chapterNum {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  color: var(--ember-bright, #d35c34);
+  font-weight: 400;
+}
+
+.chapterTitle {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.35rem, 1.8vw, 1.65rem);
+  font-weight: 450;
+  letter-spacing: -0.01em;
+  color: var(--paper, #f2eee9);
+  margin: 0;
+}
+
+.toolList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toolLine {
+  font-family: var(--font-body, sans-serif);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--paper-soft, #ddd6cf);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion Overrides
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .focalRingSvg {
+    animation: none !important;
+    transform: none !important;
+  }
+  .practiceChapter,
+  .focalCard {
+    transition: none !important;
+    transform: none !important;
+  }
+}

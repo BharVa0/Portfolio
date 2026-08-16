@@ -27,13 +27,13 @@ import "./BettrCaseStudy.css";
 export function BettrCaseStudy() {
   return (
     <ProjectPageShell accent="bettr">
-      <ProjectBackground accent="#ff6a78" motif="profiling-grid" />
-      <ProjectScrollProgress label="01 / 06 · BETTR." />
+      <ProjectBackground accent="#ff4d8d" motif="profiling-grid" />
+      <ProjectScrollProgress label="02 / 07 · BETTR." />
 
       <header className="proj-frame">
         <div className="proj-frame-bar">
-          <Link href="/">← Index</Link>
-          <span className="proj-frame-count mono">01 / 06 · BETTR.</span>
+          <Link href="/work">← All Work</Link>
+          <span className="proj-frame-count mono">02 / 07 · BETTR.</span>
           <Link href="/projects/cardiopal">Next: CardioPal →</Link>
         </div>
       </header>
@@ -81,7 +81,7 @@ export function BettrCaseStudy() {
             <p className="proj-body">
               The project started as a Figma prototype with the right visual
               identity and narrative arc, but no real memory of what a user
-              had done — every path was linear, and nothing carried through.
+              had done: every path was linear, and nothing carried through.
               The coded version removes that buffer. What you classify as
               &quot;inefficient&quot; in the sorting game becomes a labelled
               friction point on your own dashboard later. The system isn&apos;t
@@ -218,7 +218,7 @@ export function BettrCaseStudy() {
           <div className="cols" data-layout="wide">
             <div className="c1-13">
               <ProjectAnnotation
-                label="Colour system — evolution from submission 1"
+                label="Colour system: Evolution from submission 1"
                 media={
                   <div className="palette-band">
                     <div className="swatch-lg" style={{ background: "#050506", color: "#fff" }}>
@@ -271,7 +271,7 @@ export function BettrCaseStudy() {
           <div className="cols" data-layout="wide">
             <div className="c1-13">
               <ProjectAnnotation
-                label="Type system — Jersey 25 & Rajdhani"
+                label="Type system: Jersey 25 & Rajdhani"
                 media={
                   <>
                     <div className="type-specimen-feature">
@@ -330,7 +330,7 @@ export function BettrCaseStudy() {
             built to do, shaped the system&apos;s tone: it isn&apos;t malicious, it&apos;s
             efficient. Diakopoulos&apos;s work on accountability informed why
             BETTR keeps its classification criteria hidden until the final
-            scene — when you can&apos;t see the criteria, you can&apos;t push back.
+            scene: when you can&apos;t see the criteria, you can&apos;t push back.
           </p>
           <div className="proj-refs c8-13">
             Burrell, J. (2016) How the machine thinks: understanding opacity
@@ -405,8 +405,8 @@ export function BettrCaseStudy() {
       </ProjectSection>
 
       <div className="proj-footer-nav">
-        <Link className="proj-nav-back" href="/">
-          ← Back to index
+        <Link className="proj-nav-back" href="/work">
+          ← Back to all work
         </Link>
         <Link className="proj-nav-next" href="/projects/cardiopal">
           <span className="proj-next-label">Next project</span>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { fraunces, inter, spaceMono } from "@/styles/fonts";
 import { MotionCursor } from "@/components/phase2/MotionCursor";
+import { SiteNavbar } from "@/components/phase2/SiteNavbar";
+import { SkipLink } from "@/components/site/SkipLink";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +30,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
+        <SkipLink href="#content" />
         <MotionCursor />
+        <SiteNavbar />
         {children}
       </body>
     </html>

@@ -93,8 +93,9 @@ export function SiteNavbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isReelActive = pathname === "/";
   const isWorkActive = pathname === "/work";
+  const isAboutActive = pathname === "/about";
+  const isContactActive = pathname === "/contact";
 
   return (
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
@@ -111,16 +112,13 @@ export function SiteNavbar() {
         </Link>
 
         <nav className={styles.navLinks} aria-label="Primary Navigation">
-          <MagneticNavItem href="/" isActive={isReelActive}>
-            Reel
-          </MagneticNavItem>
           <MagneticNavItem href="/work" isActive={isWorkActive}>
             Work
           </MagneticNavItem>
-          <MagneticNavItem href="/#about" isExternal>
+          <MagneticNavItem href="/about" isActive={isAboutActive}>
             About
           </MagneticNavItem>
-          <MagneticNavItem href="/#contact" isExternal>
+          <MagneticNavItem href="/contact" isActive={isContactActive}>
             Contact
           </MagneticNavItem>
         </nav>

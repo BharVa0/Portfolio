@@ -112,9 +112,12 @@
    through the lens rectangle via clip-path (HeroGInteractive.tsx). Under
    inspection every band reads solid ember: outlines solidify. */
 .fieldX { z-index: 12; visibility: hidden; pointer-events: none; }
-.fieldX .band {
-  color: var(--ember-bright);
-  -webkit-text-stroke: 0;
+.fieldX .band,
+.fieldX .band span {
+  color: var(--ember-bright) !important;
+  -webkit-text-fill-color: var(--ember-bright) !important;
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
   opacity: 1 !important;
 }
 
@@ -219,6 +222,7 @@
   font-family: var(--font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--ember-bright);
   white-space: nowrap;
 }

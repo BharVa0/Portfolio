@@ -17,12 +17,12 @@ export function CardioPalCaseStudy() {
   return (
     <ProjectPageShell accent="cardiopal">
       <ProjectBackground accent="#82b5a5" motif="ekg-pulse" />
-      <ProjectScrollProgress label="02 / 06 · CardioPal" />
+      <ProjectScrollProgress label="03 / 07 · CardioPal" />
 
       <header className="proj-frame">
         <div className="proj-frame-bar">
-          <Link href="/">← Index</Link>
-          <span className="proj-frame-count mono">02 / 06 · CardioPal</span>
+          <Link href="/work">← All Work</Link>
+          <span className="proj-frame-count mono">03 / 07 · CardioPal</span>
           <Link href="/projects/frankenteen">Next: FrankenTeen →</Link>
         </div>
       </header>
@@ -37,7 +37,7 @@ export function CardioPalCaseStudy() {
           { label: "Method", value: "Usability testing, 2 participants" },
           { label: "Screens", value: "25+, full clickable prototype" },
         ]}
-        ownership="Solo project — every screen, flow and testing round designed and run independently."
+        ownership="Solo project: every screen, flow, and testing round was designed and run independently."
       >
         <PrototypeEmbed
           src={FIGMA_EMBED_URL}
@@ -50,8 +50,8 @@ export function CardioPalCaseStudy() {
           toneLight
         />
         <p className="proj-artifact-caption">
-          This is the actual clickable prototype, all 25-plus screens — the
-          closest thing this project has to a real screenshot. Try the
+          This is the actual clickable prototype across all 25-plus screens,
+          the closest thing this project has to a real screenshot. Try the
           onboarding flow, then add a caregiver to see where testers actually
           got stuck.
         </p>
@@ -63,8 +63,8 @@ export function CardioPalCaseStudy() {
             CardioPal supports people recording and reviewing EKG data through
             a connected handheld device. Because it sits in a health context,
             the interface has to feel clear, comfortable and trustworthy for
-            users of very different ages and technical comfort levels — not
-            just usable in the abstract. By Submission 1 this was a handful of
+            users of very different ages and technical comfort levels, rather
+            than just usable in the abstract. By Submission 1 this was a handful of
             early wireframes and some sketches hinting at a direction; the idea
             was clear in my head, the design hadn&apos;t caught up to it yet.
           </p>
@@ -125,7 +125,7 @@ export function CardioPalCaseStudy() {
                   <p className="feature-desc">
                     Flags patterns worth a second look, including possible
                     arrhythmia indicators. It&apos;s a prompt to check with a
-                    clinician — never a diagnosis, and not medically validated
+                    clinician, not a diagnosis or medically validated
                     functionality.
                   </p>
                 </div>
@@ -202,7 +202,7 @@ export function CardioPalCaseStudy() {
               <div className="task-row">
                 <div className="task-name">Send a report</div>
                 <div className="task-desc">
-                  One participant struggled with the order of actions — no
+                  One participant struggled with the order of actions because no
                   step-by-step guidance was visible during the flow.
                 </div>
               </div>
@@ -246,7 +246,7 @@ export function CardioPalCaseStudy() {
             <span className="feature-name">Onboarding</span>
             <p className="feature-desc">
               A complete onboarding flow was added, plus a clear how-to section
-              for EKG recording — the first screens someone sees now reassure
+              for EKG recording, so the first screens someone sees reassure
               them before anything else.
             </p>
           </div>
@@ -261,8 +261,8 @@ export function CardioPalCaseStudy() {
           <div className="feature-row">
             <span className="feature-name">Modals</span>
             <p className="feature-desc">
-              Smaller tasks — editing details, adding a caregiver, previewing
-              insights, sending a report — moved into modal pop-ups instead of
+              Smaller tasks (editing details, adding a caregiver, previewing
+              insights, sending a report) moved into modal pop-ups instead of
               full pages, so the interface stopped feeling like an endless
               stack.
             </p>
@@ -294,8 +294,8 @@ export function CardioPalCaseStudy() {
             action order. The edit affordance needs a proper icon rather than
             relying on users to discover it. I&apos;d also like the trends
             section to surface key insights directly rather than relying purely
-            on charts, and to push harder on accessibility — contrast, touch
-            target sizing, and screen reader friendliness — none of which got
+            on charts, and to push harder on accessibility (contrast, touch
+            target sizing, and screen reader friendliness), none of which got
             dedicated attention in this pass. In Submission 1, I was making
             screens because that was the task in front of me. By this version,
             I was designing with intention, thinking about where someone might
@@ -306,8 +306,8 @@ export function CardioPalCaseStudy() {
       </ProjectSection>
 
       <div className="proj-footer-nav">
-        <Link className="proj-nav-back" href="/">
-          ← Back to index
+        <Link className="proj-nav-back" href="/work">
+          ← Back to all work
         </Link>
         <Link className="proj-nav-next" href="/projects/frankenteen">
           <span className="proj-next-label">Next project</span>

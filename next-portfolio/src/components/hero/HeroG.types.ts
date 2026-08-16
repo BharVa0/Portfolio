@@ -5,12 +5,19 @@
 
 export type ThesisBandId = "b1" | "b2" | "b3" | "b4";
 
+export type BandSegment = {
+  text: string;
+  label: string;
+};
+
 export type ThesisBand = {
   id: ThesisBandId;
   /** Visible band text, e.g. "Playable Worlds". */
   text: string;
-  /** Contextual label the inspection lens shows over this band, e.g. "PLAY". */
+  /** Fallback or per-band label, e.g. "PLAY". */
   label: string;
+  /** Granular word/phrase segments for dynamic lens tracking. */
+  segments?: readonly BandSegment[];
 };
 
 export type HeroMeta = {

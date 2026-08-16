@@ -9,6 +9,20 @@ import type { ProjectMeta, ProjectSlug } from "@/types/project";
  * business living in a data object.
  */
 export const PROJECTS: Record<ProjectSlug, ProjectMeta> = {
+  "above-the-noise": {
+    slug: "above-the-noise",
+    title: "Above the Noise",
+    shortDescription:
+      "A personal story about how a mass-produced object became personally significant, leading into a data-driven inquiry on gaming, identity, and refuge.",
+    ogDescription:
+      "A scrollytelling exploration of escapism, technology, and identity, combining autoethnography with practice-based design research.",
+    type: "Scrollytelling · Design research",
+    role: "Sole author & designer",
+    tools: ["React", "Three.js", "Blender", "GSAP"],
+    accent: "above-the-noise",
+    route: "/projects/above-the-noise",
+    ogImage: "/assets/above-the-noise/opening-title-crop.png",
+  },
   bettr: {
     slug: "bettr",
     title: "BETTR.",

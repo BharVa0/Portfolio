@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import type { ProjectSlug } from "@/types/project";
+import { AboveTheNoiseCaseStudy } from "./AboveTheNoiseCaseStudy";
 import { BettrCaseStudy } from "./BettrCaseStudy";
 import { CardioPalCaseStudy } from "./CardioPalCaseStudy";
 import { EchoesCaseStudy } from "./EchoesCaseStudy";
@@ -17,6 +18,7 @@ import { SmartphoneMoldCaseStudy } from "./SmartphoneMoldCaseStudy";
  * but the distinction is why these are two files, not one.
  */
 export const PROJECT_CONTENT: Record<ProjectSlug, ComponentType> = {
+  "above-the-noise": AboveTheNoiseCaseStudy,
   bettr: BettrCaseStudy,
   cardiopal: CardioPalCaseStudy,
   frankenteen: FrankenTeenCaseStudy,

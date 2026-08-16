@@ -28,7 +28,7 @@ export function WorkIndex() {
               Every interface asks something of the person using it.
             </p>
             <p className={styles.introBody}>
-              Six projects, one continuing question: what happens when a
+              Seven projects, one continuing question: what happens when a
               system has to account for how people actually behave, not how
               they&apos;re supposed to. The work below moves across UX research,
               game design, and coded interaction — a decision interface that
@@ -48,7 +48,7 @@ export function WorkIndex() {
         data-work-index-scope
       >
         <div className={styles.inner}>
-          <p className={styles.eyebrow}>Selected work, 06 entries</p>
+          <p className={styles.eyebrow}>Selected work, 07 entries</p>
           <div className={styles.workList}>
             {WORK_INDEX_ENTRIES.map((entry) => (
               <WorkIndexRow key={entry.slug} entry={entry} />

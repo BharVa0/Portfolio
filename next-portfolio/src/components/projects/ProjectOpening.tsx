@@ -40,7 +40,7 @@ export function ProjectOpening({
           )}
           <p className="proj-ownership">{ownership}</p>
         </div>
-        <div className={mediaCol}>{children}</div>
+        {children ? <div className={mediaCol}>{children}</div> : null}
       </div>
     </section>
   );

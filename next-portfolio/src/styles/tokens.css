@@ -19,7 +19,7 @@
   --ember-bright: #d35c34;
 
   /* Borders */
-  --border-subtle: var(--charcoal);
+  --border-subtle: rgba(244, 239, 230, 0.14);
 
   /* Fonts — roles match css/portfolio.css; families attach once
      next/font generates the actual --font-* variables in layout.tsx */

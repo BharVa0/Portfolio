@@ -35,8 +35,28 @@ export interface WorkIndexEntry {
  */
 export const WORK_INDEX_ENTRIES: readonly WorkIndexEntry[] = [
   {
-    slug: "bettr",
+    slug: "above-the-noise",
     number: "01",
+    title: "Above the Noise",
+    description:
+      "A personal story about how a mass-produced object became personally significant, leading into a data-driven inquiry on gaming, identity, and refuge.",
+    meta: "Scrollytelling · Autoethnography & Design Research · Solo",
+    cursorLabel: "View",
+    layout: "feature",
+    media: {
+      src: "/assets/above-the-noise/opening-title-crop.png",
+      srcSet:
+        "/assets/above-the-noise/opening-title-crop.png 1440w",
+      sizes: "(max-width: 899px) 92vw, 58vw",
+      width: 1440,
+      height: 900,
+      alt: "Above the Noise opening scrollytelling title screen with phosphor terminal typography.",
+      treatment: "frame",
+    },
+  },
+  {
+    slug: "bettr",
+    number: "02",
     title: "BETTR",
     description:
       "A speculative AI decision interface that quietly profiles the person using it, then shows them exactly how, and what that costs.",
@@ -56,7 +76,7 @@ export const WORK_INDEX_ENTRIES: readonly WorkIndexEntry[] = [
   },
   {
     slug: "cardiopal",
-    number: "02",
+    number: "03",
     title: "CardioPal",
     description:
       "A health-tracking app interface designed to reassure, not just inform, across 25+ screens.",
@@ -66,7 +86,7 @@ export const WORK_INDEX_ENTRIES: readonly WorkIndexEntry[] = [
   },
   {
     slug: "frankenteen",
-    number: "03",
+    number: "04",
     title: "FrankenTeen",
     description:
       "A control scheme as identity: one guitar input carries exploration, dialogue, and confrontation.",
@@ -86,7 +106,7 @@ export const WORK_INDEX_ENTRIES: readonly WorkIndexEntry[] = [
   },
   {
     slug: "echoes",
-    number: "04",
+    number: "05",
     title: "Echoes of Home",
     description:
       "A memory room that uses environment, not dialogue, to carry an entire emotional arc.",
@@ -96,7 +116,7 @@ export const WORK_INDEX_ENTRIES: readonly WorkIndexEntry[] = [
   },
   {
     slug: "smartphone-mold",
-    number: "05",
+    number: "06",
     title: "Breaking the Smartphone Mold",
     description:
       "Why every phone looks the same, argued through an interview with a CMF by Nothing marketer.",
@@ -116,7 +136,7 @@ export const WORK_INDEX_ENTRIES: readonly WorkIndexEntry[] = [
   },
   {
     slug: "playing-freedom",
-    number: "06",
+    number: "07",
     title: "Playing Freedom",
     description:
       "How a commercial game turns the history of slavery into something playable, and what that costs.",

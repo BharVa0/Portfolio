@@ -15,13 +15,13 @@ export function EchoesCaseStudy() {
   return (
     <ProjectPageShell accent="echoes">
       <ProjectBackground accent="#87a2b8" motif="spatial-ray" />
-      <ProjectScrollProgress label="04 / 06 · Echoes of Home" />
+      <ProjectScrollProgress label="05 / 07 · Echoes of Home" />
 
       <header className="proj-frame">
         <div className="proj-frame-bar">
-          <Link href="/">← Index</Link>
+          <Link href="/work">← All Work</Link>
           <span className="proj-frame-count mono">
-            04 / 06 · Echoes of Home
+            05 / 07 · Echoes of Home
           </span>
           <Link href="/projects/smartphone-mold">
             Next: Breaking the Smartphone Mold →
@@ -292,8 +292,8 @@ export function EchoesCaseStudy() {
       </ProjectSection>
 
       <div className="proj-footer-nav">
-        <Link className="proj-nav-back" href="/">
-          ← Back to index
+        <Link className="proj-nav-back" href="/work">
+          ← Back to all work
         </Link>
         <Link className="proj-nav-next" href="/projects/smartphone-mold">
           <span className="proj-next-label">Next project</span>

@@ -3,9 +3,9 @@
   --smartphone-surface: #141b26;
   --smartphone-ink: #edeff2;
   --smartphone-muted: #7c8696;
-  --smartphone-accent: #e14b3c;
-  --smartphone-line: rgba(237, 239, 242, 0.08);
-  --smartphone-line-2: rgba(237, 239, 242, 0.14);
+  --smartphone-accent: #38bdf8;
+  --smartphone-line: color-mix(in srgb, var(--smartphone-accent) 26%, rgba(237, 239, 242, 0.12));
+  --smartphone-line-2: color-mix(in srgb, var(--smartphone-accent) 38%, rgba(237, 239, 242, 0.18));
   --proj-surface: var(--smartphone-bg);
   --proj-text: var(--smartphone-ink);
   --proj-accent: var(--smartphone-accent);
@@ -21,12 +21,6 @@
 .project-smartphone-mold *::before,
 .project-smartphone-mold *::after {
   box-sizing: border-box;
-}
-
-.smartphone-wrap {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 0 32px;
 }
 
 .smartphone-statusbar {
