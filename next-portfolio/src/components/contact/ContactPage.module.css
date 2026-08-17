@@ -2,7 +2,7 @@
    Contact Page Module Stylesheet
    Standalone editorial Contact page with a deliberate two-zone composition.
    Zone 1: Opening dark zone with oversized Fraunces display statement.
-   Zone 2: Warm-tinted actionable register with email CTA, copy button, and channel cards.
+   Zone 2: Warm-tinted actionable register with email card, primary copy button, and channel cards.
    ========================================================================== */
 
 .pageWrapper {
@@ -122,69 +122,48 @@
   font-weight: 420;
   color: var(--paper, #f2eee9);
   letter-spacing: -0.015em;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.buttonGroup {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+.emailAddress:hover {
+  color: var(--ember-bright, #d35c34);
 }
 
-.primaryCtaBtn {
+.copyBtn {
   font-family: var(--font-body, sans-serif);
-  font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+  font-size: clamp(0.98rem, 1.15vw, 1.12rem);
   font-weight: 500;
+  letter-spacing: 0.01em;
   color: var(--paper, #f2eee9);
   background: rgba(211, 92, 52, 0.35);
   border: 1px solid var(--ember-bright, #d35c34);
   padding: 10px 22px;
   border-radius: 2px;
-  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.primaryCtaBtn:hover {
+.copyBtn:hover {
   background: var(--ember-bright, #d35c34);
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(211, 92, 52, 0.3);
 }
 
-.copyBtn {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.84rem;
-  letter-spacing: 0.04em;
-  color: var(--paper-soft, #ddd6cf);
-  background: rgba(244, 239, 230, 0.08);
-  border: 1px solid rgba(244, 239, 230, 0.2);
-  padding: 10px 18px;
-  border-radius: 2px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.copyBtn:hover {
-  background: rgba(244, 239, 230, 0.16);
-  border-color: rgba(244, 239, 230, 0.4);
-  color: var(--paper, #f2eee9);
-}
-
 .copyBtn.copied {
-  background: rgba(46, 125, 50, 0.3);
-  border-color: rgba(76, 175, 80, 0.6);
-  color: #a5d6a7;
+  background: rgba(46, 125, 50, 0.4);
+  border-color: rgba(76, 175, 80, 0.8);
+  color: #c8e6c9;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
 }
 
 .copyIcon {
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 /* Secondary Channel Grid */
@@ -261,7 +240,6 @@
    Reduced Motion
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .primaryCtaBtn,
   .copyBtn,
   .channelCard {
     transition: none !important;

@@ -74,33 +74,31 @@ export function ContactPage() {
           className={styles.actionZone}
           aria-label="Contact Actions and Links"
         >
-          {/* Primary Action Area: Direct mailto link + Copy email fallback */}
+          {/* Primary Action Area: Email card with Copy Email as the primary action */}
           <div className={styles.primaryActionBlock}>
             <div className={styles.emailCard}>
               <div className={styles.emailTextGroup}>
-                <span className={styles.emailAddress}>bharatvyask@gmail.com</span>
-              </div>
-              <div className={styles.buttonGroup}>
                 <a
                   href="mailto:bharatvyask@gmail.com"
-                  className={styles.primaryCtaBtn}
+                  className={styles.emailAddress}
                   data-cursor="Email"
-                  aria-label="Send email to bharatvyask@gmail.com — Get in touch"
+                  aria-label="Email bharatvyask@gmail.com"
                 >
-                  Get in touch <span aria-hidden="true">→</span>
+                  bharatvyask@gmail.com
                 </a>
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className={`${styles.copyBtn} ${copied ? styles.copied : ""}`}
-                  aria-label="Copy email address to clipboard"
-                >
-                  <span className={styles.copyIcon} aria-hidden="true">
-                    {copied ? "✓" : "⧉"}
-                  </span>
-                  <span>{copied ? "Copied" : "Copy email"}</span>
-                </button>
               </div>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className={`${styles.copyBtn} ${copied ? styles.copied : ""}`}
+                aria-label="Copy email address to clipboard"
+                data-cursor="Copy"
+              >
+                <span className={styles.copyIcon} aria-hidden="true">
+                  {copied ? "✓" : "⧉"}
+                </span>
+                <span>{copied ? "Copied" : "Copy email"}</span>
+              </button>
             </div>
           </div>
 
