@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useNavCurtain } from "./NavCurtainTransition";
 import styles from "./SiteNavbar.module.css";
 
 interface MagneticNavItemProps {
   children: React.ReactNode;
   href: string;
+  curtainLabel?: string;
   isActive?: boolean;
   isExternal?: boolean;
   dataCursorColor?: string;
@@ -16,11 +18,13 @@ interface MagneticNavItemProps {
 function MagneticNavItem({
   children,
   href,
+  curtainLabel,
   isActive = false,
   isExternal = false,
   dataCursorColor = "var(--ember, #ff6a78)",
 }: MagneticNavItemProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const { navigateWithCurtain } = useNavCurtain();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -41,6 +45,23 @@ function MagneticNavItem({
 
   const handleMouseLeave = () => {
     setPosition({ x: 0, y: 0 });
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Only intercept primary left clicks without modifier keys
+    if (
+      curtainLabel &&
+      !isExternal &&
+      !href.startsWith("#") &&
+      e.button === 0 &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.shiftKey &&
+      !e.altKey
+    ) {
+      e.preventDefault();
+      navigateWithCurtain(href, curtainLabel);
+    }
   };
 
   const combinedClassName = `${styles.navItem} ${isActive ? styles.activeRoute : ""}`.trim();
@@ -69,6 +90,7 @@ function MagneticNavItem({
       href={href}
       className={combinedClassName}
       style={inlineStyle}
+      onClick={handleClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       data-cursor-color={dataCursorColor}
@@ -82,6 +104,7 @@ function MagneticNavItem({
 export function SiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { navigateWithCurtain } = useNavCurtain();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,32 +116,49 @@ export function SiteNavbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isHome = pathname === "/";
   const isWorkActive = pathname === "/work";
   const isAboutActive = pathname === "/about";
   const isContactActive = pathname === "/contact";
 
+  const handleWordmarkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (
+      !isHome &&
+      e.button === 0 &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.shiftKey &&
+      !e.altKey
+    ) {
+      e.preventDefault();
+      navigateWithCurtain("/", "HOME");
+    }
+  };
+
   return (
-    <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
+    <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""} ${isHome ? styles.isHome : ""}`}>
       <div className={styles.navInner}>
-        {/* Logo/wordmark is kept completely static per design restraint contract */}
-        <Link
-          href="/"
-          className={styles.logoMark}
-          aria-label="Bharat Vyas Portfolio Home"
-          data-cursor-color="var(--ember, #ff6a78)"
-        >
-          <span className={styles.logoName}>Bharat Vyas</span>
-          <span className={styles.logoTag}>· Portfolio</span>
-        </Link>
+        {/* Conditional wordmark: hidden on homepage ('/') where Hero G's knockout card already prominently displays the name */}
+        {!isHome && (
+          <Link
+            href="/"
+            className={styles.logoMark}
+            aria-label="Bharat Vyas K Portfolio Home"
+            onClick={handleWordmarkClick}
+            data-cursor-color="var(--ember, #ff6a78)"
+          >
+            <span className={styles.logoName}>Bharat Vyas K</span>
+          </Link>
+        )}
 
         <nav className={styles.navLinks} aria-label="Primary Navigation">
-          <MagneticNavItem href="/work" isActive={isWorkActive}>
+          <MagneticNavItem href="/work" curtainLabel="WORK" isActive={isWorkActive}>
             Work
           </MagneticNavItem>
-          <MagneticNavItem href="/about" isActive={isAboutActive}>
+          <MagneticNavItem href="/about" curtainLabel="ABOUT" isActive={isAboutActive}>
             About
           </MagneticNavItem>
-          <MagneticNavItem href="/contact" isActive={isContactActive}>
+          <MagneticNavItem href="/contact" curtainLabel="CONTACT" isActive={isContactActive}>
             Contact
           </MagneticNavItem>
         </nav>

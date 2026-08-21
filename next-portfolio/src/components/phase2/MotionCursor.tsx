@@ -24,7 +24,9 @@ export function MotionCursor() {
 
   useEffect(() => {
     // 1. Pointer fine mouse check
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const finePointer =
+      window.matchMedia("(pointer: fine)").matches ||
+      !window.matchMedia("(pointer: coarse)").matches;
     // 2. Reduced motion check (fallback to native OS cursor)
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -34,25 +36,50 @@ export function MotionCursor() {
 
     setMounted(true);
 
-    const handlePointerMove = (e: PointerEvent) => {
+    const handlePointerMove = (e: PointerEvent | MouseEvent) => {
+      const elAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+      const target = (e.target as HTMLElement | null) || elAtPoint;
+
+      const isOverIframe =
+        (elAtPoint &&
+          (elAtPoint.tagName === "IFRAME" ||
+            elAtPoint.closest("iframe") ||
+            elAtPoint.closest(".proj-embed") ||
+            elAtPoint.closest("[data-embed-frame]"))) ||
+        (target &&
+          (target.tagName === "IFRAME" ||
+            target.closest("iframe") ||
+            target.closest(".proj-embed") ||
+            target.closest("[data-embed-frame]")));
+
+      if (isOverIframe) {
+        setVisible(false);
+        return;
+      }
+
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
       setVisible(true);
 
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-
-      const interactive = target.closest(
-        "a, button, input, textarea, select, [role='button'], [data-cursor], [data-cursor-color]"
-      );
+      const interactive =
+        target?.closest(
+          "a, button, input, textarea, select, [role='button'], [data-cursor], [data-cursor-color]"
+        ) ||
+        elAtPoint?.closest(
+          "a, button, input, textarea, select, [role='button'], [data-cursor], [data-cursor-color]"
+        );
       setIsHovered(!!interactive);
 
-      const customColorEl = target.closest<HTMLElement>("[data-cursor-color], [data-cursor-accent]");
+      const customColorEl =
+        target?.closest<HTMLElement>("[data-cursor-color], [data-cursor-accent]") ||
+        elAtPoint?.closest<HTMLElement>("[data-cursor-color], [data-cursor-accent]");
       if (customColorEl) {
         const color = customColorEl.dataset.cursorColor || customColorEl.dataset.cursorAccent;
         setCustomAccent(color || null);
       } else {
-        const rowAccentEl = target.closest<HTMLElement>("[style*='--row-accent']");
+        const rowAccentEl =
+          target?.closest<HTMLElement>("[style*='--row-accent']") ||
+          elAtPoint?.closest<HTMLElement>("[style*='--row-accent']");
         if (rowAccentEl) {
           const computedAccent = getComputedStyle(rowAccentEl).getPropertyValue("--row-accent").trim();
           setCustomAccent(computedAccent || null);
@@ -66,12 +93,46 @@ export function MotionCursor() {
       setVisible(false);
     };
 
+    const handleIframeEnter = () => {
+      setVisible(false);
+    };
+
+    const handleIframeLeave = () => {
+      setVisible(true);
+    };
+
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("mousemove", handlePointerMove as unknown as (e: MouseEvent) => void, { passive: true });
     document.addEventListener("mouseleave", handlePointerLeave, { passive: true });
+    window.addEventListener("cursor-iframe-enter", handleIframeEnter);
+    window.addEventListener("cursor-iframe-leave", handleIframeLeave);
+
+    const bindIframeListeners = () => {
+      const iframes = document.querySelectorAll("iframe");
+      iframes.forEach((iframe) => {
+        iframe.removeEventListener("mouseenter", handleIframeEnter);
+        iframe.removeEventListener("mouseleave", handleIframeLeave);
+        iframe.addEventListener("mouseenter", handleIframeEnter);
+        iframe.addEventListener("mouseleave", handleIframeLeave);
+      });
+    };
+
+    bindIframeListeners();
+    const observer = new MutationObserver(bindIframeListeners);
+    observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("mousemove", handlePointerMove as unknown as (e: MouseEvent) => void);
       document.removeEventListener("mouseleave", handlePointerLeave);
+      window.removeEventListener("cursor-iframe-enter", handleIframeEnter);
+      window.removeEventListener("cursor-iframe-leave", handleIframeLeave);
+      const iframes = document.querySelectorAll("iframe");
+      iframes.forEach((iframe) => {
+        iframe.removeEventListener("mouseenter", handleIframeEnter);
+        iframe.removeEventListener("mouseleave", handleIframeLeave);
+      });
     };
   }, [cursorX, cursorY]);
 

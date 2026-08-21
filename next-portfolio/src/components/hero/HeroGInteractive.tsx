@@ -76,14 +76,13 @@ function createEngineState(): EngineState {
  * on every pointer or scroll frame.
  */
 export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractiveProps) {
-  const { bands, name, statementLines, ctaLabel, ctaHref, meta } = content;
+  const { bands, name, statementLines, meta } = content;
 
   const bandRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null, null]);
   const twinRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null, null]);
   const fieldXRef = useRef<HTMLDivElement | null>(null);
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const anchorInRef = useRef<HTMLDivElement | null>(null);
-  const ctaRowRef = useRef<HTMLDivElement | null>(null);
   const metaRef = useRef<HTMLParagraphElement | null>(null);
   const lensRef = useRef<HTMLDivElement | null>(null);
   const lensLabelRef = useRef<HTMLSpanElement | null>(null);
@@ -392,27 +391,21 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
         if (twinBand) twinBand.style.transform = transform;
       }
 
-      /* Anchor: counter-drift, then resolves out; CTA bridges longest.
+      /* Anchor: counter-drift, then resolves out.
          Inline styles are cleared at rest so the ink-backed knockout is
          never a composited layer while idle. */
       const anchorIn = anchorInRef.current;
-      const ctaRow = ctaRowRef.current;
       const metaEl = metaRef.current;
       const aFade = heroSmoothstep((p - 0.25) / 0.5);
       const anchorIdle = Math.abs(engine.ax) < 0.15 && Math.abs(engine.ay) < 0.15 && engine.scrollEase < 0.002;
-      if (anchorIn && ctaRow && metaEl) {
+      if (anchorIn && metaEl) {
         if (anchorIdle) {
           anchorIn.style.transform = "";
           anchorIn.style.opacity = "";
-          ctaRow.style.transform = "";
-          ctaRow.style.opacity = "";
           metaEl.style.opacity = "";
         } else {
           anchorIn.style.opacity = String(1 - aFade);
           anchorIn.style.transform = `translate3d(${engine.ax.toFixed(2)}px, ${(engine.ay - 30 * aFade).toFixed(2)}px, 0)`;
-          const cFade = heroSmoothstep((p - 0.6) / 0.4);
-          ctaRow.style.opacity = String(1 - cFade);
-          ctaRow.style.transform = `translate3d(${engine.ax.toFixed(2)}px, ${(engine.ay + 8 * engine.scrollEase).toFixed(2)}px, 0)`;
           metaEl.style.opacity = String(Math.max(0, 1 - engine.scrollEase * 1.2));
         }
       }
@@ -604,11 +597,6 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
               </span>
             ))}
           </p>
-        </div>
-        <div className={styles.anchorCtaRow} ref={ctaRowRef}>
-          <a className={styles.heroCta} href={ctaHref} data-cursor="View">
-            {ctaLabel} <span className={styles.arrow} aria-hidden="true">→</span>
-          </a>
         </div>
       </div>
 

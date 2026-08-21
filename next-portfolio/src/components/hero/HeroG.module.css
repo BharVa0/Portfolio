@@ -137,10 +137,13 @@
   transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%);
   width: max-content;
   max-width: min(88vw, 980px);
+  background: var(--ink);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
 }
 .anchorIn {
-  background: var(--ink);
-  padding: clamp(16px, 2.6vh, 30px) var(--ax-pad) clamp(14px, 2vh, 24px);
+  padding: clamp(20px, 3vh, 36px) var(--ax-pad) clamp(20px, 3vh, 36px);
 }
 .anchorName {
   font-family: var(--font-display);
@@ -155,28 +158,11 @@
   font-family: var(--font-display);
   font-weight: 350;
   font-size: clamp(1.05rem, 2.35vh, 1.6rem);
-  line-height: 1.42;
+  line-height: 1.45;
   color: var(--paper);
   margin-top: clamp(14px, 2vh, 22px);
 }
 .stmtLine { display: block; }
-.anchorCtaRow {
-  background: var(--ink);
-  width: max-content;
-  padding: 4px var(--ax-pad) clamp(14px, 1.8vh, 20px);
-}
-.heroCta {
-  display: inline-block;
-  color: var(--paper);
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: clamp(0.95rem, 1.7vh, 1.2rem);
-  text-decoration: none;
-  border-bottom: 2px solid var(--ember);
-  padding-bottom: 6px;
-}
-.heroCta:hover { color: var(--ember-bright); border-bottom-color: var(--ember-bright); }
-.arrow { font-family: var(--font-mono); }
 
 /* Metadata — secondary, bottom-right, ink knockout */
 .heroMeta {

@@ -1,6 +1,7 @@
 "use client";
 
 import { ProjectBackground } from "@/components/projects/ProjectBackground";
+import { RotatingReflections } from "@/components/phase2/RotatingReflections";
 import styles from "./AboutPage.module.css";
 
 const PRACTICE_GROUPS = [
@@ -77,6 +78,10 @@ export function AboutPage() {
                 where existing tools were adapted, and where teammates&apos;
                 contributions begin and end.
               </p>
+
+              <div style={{ marginTop: "32px" }}>
+                <RotatingReflections />
+              </div>
             </div>
 
             {/* Structured Focal Stack: Education & Prior Practice */}

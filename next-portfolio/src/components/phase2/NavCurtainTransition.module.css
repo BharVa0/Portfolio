@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Minimal Solid Curtain Page Transition
+   Shows ONLY the solid panel and the single centered destination word.
+   Zero secondary labels, zero icons, zero header/footer, zero background patterns.
+   ========================================================================== */
+
+.curtainPanel {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  z-index: 99995;
+  background-color: var(--curtain-bg, #0d0c0b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 4vw, 60px);
+  pointer-events: auto;
+  will-change: transform;
+}
+
+.curtainTitle {
+  font-family: var(--font-display, "Fraunces", Georgia, serif);
+  font-size: clamp(2.4rem, 6.5vw, 6rem);
+  font-weight: 560;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  text-align: center;
+  color: var(--curtain-text, #f4efe6);
+  margin: 0;
+  max-width: 90vw;
+}
+
+/* Reduced motion bypass: instant cut, zero animation, no curtain */
+@media (prefers-reduced-motion: reduce) {
+  .curtainPanel {
+    display: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,14 +1,10 @@
-import { Fraunces, Inter, Space_Mono } from "next/font/google";
+import { Fraunces, Inter, Space_Mono, Syne } from "next/font/google";
 
-/* The three fonts already loaded site-wide by the static portfolio
- * (index.html's Google Fonts <link>). BETTR's project-specific faces
- * (Jersey 25, Rajdhani) are excluded — they arrive with that project's
- * own migration, not the shared shell.
- *
- * Fraunces is loaded as a true variable font (weight range + optical
- * size axis + italic) rather than a few fixed weights: the static site
- * already relies on in-between weights (e.g. 380, 560) that only exist
- * on the variable instance, not at discrete steps.
+/* The fonts loaded site-wide:
+ * - Fraunces: display serif for headings and stage titles
+ * - Inter: body sans
+ * - Space_Mono: metadata and technical labels
+ * - Syne: distinctive, confident lettering for the site wordmark
  */
 export const fraunces = Fraunces({
   subsets: ["latin"],
@@ -31,3 +27,11 @@ export const spaceMono = Space_Mono({
   variable: "--font-mono",
   display: "swap",
 });
+
+export const syne = Syne({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-wordmark",
+  display: "swap",
+});
+

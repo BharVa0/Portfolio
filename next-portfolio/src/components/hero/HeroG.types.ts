@@ -30,7 +30,5 @@ export type HeroGContent = {
   bands: readonly ThesisBand[];
   name: string;
   statementLines: readonly string[];
-  ctaLabel: string;
-  ctaHref: string;
   meta: HeroMeta;
 };

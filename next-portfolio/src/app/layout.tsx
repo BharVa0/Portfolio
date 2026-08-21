@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { fraunces, inter, spaceMono } from "@/styles/fonts";
+import { fraunces, inter, spaceMono, syne } from "@/styles/fonts";
 import { MotionCursor } from "@/components/phase2/MotionCursor";
 import { SiteNavbar } from "@/components/phase2/SiteNavbar";
+import { NavCurtainProvider } from "@/components/phase2/NavCurtainTransition";
 import { SkipLink } from "@/components/site/SkipLink";
 import "./globals.css";
 
@@ -26,14 +27,16 @@ export default function RootLayout({
     // mismatch warning for it, nothing deeper in the tree is affected.
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${spaceMono.variable}`}
+      className={`${fraunces.variable} ${inter.variable} ${spaceMono.variable} ${syne.variable}`}
       suppressHydrationWarning
     >
       <body>
-        <SkipLink href="#content" />
-        <MotionCursor />
-        <SiteNavbar />
-        {children}
+        <NavCurtainProvider>
+          <SkipLink href="#content" />
+          <MotionCursor />
+          <SiteNavbar />
+          {children}
+        </NavCurtainProvider>
       </body>
     </html>
   );

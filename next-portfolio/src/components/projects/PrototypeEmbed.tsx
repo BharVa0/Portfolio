@@ -1,3 +1,5 @@
+"use client";
+
 import type { PrototypeEmbedProps } from "@/types/project";
 
 /*
@@ -5,11 +7,7 @@ import type { PrototypeEmbedProps } from "@/types/project";
  * link) above a full-width embed. This component makes no assumption
  * about whether the embed supports a custom cursor — that behaviour, if
  * any, is entirely owned by whatever renders into `overlay` (see
- * BettrLiveEmbed, the one Client Component that uses this prop). Plain
- * presentational JSX with no hooks of its own, so it can be rendered from
- * either a Server Component (a future non-interactive prototype embed) or
- * imported into a Client Component (BettrLiveEmbed) without either side
- * needing a directive.
+ * BettrLiveEmbed, the one Client Component that uses this prop).
  */
 export function PrototypeEmbed({
   src,
@@ -50,10 +48,21 @@ export function PrototypeEmbed({
           {openLabel}
         </a>
       </div>
-      {/* Relative wrapper so `overlay` (the PLAY bridge label) can be
-          positioned absolutely in coordinates local to the iframe's own
-          box, independent of the bar above it. */}
-      <div style={{ position: "relative" }}>
+      {/* Relative wrapper so `overlay` can be positioned absolutely, and
+          detects boundary crossing to prevent custom cursor freezing over iframe */}
+      <div
+        style={{ position: "relative" }}
+        onMouseEnter={() => {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("cursor-iframe-enter"));
+          }
+        }}
+        onMouseLeave={() => {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("cursor-iframe-leave"));
+          }
+        }}
+      >
         <iframe
           ref={iframeRef}
           className={`proj-embed${toneLight ? " tone-light" : ""}`}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { WORK_INDEX_PROJECTS } from "@/data/phase2WorkIndex";
 import { DecryptedText } from "./DecryptedText";
+import { useNavCurtain } from "./NavCurtainTransition";
 import styles from "./WorkIndexPage.module.css";
 
 /* Permanently visible, amplified animated SVG motif details before the action arrow */
@@ -92,6 +93,31 @@ export function WorkIndexPage() {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
+  const { navigateWithCurtain } = useNavCurtain();
+
+  const handleProjectClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    link: string,
+    title: string,
+    accentHex: string
+  ) => {
+    if (
+      e.button === 0 &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.shiftKey &&
+      !e.altKey
+    ) {
+      e.preventDefault();
+      const isLight = ["#3ddc84", "#82b5a5", "#c68a2e", "#87a2b8", "#38bdf8"].includes(accentHex);
+      navigateWithCurtain(link, {
+        label: title,
+        bgColor: accentHex,
+        textColor: isLight ? "#0d0c0b" : "#f4efe6",
+      });
+    }
+  };
+
   return (
     <div className={styles.pageWrapper}>
       <main className={styles.mainContent} id="main-content">
@@ -140,6 +166,7 @@ export function WorkIndexPage() {
                     className={styles.projectRowLink}
                     data-cursor-color={project.accentHex}
                     style={{ "--row-accent": project.accentHex } as React.CSSProperties}
+                    onClick={(e) => handleProjectClick(e, project.link, project.title, project.accentHex)}
                     onMouseEnter={() => setActiveId(project.id)}
                     onMouseLeave={() => setActiveId(null)}
                     onFocus={() => setActiveId(project.id)}
