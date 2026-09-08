@@ -254,12 +254,18 @@
 .practiceGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(24px, 3.5vw, 36px);
+  gap: clamp(20px, 2.5vw, 32px);
 }
 
-@media (min-width: 900px) {
+@media (min-width: 680px) {
   .practiceGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .practiceGrid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -323,6 +329,153 @@
 }
 
 /* --------------------------------------------------------------------------
+   Section 3: Curriculum Vitae / Dual-Track Résumé Downloads
+   -------------------------------------------------------------------------- */
+.resumeSection {
+  position: relative;
+  margin-top: clamp(64px, 10vh, 120px);
+  padding-top: clamp(48px, 8vh, 88px);
+  border-top: 1px solid rgba(244, 239, 230, 0.14);
+}
+
+.resumeHeader {
+  margin-bottom: clamp(32px, 5vh, 48px);
+}
+
+.resumeStatement {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+  font-weight: 380;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--paper, #f2eee9);
+  margin: 0 0 16px 0;
+  max-width: 32ch;
+}
+
+.resumeLede {
+  font-family: var(--font-body, sans-serif);
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--paper-soft, #ddd6cf);
+  margin: 0;
+  max-width: 62ch;
+}
+
+.resumeGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 3.5vw, 36px);
+}
+
+@media (min-width: 768px) {
+  .resumeGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.resumeCard {
+  position: relative;
+  background: rgba(21, 19, 17, 0.55);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  padding: clamp(28px, 4vh, 36px);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.resumeCard:hover {
+  border-color: rgba(211, 92, 52, 0.45);
+  background: rgba(21, 19, 17, 0.8);
+  transform: translateY(-2px);
+}
+
+.resumeCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(244, 239, 230, 0.14);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.resumeTrackBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ember-bright, #d35c34);
+  text-transform: uppercase;
+}
+
+.resumeMeta {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  color: var(--muted, #91877f);
+}
+
+.resumeTrackTitle {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 450;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--paper, #f2eee9);
+  margin: 0 0 14px 0;
+}
+
+.resumeTrackDesc {
+  font-family: var(--font-body, sans-serif);
+  font-size: 1.02rem;
+  line-height: 1.62;
+  color: var(--paper-soft, #ddd6cf);
+  margin: 0 0 28px 0;
+  flex-grow: 1;
+}
+
+.resumeCardAction {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.resumeDownloadLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.84rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--paper, #f2eee9);
+  background: rgba(211, 92, 52, 0.12);
+  border: 1px solid rgba(211, 92, 52, 0.38);
+  padding: 12px 20px;
+  border-radius: 2px;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resumeDownloadLink:hover {
+  background: var(--ember-bright, #d35c34);
+  border-color: var(--ember-bright, #d35c34);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(211, 92, 52, 0.3);
+}
+
+.resumeActionIcon {
+  font-size: 1.05rem;
+  transition: transform 0.2s ease;
+}
+
+.resumeDownloadLink:hover .resumeActionIcon {
+  transform: translateY(2px);
+}
+
+/* --------------------------------------------------------------------------
    Reduced Motion Overrides
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
@@ -331,6 +484,8 @@
     transform: none !important;
   }
   .practiceChapter,
+  .resumeCard,
+  .resumeDownloadLink,
   .focalCard {
     transition: none !important;
     transform: none !important;

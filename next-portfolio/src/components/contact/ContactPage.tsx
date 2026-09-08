@@ -11,11 +11,6 @@ const SECONDARY_LINKS = [
     icon: "↗",
   },
   {
-    label: "Resume, PDF",
-    href: "/assets/resume/Bharat-Vyas-Resume.pdf",
-    icon: "↓",
-  },
-  {
     label: "GitHub",
     href: "https://github.com/BharVa0",
     icon: "↗",

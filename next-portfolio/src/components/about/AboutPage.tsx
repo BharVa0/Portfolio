@@ -13,7 +13,10 @@ const PRACTICE_GROUPS = [
   {
     num: "02",
     title: "Build",
-    tools: ["HTML / CSS · JavaScript", "Git · Netlify"],
+    tools: [
+      "HTML / CSS · JavaScript · React",
+      "Tailwind CSS · Git · Netlify",
+    ],
   },
   {
     num: "03",
@@ -21,7 +24,41 @@ const PRACTICE_GROUPS = [
     tools: [
       "User research · Usability testing",
       "Iterative design · Design systems",
+      "Miro · Jira",
     ],
+  },
+  {
+    num: "04",
+    title: "AI-Directed Dev",
+    tools: [
+      "Claude Code · Antigravity · Codex",
+      "Cursor · Framer",
+    ],
+  },
+] as const;
+
+const RESUME_TRACKS = [
+  {
+    num: "Track 01",
+    tag: "Creative Technology",
+    title: "Interaction Design & Creative Technology",
+    description:
+      "Emphasizes physical-digital interaction, hardware-software HCI, real-time creative engines, game systems architecture, and coded prototypes.",
+    fileUrl:
+      "/assets/resume/BharatVyasK-Interaction%20Design%20%26%20Creative%20Technology.pdf",
+    downloadName: "BharatVyasK-Interaction-Design-Creative-Technology.pdf",
+    fileMeta: "PDF · 69 KB",
+  },
+  {
+    num: "Track 02",
+    tag: "Enterprise UX",
+    title: "Product Design & Enterprise UX",
+    description:
+      "Emphasizes complex systems design, healthcare IT, multi-stakeholder workflows, regulated environments, and usability research methodologies.",
+    fileUrl:
+      "/assets/resume/BharatVyasK-Product%20Design%20%26%20Enterprise%20UX.pdf",
+    downloadName: "BharatVyasK-Product-Design-Enterprise-UX.pdf",
+    fileMeta: "PDF · 67 KB",
   },
 ] as const;
 
@@ -246,6 +283,54 @@ export function AboutPage() {
                     </li>
                   ))}
                 </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Section 3: Curriculum Vitae (Dual-Track Résumé Downloads) */}
+        <section
+          id="resume"
+          className={styles.resumeSection}
+          aria-label="Curriculum Vitae"
+        >
+          <header className={styles.resumeHeader}>
+            <div className={styles.eyebrow}>Curriculum Vitae</div>
+            <h2 className={styles.resumeStatement}>
+              Two tailored perspectives on practice and background.
+            </h2>
+            <p className={styles.resumeLede}>
+              Depending on your team&apos;s focus, download the résumé framed
+              around physical/digital interaction and creative technology, or
+              complex product systems and enterprise UX.
+            </p>
+          </header>
+
+          <div className={styles.resumeGrid}>
+            {RESUME_TRACKS.map((track) => (
+              <article key={track.num} className={styles.resumeCard}>
+                <div className={styles.resumeCardHeader}>
+                  <span className={styles.resumeTrackBadge}>{track.tag}</span>
+                  <span className={styles.resumeMeta}>{track.fileMeta}</span>
+                </div>
+                <h3 className={styles.resumeTrackTitle}>{track.title}</h3>
+                <p className={styles.resumeTrackDesc}>{track.description}</p>
+                <div className={styles.resumeCardAction}>
+                  <a
+                    href={track.fileUrl}
+                    download={track.downloadName}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.resumeDownloadLink}
+                    data-cursor="Download"
+                  >
+                    <span>Download Résumé</span>
+                    <span className={styles.resumeActionIcon} aria-hidden="true">
+                      ↓
+                    </span>
+                    <span className="sr-only"> (opens PDF download)</span>
+                  </a>
+                </div>
               </article>
             ))}
           </div>

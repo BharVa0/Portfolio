@@ -328,7 +328,6 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
         engine.pointerSeen = true;
         engine.lx = ev.clientX; // no fly-in from the corner
         engine.ly = ev.clientY;
-        lensRef.current?.classList.add(styles.lensLive);
       }
       heroWake();
     }
@@ -422,7 +421,15 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
           const top = engine.ly - engine.lensH / 2;
           lens.style.transform = `translate3d(${left.toFixed(2)}px, ${top.toFixed(2)}px, 0)`;
           const hr = heroEl.getBoundingClientRect();
-          const lensInHero = engine.tly <= hr.bottom && engine.tly >= hr.top;
+          const navbarEl = document.querySelector("header");
+          const navRect = navbarEl?.getBoundingClientRect();
+          const isOverNavbar = navRect
+            ? engine.tly >= navRect.top &&
+              engine.tly <= navRect.bottom &&
+              engine.tlx >= navRect.left &&
+              engine.tlx <= navRect.right
+            : false;
+          const lensInHero = !isOverNavbar && engine.tly <= hr.bottom && engine.tly >= hr.top;
           lens.classList.toggle(styles.lensLive, lensInHero);
           fieldX.style.visibility = lensInHero ? "visible" : "hidden";
           const ct = Math.max(0, top - hr.top);

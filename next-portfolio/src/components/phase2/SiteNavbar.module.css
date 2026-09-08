@@ -38,6 +38,7 @@
 
 /* Wordmark with Syne geometric display typeface */
 .logoMark {
+  position: relative;
   display: inline-flex;
   align-items: center;
   text-decoration: none;
@@ -48,20 +49,34 @@
   letter-spacing: -0.01em;
   line-height: 1;
   min-height: 44px;
-  padding: 6px 0;
+  padding: 8px 14px;
+  margin-left: -14px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  will-change: transform, background-color, border-color, color;
   transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
+              background-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .logoMark:hover {
   color: #ffffff;
-  opacity: 0.92;
+  background-color: rgba(244, 239, 230, 0.08);
+  border-color: rgba(244, 239, 230, 0.14);
 }
 
 .logoName {
+  position: relative;
+  z-index: 2;
   font-weight: 700;
   color: inherit;
   letter-spacing: -0.01em;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logoMark:hover .logoName {
+  transform: translateY(-1px);
 }
 
 .navLinks {

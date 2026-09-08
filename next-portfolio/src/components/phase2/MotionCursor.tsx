@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   motion,
   useMotionValue,
@@ -9,6 +10,7 @@ import {
 import styles from "./MotionCursor.module.css";
 
 export function MotionCursor() {
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [customAccent, setCustomAccent] = useState<string | null>(null);
@@ -55,6 +57,34 @@ export function MotionCursor() {
       if (isOverIframe) {
         setVisible(false);
         return;
+      }
+
+      // Homepage-only mutual exclusivity:
+      // When over Hero G (outside SiteNavbar), Hero G's inspection lens has exclusive
+      // ownership. When over SiteNavbar (or outside Hero G), MotionCursor has ownership.
+      if (pathname === "/") {
+        const navbarEl = document.querySelector("header");
+        const navRect = navbarEl?.getBoundingClientRect();
+        const isWithinNavbar = navRect
+          ? e.clientY >= navRect.top &&
+            e.clientY <= navRect.bottom &&
+            e.clientX >= navRect.left &&
+            e.clientX <= navRect.right
+          : false;
+
+        const heroEl = document.getElementById("hero-g");
+        const heroRect = heroEl?.getBoundingClientRect();
+        const isWithinHero = heroRect
+          ? e.clientY >= heroRect.top &&
+            e.clientY <= heroRect.bottom &&
+            e.clientX >= heroRect.left &&
+            e.clientX <= heroRect.right
+          : false;
+
+        if (isWithinHero && !isWithinNavbar) {
+          setVisible(false);
+          return;
+        }
       }
 
       cursorX.set(e.clientX);
@@ -134,7 +164,7 @@ export function MotionCursor() {
         iframe.removeEventListener("mouseleave", handleIframeLeave);
       });
     };
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, pathname]);
 
   if (!mounted) return null;
 

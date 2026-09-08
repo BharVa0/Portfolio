@@ -34,7 +34,7 @@ export function CardioPalCaseStudy() {
         meta={[
           { label: "Role", value: "Sole UX designer" },
           { label: "Tools", value: "Figma" },
-          { label: "Method", value: "Usability testing, 2 participants" },
+          { label: "Method", value: "Usability testing, 2 rounds (7 participants)" },
           { label: "Screens", value: "25+, full clickable prototype" },
         ]}
         ownership="Solo project: every screen, flow, and testing round was designed and run independently."
@@ -144,9 +144,9 @@ export function CardioPalCaseStudy() {
 
       <ProjectSection id="s3" number="03" title="Usability testing">
         <p className="proj-lede">
-          Two participants, aged 25 and 45, both with intermediate experience
-          using health and wellness apps but no prior exposure to CardioPal
-          specifically.
+          Seven participants across two rounds of testing, all with intermediate
+          experience using health and wellness apps but no prior exposure to
+          CardioPal specifically.
         </p>
         <p className="proj-body">
           Sessions ran remotely, 15 to 20 minutes each, with each participant
@@ -167,8 +167,8 @@ export function CardioPalCaseStudy() {
               <div className="vitals-label">Login, fastest task recorded</div>
             </div>
             <div className="vitals-card">
-              <div className="vitals-num">2</div>
-              <div className="vitals-label">Participants, ages 25 and 45</div>
+              <div className="vitals-num">7</div>
+              <div className="vitals-label">Participants across 2 rounds</div>
             </div>
             <div className="vitals-card">
               <div className="vitals-num">8/10</div>
@@ -180,15 +180,15 @@ export function CardioPalCaseStudy() {
               <div className="task-row">
                 <div className="task-name">Log in</div>
                 <div className="task-desc">
-                  Completed instantly by both participants. No confusion.
+                  Completed instantly across all sessions. No confusion.
                 </div>
               </div>
               <div className="task-row">
                 <div className="task-name">View how-to guide</div>
                 <div className="task-desc">
-                  The most successful feature in the whole test. Both
-                  participants said it made them feel prepared before touching
-                  the actual hardware.
+                  The most successful feature in the whole test. Participants
+                  consistently reported it made them feel prepared before
+                  touching the actual hardware.
                 </div>
               </div>
               <div className="task-row">
@@ -226,11 +226,13 @@ export function CardioPalCaseStudy() {
         </div>
         <p className="proj-annotation-label">What this doesn&apos;t tell us</p>
         <p className="proj-annotation">
-          Two remote sessions is an exploratory sample, not a statistically
-          significant one. These numbers describe what happened in two
-          specific sessions — where two people hesitated, and what they said
-          out loud — not a validated success rate for a wider population.
-          That&apos;s a real limitation, not a caveat to skim past.
+          Seven participants across two qualitative rounds is a targeted sample,
+          not a clinical trial or large-scale statistical study. While 5 of 7
+          completing unassisted demonstrates clear directional improvement, these
+          findings describe qualitative usability patterns and friction points
+          under test conditions — where users hesitated and why — rather than
+          population-wide validation. That distinction remains essential in any
+          health context.
         </p>
       </ProjectSection>
 
