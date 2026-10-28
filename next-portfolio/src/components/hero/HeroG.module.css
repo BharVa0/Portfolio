@@ -111,7 +111,21 @@
 /* Ember inspection layer — exact duplicate of the field, revealed only
    through the lens rectangle via clip-path (HeroGInteractive.tsx). Under
    inspection every band reads solid ember: outlines solidify. */
-.fieldX { z-index: 12; visibility: hidden; pointer-events: none; }
+.fieldX { pointer-events: none; }
+/* Lens window: a lens-sized overflow:hidden box moved with transform; the
+   ember twin inside is counter-translated, so the reveal is compositor-only.
+   Rewriting clip-path: inset() on the full-hero twin every pointer frame
+   crashed the renderer (access violation) after a few hundred moves. */
+.lensWindow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 12;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
 .fieldX .band,
 .fieldX .band span {
   color: var(--ember-bright) !important;
@@ -215,7 +229,7 @@
 :global(html.hg-lens-on) .hero { cursor: none; }
 :global(html.hg-lens-on) .hero a { cursor: pointer; }
 @media (hover: none), (pointer: coarse), (max-width: 1023px) {
-  .lens, .fieldX { display: none !important; }
+  .lens, .lensWindow { display: none !important; }
 }
 
 /* === Entrance: alternating horizontal clip-wipes, then the anchor ===
@@ -269,7 +283,7 @@
     transform: none !important;
   }
   .anchor { transform: translate(calc(var(--anchor-x) + var(--anchor-shift)), -50%) !important; }
-  .lens, .fieldX { display: none !important; }
+  .lens, .lensWindow { display: none !important; }
 }
 
 /* === Below 1024px: static poster, no pointer systems ===

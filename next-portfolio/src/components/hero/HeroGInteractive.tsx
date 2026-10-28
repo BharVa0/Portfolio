@@ -81,6 +81,7 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
   const bandRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null, null]);
   const twinRefs = useRef<(HTMLParagraphElement | null)[]>([null, null, null, null]);
   const fieldXRef = useRef<HTMLDivElement | null>(null);
+  const lensWindowRef = useRef<HTMLDivElement | null>(null);
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const anchorInRef = useRef<HTMLDivElement | null>(null);
   const metaRef = useRef<HTMLParagraphElement | null>(null);
@@ -304,6 +305,10 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
         lensRef.current.style.width = `${engine.lensW}px`;
         lensRef.current.style.height = `${engine.lensH}px`;
       }
+      if (lensWindowRef.current) {
+        lensWindowRef.current.style.width = `${engine.lensW}px`;
+        lensWindowRef.current.style.height = `${engine.lensH}px`;
+      }
     }
 
     function heroWake() {
@@ -340,7 +345,7 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
       engine.tax = 0;
       engine.tay = 0;
       lensRef.current?.classList.remove(styles.lensLive);
-      if (fieldXRef.current) fieldXRef.current.style.visibility = "hidden";
+      if (lensWindowRef.current) lensWindowRef.current.style.visibility = "hidden";
       engine.pointerSeen = false;
       heroWake();
     }
@@ -415,8 +420,9 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
       if (html.classList.contains("hg-lens-on") && engine.pointerSeen) {
         const lens = lensRef.current;
         const fieldX = fieldXRef.current;
+        const lensWindow = lensWindowRef.current;
         const lensLabelEl = lensLabelRef.current;
-        if (lens && fieldX) {
+        if (lens && fieldX && lensWindow) {
           const left = engine.lx - engine.lensW / 2;
           const top = engine.ly - engine.lensH / 2;
           lens.style.transform = `translate3d(${left.toFixed(2)}px, ${top.toFixed(2)}px, 0)`;
@@ -431,12 +437,19 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
             : false;
           const lensInHero = !isOverNavbar && engine.tly <= hr.bottom && engine.tly >= hr.top;
           lens.classList.toggle(styles.lensLive, lensInHero);
-          fieldX.style.visibility = lensInHero ? "visible" : "hidden";
-          const ct = Math.max(0, top - hr.top);
-          const cl = Math.max(0, left - hr.left);
-          const cr = Math.max(0, hr.width - (left - hr.left + engine.lensW));
-          const cb = Math.max(0, hr.height - (top - hr.top + engine.lensH));
-          fieldX.style.clipPath = `inset(${ct.toFixed(1)}px ${cr.toFixed(1)}px ${cb.toFixed(1)}px ${cl.toFixed(1)}px)`;
+          lensWindow.style.visibility = lensInHero ? "visible" : "hidden";
+          /* Reveal via a moving overflow:hidden window + counter-translated
+             twin (transform only). Whole-pixel offsets keep the twin glyphs
+             registered exactly over the base layer. Never animate clip-path
+             here: per-frame inset() rewrites on this layer crash Chrome. */
+          const wl = Math.round(left - hr.left);
+          const wt = Math.round(top - hr.top);
+          lensWindow.style.transform = `translate3d(${wl}px, ${wt}px, 0)`;
+          fieldX.style.transform = `translate3d(${-wl}px, ${-wt}px, 0)`;
+          const fw = `${hr.width}px`;
+          const fh = `${hr.height}px`;
+          if (fieldX.style.width !== fw) fieldX.style.width = fw;
+          if (fieldX.style.height !== fh) fieldX.style.height = fh;
 
           // Word-level dynamic label detection via Point-to-AABB distance
           let dynamicWord = "";
@@ -581,12 +594,14 @@ export function HeroGInteractive({ content, loaderSessionKey }: HeroGInteractive
       </div>
 
       {/* Ember Inspection Twin Layer (under lens) - 100% Shared Single-Source Structure */}
-      <div className={`${styles.field} ${styles.fieldX}`} aria-hidden="true" ref={fieldXRef}>
-        {bands.map((band, i) =>
-          renderBandItem(band, i, (el) => {
-            twinRefs.current[i] = el;
-          }, true)
-        )}
+      <div className={styles.lensWindow} aria-hidden="true" ref={lensWindowRef}>
+        <div className={`${styles.field} ${styles.fieldX}`} ref={fieldXRef}>
+          {bands.map((band, i) =>
+            renderBandItem(band, i, (el) => {
+              twinRefs.current[i] = el;
+            }, true)
+          )}
+        </div>
       </div>
 
       {/* Foreground identity anchor — centre-offset (~38% horizontal centre) */}
